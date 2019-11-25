@@ -1,0 +1,27 @@
+from datetime import date, time
+
+from django.db import models
+from django.utils import timezone
+
+
+class ModelTest(models.Model):
+
+    char_field = models.CharField(max_length=255)
+    integer_field = models.IntegerField()
+    datetime_field = models.DateTimeField()
+    date_field = models.DateField()
+    time_field = models.TimeField()
+
+    @classmethod
+    def get_random_instance(cls):
+        return ModelTest.objects.create(
+            char_field="ABC",
+            integer_field=5,
+            datetime_field=timezone.now(),
+            date_field=date.today(),
+            time_field=time(),
+        )
+
+    class Meta:
+        verbose_name = "Test Model"
+        verbose_name_plural = "Test Models"

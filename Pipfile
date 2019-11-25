@@ -1,0 +1,26 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "==19.10b0"
+pytest = "*"
+pytest-django = "*"
+pytest-cov = "*"
+django-bridger = {editable = true,path = "."}
+
+[packages]
+psycopg2-binary = "~=2.8"
+django = "~=2.2"
+django-rest-framework = "*"
+django-filter = "*"
+
+[requires]
+python_version = "3.6"
+
+[pipenv]
+allow_prereleases = false
+
+[scripts]
+test = "pytest -v"

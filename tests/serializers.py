@@ -1,0 +1,1 @@
+from bridger.serializers import ModelSerializer, RepresentationSerializer

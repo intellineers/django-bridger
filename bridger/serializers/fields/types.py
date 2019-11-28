@@ -14,6 +14,7 @@ class BridgerType(Enum):
     IMAGE = "image"
     FILE = "file"
     LIST = "list"
+    PERCENT = "percent"
 
 
 class ReturnContentType(Enum):

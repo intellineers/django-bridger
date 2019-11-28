@@ -28,7 +28,7 @@ class DecimalField(BridgerSerializerFieldMixin, serializers.DecimalField):
         representation["precision"] = self.decimal_places
 
         if self.percent:  # TODO: Discuss with Christoph if this is necessary like this
-            representation["type"] = "percent"
+            representation["type"] = BridgerType.PERCENT.value
             representation["precision"] = self.decimal_places - 2
 
         return representation

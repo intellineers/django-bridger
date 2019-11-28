@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from bridger.serializers import CharField, StringRelatedField, TextField
 from bridger.serializers.fields.types import BridgerType
 
-from ..models import ModelTest
+from ...models import ModelTest
 
 
 class TestCharField:
@@ -15,10 +15,10 @@ class TestCharField:
         assert self.field is not None
 
     @pytest.mark.parametrize("input, expected", [(1, "1"), ("a", "a")])
-    def test_internal_representation(self, input, expected):
+    def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected
 
-    def test_internal_representation_validation_error(self):
+    def test_to_internal_value_validation_error(self):
         with pytest.raises(ValidationError):
             self.field.to_internal_value(None)
 
@@ -68,10 +68,10 @@ class TestTextField:
         assert self.field is not None
 
     @pytest.mark.parametrize("input, expected", [(123, "123"), ("abc", "abc")])
-    def test_internal_representation(self, input, expected):
+    def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected
 
-    def test_internal_representation_validation_error(self):
+    def test_to_internal_value_validation_error(self):
         with pytest.raises(ValidationError):
             self.field.to_internal_value(None)
 

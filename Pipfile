@@ -9,6 +9,7 @@ pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
 django-bridger = {editable = true,path = "."}
+pytest-mock = "*"
 
 [packages]
 psycopg2-binary = "~=2.8"

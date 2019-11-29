@@ -15,15 +15,16 @@ class BridgerSerializerFieldMixin:
     def get_representation(self, request, field_name):
         representation = {
             "key": field_name,
-            "label": self.label,
-            "type": self.field_type,
-            "required": getattr(self, "required", False),
+            "label": getattr(self, "label", None),
+            "type": getattr(self, "field_type", "undefined"),
+            "required": getattr(self, "required", True),
             "read_only": getattr(self, "read_only", False),
         }
 
-        if self.default and self.default != empty:
-            if not callable(self.default):
-                representation["default"] = self.default
+        default = getattr(self, "default", None)
+
+        if default and default != empty:
+            representation["default"] = default() if callable(default) else default
         else:
             try:
                 default = self.parent.Meta.model._meta._forward_fields_map[
@@ -34,13 +35,9 @@ class BridgerSerializerFieldMixin:
             except:  # TODO Add some explicit exception handling
                 pass
 
-        if self.help_text:
-            representation["help_text"] = self.help_text
-
-        if self.decorators:
-            representation["decorators"] = self.decorators
-
-        if self.extra:
-            representation["extra"] = self.extra
+        for _attr in ["help_text", "decorators", "extra"]:
+            attr = getattr(self, _attr, None)
+            if attr:
+                representation[_attr] = attr
 
         return representation

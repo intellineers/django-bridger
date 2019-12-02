@@ -1,22 +1,21 @@
 import pytest
+from rest_framework.test import APIRequestFactory
 
-from rest_framework.views import View
-
-from bridger.pagination import CursorPagination
 from ..models import ModelTest
+from ..views import ModelTestViewSet
 
 
+@pytest.mark.django_db
 class TestCursorPagination:
     def setup_method(self):
-        class SomeView(View):
-            pagination_class = CursorPagination
-            queryset = ModelTest.objects.all()
+        self.view = ModelTestViewSet.as_view({"get": "list"})
+        self.factory = APIRequestFactory()
 
-            def get_aggregates(self, queryset, paginated_queryset):
-                return {"field": {"Sum": 100}}
+    def test_aggregation(self):
+        ModelTest.get_random_instance()
+        request = self.factory.get("")
+        response = self.view(request)
 
-            def get_aggregates(self, queryset, paginated_queryset):
-                return {"field": {"Sum": 100}}
-
-        self.SomeView = SomeView
+        print(response.data)
+        assert response.data["aggregates"] == {"field": {"Sum": 100}}
 

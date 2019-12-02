@@ -11,6 +11,8 @@ class CursorPagination(DefaultCursorPagination):
     but adds functionality to also display aggregated values
     """
 
+    page_size = 25
+
     def paginate_queryset(self, queryset, request, view=None):
         paginated_queryset = super().paginate_queryset(queryset, request, view)
 

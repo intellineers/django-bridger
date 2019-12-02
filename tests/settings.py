@@ -51,6 +51,23 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+REST_FRAMEWORK = {
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    # "PAGE_SIZE": 25,
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    # "DEFAULT_AUTHENTICATION_CLASSES": (
+    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
+    #     "rest_framework.authentication.TokenAuthentication",
+    #     "rest_framework.authentication.SessionAuthentication",
+    # ),
+    # "DEFAULT_PERMISSION_CLASSES": (
+    # "rest_framework.permissions.IsAuthenticated",
+    # "bridger.permissions.RestAPIModelPermissions",
+    # ),
+    # 'DEFAULT_METADATA_CLASS': 'wbutils.metadata.WorkbenchMetaData'
+    # 'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata'
+}
+
 ROOT_URLCONF = "tests.urls"
 
 TEMPLATES = [

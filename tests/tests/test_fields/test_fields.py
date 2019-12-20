@@ -30,7 +30,7 @@ class TestAdditionalResourcesField:
 class TestHyperlinkFieldField:
     def setup_method(self):
         self.factory = APIRequestFactory()
-        self.field = HyperlinkField(reverse_name="test")
+        self.field = HyperlinkField(reverse_name="modeltest-list")
 
     def test_not_none(self):
         assert self.field is not None

@@ -1,10 +1,12 @@
+from django.db.models import Max
+
 from bridger import display as dp
 from bridger import viewsets
 
 from .models import ModelTest, RelatedModelTest
 from .serializers import (
-    ModelTestSerializer,
     ModelTestRepresentationSerializer,
+    ModelTestSerializer,
     RelatedModelTestSerializer,
 )
 
@@ -36,6 +38,13 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
 
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestSerializer
+
+    def get_aggregates(self, queryset, paginated_queryset):
+        return {
+            "date_field": {
+                "Latest Date": queryset.aggregate(ld=Max("date_field"))["ld"]
+            }
+        }
 
 
 class RelatedModelTestModelViewSet(viewsets.ModelViewSet):

@@ -1,7 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import test_response
 from .viewsets import (
     ModelTestModelViewSet,
     ModelTestRepresentationViewSet,
@@ -14,7 +13,7 @@ router.register(r"modeltest", ModelTestModelViewSet, basename="modeltest")
 router.register(r"modeltestrepresentation", ModelTestRepresentationViewSet, basename="modeltestrepresentation")
 router.register(r"relatedmodeltest", RelatedModelTestModelViewSet, basename="relatedmodeltest")
 # fmt: on
+
 urlpatterns = [
     path("", include(router.urls)),
-    path("test/<int:pk>/", test_response, name="test"),
 ]

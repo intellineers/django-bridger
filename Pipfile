@@ -16,7 +16,7 @@ pytest-factoryboy = "*"
 
 [packages]
 psycopg2-binary = "~=2.8"
-django = "~=2.2"
+django = "~=3.0"
 django-rest-framework = "*"
 django-filter = "*"
 factory-boy = "*"

@@ -23,4 +23,4 @@ from .fields import (
     TextField,
     TimeField,
 )
-from .serializers import ModelSerializer, RepresentationSerializer
+from .serializers import ModelSerializer, RepresentationSerializer, decorator

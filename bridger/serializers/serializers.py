@@ -1,13 +1,31 @@
+from typing import Dict
+
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from rest_framework import serializers
+from rest_framework.request import Request
 
 from bridger.serializers import fields
 
 from .mixins import RepresentationSerializerMixin
 
 
-class ModelSerializer(serializers.ModelSerializer):
+def decorator(position: str, value: str) -> Dict:
+    assert position in ("left", "right"), "Decorator Position can only be right or left"
+    return {"position": position, "value": value}
+
+
+class AdditionalMetadataMixin:
+    @classmethod
+    def get_decorators(cls):
+        yield from getattr(cls.Meta, "decorators", dict()).items()
+
+    @classmethod
+    def get_percent_fields(cls):
+        yield from getattr(cls.Meta, "percent_fields", list())
+
+
+class ModelSerializer(AdditionalMetadataMixin, serializers.ModelSerializer):
     serializer_field_mapping = {
         models.AutoField: fields.PrimaryKeyField,
         models.BooleanField: fields.BooleanField,

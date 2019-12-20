@@ -17,8 +17,21 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
 class ModelTestSerializer(serializers.ModelSerializer):
     class Meta:
+        percent_fields = ["percent_field"]
+        decorators = {
+            "char_field": serializers.decorator(position="left", value="Hello")
+        }
+
         model = ModelTest
-        fields = ("id", "char_field", "datetime_field", "date_field", "time_field")
+        fields = (
+            "id",
+            "char_field",
+            "float_field",
+            "percent_field",
+            "datetime_field",
+            "date_field",
+            "time_field",
+        )
 
 
 class RelatedModelTestSerializer(serializers.ModelSerializer):

@@ -18,9 +18,7 @@ class BridgerMetaData(SimpleMetadata):
 
     pagination = {
         CursorPagination.__name__: "cursor",
-        "AggregateCursorPagination": "cursor",
         LimitOffsetPagination.__name__: "page",
-        "DataCursorPagination": "cursor",
     }
 
     def get_filter_representation(self, filter_field, request, name):
@@ -65,68 +63,24 @@ class BridgerMetaData(SimpleMetadata):
         )
 
         if metadata["type"] in [WidgetType.INSTANCE.value, WidgetType.LIST.value]:
+            serializer_class = view.get_serializer_class()
             if "pk" in view.kwargs:
                 metadata["pk"] = view.kwargs["pk"]
 
             metadata["list_display"] = view.get_list_display(request)
             metadata["instance_display"] = view.get_instance_display(request)
+
             metadata["fields"] = view.get_fields(request)
+            for key, value in serializer_class.get_decorators():
+                metadata["fields"][key]["decorators"] = value
+            for key in serializer_class.get_percent_fields():
+                metadata["fields"][key]["type"] = "percent"
 
-            # for field_name, field in view.get_serializer().fields.items():
-            #     representation = self.get_field_representation(
-            #         request, field_name, field
-            #     )
-            #     # if "related_key" in representation:
-            #     #     related_fields[representation["related_key"]] = representation
-            #     # else:
-            #     metadata["fields"][field_name] = representation
-
-        # metadata["messages"] = view.get_messages(request)
-
-        # if hasattr(view, "get_serializer"):
-        #     metadata["instance_display"] = view.get_instance_display(request)
-        #     metadata["list_display"] = view.get_list_display(request)
-        #     metadata["list_formatting"] = view.get_list_formatting(request)
-        #     metadata["cell_formatting"] = view.get_cell_formatting(request)
-        #     metadata["legends"] = view.get_legends(request)
-
-        #     metadata["instance_buttons"] = view.get_instance_buttons(request)
-        #     metadata["list_buttons"] = view.get_list_buttons(request)
-
-        #     metadata["custom_list_buttons"] = view.get_custom_list_buttons(request)
-        #     metadata["custom_instance_buttons"] = view.get_custom_instance_buttons(
-        #         request
-        #     )
-        #     metadata[
-        #         "custom_list_instance_buttons"
-        #     ] = view.get_custom_list_instance_buttons(request)
-
-        #     metadata["list_widget_title"] = view.get_list_widget_title()
-        #     metadata["instance_widget_title"] = view.get_instance_widget_title()
-        #     metadata["new_instance_widget_title"] = view.get_new_instance_widget_title()
-
-        #     if view.pagination_class:
-        #         metadata["pagination_type"] = self.pagination[
-        #             view.pagination_class.__name__
-        #         ]
-
-        #     metadata["fields"] = dict()
-
-        #     related_fields = dict()
-        #     for field_name, field in view.get_serializer().fields.items():
-        #         representation = self.get_field_representation(
-        #             request, field_name, field
-        #         )
-        #         if "related_key" in representation:
-        #             related_fields[representation["related_key"]] = representation
-        #         else:
-        #             metadata["fields"][field_name] = representation
-
-        #     self.check_for_metadata_in_serializer(request, view, metadata)
-
-        #     for key, value in related_fields.items():
-        #         metadata["fields"][key].update(value)
-        #         del metadata["fields"][key]["related_key"]
+        # TODO: Messages
+        # TODO: Legends
+        # TODO: Custom Buttons
+        # TODO: Titles
+        # TODO: Pagination
 
         # for backend in view.filter_backends:
         #     backend_obj = backend()

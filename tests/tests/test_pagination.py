@@ -11,8 +11,7 @@ class TestCursorPagination:
         self.view = ModelTestViewSet.as_view({"get": "list"})
         self.factory = APIRequestFactory()
 
-    def test_aggregation(self):
-        ModelTest.get_random_instance()
+    def test_aggregation(self, model_test):
         request = self.factory.get("")
         response = self.view(request)
 

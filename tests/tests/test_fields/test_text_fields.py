@@ -4,8 +4,6 @@ from rest_framework.exceptions import ValidationError
 from bridger.serializers import CharField, StringRelatedField, TextField
 from bridger.serializers.fields.types import BridgerType
 
-from ...models import ModelTest
-
 
 class TestCharField:
     def setup_method(self):
@@ -39,13 +37,12 @@ class TestCharField:
 class TestStringRelatedField:
     def setup_method(self):
         self.field = StringRelatedField()
-        self.instance = ModelTest.get_random_instance()
 
     def test_not_none(self):
         assert self.field is not None
 
-    def test_to_representation(self):
-        assert self.field.to_representation(self.instance) == str(self.instance)
+    def test_to_representation(self, model_test):
+        assert self.field.to_representation(model_test) == str(model_test)
 
     def test_field_type(self):
         assert self.field.field_type == BridgerType.TEXT.value

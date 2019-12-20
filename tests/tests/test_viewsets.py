@@ -2,13 +2,10 @@ import pytest
 
 from bridger.viewsets import ChartViewSet, ModelViewSet, RepresentationModelViewSet
 
-from ..models import ModelTest
-
 
 @pytest.mark.django_db
-def test_model():
-    obj = ModelTest.get_random_instance()
-    assert obj.id is not None
+def test_model(model_test):
+    assert model_test.id is not None
 
 
 class TestRepresentationModelViewSet:

@@ -7,7 +7,7 @@ from bridger.serializers.fields.mixins import BridgerSerializerFieldMixin
 from bridger.serializers.fields.related import BridgerManyRelatedField
 from bridger.serializers.fields.types import BridgerType, ReturnContentType
 
-from ...models import ModelTest
+from tests.models import ModelTest
 
 
 class TestBridgerManyRelatedField:
@@ -75,10 +75,9 @@ class TestPrimaryKeyRelatedField:
         }
 
     @pytest.mark.django_db
-    def test_run_validation(self):
-        instance = ModelTest.get_random_instance()
+    def test_run_validation(self, model_test):
         validated_data = self.field(
             required=False, queryset=ModelTest.objects.all()
-        ).run_validation(data=instance.pk)
-        assert validated_data == instance
+        ).run_validation(data=model_test.pk)
+        assert validated_data == model_test
 

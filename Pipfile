@@ -12,6 +12,7 @@ django-bridger = {editable = true,path = "."}
 pytest-mock = "*"
 mypy = "*"
 jsonschema = "*"
+pytest-factoryboy = "*"
 
 [packages]
 psycopg2-binary = "~=2.8"

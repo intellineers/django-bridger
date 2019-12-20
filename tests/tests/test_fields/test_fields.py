@@ -6,8 +6,6 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.reverse import reverse
 from bridger.serializers import AdditionalResourcesField, HyperlinkField
 
-from ...models import ModelTest
-
 
 class TestAdditionalResourcesField:
     def setup_method(self):
@@ -18,15 +16,13 @@ class TestAdditionalResourcesField:
         assert self.field is not None
 
     @pytest.mark.django_db
-    def test_get_attribute(self):
-        instance = ModelTest.get_random_instance()
-        assert self.field.get_attribute(instance) == instance
+    def test_get_attribute(self, model_test):
+        assert self.field.get_attribute(model_test) == model_test
 
     @pytest.mark.django_db
-    def test_to_representation(self, mocker):
-        instance = ModelTest.get_random_instance()
+    def test_to_representation(self, mocker, model_test):
         parent = mocker.patch.object(self.field, "parent")
-        self.field.to_representation(instance)
+        self.field.to_representation(model_test)
 
         assert parent.get_additional_resources.called
 
@@ -43,14 +39,12 @@ class TestHyperlinkFieldField:
         assert self.field.to_representation("abc") == "abc"
 
     @pytest.mark.django_db
-    def test_get_attribute_with_request(self, mocker):
+    def test_get_attribute_with_request(self, mocker, model_test):
         self.field._context = {"request": self.factory.get("/")}
-        instance = ModelTest.get_random_instance()
-        attr = self.field.get_attribute(instance)
+        attr = self.field.get_attribute(model_test)
         assert attr is not None and attr != ""
 
     @pytest.mark.django_db
-    def test_get_attribute(self, mocker):
-        instance = ModelTest.get_random_instance()
-        attr = self.field.get_attribute(instance)
+    def test_get_attribute(self, mocker, model_test):
+        attr = self.field.get_attribute(model_test)
         assert attr is not None and attr != ""

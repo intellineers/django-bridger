@@ -25,3 +25,11 @@ class ModelTest(models.Model):
     class Meta:
         verbose_name = "Test Model"
         verbose_name_plural = "Test Models"
+
+
+class RelatedModelTest(models.Model):
+
+    model_test = models.ForeignKey(
+        to="tests.ModelTest", related_name="related_models", on_delete=models.CASCADE
+    )
+    char_field = models.CharField(max_length=255)

@@ -10,12 +10,16 @@ pytest-django = "*"
 pytest-cov = "*"
 django-bridger = {editable = true,path = "."}
 pytest-mock = "*"
+mypy = "*"
+jsonschema = "*"
 
 [packages]
 psycopg2-binary = "~=2.8"
 django = "~=2.2"
 django-rest-framework = "*"
 django-filter = "*"
+factory-boy = "*"
+colorlog = "*"
 
 [requires]
 python_version = "3.6"

@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.contrib.contenttypes.models import ContentType
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -5,6 +7,8 @@ from rest_framework import filters
 from rest_framework.metadata import SimpleMetadata
 from rest_framework.pagination import CursorPagination, LimitOffsetPagination
 from rest_framework.reverse import reverse
+
+from .enums import WidgetType
 
 # from wbutils import serializers as wb_serializers
 # from wbutils.filters import DynamicDjangoFilterBackend
@@ -51,123 +55,129 @@ class BridgerMetaData(SimpleMetadata):
                 metadata["fields"][percent_field]["type"] = "percent"
 
     def determine_metadata(self, request, view):
-        metadata = dict()
+        metadata = defaultdict(dict)
 
-        metadata["identifier"] = view.get_identifier(request)
+        metadata["type"] = view.get_widget_type(request=request)
+        metadata["identifier"] = view.get_identifier(request=request)
+        metadata["buttons"] = view.get_buttons(request=request)
+        metadata["endpoints"] = view.get_endpoints(
+            request=request, buttons=metadata["buttons"]
+        )
 
-        metadata["messages"] = view.get_messages(request)
-
-        chart_display = view.get_chart_display()
-        if chart_display:
-            metadata["type"] = "chart"
-
-        if hasattr(view, "get_serializer"):
-            calendar_display = view.get_calendar_display()
-            if calendar_display:
-                metadata["type"] = "calendar"
-            elif "pk" in view.kwargs:
-                metadata["type"] = "instance"
+        if metadata["type"] in [WidgetType.INSTANCE.value, WidgetType.LIST.value]:
+            if "pk" in view.kwargs:
                 metadata["pk"] = view.kwargs["pk"]
-            else:
-                metadata["type"] = "list"
 
-            metadata["list_endpoint"] = view.get_list_endpoint(request)
-            metadata["instance_endpoint"] = view.get_instance_endpoint(request)
-            metadata["new_instance_endpoint"] = view.get_new_instance_endpoint(request)
-            metadata["instance_display"] = view.get_instance_display(request)
             metadata["list_display"] = view.get_list_display(request)
-            metadata["list_formatting"] = view.get_list_formatting(request)
-            metadata["cell_formatting"] = view.get_cell_formatting(request)
-            metadata["legends"] = view.get_legends(request)
+            metadata["instance_display"] = view.get_instance_display(request)
+            metadata["fields"] = view.get_fields(request)
 
-            metadata["instance_buttons"] = view.get_instance_buttons(request)
-            metadata["list_buttons"] = view.get_list_buttons(request)
+            # for field_name, field in view.get_serializer().fields.items():
+            #     representation = self.get_field_representation(
+            #         request, field_name, field
+            #     )
+            #     # if "related_key" in representation:
+            #     #     related_fields[representation["related_key"]] = representation
+            #     # else:
+            #     metadata["fields"][field_name] = representation
 
-            metadata["custom_list_buttons"] = view.get_custom_list_buttons(request)
-            metadata["custom_instance_buttons"] = view.get_custom_instance_buttons(
-                request
-            )
-            metadata[
-                "custom_list_instance_buttons"
-            ] = view.get_custom_list_instance_buttons(request)
+        # metadata["messages"] = view.get_messages(request)
 
-            metadata["list_widget_title"] = view.get_list_widget_title()
-            metadata["instance_widget_title"] = view.get_instance_widget_title()
-            metadata["new_instance_widget_title"] = view.get_new_instance_widget_title()
+        # if hasattr(view, "get_serializer"):
+        #     metadata["instance_display"] = view.get_instance_display(request)
+        #     metadata["list_display"] = view.get_list_display(request)
+        #     metadata["list_formatting"] = view.get_list_formatting(request)
+        #     metadata["cell_formatting"] = view.get_cell_formatting(request)
+        #     metadata["legends"] = view.get_legends(request)
 
-            if view.pagination_class:
-                metadata["pagination_type"] = self.pagination[
-                    view.pagination_class.__name__
-                ]
+        #     metadata["instance_buttons"] = view.get_instance_buttons(request)
+        #     metadata["list_buttons"] = view.get_list_buttons(request)
 
-            metadata["fields"] = dict()
+        #     metadata["custom_list_buttons"] = view.get_custom_list_buttons(request)
+        #     metadata["custom_instance_buttons"] = view.get_custom_instance_buttons(
+        #         request
+        #     )
+        #     metadata[
+        #         "custom_list_instance_buttons"
+        #     ] = view.get_custom_list_instance_buttons(request)
 
-            related_fields = dict()
-            for field_name, field in view.get_serializer().fields.items():
-                representation = self.get_field_representation(
-                    request, field_name, field
-                )
-                if "related_key" in representation:
-                    related_fields[representation["related_key"]] = representation
-                else:
-                    metadata["fields"][field_name] = representation
+        #     metadata["list_widget_title"] = view.get_list_widget_title()
+        #     metadata["instance_widget_title"] = view.get_instance_widget_title()
+        #     metadata["new_instance_widget_title"] = view.get_new_instance_widget_title()
 
-            self.check_for_metadata_in_serializer(request, view, metadata)
+        #     if view.pagination_class:
+        #         metadata["pagination_type"] = self.pagination[
+        #             view.pagination_class.__name__
+        #         ]
 
-            for key, value in related_fields.items():
-                metadata["fields"][key].update(value)
-                del metadata["fields"][key]["related_key"]
+        #     metadata["fields"] = dict()
 
-        for backend in view.filter_backends:
-            backend_obj = backend()
-            if type(backend_obj) == filters.SearchFilter:
-                metadata["search_fields"] = list(view.search_fields)
+        #     related_fields = dict()
+        #     for field_name, field in view.get_serializer().fields.items():
+        #         representation = self.get_field_representation(
+        #             request, field_name, field
+        #         )
+        #         if "related_key" in representation:
+        #             related_fields[representation["related_key"]] = representation
+        #         else:
+        #             metadata["fields"][field_name] = representation
 
-            if not chart_display:
-                if type(backend_obj) == filters.OrderingFilter:
-                    metadata["ordering_fields"] = list(view.ordering_fields)
+        #     self.check_for_metadata_in_serializer(request, view, metadata)
 
-            if type(backend_obj) in [DjangoFilterBackend]:
-                # if type(backend_obj) in [DjangoFilterBackend, DynamicDjangoFilterBackend]:
-                metadata["filter_fields"] = dict()
+        #     for key, value in related_fields.items():
+        #         metadata["fields"][key].update(value)
+        #         del metadata["fields"][key]["related_key"]
 
-                if type(backend_obj) is DynamicDjangoFilterBackend:
-                    filterset = backend_obj.get_filterset_class_from_view(view)
-                else:
-                    filterset = backend_obj.get_filterset_class(view)
+        # for backend in view.filter_backends:
+        #     backend_obj = backend()
+        #     if type(backend_obj) == filters.SearchFilter:
+        #         metadata["search_fields"] = list(view.search_fields)
 
-                related_filter = dict()
+        #     if not chart_display:
+        #         if type(backend_obj) == filters.OrderingFilter:
+        #             metadata["ordering_fields"] = list(view.ordering_fields)
 
-                for name, f in filterset.base_filters.items():
-                    representation = self.get_filter_representation(f, request, name)
-                    if "combined_key" in representation:
-                        related_filter[name] = representation
-                    else:
-                        metadata["filter_fields"][name] = representation
+        #     if type(backend_obj) in [DjangoFilterBackend]:
+        #         # if type(backend_obj) in [DjangoFilterBackend, DynamicDjangoFilterBackend]:
+        #         metadata["filter_fields"] = dict()
 
-                for key, value in related_filter.items():
-                    if value["combined_key"] not in metadata["filter_fields"]:
-                        metadata["filter_fields"][value["combined_key"]] = dict()
+        #         if type(backend_obj) is DynamicDjangoFilterBackend:
+        #             filterset = backend_obj.get_filterset_class_from_view(view)
+        #         else:
+        #             filterset = backend_obj.get_filterset_class(view)
 
-                    for k, v in value.items():
-                        if type(v) is dict:
-                            if (
-                                k
-                                not in metadata["filter_fields"][value["combined_key"]]
-                            ):
-                                metadata["filter_fields"][value["combined_key"]][
-                                    k
-                                ] = dict()
+        #         related_filter = dict()
 
-                            for _k, _v in v.items():
-                                metadata["filter_fields"][value["combined_key"]][k][
-                                    _k
-                                ] = _v
-                        else:
-                            metadata["filter_fields"][value["combined_key"]][k] = v
-                    metadata["filter_fields"][value["combined_key"]]["key"] = value[
-                        "combined_key"
-                    ]
-                    del metadata["filter_fields"][value["combined_key"]]["combined_key"]
+        #         for name, f in filterset.base_filters.items():
+        #             representation = self.get_filter_representation(f, request, name)
+        #             if "combined_key" in representation:
+        #                 related_filter[name] = representation
+        #             else:
+        #                 metadata["filter_fields"][name] = representation
+
+        #         for key, value in related_filter.items():
+        #             if value["combined_key"] not in metadata["filter_fields"]:
+        #                 metadata["filter_fields"][value["combined_key"]] = dict()
+
+        #             for k, v in value.items():
+        #                 if type(v) is dict:
+        #                     if (
+        #                         k
+        #                         not in metadata["filter_fields"][value["combined_key"]]
+        #                     ):
+        #                         metadata["filter_fields"][value["combined_key"]][
+        #                             k
+        #                         ] = dict()
+
+        #                     for _k, _v in v.items():
+        #                         metadata["filter_fields"][value["combined_key"]][k][
+        #                             _k
+        #                         ] = _v
+        #                 else:
+        #                     metadata["filter_fields"][value["combined_key"]][k] = v
+        #             metadata["filter_fields"][value["combined_key"]]["key"] = value[
+        #                 "combined_key"
+        #             ]
+        #             del metadata["filter_fields"][value["combined_key"]]["combined_key"]
 
         return metadata

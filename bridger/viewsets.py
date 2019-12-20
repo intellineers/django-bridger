@@ -16,7 +16,10 @@ from .pagination import CursorPagination
 class RepresentationModelViewSet(MetadataMixin, viewsets.ReadOnlyModelViewSet):
     """A Representation View that is used for serializing related fields"""
 
+    filter_backends = [filters.OrderingFilter]
     pagination_class = CursorPagination
+
+    ordering_fields = ordering = ["id"]
 
 
 class ModelViewSet(MetadataMixin, viewsets.ModelViewSet):

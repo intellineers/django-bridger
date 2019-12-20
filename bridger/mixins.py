@@ -1,6 +1,15 @@
+import logging
+
 from .metadata import BridgerMetaData
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.reverse import reverse
+from rest_framework.request import Request
+from typing import Dict, List
+
+from bridger.enums import Button, WidgetType
+from bridger.serializers import RepresentationSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class MetadataMixin:
@@ -51,8 +60,17 @@ class MetadataMixin:
 
     metadata_class = BridgerMetaData
 
-    # IDENTIFIER
-    def get_identifier(self, request):
+    def get_widget_type(self, request: Request) -> str:
+        widget_type = getattr(self, "WIDGET_TYPE", None)
+
+        return widget_type or (
+            WidgetType.LIST.value
+            if "pk" not in self.kwargs
+            else WidgetType.INSTANCE.value
+        )
+
+    # TODO: What if this is a endpoint without any ContentType?
+    def get_identifier(self, request: Request) -> str:
         identifier = getattr(self, "IDENTIFIER", None)
         if not identifier:
             ct = ContentType.objects.get_for_model(
@@ -61,21 +79,104 @@ class MetadataMixin:
             return f"{ct.app_label}:{ct.model}"
         return identifier
 
-    # ENDPOINT
-    def get_list_endpoint(self, request):
-        endpoint = getattr(self, "LIST_ENDPOINT", None)
-        if endpoint:
-            return reverse(endpoint, request=request)
+    def get_endpoint(self):
+        return getattr(self, "ENDPOINT", None)
 
-    def get_instance_endpoint(self, request):
-        endpoint = getattr(self, "INSTANCE_ENDPOINT", None)
-        if endpoint:
-            return reverse(endpoint, request=request)
+    def get_list_endpoint(self):
+        return getattr(self, "LIST_ENDPOINT", self.get_endpoint())
 
-    def get_new_instance_endpoint(self, request):
-        endpoint = getattr(self, "NEW_INSTANCE_ENDPOINT", None)
-        if endpoint:
-            return reverse(endpoint, request=request)
+    def get_instance_endpoint(self):
+        return getattr(self, "INSTANCE_ENDPOINT", self.get_endpoint())
+
+    def get_create_endpoint(self):
+        return getattr(self, "CREATE_ENDPOINT", self.get_endpoint())
+
+    def get_delete_endpoint(self):
+        return getattr(self, "DELETE_ENDPOINT", self.get_endpoint())
+
+    def get_endpoints(self, request: Request, buttons: List[str]) -> Dict[str, str]:
+        endpoints = dict()
+
+        list_endpoint = self.get_list_endpoint()
+        instance_endpoint = self.get_instance_endpoint()
+        create_endpoint = self.get_create_endpoint()
+        delete_endpoint = self.get_instance_endpoint()
+
+        pk = self.kwargs.get("pk", None)
+        if pk and list_endpoint:
+            endpoints["list"] = reverse(list_endpoint, request=request)
+        elif not pk and instance_endpoint:
+            endpoints["instance"] = reverse(instance_endpoint, request=request)
+
+        if create_endpoint:
+            endpoints["create"] = reverse(create_endpoint, request=request)
+        elif Button.NEW.value in buttons:
+            logger.warn(
+                "New Button Specified, but no create endpoint specified. New Button is removed."
+            )
+            buttons.remove(Button.NEW.value)
+
+        if delete_endpoint:
+            endpoints["delete"] = reverse(delete_endpoint, request=request)
+        elif Button.DELETE.value in buttons:
+            logger.warn(
+                "Delete Button Specified, but no delete endpoint specified. Delete Button is removed."
+            )
+            buttons.remove(Button.NEW.value)
+
+        return endpoints
+
+    def get_buttons(self, request: Request) -> List[str]:
+        buttons = list()
+
+        pk = self.kwargs.get("pk", None)
+        ct = ContentType.objects.get_for_model(self.get_serializer_class().Meta.model)
+
+        if pk:
+            if hasattr(self, "INSTANCE_BUTTONS"):
+                return self.INSTANCE_BUTTONS
+            elif ct:
+                if f"{ct.app_label}.change_{ct.model}":
+                    buttons.append(Button.SAVE.value)
+                if f"{ct.app_label}.delete_{ct.model}":
+                    buttons.append(Button.DELETE.value)
+        else:
+            if hasattr(self, "LIST_BUTTONS"):
+                return self.LIST_BUTTONS
+            elif ct:
+                if f"{ct.app_label}.add_{ct.model}":
+                    buttons.append(Button.NEW.value)
+
+        buttons.append(Button.REFRESH.value)
+        return buttons
+
+    def get_custom_buttons(self, request: Request) -> Dict[str, str]:
+        pass
+
+    def get_instance_display(self, request: Request) -> List:
+        if hasattr(self, "INSTANCE_DISPLAY"):
+            return self.INSTANCE_DISPLAY.to_dict()
+        return []
+
+    def get_list_display(self, request: Request) -> Dict:
+        if hasattr(self, "LIST_DISPLAY"):
+            return self.LIST_DISPLAY.to_dict()
+        return {}
+
+    def get_fields(self, request: Request) -> Dict:
+        fields = dict()
+        rs = RepresentationSerializer
+        field_items = self.get_serializer().fields.items()
+
+        for name, field in filter(lambda f: not isinstance(f[1], rs), field_items):
+            fields[name] = field.get_representation(request, name)
+
+        for name, field in filter(lambda f: isinstance(f[1], rs), field_items):
+            representation = field.get_representation(request, name)
+            fields[representation["related_key"]].update(representation)
+            del fields[representation["related_key"]]["related_key"]
+
+        return fields
 
     # BUTTONS
     def get_instance_buttons(self, request):
@@ -130,31 +231,6 @@ class MetadataMixin:
         return getattr(self, "MESSAGES", [])
 
     # get displays
-    def get_instance_display(self, request):
-        if hasattr(self, "INSTANCE_DISPLAY"):
-            return self.INSTANCE_DISPLAY
-
-        fields = [{"fields": list()}]
-
-        # for field_name, field in self.get_serializer().fields.items():
-        #     if "_" != field_name[0] and not isinstance(
-        #         field, wb_serializers.PrimaryKeyField
-        #     ):
-        #         fields[0]["fields"].append(field_name)
-        return fields
-
-    def get_list_display(self, request):
-        if hasattr(self, "LIST_DISPLAY"):
-            return self.LIST_DISPLAY
-
-        fields = list()
-
-        # for field_name, field in self.get_serializer().fields.items():
-        #     if "_" != field_name[0] and not isinstance(
-        #         field, wb_serializers.PrimaryKeyField
-        #     ):
-        #         fields.append({"key": field_name, "label": field.label})
-        return fields
 
     def get_chart_display(self):
         return getattr(self, "CHART_DISPLAY", None)

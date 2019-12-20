@@ -1,3 +1,4 @@
+# TODO: Delete in favor of viewsets.py
 from bridger.viewsets import ModelViewSet
 from .serializers import ModelTestSerializer
 from .models import ModelTest

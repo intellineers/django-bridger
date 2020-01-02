@@ -22,7 +22,6 @@ class Profile(APIView):
     def get(self, request: Request) -> Response:
         return Response(
             {
-                "user_id": request.user.id,
                 "config": reverse(
                     "bridger:frontenduserconfiguration-list", request=request
                 ),
@@ -38,7 +37,7 @@ class Config(APIView):
         return Response(
             {
                 # "authentication": auth(request),
-                "authentication": {},
+                "authentication": {"type": AuthType.NONE.name},
                 "notification": {},
                 "profile": reverse("bridger:profile", request=request),
                 # "profile": {},

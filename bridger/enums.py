@@ -44,5 +44,5 @@ class Unit(Enum):
 
 
 class AuthType(Enum):
-    NONE = "None"
+    NONE = "NONE"
     JWT = "JWT"

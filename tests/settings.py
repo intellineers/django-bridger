@@ -149,6 +149,10 @@ LOGGING = {
 }
 
 
+# BRIDGER SETTINGS
+# TODO: Create default settings
+
+
 def get_bridger_auth(request):
     return {
         "type": "JWT",
@@ -161,3 +165,4 @@ def get_bridger_auth(request):
 
 
 BRIDGER_AUTH = get_bridger_auth
+BRIDGER_FRONTEND_USER_CONFIGURATION_ORDER = ["config__order"]

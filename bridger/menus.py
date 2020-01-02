@@ -8,8 +8,8 @@ from django.contrib import admin
 
 class ItemPermission(NamedTuple):
     permissions: List[str] = []
-    is_employee: bool = False
     method: Optional[Callable] = None
+    # is_employee: bool = False
 
     def has_permission(self, request: Request):
         if request.user.is_superuser:
@@ -19,9 +19,10 @@ class ItemPermission(NamedTuple):
             if not request.user.has_perm(permission):
                 return False
 
-        # NOTE: This only works if the Workbench CRM is installed - Is this ok?
-        if self.is_employee and not request.user.profile.is_employee:
-            return False
+        # TODO: This has to be transformed to a employee method permission
+        # example: def employee_perm(request) -> return request.user.profile.is_employee
+        # if self.is_employee and not request.user.profile.is_employee:
+        #     return False
 
         if self.method:
             return self.method(request=request)

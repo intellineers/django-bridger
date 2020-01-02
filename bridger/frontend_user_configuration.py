@@ -1,4 +1,4 @@
-import uuid
+import uuid, logging
 
 import django_filters
 from django.conf import settings
@@ -11,6 +11,8 @@ from rest_framework.filters import OrderingFilter
 from .filters import BooleanFilter, ModelChoiceFilter
 from .serializers import ModelSerializer, PrimaryKeyCharField
 from .viewsets import ModelViewSet
+
+logger = logging.getLogger(__name__)
 
 
 class FrontendUserConfiguration(models.Model):
@@ -63,6 +65,11 @@ class FrontendUserConfigurationModelViewSet(ModelViewSet):
     serializer_class = FrontendUserConfigurationModelSerializer
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     filter_class = FrontendUserConfigurationFilterSet
+
+    ordering_fields = ordering = [
+        "id",
+        *settings.BRIDGER_FRONTEND_USER_CONFIGURATION_ORDER,
+    ]
 
     def get_queryset(self):
         return FrontendUserConfiguration.objects.filter(user=self.request.user)

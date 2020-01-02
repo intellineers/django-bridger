@@ -8,4 +8,5 @@ from .fields import (
     ModelMultipleChoiceFilter,
     MultipleChoiceFilter,
 )
+from .filterset import FilterSet
 

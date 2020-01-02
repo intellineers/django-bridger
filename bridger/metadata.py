@@ -56,6 +56,7 @@ class BridgerMetaData(SimpleMetadata):
             request=request, buttons=metadata["buttons"]
         )
         metadata["pagination"] = view.get_pagination(request=request)
+        metadata["titles"] = view.get_titles(request=request)
 
         if metadata["type"] in [WidgetType.INSTANCE.value, WidgetType.LIST.value]:
             serializer_class = view.get_serializer_class()
@@ -71,11 +72,12 @@ class BridgerMetaData(SimpleMetadata):
             for key in serializer_class.get_percent_fields():
                 metadata["fields"][key]["type"] = "percent"
 
+        metadata["search_fields"] = view.get_search_fields(request)
+        metadata["ordering_fields"] = view.get_ordering_fields(request)
+        metadata["filter_fields"] = {k: v for k, v in view.get_filter_fields(request)}
+
         # TODO: Messages
-        # TODO: Legends
         # TODO: Custom Buttons
-        # TODO: Titles
-        # TODO: Pagination
 
         # for backend in view.filter_backends:
         #     backend_obj = backend()
@@ -108,20 +110,13 @@ class BridgerMetaData(SimpleMetadata):
         #             if value["combined_key"] not in metadata["filter_fields"]:
         #                 metadata["filter_fields"][value["combined_key"]] = dict()
 
-        #             for k, v in value.items():
-        #                 if type(v) is dict:
-        #                     if (
-        #                         k
-        #                         not in metadata["filter_fields"][value["combined_key"]]
-        #                     ):
-        #                         metadata["filter_fields"][value["combined_key"]][
-        #                             k
-        #                         ] = dict()
+                    # for k, v in value.items():
+                    #     if type(v) is dict:
+                    #         if (k not in metadata["filter_fields"][value["combined_key"]]):
+                    #             metadata["filter_fields"][value["combined_key"]][k] = dict()
 
-        #                     for _k, _v in v.items():
-        #                         metadata["filter_fields"][value["combined_key"]][k][
-        #                             _k
-        #                         ] = _v
+                    #         for _k, _v in v.items():
+                    #             metadata["filter_fields"][value["combined_key"]][k][_k] = _v
         #                 else:
         #                     metadata["filter_fields"][value["combined_key"]][k] = v
         #             metadata["filter_fields"][value["combined_key"]]["key"] = value[

@@ -5,7 +5,9 @@ from django.contrib.contenttypes.models import ContentType
 from rest_framework.reverse import reverse
 from rest_framework.request import Request
 from rest_framework.pagination import CursorPagination, LimitOffsetPagination
-from typing import Dict, List
+from typing import Dict, List, Generator
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from bridger.enums import Button, WidgetType
 from bridger.serializers import RepresentationSerializer
@@ -48,14 +50,8 @@ class MetadataMixin:
     The displays describe how a list or an instance should be displayed. Essentially,
     they describe a table layout for lists and a form for instances.
 
-    === FORMAT ===
-    TODO
-
-    === LEGEND ===
-    TODO
-
-    === WIDGET TITLE ===
-    TODO
+    === TITLES ===
+    Returns the Widget Titles for Instance, List and Create Widgets
 
     """
 
@@ -241,35 +237,55 @@ class MetadataMixin:
     def get_messages(self, request):
         return getattr(self, "MESSAGES", [])
 
-    # get displays
+    # TITLES
+    def get_titles(self, request: Request):
+        titles = dict()
 
-    def get_chart_display(self):
-        return getattr(self, "CHART_DISPLAY", None)
-
-    def get_calendar_display(self):
-        return getattr(self, "IS_CALENDAR", False)
-
-    def get_list_formatting(self, request):
-        return getattr(self, "LIST_FORMATTING", None)
-
-    def get_cell_formatting(self, request):
-        return getattr(self, "CELL_FORMATTING", None)
-
-    def get_legends(self, request):
-        return getattr(self, "LEGENDS", None)
-
-    # get titles
-    def get_instance_widget_title(self):
         if hasattr(self, "INSTANCE_WIDGET_TITLE"):
-            return self.INSTANCE_WIDGET_TITLE
-        return f"{self.get_serializer_class().Meta.model._meta.verbose_name}"
+            titles["instance"] = self.INSTANCE_WIDGET_TITLE
 
-    def get_new_instance_widget_title(self):
-        if hasattr(self, "NEW_INSTANCE_WIDGET_TITLE"):
-            return self.NEW_INSTANCE_WIDGET_TITLE
-        return f"New {self.get_serializer_class().Meta.model._meta.verbose_name}"
-
-    def get_list_widget_title(self):
         if hasattr(self, "LIST_WIDGET_TITLE"):
-            return self.LIST_WIDGET_TITLE
-        return f"{self.get_serializer_class().Meta.model._meta.verbose_name_plural}"
+            titles["list"] = self.LIST_WIDGET_TITLE
+
+        if hasattr(self, "CREATE_WIDGET_TITLE"):
+            titles["create"] = self.CREATE_WIDGET_TITLE
+
+        return titles
+
+    # Search, Ordering, Filter
+
+    def get_search_fields(self, request: Request) -> Generator[str, None, None]:
+        if filters.SearchFilter in self.filter_backends:
+            yield from self.search_fields
+
+    def get_ordering_fields(self, request: Request) -> Generator[str, None, None]:
+        if filters.OrderingFilter in self.filter_backends:
+            yield from self.ordering_fields
+
+    def get_filter_fields(self, request: Request) -> Generator[Dict, None, None]:
+        if DjangoFilterBackend in self.filter_backends:
+            filterset = (
+                DjangoFilterBackend().get_filterset_class(self).base_filters.items()
+            )
+            combined_fields = dict()
+            for name, field in filterset:
+                representation = field.get_representation(request, name)
+                combined_key = representation.get("combined_key", None)
+                if combined_key:
+                    # If there is a combined key we need to check wether this is the first
+                    # combined key we found. If not then we need to add this field together
+                    # with the previously found combined key, clean up and yield it
+                    if combined_key in combined_fields:
+                        other_representation = combined_fields[combined_key]
+                        for key in other_representation.keys() - representation.keys():
+                            representation[key] = other_representation[key]
+
+                        del representation["combined_key"]
+                        del combined_fields[combined_key]
+
+                        yield combined_key, representation
+                    else:
+                        combined_fields[combined_key] = representation
+                else:
+                    yield name, representation
+

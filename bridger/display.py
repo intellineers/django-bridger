@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, NamedTuple, Optional, Union, Tuple
+from typing import List, NamedTuple, Optional, Union, Tuple, Any
 
 
 class ColumnFormatting(NamedTuple):
@@ -59,9 +59,41 @@ class Field(NamedTuple):
         return rd
 
 
+class LegendItem(NamedTuple):
+    icon: str
+    label: str
+    value: Optional[Any] = None
+
+    def to_dict(self):
+        rv = {"icon": self.icon, "label": self.label}
+        if self.value:
+            tv["value"] = self.value
+        return rv
+
+
+class Legend(NamedTuple):
+    items: List[LegendItem]
+    label: Optional[str] = None
+    key: Optional[str] = None
+
+    def to_dict(self):
+        tv = {"items": list()}
+
+        if self.label:
+            tv["label"] = self.label
+        if self.key:
+            tv["key"] = self.key
+
+        for item in self.items:
+            tv["items"].append(item.to_dict())
+
+        return tv
+
+
 class ListDisplay(NamedTuple):
     fields: List[Field]
     formatting: List[RowFormatting] = []
+    legends: List[Legend] = []
 
     def to_dict(self):
         list_display = defaultdict(list)
@@ -70,6 +102,9 @@ class ListDisplay(NamedTuple):
 
         for formatting in self.formatting:
             list_display["formatting"].append(formatting.to_dict())
+
+        for legend in self.legends:
+            list_display["legends"].append(legend.to_dict())
 
         return list_display
 

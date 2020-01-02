@@ -13,6 +13,7 @@ pytest-mock = "*"
 mypy = "*"
 jsonschema = "*"
 pytest-factoryboy = "*"
+sphinx = "*"
 
 [packages]
 psycopg2-binary = "~=2.8"

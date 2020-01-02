@@ -15,6 +15,7 @@ class BridgerType(Enum):
     FILE = "file"
     LIST = "list"
     PERCENT = "percent"
+    JSON = "json"
 
 
 class ReturnContentType(Enum):

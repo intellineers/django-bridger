@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
+from rest_framework.reverse import reverse
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +27,7 @@ SECRET_KEY = "bfeq_1i!f+0rmkkx6hfw#d4%t*!5t(3tv_lx0udc(!ebrr21vu"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_filters",
+    "rest_framework",
+    "bridger",
     "tests",
 ]
 
@@ -52,9 +56,10 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    # "PAGE_SIZE": 25,
-    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ),
     # "DEFAULT_AUTHENTICATION_CLASSES": (
     #     "rest_framework_simplejwt.authentication.JWTAuthentication",
     #     "rest_framework.authentication.TokenAuthentication",
@@ -92,12 +97,7 @@ WSGI_APPLICATION = "tests.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
-}
+DATABASES = {"default": dj_database_url.parse(os.environ["DATABASE_URL"])}
 
 
 # Password validation
@@ -147,3 +147,17 @@ LOGGING = {
     },
     "loggers": {"": {"level": "WARNING", "handlers": ["console"],},},
 }
+
+
+def get_bridger_auth(request):
+    return {
+        "type": "JWT",
+        "config": {
+            "token": reverse("token_obtain_pair", request=request),
+            "refresh": reverse("token_refresh", request=request),
+            "verify": reverse("token_verify", request=request),
+        },
+    }
+
+
+BRIDGER_AUTH = get_bridger_auth

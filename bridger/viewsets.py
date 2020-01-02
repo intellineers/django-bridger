@@ -1,16 +1,21 @@
+import logging
+
+import django_filters
 from django.db.models import QuerySet
 from django.urls.exceptions import NoReverseMatch
-from rest_framework import status, viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from django_filters.rest_framework import DjangoFilterBackend
-
+from .filters import BooleanFilter, ModelChoiceFilter
 from .mixins import MetadataMixin
 from .pagination import CursorPagination
+
+logger = logging.getLogger(__name__)
 
 
 class RepresentationModelViewSet(MetadataMixin, viewsets.ReadOnlyModelViewSet):
@@ -49,6 +54,7 @@ def api_endpoints_root(request: Request, format: str = None) -> Response:
     """Returns a list of API-ROOT endpoints specified in BRIDGER_ENDPOINTS"""
 
     endpoints = dict()
+    endpoints["config"] = reverse("bridger:config", request=request, format=format)
 
     if hasattr(settings, "BRIDGER_ENDPOINTS"):
         for bridger_endpoint in settings.BRIDGER_ENDPOINTS:

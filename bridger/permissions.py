@@ -5,7 +5,7 @@ class RestAPIModelPermissions(permissions.DjangoModelPermissions):
     """
         Mixin for adding the view permission to the perms_map
         NOTE: This is only here until Django Rest Framework patches
-        their DjangoModelPermissions to include view permissions    
+        their DjangoModelPermissions to include view permissions
     """
 
     perms_map = {

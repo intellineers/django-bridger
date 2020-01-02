@@ -15,12 +15,6 @@ from .enums import WidgetType
 
 
 class BridgerMetaData(SimpleMetadata):
-
-    pagination = {
-        CursorPagination.__name__: "cursor",
-        LimitOffsetPagination.__name__: "page",
-    }
-
     def get_filter_representation(self, filter_field, request, name):
         if hasattr(filter_field, "get_representation"):
             return filter_field.get_representation(request, name)
@@ -61,6 +55,7 @@ class BridgerMetaData(SimpleMetadata):
         metadata["endpoints"] = view.get_endpoints(
             request=request, buttons=metadata["buttons"]
         )
+        metadata["pagination"] = view.get_pagination(request=request)
 
         if metadata["type"] in [WidgetType.INSTANCE.value, WidgetType.LIST.value]:
             serializer_class = view.get_serializer_class()

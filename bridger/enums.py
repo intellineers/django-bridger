@@ -41,3 +41,8 @@ class Unit(Enum):
 
     def unit(self, _value):
         return f"{_value}{self.value}"
+
+
+class AuthType(Enum):
+    NONE = "None"
+    JWT = "JWT"

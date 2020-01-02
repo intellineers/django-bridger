@@ -1,6 +1,6 @@
 from typing import Dict
 
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.db import models
 from rest_framework import serializers
 from rest_framework.request import Request
@@ -42,7 +42,9 @@ class ModelSerializer(AdditionalMetadataMixin, serializers.ModelSerializer):
         models.PositiveSmallIntegerField: fields.IntegerField,
         models.SmallIntegerField: fields.IntegerField,
         models.TextField: fields.TextField,
+        models.UUIDField: fields.CharField,
         ArrayField: fields.ListField,
+        JSONField: fields.JSONField,
         fields.StarRatingField: fields.StarRatingField,
     }
     serializer_related_field = fields.PrimaryKeyRelatedField
@@ -58,3 +60,4 @@ class RepresentationSerializer(RepresentationSerializerMixin, ModelSerializer):
         else:
             self.label_key = kwargs.pop("label_key", self.label_key)
         super().__init__(*args, **kwargs)
+

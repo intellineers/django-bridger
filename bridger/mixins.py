@@ -4,6 +4,7 @@ from .metadata import BridgerMetaData
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.reverse import reverse
 from rest_framework.request import Request
+from rest_framework.pagination import CursorPagination, LimitOffsetPagination
 from typing import Dict, List
 
 from bridger.enums import Button, WidgetType
@@ -225,6 +226,16 @@ class MetadataMixin:
 
     def get_custom_list_instance_buttons(self, request):
         return getattr(self, "CUSTOM_LIST_INSTANCE_BUTTONS", list())
+
+    # PAGINATION
+    def get_pagination(self, request: Request):
+        pagination = self.pagination_class.__name__ if self.pagination_class else None
+
+        return {
+            "CursorPagination": "cursor",
+            "LimitOffsetPagination": "page",
+            None: None,
+        }[pagination]
 
     # MESSAGES
     def get_messages(self, request):

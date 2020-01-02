@@ -4,7 +4,7 @@ from .boolean import BooleanField
 from .choice import ChoiceField
 from .datetime import DateTimeField, DateField, TimeField
 from .file import ImageField, FileField
-from .json import JSONTextEditorField
+from .json import JSONField, JSONTextEditorField
 from .list import ListField
 from .number import IntegerField, DecimalField, FloatField
 from .primary_key import PrimaryKeyField, PrimaryKeyCharField

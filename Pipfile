@@ -21,6 +21,8 @@ django-rest-framework = "*"
 django-filter = "*"
 factory-boy = "*"
 colorlog = "*"
+dj-database-url = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.6"
@@ -30,3 +32,6 @@ allow_prereleases = false
 
 [scripts]
 test = "pytest -v"
+local = "python manage.py runserver 0.0.0.0:5000"
+start_db = "docker-compose up -d"
+psql = "docker exec -it django-bridger_postgres_1 psql"

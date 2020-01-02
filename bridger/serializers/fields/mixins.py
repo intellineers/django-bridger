@@ -1,4 +1,7 @@
+import logging
 from rest_framework.fields import empty
+
+logger = logging.getLogger(__name__)
 
 
 class BridgerSerializerFieldMixin:

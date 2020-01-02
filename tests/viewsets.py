@@ -3,6 +3,7 @@ from django.db.models import Max
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from bridger import display as dp
+from bridger import buttons as bt
 from bridger import viewsets
 
 from .filters import ModelTestFilterSet
@@ -33,6 +34,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         ],
         legends=[dp.Legend(items=[dp.LegendItem(icon="wb-icon", label="something")])],
     )
+
     INSTANCE_DISPLAY = dp.InstanceDisplay(
         sections=[
             dp.Section(
@@ -42,6 +44,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             )
         ]
     )
+    CUSTOM_INSTANCE_BUTTONS = [bt.WidgetButton(key="instance")]
+    CUSTOM_INSTANCE_LIST_BUTTONS = [bt.WidgetButton(key="list")]
 
     filter_backends = [
         filters.OrderingFilter,
@@ -60,6 +64,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                 "Latest Date": queryset.aggregate(ld=Max("date_field"))["ld"]
             }
         }
+
+    def get_messages(self, request, queryset=None, paginated_queryset=None):
+        return {"message": "ABC1"}
 
 
 class RelatedModelTestModelViewSet(viewsets.ModelViewSet):

@@ -34,14 +34,11 @@ class MetadataMixin:
     === BUTTONS ===
     The buttons describe what kind of buttons are appropriate for this endpoint.
     
-    - instance_buttons: Default buttons which are displayed for an instance
-       - Options: [save, save_and_new, save_and_close, delete, refresh]
-    - custom_instance_buttons: Custom buttons which are displayed for an instance
-    - list_buttons: Default buttons which are displayed for a list
-       - Options: [refresh, new]
-    - custom_list_buttons: Custom buttons which are displayed for a list
-    - custom_list_instance_buttons: Custom buttons which are displayed for each entry
-       in a list
+    - buttons: Default buttons which are displayed
+       - Options: [save, save_and_new, save_and_close, delete, refresh, new]
+    - custom_buttons: Custom Buttons that do stuff 
+    - custom_instance_buttons: Custom buttons which are tied to additional resources of an instance
+
 
     === MESSAGES ===
     Messages that should be conveyed through the OPTIONS request
@@ -199,8 +196,14 @@ class MetadataMixin:
 
         return instance_buttons
 
-    def get_custom_instance_buttons(self, request):
-        return getattr(self, "CUSTOM_INSTANCE_BUTTONS", list())
+    def get_custom_buttons(self, request: Request):
+        return []
+
+    def get_custom_instance_buttons(self, request: Request):
+        if "pk" in self.kwargs:
+            return [button.to_dict() for button in self.CUSTOM_INSTANCE_BUTTONS]
+        else:
+            return [button.to_dict() for button in self.CUSTOM_INSTANCE_LIST_BUTTONS]
 
     def get_list_buttons(self, request):
         list_buttons = getattr(self, "LIST_BUTTONS", None)
@@ -217,12 +220,6 @@ class MetadataMixin:
 
         return list_buttons
 
-    def get_custom_list_buttons(self, request):
-        return getattr(self, "CUSTOM_LIST_BUTTONS", list())
-
-    def get_custom_list_instance_buttons(self, request):
-        return getattr(self, "CUSTOM_LIST_INSTANCE_BUTTONS", list())
-
     # PAGINATION
     def get_pagination(self, request: Request):
         pagination = self.pagination_class.__name__ if self.pagination_class else None
@@ -232,10 +229,6 @@ class MetadataMixin:
             "LimitOffsetPagination": "page",
             None: None,
         }[pagination]
-
-    # MESSAGES
-    def get_messages(self, request):
-        return getattr(self, "MESSAGES", [])
 
     # TITLES
     def get_titles(self, request: Request):

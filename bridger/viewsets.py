@@ -35,6 +35,16 @@ class ModelViewSet(MetadataMixin, viewsets.ModelViewSet):
 
     ordering_fields = ordering = ["id"]
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        serialized_content = {"instance": serializer.data}
+
+        if hasattr(self, "get_messages"):
+            serialized_content["messages"] = self.get_messages(request)
+
+        return Response(serialized_content)
+
 
 class ChartViewSet(MetadataMixin, ListModelMixin, viewsets.ViewSet):
     """A List View that is used for creating plotly charts"""

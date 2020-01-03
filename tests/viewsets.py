@@ -1,9 +1,9 @@
 from django.db.models import Max
-
-from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-from bridger import display as dp
+from rest_framework import filters
+
 from bridger import buttons as bt
+from bridger import display as dp
 from bridger import viewsets
 
 from .filters import ModelTestFilterSet

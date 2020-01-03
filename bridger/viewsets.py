@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from .fsm.mixins import FSMViewSetMixin
 from .filters import BooleanFilter, ModelChoiceFilter
 from .mixins import MetadataMixin
 from .pagination import CursorPagination
@@ -27,13 +28,25 @@ class RepresentationModelViewSet(MetadataMixin, viewsets.ReadOnlyModelViewSet):
     ordering_fields = ordering = ["id"]
 
 
-class ModelViewSet(MetadataMixin, viewsets.ModelViewSet):
+class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
     """A Model View that is used to serializer models"""
 
     filter_backends = [filters.OrderingFilter]
     pagination_class = CursorPagination
 
     ordering_fields = ordering = ["id"]
+
+    @classmethod
+    def get_model(cls):
+        try:
+            if hasattr(cls, "queryset"):
+                return cls.queryset.model
+            elif hasattr(cls, "serializer_class"):
+                return cls.serializer_class.Meta.model
+            else:
+                return None
+        except AttributeError:
+            return None
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

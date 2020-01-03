@@ -13,7 +13,6 @@ pytest-mock = "*"
 mypy = "*"
 jsonschema = "*"
 pytest-factoryboy = "*"
-sphinx = "*"
 
 [packages]
 psycopg2-binary = "~=2.8"
@@ -24,6 +23,8 @@ factory-boy = "*"
 colorlog = "*"
 dj-database-url = "*"
 djangorestframework-simplejwt = "*"
+django-fsm = "~=2.5"
+django-extensions = "*"
 
 [requires]
 python_version = "3.6"

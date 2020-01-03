@@ -12,7 +12,7 @@ class BridgerSerializerFieldMixin:
 
     def __init__(self, *args, **kwargs):
         self.extra = kwargs.pop("extra", None)
-        self.decorators = kwargs.pop("decorators", None)
+        self.decorators = kwargs.pop("decorators", [])
         super().__init__(*args, **kwargs)
 
     def get_representation(self, request, field_name):
@@ -38,7 +38,9 @@ class BridgerSerializerFieldMixin:
             except:  # TODO Add some explicit exception handling
                 pass
 
-        for _attr in ["help_text", "decorators", "extra"]:
+        representation["decorators"] = getattr(self, "decorators", [])
+
+        for _attr in ["help_text", "extra"]:
             attr = getattr(self, _attr, None)
             if attr:
                 representation[_attr] = attr

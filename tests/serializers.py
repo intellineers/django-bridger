@@ -16,6 +16,10 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
 
 class ModelTestSerializer(serializers.ModelSerializer):
+    # @serializers.register_resource()
+    # def transition(self, instance, request, user):
+    #     return "5"
+
     class Meta:
         percent_fields = ["percent_field"]
         decorators = {
@@ -31,6 +35,8 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "datetime_field",
             "date_field",
             "time_field",
+            "status_field",
+            "_additional_resources",
         )
 
 

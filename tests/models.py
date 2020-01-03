@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
 
-from bridger.buttons import ActionButton
+from bridger.fsm.buttons import FSMButton
 from bridger.display import InstanceDisplay, Section, FieldSet
 
 
@@ -14,12 +14,11 @@ class ModelTest(models.Model):
     STATUS2 = "status2"
     status_choices = ((STATUS1, "Status1"), (STATUS2, "Status2"))
 
-    MOVE_BUTTON = ActionButton(
+    MOVE_BUTTON = FSMButton(
         icon="wb-icon-thumbs-up",
+        key="move",
         label="Move",
         action_label="Move",
-        method="POST",
-        key="_transition_move",
         description_fields=["We will move this model."],
         instance_display=InstanceDisplay(
             sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
@@ -39,7 +38,7 @@ class ModelTest(models.Model):
         field=status_field,
         source=[STATUS1],
         target=STATUS2,
-        # custom={"_transition_button": MOVE_BUTTON},
+        custom={"_transition_button": MOVE_BUTTON},
     )
     def move(self):
         pass

@@ -32,7 +32,7 @@ class BridgerMetaData(SimpleMetadata):
 
             metadata["fields"] = view.get_fields(request)
             for key, value in serializer_class.get_decorators():
-                metadata["fields"][key]["decorators"] = value
+                metadata["fields"][key]["decorators"].append(value)
             for key in serializer_class.get_percent_fields():
                 metadata["fields"][key]["type"] = "percent"
 

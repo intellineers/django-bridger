@@ -1,15 +1,42 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
+from .mixins import BridgerSerializerFieldMixin
+
+import functools, logging
+from inspect import getmembers
+
+logger = logging.getLogger(__name__)
 
 
-class AdditionalResourcesField(serializers.ReadOnlyField):
+def register_resource():
+    def decorator(func):
+        func._is_additional_resource = True
+        return func
+
+    return decorator
+
+
+def _is_additional_resource(attr):
+    return hasattr(attr, "_is_additional_resource")
+
+
+class AdditionalResourcesField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
+
+    field_type = "_additional_resources"
+
     def get_attribute(self, instance):
         return instance
 
     def to_representation(self, value):
-        method = getattr(self.parent, "get_additional_resources")
         request = self.parent.context["request"]
-        return method(value, request, request.user)
+        resources = dict()
+        for _, function in getmembers(self.parent.__class__, _is_additional_resource):
+            _d = function(
+                self.parent, instance=value, request=request, user=request.user
+            )
+            resources = {**resources, **_d}
+
+        return resources
 
 
 class HyperlinkField(serializers.ReadOnlyField):

@@ -201,9 +201,15 @@ class MetadataMixin:
 
     def get_custom_instance_buttons(self, request: Request):
         if "pk" in self.kwargs:
-            return [button.to_dict() for button in self.CUSTOM_INSTANCE_BUTTONS]
+            return [
+                button.to_dict()
+                for button in getattr(self, "CUSTOM_INSTANCE_BUTTONS", [])
+            ]
         else:
-            return [button.to_dict() for button in self.CUSTOM_INSTANCE_LIST_BUTTONS]
+            return [
+                button.to_dict()
+                for button in getattr(self, "CUSTOM_LIST_INSTANCE_BUTTONS", [])
+            ]
 
     def get_list_buttons(self, request):
         list_buttons = getattr(self, "LIST_BUTTONS", None)

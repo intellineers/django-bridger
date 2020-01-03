@@ -85,7 +85,13 @@ class ActionButton(NamedTuple):
         rv = defaultdict(list, {"type": self.button_type})
 
         rv["method"] = self.method
-        rv["endpoint"] = self.endpoint
+
+        if self.endpoint:
+            rv["endpoint"] = self.endpoint
+
+        if self.key:
+            rv["key"] = self.key
+
         rv["action_label"] = self.action_label
 
         rv["descriptions_fields"] = self.description_fields

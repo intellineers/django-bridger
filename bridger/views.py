@@ -10,7 +10,7 @@ from .menus import default_registry
 
 
 class Menu(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
         return Response(default_registry.to_dict(request))

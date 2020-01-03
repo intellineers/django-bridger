@@ -25,6 +25,7 @@ dj-database-url = "*"
 djangorestframework-simplejwt = "*"
 django-fsm = "~=2.5"
 django-extensions = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.6"

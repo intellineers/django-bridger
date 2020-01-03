@@ -1,5 +1,6 @@
 from .fields import (
     AdditionalResourcesField,
+    register_resource,
     BooleanField,
     CharField,
     ChoiceField,
@@ -22,6 +23,7 @@ from .fields import (
     StringRelatedField,
     TextField,
     TimeField,
+    FSMStatusField,
 )
 from .serializers import (
     ModelSerializer,

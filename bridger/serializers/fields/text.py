@@ -7,6 +7,10 @@ from .types import BridgerType, ReturnContentType
 class CharField(BridgerSerializerFieldMixin, serializers.CharField):
     field_type = BridgerType.TEXT.value
 
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
 
 class StringRelatedField(BridgerSerializerFieldMixin, serializers.StringRelatedField):
     field_type = BridgerType.TEXT.value

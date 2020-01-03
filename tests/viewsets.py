@@ -45,7 +45,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         ]
     )
     CUSTOM_INSTANCE_BUTTONS = [bt.WidgetButton(key="instance")]
-    CUSTOM_INSTANCE_LIST_BUTTONS = [bt.WidgetButton(key="list")]
+    CUSTOM_LIST_INSTANCE_BUTTONS = [bt.WidgetButton(key="list")]
 
     filter_backends = [
         filters.OrderingFilter,

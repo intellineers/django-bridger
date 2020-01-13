@@ -72,7 +72,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     filter_class = ModelTestFilterSet
 
     search_fields = ("char_field",)
-    ordering_fields = ("char_field", "date_field")
+    ordering_fields = ("char_field", "date_field", "float_field")
 
     def get_aggregates(self, queryset, paginated_queryset):
         return {

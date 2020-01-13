@@ -70,8 +70,10 @@ class FilterSet(DjangoFilterSet):
 
     @classmethod
     def filter_for_lookup(cls, field, lookup_type):
+
         filter_class, params = super().filter_for_lookup(field, lookup_type)
         if hasattr(field, "verbose_name"):
             params["label"] = field.verbose_name
+
         return filter_class, params
 

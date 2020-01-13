@@ -47,7 +47,7 @@ class ModelTest(models.Model):
 
     boolean_field = models.BooleanField()
     choice_field = models.CharField(
-        max_length=64, choices=(("A", "a"), ("B", "b")), default="a"
+        max_length=64, choices=(("a", "A"), ("b", "B")), default="a"
     )
 
     status_field = FSMField(default=STATUS1, choices=status_choices)

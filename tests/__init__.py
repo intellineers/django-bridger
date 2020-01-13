@@ -10,6 +10,11 @@ default_registry.register(
                 endpoint="modeltest-list",
                 add=MenuItem(label="Add Something", endpoint="modeltest-list"),
             ),
+            MenuItem(
+                label="RM1",
+                endpoint="relatedmodeltest-list",
+                add=MenuItem(label="Add Something", endpoint="modeltest-list"),
+            ),
         ],
     )
 )

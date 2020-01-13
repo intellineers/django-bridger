@@ -87,7 +87,7 @@ class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
             return Response(
                 {"non_field_errors": str(exc)}, status=status.HTTP_400_BAD_REQUEST
             )
-        return super.handle_exception(exc)
+        return super().handle_exception(exc)
 
     def fsm_route(self, request: Request, action: str) -> Response:
         obj = self.get_object()

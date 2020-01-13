@@ -22,9 +22,11 @@ class ModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):
 
 class ModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "modeltest-list"
+
     INSTANCE_WIDGET_TITLE = "Instance"
     LIST_WIDGET_TITLE = "List"
     CREATE_WIDGET_TITLE = "Create"
+
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char"),
@@ -57,6 +59,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     filter_class = ModelTestFilterSet
 
     search_fields = ("char_field",)
+    ordering_fields = ("char_field", "date_field")
 
     def get_aggregates(self, queryset, paginated_queryset):
         return {

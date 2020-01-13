@@ -25,7 +25,7 @@ class ModelTest(models.Model):
         ),
     )
 
-    char_field = models.CharField(max_length=255)
+    char_field = models.CharField(max_length=255, verbose_name="Char")
     integer_field = models.IntegerField()
     float_field = models.FloatField()
     percent_field = models.FloatField()

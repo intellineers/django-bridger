@@ -23,7 +23,7 @@ class ModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):
 class ModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "modeltest-list"
 
-    INSTANCE_WIDGET_TITLE = "Instance"
+    INSTANCE_WIDGET_TITLE = "{{char_field}}"
     LIST_WIDGET_TITLE = "List"
     CREATE_WIDGET_TITLE = "Create"
 
@@ -59,8 +59,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             )
         ]
     )
-    CUSTOM_INSTANCE_BUTTONS = [bt.WidgetButton(key="instance")]
-    CUSTOM_LIST_INSTANCE_BUTTONS = [bt.WidgetButton(key="list")]
+    # CUSTOM_INSTANCE_BUTTONS = [bt.WidgetButton(key="instance")]
+    # CUSTOM_LIST_INSTANCE_BUTTONS = [bt.WidgetButton(key="list")]
 
     filter_backends = [
         filters.OrderingFilter,

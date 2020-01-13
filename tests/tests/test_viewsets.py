@@ -10,25 +10,25 @@ def test_model(model_test):
 
 class TestRepresentationModelViewSet:
     def test_as_view_list(self):
-        serializer = RepresentationModelViewSet.as_view({"get": "list"})
-        assert serializer
+        viewset = RepresentationModelViewSet.as_view({"get": "list"})
+        assert viewset
 
     def test_as_view_instance(self):
-        serializer = RepresentationModelViewSet.as_view({"get": "retrieve"})
-        assert serializer
+        viewset = RepresentationModelViewSet.as_view({"get": "retrieve"})
+        assert viewset
 
 
 class TestModelViewSet:
     def test_as_view_list(self):
-        serializer = ModelViewSet.as_view({"get": "list"})
-        assert serializer
+        viewset = ModelViewSet.as_view({"get": "list"})
+        assert viewset
 
     def test_as_view_instance(self):
-        serializer = ModelViewSet.as_view({"get": "retrieve"})
-        assert serializer
+        viewset = ModelViewSet.as_view({"get": "retrieve"})
+        assert viewset
 
 
 class TestChartViewSet:
     def test_as_view_list(self):
-        serializer = ChartViewSet.as_view({"get": "list"})
-        assert serializer
+        viewset = ChartViewSet.as_view({"get": "list"})
+        assert viewset

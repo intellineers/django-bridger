@@ -1,3 +1,5 @@
+from typing import Union
+
 from enum import Enum
 
 
@@ -40,8 +42,12 @@ class Unit(Enum):
     REM = "rem"
     PIXEL = "px"
 
-    def unit(self, _value):
-        return f"{_value}{self.value}"
+    def unit(self, _value: Union[float, str, int]):
+        assert isinstance(
+            _value, (float, str, int)
+        ), f"_value needs to be one of str, float or int"
+
+        return f"{float(_value)}{self.value}"
 
 
 class AuthType(Enum):

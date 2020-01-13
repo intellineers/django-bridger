@@ -25,6 +25,14 @@ from rest_framework.reverse import reverse
 logger = logging.getLogger(__name__)
 
 
+# We have to move the method generation into a method, because we need a real new instance of this method everytime
+def get_method(transition):
+    def method(self, request: Request, transition=transition, pk=None) -> Response:
+        return self.fsm_route(request, transition.name)
+
+    return method
+
+
 class FSMViewSetMixinMetaclass(type):
     """Metaclass for dynamically creating all FSM Routes"""
 
@@ -46,6 +54,7 @@ class FSMViewSetMixinMetaclass(type):
                     for transition in transitions:
                         # Get the Transition Button and add it to the front of the instance buttons
                         button = transition.custom.get("_transition_button")
+                        description = transition.custom.get("_description")
 
                         setattr(
                             _class,
@@ -60,16 +69,17 @@ class FSMViewSetMixinMetaclass(type):
                         )
 
                         # Create a method that calls fsm_route with the request and the action name
-                        def method(self, request: Request, pk: int = None) -> Response:
-                            return self.fsm_route(request, transition.name)
+                        method = get_method(transition)
 
                         # We need to manually change the method name, otherwise django-fsm won't
                         # Add this method to the URLs
-                        method.__name__ = transition.name
 
                         # Wrap the above defined method in the action decorator
                         # IMPORTANT: This needs to happen after we changed the method name
                         # therefore we cannot use the proper decorator
+                        method.__name__ = transition.name
+                        method.__doc__ = description
+
                         wrapped_method = action(detail=True, methods=["GET", "PATCH"])(
                             method
                         )
@@ -82,12 +92,12 @@ class FSMViewSetMixinMetaclass(type):
 
 
 class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
-    # def handle_exception(self, exc: Exception) -> Response:
-    #     if isinstance(exc, TransitionNotAllowed):
-    #         return Response(
-    #             {"non_field_errors": str(exc)}, status=status.HTTP_400_BAD_REQUEST
-    #         )
-    #     return super().handle_exception(exc)
+    def handle_exception(self, exc: Exception) -> Response:
+        if isinstance(exc, TransitionNotAllowed):
+            return Response(
+                {"non_field_errors": str(exc)}, status=status.HTTP_400_BAD_REQUEST
+            )
+        return super().handle_exception(exc)
 
     def fsm_route(self, request: Request, action: str) -> Response:
         obj = self.get_object()

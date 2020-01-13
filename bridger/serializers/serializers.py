@@ -17,6 +17,9 @@ def decorator(position: str, value: str) -> Dict:
     return {"position": position, "value": value}
 
 
+percent_decorator = decorator(position="right", value="%")
+
+
 class AdditionalMetadataMixin:
     @classmethod
     def get_decorators(cls):

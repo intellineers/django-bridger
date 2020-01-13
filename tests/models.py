@@ -12,14 +12,26 @@ class ModelTest(models.Model):
 
     STATUS1 = "status1"
     STATUS2 = "status2"
-    status_choices = ((STATUS1, "Status1"), (STATUS2, "Status2"))
+    STATUS3 = "status3"
+    status_choices = ((STATUS1, "Status1"), (STATUS2, "Status2"), (STATUS3, "Status3"))
 
-    MOVE_BUTTON = FSMButton(
+    MOVE_BUTTON1 = FSMButton(
         icon="wb-icon-thumbs-up-full",
-        key="move",
-        label="Move",
-        action_label="Move",
-        description_fields=["We will move this model."],
+        key="move1",
+        label="Move1",
+        action_label="Move1",
+        description_fields=["We will move1 this model."],
+        instance_display=InstanceDisplay(
+            sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
+        ),
+    )
+
+    MOVE_BUTTON2 = FSMButton(
+        icon="wb-icon-thumbs-up-full",
+        key="move2",
+        label="Move2",
+        action_label="Move2",
+        description_fields=["We will move2 this model."],
         instance_display=InstanceDisplay(
             sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
         ),
@@ -32,15 +44,30 @@ class ModelTest(models.Model):
     datetime_field = models.DateTimeField()
     date_field = models.DateField()
     time_field = models.TimeField()
+
+    boolean_field = models.BooleanField()
+    choice_field = models.CharField(
+        max_length=64, choices=(("A", "a"), ("B", "b")), default="a"
+    )
+
     status_field = FSMField(default=STATUS1, choices=status_choices)
 
     @transition(
         field=status_field,
         source=[STATUS1],
         target=STATUS2,
-        custom={"_transition_button": MOVE_BUTTON},
+        custom={"_transition_button": MOVE_BUTTON1},
     )
-    def move(self):
+    def move1(self):
+        pass
+
+    @transition(
+        field=status_field,
+        source=[STATUS2],
+        target=STATUS3,
+        custom={"_transition_button": MOVE_BUTTON2},
+    )
+    def move2(self):
         pass
 
     class Meta:

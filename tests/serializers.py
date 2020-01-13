@@ -32,6 +32,8 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "datetime_field",
             "date_field",
             "time_field",
+            "boolean_field",
+            "choice_field",
             "status_field",
             "_additional_resources",
         )

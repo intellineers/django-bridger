@@ -4,6 +4,7 @@ from enum import Enum
 class Button(Enum):
     # List and Instance
     REFRESH = "refresh"
+    RESET = "reset"
     NEW = "new"
     DELETE = "delete"
 

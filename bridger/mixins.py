@@ -144,6 +144,18 @@ class MetadataMixin:
         buttons.append(Button.REFRESH.value)
         return buttons
 
+    def get_create_buttons(self, request: Request) -> List[str]:
+        return getattr(
+            self,
+            "CREATE_BUTTONS",
+            [
+                Button.RESET.value,
+                Button.SAVE.value,
+                Button.SAVE_AND_CLOSE.value,
+                Button.SAVE_AND_NEW.value,
+            ],
+        )
+
     def get_custom_buttons(self, request: Request) -> Dict[str, str]:
         pass
 

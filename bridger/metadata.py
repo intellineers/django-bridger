@@ -3,7 +3,7 @@ from collections import defaultdict
 from rest_framework.metadata import SimpleMetadata
 
 from .enums import WidgetType
-from .serializers import decorator
+from .serializers import percent_decorator
 
 
 class BridgerMetaData(SimpleMetadata):
@@ -13,6 +13,7 @@ class BridgerMetaData(SimpleMetadata):
         metadata["type"] = view.get_widget_type(request=request)
         metadata["identifier"] = view.get_identifier(request=request)
         metadata["buttons"] = view.get_buttons(request=request)
+        metadata["create_buttons"] = view.get_create_buttons(request=request)
         metadata["custom_buttons"] = view.get_custom_buttons(request=request)
         metadata["custom_instance_buttons"] = view.get_custom_instance_buttons(
             request=request
@@ -36,9 +37,7 @@ class BridgerMetaData(SimpleMetadata):
                 metadata["fields"][key]["decorators"].append(value)
             for key in serializer_class.get_percent_fields():
                 metadata["fields"][key]["type"] = "percent"
-                metadata["fields"][key]["decorators"].append(
-                    decorator(position="right", value="%")
-                )
+                metadata["fields"][key]["decorators"].append(percent_decorator)
 
         metadata["search_fields"] = view.get_search_fields(request)
         metadata["ordering_fields"] = view.get_ordering_fields(request)

@@ -29,4 +29,5 @@ from .serializers import (
     ModelSerializer,
     RepresentationSerializer,
     decorator,
+    percent_decorator,
 )

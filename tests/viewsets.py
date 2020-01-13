@@ -36,6 +36,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="datetime_field", label="DateTime"),
             dp.Field(key="date_field", label="Date"),
             dp.Field(key="time_field", label="Time"),
+            dp.Field(key="boolean_field", label="Boolean"),
+            dp.Field(key="choice_field", label="Choice"),
             dp.Field(key="status_field", label="Status"),
         ],
         legends=[dp.Legend(items=[dp.LegendItem(icon="wb-icon", label="something")])],
@@ -67,6 +69,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                         "datetime_field",
                         "date_field",
                         "time_field",
+                        "boolean_field",
+                        "choice_field",
                         "status_field",
                     ]
                 )

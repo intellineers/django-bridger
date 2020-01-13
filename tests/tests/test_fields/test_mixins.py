@@ -37,6 +37,7 @@ class TestListField:
             "type": "field_type",
             "required": required,
             "read_only": read_only,
+            "decorators": [],
         }
 
     def test_get_representation_additional_attrs(self):
@@ -69,6 +70,7 @@ class TestListField:
             "required": False,  # If a default is given, then it cannot be required
             "read_only": False,
             "default": default_value,
+            "decorators": [],
         }
 
     def test_get_representation_additional_default_method(self):
@@ -84,5 +86,6 @@ class TestListField:
             "required": False,  # If a default is given, then it cannot be required
             "read_only": False,
             "default": default_method(),
+            "decorators": [],
         }
 

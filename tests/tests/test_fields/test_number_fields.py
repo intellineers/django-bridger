@@ -36,6 +36,7 @@ class TestIntegerField:
             "required": True,
             "read_only": False,
             "precision": 0,
+            "decorators": [],
         }
 
 
@@ -69,6 +70,7 @@ class TestDecimalField:
             "required": True,
             "read_only": False,
             "precision": 2,
+            "decorators": [],
         }
 
     def test_percent_representation(self):
@@ -81,6 +83,7 @@ class TestDecimalField:
             "required": True,
             "read_only": False,
             "precision": 0,
+            "decorators": [],
         }
 
 
@@ -113,4 +116,5 @@ class TestFloatField:
             "required": True,
             "read_only": False,
             "precision": 2,
+            "decorators": [],
         }

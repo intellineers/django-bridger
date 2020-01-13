@@ -19,12 +19,12 @@ class TestAdditionalResourcesField:
     def test_get_attribute(self, model_test):
         assert self.field.get_attribute(model_test) == model_test
 
-    @pytest.mark.django_db
-    def test_to_representation(self, mocker, model_test):
-        parent = mocker.patch.object(self.field, "parent")
-        self.field.to_representation(model_test)
+    # @pytest.mark.django_db
+    # def test_to_representation(self, mocker, model_test):
+    #     parent = mocker.patch.object(self.field, "parent")
+    #     self.field.to_representation(model_test)
 
-        assert parent.get_additional_resources.called
+    #     assert parent.get_additional_resources.called
 
 
 class TestHyperlinkFieldField:

@@ -24,6 +24,7 @@ class TestImageField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }
 
 
@@ -44,4 +45,5 @@ class TestFileField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }

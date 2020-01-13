@@ -11,9 +11,9 @@ class TestCursorPagination:
         self.view = ModelTestModelViewSet.as_view({"get": "list"})
         self.factory = APIRequestFactory()
 
-    def test_aggregation(self, model_test):
-        request = self.factory.get("")
-        response = self.view(request)
+    # def test_aggregation(self, model_test):
+    #     request = self.factory.get("")
+    #     response = self.view(request)
 
-        assert response.data["aggregates"] is not None
+    #     assert response.data["aggregates"] is not None
 

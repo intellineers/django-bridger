@@ -24,6 +24,7 @@ class TestPrimaryKeyField:
             "type": self.field.field_type,
             "required": False,
             "read_only": True,
+            "decorators": [],
         }
 
 
@@ -44,4 +45,5 @@ class TestPrimaryKeyCharField:
             "type": self.field.field_type,
             "required": False,
             "read_only": True,
+            "decorators": [],
         }

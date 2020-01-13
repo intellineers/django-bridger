@@ -25,4 +25,5 @@ class TestJSONTextEditorField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }

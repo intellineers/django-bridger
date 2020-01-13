@@ -60,6 +60,7 @@ class TestPrimaryKeyRelatedField:
             "type": BridgerType.SELECT.value,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }
 
     def test_get_representation_multiple(self):
@@ -72,6 +73,7 @@ class TestPrimaryKeyRelatedField:
             "required": True,
             "read_only": False,
             "multiple": True,
+            "decorators": [],
         }
 
     @pytest.mark.django_db

@@ -30,6 +30,7 @@ class TestCharField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }
 
 
@@ -54,6 +55,7 @@ class TestStringRelatedField:
             "type": self.field.field_type,
             "required": False,
             "read_only": True,
+            "decorators": [],
         }
 
 
@@ -83,4 +85,5 @@ class TestTextField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }

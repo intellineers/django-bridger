@@ -43,4 +43,5 @@ class TestChoiceField:
             "required": True,
             "read_only": False,
             "choices": choices,
+            "decorators": [],
         }

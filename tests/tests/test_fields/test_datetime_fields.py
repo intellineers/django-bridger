@@ -63,6 +63,7 @@ class TestDateTimeField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }
 
 
@@ -98,6 +99,7 @@ class TestDateField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }
 
 
@@ -138,4 +140,5 @@ class TestTimeField:
             "type": self.field.field_type,
             "required": True,
             "read_only": False,
+            "decorators": [],
         }

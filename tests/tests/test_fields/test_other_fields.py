@@ -25,6 +25,7 @@ class TestStarRatingField:
             "required": True,
             "read_only": False,
             "precision": 0,
+            "decorators": [],
         }
 
 
@@ -46,4 +47,5 @@ class TestRangeSelectField:
             "required": True,
             "read_only": False,
             "color": self.field.color,
+            "decorators": [],
         }

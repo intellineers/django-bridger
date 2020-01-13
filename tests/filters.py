@@ -1,5 +1,6 @@
 from bridger.filters import (
     BooleanFilter,
+    CharFilter,
     FilterSet,
     DateFilter,
     DefaultDateRangeFilterValues,
@@ -8,6 +9,7 @@ from .models import ModelTest
 
 
 class ModelTestFilterSet(FilterSet):
+    char_field = CharFilter(label="Char", lookup_expr="icontains")
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
     date_lte = DateFilter(
         label="Date", lookup_expr="lte", field_name="date_field", date_range=True,

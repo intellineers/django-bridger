@@ -40,6 +40,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="boolean_field", label="Boolean"),
             dp.Field(key="choice_field", label="Choice"),
             dp.Field(key="status_field", label="Status"),
+            dp.Field(key="image_field", label="Image"),
+            dp.Field(key="file_field", label="File"),
         ],
         legends=[dp.Legend(items=[dp.LegendItem(icon="wb-icon", label="something")])],
         formatting=[

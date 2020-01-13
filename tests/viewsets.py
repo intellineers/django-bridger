@@ -30,9 +30,13 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char"),
+            dp.Field(key="integer_field", label="Integer"),
+            dp.Field(key="float_field", label="Float"),
+            dp.Field(key="percent_field", label="Percent"),
             dp.Field(key="datetime_field", label="DateTime"),
             dp.Field(key="date_field", label="Date"),
             dp.Field(key="time_field", label="Time"),
+            dp.Field(key="status_field", label="Status"),
         ],
         legends=[dp.Legend(items=[dp.LegendItem(icon="wb-icon", label="something")])],
     )
@@ -41,7 +45,16 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         sections=[
             dp.Section(
                 fields=dp.FieldSet(
-                    fields=["char_field", "datetime_field", "date_field", "time_field"]
+                    fields=[
+                        "char_field",
+                        "integer_field",
+                        "float_field",
+                        "percent_field",
+                        "datetime_field",
+                        "date_field",
+                        "time_field",
+                        "status_field",
+                    ]
                 )
             )
         ]

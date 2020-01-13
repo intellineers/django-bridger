@@ -3,6 +3,7 @@ from collections import defaultdict
 from rest_framework.metadata import SimpleMetadata
 
 from .enums import WidgetType
+from .serializers import decorator
 
 
 class BridgerMetaData(SimpleMetadata):
@@ -35,6 +36,9 @@ class BridgerMetaData(SimpleMetadata):
                 metadata["fields"][key]["decorators"].append(value)
             for key in serializer_class.get_percent_fields():
                 metadata["fields"][key]["type"] = "percent"
+                metadata["fields"][key]["decorators"].append(
+                    decorator(position="right", value="%")
+                )
 
         metadata["search_fields"] = view.get_search_fields(request)
         metadata["ordering_fields"] = view.get_ordering_fields(request)

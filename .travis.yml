@@ -10,9 +10,6 @@ install:
 before_script:
     - psql -c 'create database travis_ci_test;' -U postgres
 
-env:
-    - DATABASE_URL=postgres://postgres:@localhost:5432/travis_ci_test
-
 script:
     - tox -e $TOXENV
 

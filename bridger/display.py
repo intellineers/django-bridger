@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, NamedTuple, Optional, Union, Tuple, Any
+from typing import List, NamedTuple, Optional, Union, Tuple, Any, Dict
 
 
 class ColumnFormatting(NamedTuple):
@@ -26,7 +26,7 @@ class RowIconCondition(NamedTuple):
 
 
 class RowStyleCondition(NamedTuple):
-    style: str
+    style: Dict
     condition: Optional[Tuple[str, Union[int, float, str]]] = None
 
     def to_dict(self):

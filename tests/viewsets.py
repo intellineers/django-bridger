@@ -39,6 +39,20 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="status_field", label="Status"),
         ],
         legends=[dp.Legend(items=[dp.LegendItem(icon="wb-icon", label="something")])],
+        formatting=[
+            dp.RowFormatting(
+                column="integer_field",
+                conditions=[
+                    dp.RowIconCondition(
+                        icon="wb-icon-thumbs-up-full", condition=("<", 5000)
+                    ),
+                    dp.RowStyleCondition(
+                        style={"backgroundColor": "rgb(100, 100, 100)"},
+                        condition=("<", 5000),
+                    ),
+                ],
+            )
+        ],
     )
 
     INSTANCE_DISPLAY = dp.InstanceDisplay(

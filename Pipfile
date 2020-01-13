@@ -26,6 +26,7 @@ djangorestframework-simplejwt = "*"
 django-fsm = "~=2.5"
 django-extensions = "*"
 django-cors-headers = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"

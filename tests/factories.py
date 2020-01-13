@@ -1,5 +1,8 @@
 import factory
-
+import pytz
+from factory.fuzzy import FuzzyChoice
+from faker import Faker
+from django.conf import settings
 from .models import ModelTest, RelatedModelTest
 
 
@@ -17,20 +20,16 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
 
     char_field = factory.Faker("pystr", min_chars=5, max_chars=20)
     float_field = factory.Faker("pyfloat")
-    percent_field = 0.45
-    # percent_field = factory.Faker(
-    #     "pyfloat",
-    #     left_digits=0,
-    #     right_digits=4,
-    #     positive=True,
-    #     min_value=0.0,
-    #     max_value=0.99,
-    # )
+    percent_field = factory.Faker(
+        "pyfloat", left_digits=0, right_digits=4, positive=True,
+    )
     integer_field = factory.Faker("pyint")
-    datetime_field = factory.Faker("date_time")
+    decimal_field = factory.Faker("pydecimal", left_digits=3, right_digits=4)
+    datetime_field = pytz.timezone(settings.TIME_ZONE).localize(Faker().date_time())
     date_field = factory.Faker("date_object")
     time_field = factory.Faker("time_object")
-
+    boolean_field = factory.Faker("pybool")
+    choice_field = FuzzyChoice(choices=["a", "b"])
     related_models = factory.RelatedFactory(
         "tests.factories.RelatedModelTestFactory", "model_test"
     )

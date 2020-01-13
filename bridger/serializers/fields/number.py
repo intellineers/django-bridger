@@ -20,8 +20,9 @@ class DecimalField(BridgerSerializerFieldMixin, serializers.DecimalField):
         self.percent = kwargs.pop("percent", False)
         super().__init__(*args, **kwargs)
 
-    def validate_precision(self, value):
-        return value  # TODO: Check why this was used like this
+    # TODO: If this is used, then the validation for max_digits and decimal_fields is not done
+    # def validate_precision(self, value):
+    #     return value
 
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)

@@ -37,20 +37,35 @@ class ModelTest(models.Model):
         ),
     )
 
+    # Text
     char_field = models.CharField(max_length=255, verbose_name="Char")
+    text_field = models.TextField(null=True, blank=True)
+
+    # Numbers
     integer_field = models.IntegerField()
     float_field = models.FloatField()
+    decimal_field = models.DecimalField(decimal_places=4, max_digits=7)
     percent_field = models.FloatField()
+
+    # Date and Time
     datetime_field = models.DateTimeField()
     date_field = models.DateField()
     time_field = models.TimeField()
 
+    # Boolean
     boolean_field = models.BooleanField()
+
+    # Choice
     choice_field = models.CharField(
         max_length=64, choices=(("a", "A"), ("b", "B")), default="a"
     )
 
+    # Status
     status_field = FSMField(default=STATUS1, choices=status_choices)
+
+    # Files
+    image_field = models.ImageField(null=True)
+    file_field = models.FileField(null=True)
 
     @transition(
         field=status_field,

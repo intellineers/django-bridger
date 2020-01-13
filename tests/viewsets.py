@@ -33,6 +33,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="integer_field", label="Integer"),
             dp.Field(key="float_field", label="Float"),
             dp.Field(key="percent_field", label="Percent"),
+            dp.Field(key="decimal_field", label="Decimal"),
             dp.Field(key="datetime_field", label="DateTime"),
             dp.Field(key="date_field", label="Date"),
             dp.Field(key="time_field", label="Time"),
@@ -63,15 +64,19 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                 fields=dp.FieldSet(
                     fields=[
                         "char_field",
+                        "text_field",
                         "integer_field",
                         "float_field",
                         "percent_field",
+                        "decimal_field",
                         "datetime_field",
                         "date_field",
                         "time_field",
                         "boolean_field",
                         "choice_field",
                         "status_field",
+                        "image_field",
+                        "file_field",
                     ]
                 )
             )
@@ -88,7 +93,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     filter_class = ModelTestFilterSet
 
     search_fields = ("char_field",)
-    ordering_fields = ("char_field", "date_field", "float_field")
+    ordering_fields = ("char_field", "date_field", "float_field", "decimal_field")
 
     def get_aggregates(self, queryset, paginated_queryset):
         return {

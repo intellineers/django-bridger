@@ -26,15 +26,19 @@ class ModelTestSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "char_field",
+            "text_field",
             "float_field",
             "integer_field",
             "percent_field",
+            "decimal_field",
             "datetime_field",
             "date_field",
             "time_field",
             "boolean_field",
             "choice_field",
             "status_field",
+            "image_field",
+            "file_field",
             "_additional_resources",
         )
 

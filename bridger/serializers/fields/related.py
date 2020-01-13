@@ -1,6 +1,9 @@
+from typing import Dict
+
 from rest_framework import serializers
 from rest_framework.fields import empty
 from rest_framework.relations import ManyRelatedField
+from rest_framework.request import Request
 
 from .mixins import BridgerSerializerFieldMixin
 from .types import BridgerType, ReturnContentType
@@ -18,7 +21,7 @@ class BridgerManyRelatedField(ManyRelatedField):
             data = []
         return super().run_validation(data)
 
-    def get_representation(self, request, field_name):
+    def get_representation(self, request: Request, field_name: str) -> Dict:
         representation = self.child_relation.get_representation(request, field_name)
         representation["multiple"] = True
         return representation
@@ -80,7 +83,7 @@ class ListSerializer(serializers.ListSerializer):
     A Wrapper around the normal DRF ListSerializer which also return the child representation
     """
 
-    def get_representation(self, request, field_name):
+    def get_representation(self, request: Request, field_name: str) -> Dict:
         representation = self.child.get_representation(request, field_name)
         representation["multiple"] = True
         return representation

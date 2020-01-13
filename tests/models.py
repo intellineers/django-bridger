@@ -71,12 +71,10 @@ class ModelTest(models.Model):
         field=status_field,
         source=[STATUS1],
         target=STATUS2,
-        custom={
-            "_transition_button": MOVE_BUTTON1,
-            "_description": "Moves the model from Status1 to Status2",
-        },
+        custom={"_transition_button": MOVE_BUTTON1,},
     )
     def move1(self):
+        """Moves the model from Status1 to Status2"""
         pass
 
     @transition(
@@ -86,6 +84,7 @@ class ModelTest(models.Model):
         custom={"_transition_button": MOVE_BUTTON2},
     )
     def move2(self):
+        """Moves the model from Status2 to Status3"""
         pass
 
     class Meta:

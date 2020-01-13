@@ -54,7 +54,6 @@ class FSMViewSetMixinMetaclass(type):
                     for transition in transitions:
                         # Get the Transition Button and add it to the front of the instance buttons
                         button = transition.custom.get("_transition_button")
-                        description = transition.custom.get("_description")
 
                         setattr(
                             _class,
@@ -78,7 +77,7 @@ class FSMViewSetMixinMetaclass(type):
                         # IMPORTANT: This needs to happen after we changed the method name
                         # therefore we cannot use the proper decorator
                         method.__name__ = transition.name
-                        method.__doc__ = description
+                        method.__doc__ = transition.method.__doc__
 
                         wrapped_method = action(detail=True, methods=["GET", "PATCH"])(
                             method

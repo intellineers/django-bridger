@@ -1,4 +1,4 @@
-from django.db.models import Max
+from django.db.models import Avg, Max, Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -59,8 +59,6 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             )
         ]
     )
-    # CUSTOM_INSTANCE_BUTTONS = [bt.WidgetButton(key="instance")]
-    # CUSTOM_LIST_INSTANCE_BUTTONS = [bt.WidgetButton(key="list")]
 
     filter_backends = [
         filters.OrderingFilter,
@@ -78,7 +76,11 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         return {
             "date_field": {
                 "Latest Date": queryset.aggregate(ld=Max("date_field"))["ld"]
-            }
+            },
+            "integer_field": {
+                "Σ": queryset.aggregate(s=Sum("integer_field"))["s"],
+                "μ": queryset.aggregate(avg=Avg("integer_field"))["avg"],
+            },
         }
 
     def get_messages(self, request, queryset=None, paginated_queryset=None):

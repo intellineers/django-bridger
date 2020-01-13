@@ -12,7 +12,7 @@ class CustomButton(NamedTuple):
     title: Optional[str] = None
 
     def to_dict(self):
-        # assert self.label or self.icon, ""
+        assert self.label or self.icon, "At least a label or an icon is needed."
 
         rv = defaultdict(dict, {"type": self.button_type, "key": self.key})
 

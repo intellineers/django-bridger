@@ -15,7 +15,7 @@ class ModelTest(models.Model):
     status_choices = ((STATUS1, "Status1"), (STATUS2, "Status2"))
 
     MOVE_BUTTON = FSMButton(
-        # icon="wb-icon-thumbs-up-full",
+        icon="wb-icon-thumbs-up-full",
         key="move",
         label="Move",
         action_label="Move",

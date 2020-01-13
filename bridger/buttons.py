@@ -12,6 +12,8 @@ class CustomButton(NamedTuple):
     title: Optional[str] = None
 
     def to_dict(self):
+        # assert self.label or self.icon, ""
+
         rv = defaultdict(dict, {"type": self.button_type, "key": self.key})
 
         if self.label:

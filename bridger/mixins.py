@@ -96,10 +96,10 @@ class MetadataMixin:
         create_endpoint = self.get_create_endpoint()
         delete_endpoint = self.get_instance_endpoint()
 
-        pk = self.kwargs.get("pk", None)
-        if pk and list_endpoint:
+        if list_endpoint:
             endpoints["list"] = reverse(list_endpoint, request=request)
-        elif not pk and instance_endpoint:
+
+        if instance_endpoint:
             endpoints["instance"] = reverse(instance_endpoint, request=request)
 
         if create_endpoint:

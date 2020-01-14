@@ -8,25 +8,17 @@ black = "==19.10b0"
 pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
-django-bridger = {editable = true,path = "."}
 pytest-mock = "*"
-mypy = "*"
-jsonschema = "*"
 pytest-factoryboy = "*"
-
-[packages]
-psycopg2-binary = "~=2.8"
-django = "~=2.2"
-django-rest-framework = "*"
-django-filter = "*"
-factory-boy = "*"
+twine = "*"
 colorlog = "*"
-dj-database-url = "*"
-djangorestframework-simplejwt = "*"
-django-fsm = "~=2.5"
 django-extensions = "*"
 django-cors-headers = "*"
-pillow = "*"
+factory-boy = "*"
+dj-database-url = "*"
+
+[packages]
+django-bridger = {editable = true,path = "."}
 
 [requires]
 python_version = "3.6"

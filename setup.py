@@ -1,4 +1,3 @@
-import setuptools
+from setuptools import setup
 
-setuptools.setup(name="django-bridger", version="0.1")
-
+setup()

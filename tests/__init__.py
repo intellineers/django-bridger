@@ -15,6 +15,7 @@ default_registry.register(
                 endpoint="relatedmodeltest-list",
                 add=MenuItem(label="Add Something", endpoint="modeltest-list"),
             ),
+            MenuItem(label="PANDAS", endpoint="pandas_view",),
         ],
     )
 )

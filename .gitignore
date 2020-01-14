@@ -109,3 +109,6 @@ venv.bak/
 # Django Mediafiles/Staticfiles
 mediafiles/
 staticfiles/
+
+# Pypi Credentials
+.pypirc

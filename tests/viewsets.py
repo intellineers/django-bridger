@@ -1,6 +1,7 @@
 from django.db.models import Avg, Max, Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.reverse import reverse
 
 from bridger import buttons as bt
 from bridger import display as dp
@@ -13,6 +14,48 @@ from .serializers import (
     ModelTestSerializer,
     RelatedModelTestSerializer,
 )
+
+from bridger.pandas.views import PandasAPIView
+from bridger.pandas import fields as pf
+
+import pandas as pd
+from rest_framework import views
+from rest_framework.response import Response
+import logging
+from collections import defaultdict
+
+logger = logging.getLogger(__name__)
+
+
+class MyPandasView(PandasAPIView):
+
+    INSTANCE_ENDPOINT = "modeltest-list"
+    LIST_ENDPOINT = "pandas_view"
+    LIST_WIDGET_TITLE = "Pandas List"
+
+    LIST_DISPLAY = dp.ListDisplay(
+        fields=[
+            dp.Field(key="char_field", label="Char"),
+            dp.Field(key="integer_field", label="Integer"),
+        ],
+    )
+
+    pandas_fields = pf.PandasFields(
+        fields=[
+            pf.PKField(key="id", label="ID"),
+            pf.CharField(key="char_field", label="Char"),
+            pf.FloatField(key="integer_field", label="Integer", precision=2),
+        ]
+    )
+    queryset = ModelTest.objects.all()
+
+    def get_aggregates(self, request, df):
+        return {
+            "integer_field": {
+                "Σ": df["integer_field"].sum(),
+                "μ": df["integer_field"].mean(),
+            }
+        }
 
 
 class ModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):

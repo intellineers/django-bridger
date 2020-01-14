@@ -5,6 +5,8 @@ from rest_framework.metadata import SimpleMetadata
 from .enums import WidgetType
 from .serializers import percent_decorator
 
+from rest_framework.reverse import reverse
+
 
 class BridgerMetaData(SimpleMetadata):
     def determine_metadata(self, request, view):
@@ -46,3 +48,4 @@ class BridgerMetaData(SimpleMetadata):
         # TODO: Custom Buttons
 
         return metadata
+

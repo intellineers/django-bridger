@@ -13,6 +13,7 @@ from .viewsets import (
     ModelTestModelViewSet,
     ModelTestRepresentationViewSet,
     RelatedModelTestModelViewSet,
+    MyPandasView,
 )
 
 # fmt: off
@@ -29,6 +30,7 @@ urlpatterns = [
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("pandas/", MyPandasView.as_view(), name="pandas_view"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

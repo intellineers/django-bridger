@@ -1,0 +1,6 @@
+include LICENSE
+include MANIFEST.in
+graft bridger
+global-exclude __pycache__
+global-exclude *.py[co]
+recursive-exclude tests *

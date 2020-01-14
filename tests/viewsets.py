@@ -7,7 +7,7 @@ from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
 
-from .filters import ModelTestFilterSet
+from .filters import ModelTestFilterSet, PandasFilterSet
 from .models import ModelTest, RelatedModelTest
 from .serializers import (
     ModelTestRepresentationSerializer,
@@ -29,6 +29,14 @@ logger = logging.getLogger(__name__)
 
 class MyPandasView(PandasAPIView):
 
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    search_fields = ["char_field"]
+    filter_class = PandasFilterSet
+
     INSTANCE_ENDPOINT = "modeltest-list"
     LIST_ENDPOINT = "pandas_view"
     LIST_WIDGET_TITLE = "Pandas List"
@@ -48,6 +56,7 @@ class MyPandasView(PandasAPIView):
         ]
     )
     queryset = ModelTest.objects.all()
+    ordering_fields = ["integer_field"]
 
     def get_aggregates(self, request, df):
         return {

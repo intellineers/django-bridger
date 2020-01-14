@@ -8,6 +8,14 @@ from bridger.filters import (
 from .models import ModelTest
 
 
+class PandasFilterSet(FilterSet):
+    char_field = CharFilter(label="Char", lookup_expr="icontains")
+
+    class Meta:
+        model = ModelTest
+        fields = ["char_field"]
+
+
 class ModelTestFilterSet(FilterSet):
     char_field = CharFilter(label="Char", lookup_expr="icontains")
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")

@@ -14,10 +14,9 @@ class PandasMetadata(SimpleMetadata):
         metadata["list_display"] = view.get_list_display(request)
         metadata["buttons"] = ["refresh"]
 
-        metadata["ordering_fields"] = []
-        # metadata["search_fields"] = view.get_search_fields(request)
-        # metadata["ordering_fields"] = view.get_ordering_fields(request)
-        # metadata["filter_fields"] = {k: v for k, v in view.get_filter_fields(request)}
+        metadata["search_fields"] = view.get_search_fields(request)
+        metadata["ordering_fields"] = view.get_ordering_fields(request)
+        metadata["filter_fields"] = {k: v for k, v in view.get_filter_fields(request)}
 
         metadata["create_buttons"] = []
         metadata["custom_buttons"] = []

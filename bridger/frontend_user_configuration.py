@@ -8,7 +8,7 @@ from django.db import models
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 
-from .filters import BooleanFilter, ModelChoiceFilter
+from .filters import BooleanFilter, CharFilter, ModelChoiceFilter
 from .serializers import ModelSerializer, PrimaryKeyCharField
 from .viewsets import ModelViewSet
 
@@ -41,6 +41,10 @@ class FrontendUserConfiguration(models.Model):
 class FrontendUserConfigurationModelSerializer(ModelSerializer):
     id = PrimaryKeyCharField()
 
+    def validate(self, data):
+        data["user"] = self.context["request"].user
+        return super().validate(data)
+
     class Meta:
         model = FrontendUserConfiguration
         fields = ["id", "parent_configuration", "config"]
@@ -51,13 +55,23 @@ class FrontendUserConfigurationFilterSet(django_filters.rest_framework.FilterSet
     parent_configuration = ModelChoiceFilter(
         label="Parent Configuration", queryset=FrontendUserConfiguration.objects.all()
     )
+    config = CharFilter(label="Config", method="filter_config")
 
     def get_is_root(self, queryset, name, value):
         return queryset.filter(parent_configuration__isnull=value)
 
+    def filter_config(self, queryset, name, value):
+        try:
+            key, value = value.split(":")
+            if value in ["true", "false"]:
+                value = True if value == "true" else False
+            return queryset.filter(**{f"config__{key}": value})
+        except ValueError:
+            return queryset
+
     class Meta:
         model = FrontendUserConfiguration
-        fields = ["is_root"]
+        fields = ["is_root", "config"]
 
 
 class FrontendUserConfigurationModelViewSet(ModelViewSet):

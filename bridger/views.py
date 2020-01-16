@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -37,8 +38,8 @@ class Config(APIView):
 
         return Response(
             {
-                # "authentication": auth(request),
-                "authentication": {"type": AuthType.NONE.name},
+                "authentication": auth(request),
+                # "authentication": {"type": AuthType.NONE.name},
                 "notification": {},
                 "profile": reverse("bridger:profile", request=request),
                 # "profile": {},

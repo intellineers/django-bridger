@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import dj_database_url
 from rest_framework.reverse import reverse
+from django.contrib.auth import get_user_model
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -64,11 +65,11 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ),
-    # "DEFAULT_AUTHENTICATION_CLASSES": (
-    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
-    #     "rest_framework.authentication.TokenAuthentication",
-    #     "rest_framework.authentication.SessionAuthentication",
-    # ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
     # "DEFAULT_PERMISSION_CLASSES": (
     #     "rest_framework.permissions.IsAuthenticated",
     #     "bridger.permissions.RestAPIModelPermissions",
@@ -169,6 +170,8 @@ def get_bridger_auth(request):
             "token": reverse("token_obtain_pair", request=request),
             "refresh": reverse("token_refresh", request=request),
             "verify": reverse("token_verify", request=request),
+            "username_field_key": get_user_model().USERNAME_FIELD,
+            "username_field_label": 'Email',
         },
     }
 

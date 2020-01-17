@@ -1,8 +1,7 @@
 site_name: Bridger
 theme: readthedocs
 nav:
-    - Getting started: getting_started.md
+    - Getting started: index.md
     - Serializers: serializers.md
     - Viewsets: viewsets.md
     - Workflow: workflow.md
-    

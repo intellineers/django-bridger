@@ -17,6 +17,8 @@ django-cors-headers = "*"
 factory-boy = "*"
 dj-database-url = "*"
 
+mkdocs = "*"
+
 [packages]
 django-bridger = {editable = true,path = "."}
 
@@ -31,3 +33,4 @@ test = "pytest -v"
 local = "python manage.py runserver 0.0.0.0:5000"
 start_db = "docker-compose up -d"
 psql = "docker exec -it django-bridger_postgres_1 psql"
+docs = "mkdocs serve"

@@ -20,7 +20,7 @@ class ModelTest(models.Model):
         key="move1",
         label="Move1",
         action_label="Move1",
-        description_fields=["We will move1 this model."],
+        description_fields="<p>We will move1 this model.</p>",
         instance_display=InstanceDisplay(
             sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
         ),
@@ -31,7 +31,7 @@ class ModelTest(models.Model):
         key="move2",
         label="Move2",
         action_label="Move2",
-        description_fields=["We will move2 this model."],
+        description_fields="<p>We will move2 this model.</p>",
         instance_display=InstanceDisplay(
             sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
         ),

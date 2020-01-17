@@ -19,6 +19,8 @@ dj-database-url = "*"
 
 mkdocs = "*"
 markdown = "*"
+markdown-blockdiag = "*"
+markdown-include = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

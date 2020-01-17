@@ -18,6 +18,7 @@ factory-boy = "*"
 dj-database-url = "*"
 
 mkdocs = "*"
+markdown = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

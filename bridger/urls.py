@@ -1,11 +1,11 @@
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
 
+from .routers import BridgerRouter
 from .views import Config, Menu, Profile
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 
 # fmt: off
-router = DefaultRouter()
+router = BridgerRouter()
 router.register(r"frontenduserconfiguration", FrontendUserConfigurationModelViewSet, basename="frontenduserconfiguration")
 # fmt: on
 

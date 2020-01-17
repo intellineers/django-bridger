@@ -58,6 +58,21 @@ class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serialized_content)
 
+    def destroy_multiple(self, request, *args, **kwargs):
+        model = self.get_serializer_class().Meta.model
+        app_label = model._meta.app_label
+
+        queryset = model.objects.filter(id__in=request.data)
+        destroyed = self.perform_destroy_multiple(queryset)
+
+        return Response(
+            {"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+    def perform_destroy_multiple(self, queryset):
+        return queryset.delete()
+
 
 class ChartViewSet(MetadataMixin, ListModelMixin, viewsets.ViewSet):
     """A List View that is used for creating plotly charts"""

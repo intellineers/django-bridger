@@ -5,3 +5,5 @@ nav:
     - Serializers: serializers.md
     - Viewsets: viewsets.md
     - Workflow: workflow.md
+markdown_extensions:
+    - admonition

@@ -131,13 +131,27 @@ class FieldSet(NamedTuple):
         return rl
 
 
+class SectionList(NamedTuple):
+    key: str
+
+    def to_dict(self):
+        return {"key": self.key}
+
+
 class Section(NamedTuple):
-    fields: FieldSet
+    fields: FieldSet = None
+    section_list: SectionList = None
+
     title: Optional[str] = None
     collapsed: bool = False
 
     def to_dict(self):
-        rd = {"fields": self.fields.to_dict()}
+        rd = {}
+
+        if self.fields:
+            rd["fields"] = self.fields.to_dict()
+        elif self.section_list:
+            rd["list"] = self.section_list.to_dict()
 
         if self.title:
             rd["title"] = self.title

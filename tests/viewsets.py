@@ -134,7 +134,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                         "file_field",
                     ]
                 )
-            )
+            ),
+            dp.Section(section_list=dp.SectionList(key="related_model")),
         ]
     )
 

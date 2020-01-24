@@ -42,6 +42,9 @@ class Unit(Enum):
     REM = "rem"
     PIXEL = "px"
 
+    def __call__(self, _value):
+        return (_value, self.value)
+
     def unit(self, _value: Union[float, str, int]):
         assert isinstance(
             _value, (float, str, int)

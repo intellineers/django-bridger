@@ -49,13 +49,21 @@ class RowFormatting(NamedTuple):
 
 class Field(NamedTuple):
     key: str
-    label: str
+    label: str = None
     formatting: List[ColumnFormatting] = []
+    col: Tuple[str, str] = None
 
     def to_dict(self):
-        rd = defaultdict(list, {"key": self.key, "label": self.label})
+        rd = defaultdict(list, {"key": self.key})
+        if self.label:
+            rd["label"] = self.label
+
         for formatting in self.formatting:
             rd["formatting"].append(formatting.to_dict())
+
+        if self.col:
+            rd["col"] = self.col
+
         return rd
 
 

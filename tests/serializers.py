@@ -1,5 +1,7 @@
 from bridger import serializers
+from bridger.serializers import register_resource
 from .models import ModelTest, RelatedModelTest
+from rest_framework.reverse import reverse
 
 
 class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
@@ -16,6 +18,10 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
 
 class ModelTestSerializer(serializers.ModelSerializer):
+    @register_resource()
+    def related_models(self, instance, request, user):
+        return {"related_model": reverse("relatedmodeltest-list", request=request)}
+
     class Meta:
         percent_fields = ["percent_field"]
         decorators = {

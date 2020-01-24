@@ -18,9 +18,11 @@ factory-boy = "*"
 dj-database-url = "*"
 
 mkdocs = "*"
+mkdocstrings = "*"
 markdown = "*"
 markdown-blockdiag = "*"
 markdown-include = "*"
+pymdown-extensions = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

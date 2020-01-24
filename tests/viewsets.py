@@ -23,6 +23,7 @@ from rest_framework import views
 from rest_framework.response import Response
 import logging
 from collections import defaultdict
+from bridger.enums import Unit
 
 logger = logging.getLogger(__name__)
 
@@ -133,7 +134,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                         "file_field",
                     ]
                 )
-            )
+            ),
+            dp.Section(section_list=dp.SectionList(key="related_model")),
         ]
     )
 
@@ -168,8 +170,10 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "relatedmodeltest-list"
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
-            dp.Field(key="char_field", label="Char"),
-            dp.Field(key="model_test", label="Model"),
+            dp.Field(key="char_field", label="Char", col=Unit.FRACTION(1)),
+            dp.Field(key="model_test", label="Model", col=Unit.FRACTION(2)),
+            dp.Field(key="_left", col=Unit.FRACTION(0.2)),
+            dp.Field(key="_right", col=Unit.FRACTION(0.2)),
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(

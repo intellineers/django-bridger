@@ -6,8 +6,12 @@ nav:
     - Viewsets: viewsets.md
     - Filters: filters.md
     - Workflow: workflow.md
+    - API-References: references.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:
         format: svg
     - markdown_include.include
+plugins:
+    - search
+    - mkdocstrings

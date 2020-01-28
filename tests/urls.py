@@ -16,6 +16,7 @@ from .viewsets import (
     ModelTestRepresentationViewSet,
     RelatedModelTestModelViewSet,
     MyPandasView,
+    ModelTestModelCalendarViewSet,
 )
 
 # fmt: off
@@ -23,6 +24,7 @@ router = BridgerRouter()
 router.register(r"modeltest", ModelTestModelViewSet, basename="modeltest")
 router.register(r"modeltestrepresentation", ModelTestRepresentationViewSet, basename="modeltestrepresentation")
 router.register(r"relatedmodeltest", RelatedModelTestModelViewSet, basename="relatedmodeltest")
+router.register(r"calendar", ModelTestModelCalendarViewSet, basename="calendar")
 # fmt: on
 
 urlpatterns = [

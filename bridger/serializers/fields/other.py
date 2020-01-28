@@ -21,4 +21,3 @@ class RangeSelectField(BridgerSerializerFieldMixin, serializers.FloatField):
         representation = super().get_representation(request, field_name)
         representation["color"] = self.color
         return representation
-

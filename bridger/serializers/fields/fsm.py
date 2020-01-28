@@ -14,7 +14,7 @@ class FSMStatusField(CharField):
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)
         representation["choices"] = list()
-        model = self.parent.Meta.model
+        # model = self.parent.Meta.model
 
         for choice in self.choices:
             representation["choices"].append({"value": choice[0], "label": choice[1]})

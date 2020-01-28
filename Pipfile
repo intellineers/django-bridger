@@ -16,13 +16,15 @@ django-extensions = "*"
 django-cors-headers = "*"
 factory-boy = "*"
 dj-database-url = "*"
-
 mkdocs = "*"
 mkdocstrings = "*"
 markdown = "*"
 markdown-blockdiag = "*"
 markdown-include = "*"
 pymdown-extensions = "*"
+flake8 = "*"
+pytest-flake8 = "*"
+pytest-mypy = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

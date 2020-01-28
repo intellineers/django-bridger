@@ -49,6 +49,7 @@ class ModelTest(models.Model):
 
     # Date and Time
     datetime_field = models.DateTimeField()
+    datetime_field1 = models.DateTimeField()
     date_field = models.DateField()
     time_field = models.TimeField()
 

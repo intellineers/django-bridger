@@ -38,6 +38,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "percent_field",
             "decimal_field",
             "datetime_field",
+            "datetime_field1",
             "date_field",
             "time_field",
             "boolean_field",

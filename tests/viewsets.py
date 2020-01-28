@@ -7,7 +7,7 @@ from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
 
-from .filters import ModelTestFilterSet, PandasFilterSet
+from .filters import ModelTestFilterSet, PandasFilterSet, CalendarFilter
 from .models import ModelTest, RelatedModelTest
 from .serializers import (
     ModelTestRepresentationSerializer,
@@ -164,6 +164,26 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
 
     def get_messages(self, request, queryset=None, paginated_queryset=None):
         return {"message": "ABC1"}
+
+
+class ModelTestModelCalendarViewSet(ModelTestModelViewSet):
+
+    filterset_class = CalendarFilter
+
+    LIST_DISPLAY = dp.ListDisplay(
+        fields=[
+            dp.Field(key="char_field", label="Char",),
+            dp.Field(key="datetime_field", label="DateTime",),
+            dp.Field(key="datetime_field1", label="DateTime",),
+        ],
+        calendar=dp.Calender(
+            title="char_field",
+            start="datetime_field",
+            end="datetime_field1",
+            filter_date_gte="start",
+            filter_date_lte="end",
+        ),
+    )
 
 
 class RelatedModelTestModelViewSet(viewsets.ModelViewSet):

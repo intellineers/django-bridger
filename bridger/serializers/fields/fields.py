@@ -1,9 +1,11 @@
+import functools
+import logging
+from inspect import getmembers
+
 from rest_framework import serializers
 from rest_framework.reverse import reverse
-from .mixins import BridgerSerializerFieldMixin
 
-import functools, logging
-from inspect import getmembers
+from .mixins import BridgerSerializerFieldMixin
 
 logger = logging.getLogger(__name__)
 

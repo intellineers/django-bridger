@@ -6,6 +6,7 @@ from bridger.filters import (
     DefaultDateRangeFilterValues,
 )
 from .models import ModelTest
+from django.db.models import Q
 
 
 class PandasFilterSet(FilterSet):
@@ -34,3 +35,35 @@ class ModelTestFilterSet(FilterSet):
     class Meta:
         model = ModelTest
         fields = ["char_field", "date_lte", "date_gte", "before_2k"]
+
+
+class CalendarFilter(FilterSet):
+
+    start = DateFilter(
+        label="Date",
+        lookup_expr="gte",
+        field_name="date_field",
+        date_range=True,
+        method="start_filter",
+    )
+    end = DateFilter(
+        label="Date",
+        lookup_expr="lte",
+        field_name="date_field",
+        date_range=True,
+        method="end_filter",
+    )
+
+    def start_filter(self, queryset, name, value):
+        return queryset.filter(
+            Q(datetime_field__date__gte=value) & Q(datetime_field1__date__gte=value)
+        )
+
+    def end_filter(self, queryset, name, value):
+        return queryset.filter(
+            Q(datetime_field__date__lte=value) & Q(datetime_field1__date__lte=value)
+        )
+
+    class Meta:
+        model = ModelTest
+        fields = ["start", "end"]

@@ -1,4 +1,5 @@
-import uuid, logging
+import logging
+import uuid
 
 import django_filters
 from django.conf import settings

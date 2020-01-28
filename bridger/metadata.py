@@ -48,4 +48,3 @@ class BridgerMetaData(SimpleMetadata):
         # TODO: Custom Buttons
 
         return metadata
-

@@ -33,10 +33,10 @@ class MetadataMixin:
 
     === BUTTONS ===
     The buttons describe what kind of buttons are appropriate for this endpoint.
-    
+
     - buttons: Default buttons which are displayed
        - Options: [save, save_and_new, save_and_close, delete, refresh, new]
-    - custom_buttons: Custom Buttons that do stuff 
+    - custom_buttons: Custom Buttons that do stuff
     - custom_instance_buttons: Custom buttons which are tied to additional resources of an instance
 
 
@@ -208,9 +208,6 @@ class MetadataMixin:
 
         return instance_buttons
 
-    def get_custom_buttons(self, request: Request):
-        return []
-
     def get_custom_instance_buttons(self, request: Request):
         if "pk" in self.kwargs:
             return [
@@ -299,4 +296,3 @@ class MetadataMixin:
                         combined_fields[combined_key] = representation
                 else:
                     yield name, representation
-

@@ -75,7 +75,7 @@ class LegendItem(NamedTuple):
     def to_dict(self):
         rv = {"icon": self.icon, "label": self.label}
         if self.value:
-            tv["value"] = self.value
+            rv["value"] = self.value
         return rv
 
 
@@ -98,10 +98,29 @@ class Legend(NamedTuple):
         return tv
 
 
+class Calender(NamedTuple):
+    title: str
+    start: str
+    end: str
+
+    filter_date_gte: str
+    filter_date_lte: str
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "start": self.start,
+            "end": self.end,
+            "filter_date_gte": self.filter_date_gte,
+            "filter_date_lte": self.filter_date_lte,
+        }
+
+
 class ListDisplay(NamedTuple):
     fields: List[Field]
     formatting: List[RowFormatting] = []
     legends: List[Legend] = []
+    calendar: Calender = None
 
     def to_dict(self):
         list_display = defaultdict(list)
@@ -113,6 +132,9 @@ class ListDisplay(NamedTuple):
 
         for legend in self.legends:
             list_display["legends"].append(legend.to_dict())
+
+        if self.calendar:
+            list_display["calendar"] = self.calendar.to_dict()
 
         return list_display
 

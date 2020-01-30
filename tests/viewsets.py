@@ -96,7 +96,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="image_field", label="Image"),
             dp.Field(key="file_field", label="File"),
         ],
-        legends=[dp.Legend(items=[dp.LegendItem(icon="wb-icon", label="something")])],
+        legends=[
+            dp.Legend(items=[dp.LegendItem(icon="wb-icon-trash", label="something")])
+        ],
         formatting=[
             dp.RowFormatting(
                 column="integer_field",
@@ -169,6 +171,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
 class ModelTestModelCalendarViewSet(ModelTestModelViewSet):
 
     filterset_class = CalendarFilter
+    pagination_class = None
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
@@ -191,9 +194,9 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char", col=Unit.FRACTION(1)),
-            dp.Field(key="model_test", label="Model", col=Unit.FRACTION(2)),
-            dp.Field(key="_left", col=Unit.FRACTION(0.2)),
-            dp.Field(key="_right", col=Unit.FRACTION(0.2)),
+            dp.Field(key="model_test", label="Model", col=Unit.FRACTION(1)),
+            dp.Field(key="_left", col=Unit.REM(2)),
+            dp.Field(key="_right", col=Unit.REM(2)),
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(

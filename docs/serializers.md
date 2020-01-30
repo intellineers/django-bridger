@@ -12,8 +12,7 @@ Example:
 ```python
 from bridger.serializers import ModelSerializer, register_resource
 
-class SomeModelSerializer(ModelSerializer):
-
+class SomeModelSerializer(ModelSerializer)
     @register_resource()
     def some_resource(self, instance, request, user):
         # Do some something (checks, etc.)

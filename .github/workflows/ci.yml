@@ -5,10 +5,22 @@ on: [push]
 jobs:
   test:
       runs-on: ubuntu-latest
+
       strategy:
         matrix:
           python-version: [3.6, 3.7, 3.8]
-      
+
+      services:
+        postgres:
+          image: postgres:latest
+          env:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: bridger
+          ports:
+          - 5432:5432
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
       steps:
       - uses: actions/checkout@v2
       
@@ -21,3 +33,5 @@ jobs:
         run: pip install tox
       - name: Run Tox
         run: tox -e py
+        env:
+          DATABASE_URL: postgres://root:root@localhost:5432/bridger

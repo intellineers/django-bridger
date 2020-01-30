@@ -26,7 +26,7 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
     integer_field = factory.Faker("pyint")
     decimal_field = factory.Faker("pydecimal", left_digits=3, right_digits=4)
     datetime_field = pytz.timezone(settings.TIME_ZONE).localize(Faker().date_time())
-    datetime1_field = pytz.timezone(settings.TIME_ZONE).localize(Faker().date_time())
+    datetime_field1 = pytz.timezone(settings.TIME_ZONE).localize(Faker().date_time())
     date_field = factory.Faker("date_object")
     time_field = factory.Faker("time_object")
     boolean_field = factory.Faker("pybool")

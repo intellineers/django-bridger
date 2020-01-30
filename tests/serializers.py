@@ -11,10 +11,11 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
     endpoint = "modeltestrepresentation-list"
 
     _detail = serializers.HyperlinkField(reverse_name="modeltest-detail")
+    _detail_preview = serializers.HyperlinkField(reverse_name="modeltest-detail")
 
     class Meta:
         model = ModelTest
-        fields = ("id", "char_field", "_detail")
+        fields = ("id", "char_field", "_detail", "_detail_preview")
 
 
 class ModelTestSerializer(serializers.ModelSerializer):

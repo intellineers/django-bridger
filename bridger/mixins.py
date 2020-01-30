@@ -157,7 +157,7 @@ class MetadataMixin:
         )
 
     def get_custom_buttons(self, request: Request) -> Dict[str, str]:
-        pass
+        return []
 
     def get_instance_display(self, request: Request) -> List:
         if hasattr(self, "INSTANCE_DISPLAY"):
@@ -207,6 +207,12 @@ class MetadataMixin:
             instance_buttons.append("delete")
 
         return instance_buttons
+
+    def get_preview_display(self, request: Request):
+        return getattr(self, "PREVIEW_DISPLAY", "")
+
+    def get_preview_buttons(self, request: Request):
+        return [button.to_dict() for button in getattr(self, "PREVIEW_BUTTONS", [])]
 
     def get_custom_instance_buttons(self, request: Request):
         if "pk" in self.kwargs:

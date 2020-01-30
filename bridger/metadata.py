@@ -20,6 +20,8 @@ class BridgerMetaData(SimpleMetadata):
         metadata["custom_instance_buttons"] = view.get_custom_instance_buttons(
             request=request
         )
+        metadata["preview_buttons"] = view.get_preview_buttons(request=request)
+        metadata["preview_display"] = view.get_preview_display(request=request)
         metadata["endpoints"] = view.get_endpoints(
             request=request, buttons=metadata["buttons"]
         )

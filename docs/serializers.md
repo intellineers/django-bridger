@@ -29,6 +29,7 @@ class SomeOtherModelRepresentationSerializer(RepresentationSerializer):
     endpoint = "someothermodel-representation-list"
 
     _detail = HyperlinkField(reverse_name="someothermodel-list")
+    _detail_preview = HyperlinkField(reverse_name="someothermodel-list")
 
     class Meta:
         model = SomeOtherModel
@@ -39,6 +40,7 @@ class SomeOtherModelRepresentationSerializer(RepresentationSerializer):
 - **label_key**: The fields which are used to represent the model as a handlebar string.
 - **endpoint**: The endpoint to retrieve the representations. Used for async select fields and filters.
 - **_detail**: If specified, the endpoint where a full version of this model can be found. Used for links in tables.
+- **_detail_preview**: TODO
 
 This `RepresentationSerializer` can be used in a `ModelSerializer`:
 

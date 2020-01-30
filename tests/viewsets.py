@@ -80,6 +80,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     LIST_WIDGET_TITLE = "List"
     CREATE_WIDGET_TITLE = "Create"
 
+    PREVIEW_BUTTONS = [bt.HyperlinkButton(key="hl-bt", icon="wb-icon-trash")]
+    PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
+
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char"),

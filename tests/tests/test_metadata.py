@@ -13,7 +13,7 @@ class TestMetadata:
         response = vs(request, pk=1)
         assert response.data
 
-    def test_metadata_instance(self):
+    def test_metadata_list(self):
         request = APIRequestFactory().options("")
         vs = ModelTestModelViewSet.as_view({"get": "retrieve"})
         response = vs(request)

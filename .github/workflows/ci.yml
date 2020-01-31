@@ -29,9 +29,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       
-      - name: Install Tox and any other packages
+      - name: Install Tox and dependencies
         run: pip install tox
       - name: Run Tox
         run: tox -e py
         env:
           DATABASE_URL: postgres://root:root@localhost:5432/bridger
+      - uses: codecov/codecov-action@v1
+        with:
+          name: Uploading Coverage Report to Codecov
+          token: ${{ secrets.CODECOV_TOKEN }}

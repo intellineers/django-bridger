@@ -30,7 +30,7 @@ schema = {
                     "pattern": "^(https?|http?|wss?|ws?|ftp)://",
                 },
             },
-            "anyOf": [{"required": ["list"]}, {"required": ["instance"]},],
+            "anyOf": [{"required": ["list"]}, {"required": ["instance"]}],
         },
         "buttons": {
             "type": "array",

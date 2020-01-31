@@ -110,11 +110,11 @@ DATABASES = {"default": dj_database_url.parse(os.environ["DATABASE_URL"])}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 
@@ -153,10 +153,8 @@ LOGGING = {
             },
         },
     },
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "console",},
-    },
-    "loggers": {"": {"level": "WARNING", "handlers": ["console"],},},
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
+    "loggers": {"": {"level": "WARNING", "handlers": ["console"]}},
 }
 
 
@@ -172,7 +170,7 @@ def get_bridger_auth(request):
             "refresh": reverse("token_refresh", request=request),
             "verify": reverse("token_verify", request=request),
             "username_field_key": get_user_model().USERNAME_FIELD,
-            "username_field_label": 'Email',
+            "username_field_label": "Email",
         },
     }
 

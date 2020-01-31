@@ -1,6 +1,6 @@
-mkdocs = "*"
-mkdocstrings = "*"
-markdown = "*"
-markdown-blockdiag = "*"
-markdown-include = "*"
-pymdown-extensions = "*"
+mkdocs
+mkdocstrings
+markdown
+markdown-blockdiag
+markdown-include
+pymdown-extensions

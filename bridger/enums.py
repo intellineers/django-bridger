@@ -4,22 +4,54 @@ from enum import Enum
 
 
 class Button(Enum):
-    # List and Instance
+
+    # Buttons
     REFRESH = "refresh"
-    RESET = "reset"
     NEW = "new"
     DELETE = "delete"
 
-    # Instance
+    # Buttons and Create Buttons
     SAVE = "save"
     SAVE_AND_CLOSE = "saveandclose"
     SAVE_AND_NEW = "saveandnew"
 
-    # Custom
+    # Create Buttons
+    RESET = "reset"
+
+    # Custom Buttons
     DROPDOWN = "dropdown"
     HYPERLINK = "hyperlink"
     WIDGET = "widget"
     ACTION = "action"
+
+    @classmethod
+    def buttons(cls):
+        return [
+            cls.REFRESH.value,
+            cls.NEW.value,
+            cls.DELETE.value,
+            cls.SAVE.value,
+            cls.SAVE_AND_CLOSE.value,
+            cls.SAVE_AND_NEW.value,
+        ]
+
+    @classmethod
+    def create_buttons(cls):
+        return [
+            cls.SAVE.value,
+            cls.SAVE_AND_CLOSE.value,
+            cls.SAVE_AND_NEW.value,
+            cls.RESET.value,
+        ]
+
+    @classmethod
+    def custom_buttons(cls):
+        return [
+            cls.DROPDOWN.value,
+            cls.HYPERLINK.value,
+            cls.WIDGET.value,
+            cls.ACTION.value,
+        ]
 
 
 class WidgetType(Enum):

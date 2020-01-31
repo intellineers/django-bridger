@@ -1,0 +1,392 @@
+{
+    "type": "list",
+    "identifier": "tests:modeltest",
+    "buttons": [
+        "new",
+        "refresh"
+    ],
+    "create_buttons": [
+        "reset",
+        "save",
+        "saveandclose",
+        "saveandnew"
+    ],
+    "custom_buttons": [],
+    "custom_instance_buttons": [
+        {
+            "type": "action",
+            "method": "PATCH",
+            "action_label": "Move2",
+            "key": "move2",
+            "descriptions_fields": "<p>We will move2 this model.</p>",
+            "form_display": [
+                {
+                    "fields": [
+                        "char_field",
+                        "integer_field"
+                    ]
+                }
+            ],
+            "label": "Move2",
+            "icon": "wb-icon-thumbs-up-full"
+        },
+        {
+            "type": "action",
+            "method": "PATCH",
+            "action_label": "Move1",
+            "key": "move1",
+            "descriptions_fields": "<p>We will move1 this model.</p>",
+            "form_display": [
+                {
+                    "fields": [
+                        "char_field",
+                        "integer_field"
+                    ]
+                }
+            ],
+            "label": "Move1",
+            "icon": "wb-icon-thumbs-up-full"
+        }
+    ],
+    "preview_buttons": [
+        {
+            "type": "hyperlink",
+            "key": "hl-bt",
+            "icon": "wb-icon-trash"
+        }
+    ],
+    "preview_display": "<p>Char: {{char_field}}</p>",
+    "endpoints": {
+        "list": "http://localhost:5000/modeltest/",
+        "instance": "http://localhost:5000/modeltest/",
+        "create": "http://localhost:5000/modeltest/",
+        "delete": "http://localhost:5000/modeltest/"
+    },
+    "pagination": "cursor",
+    "titles": {
+        "instance": "{{char_field}}",
+        "list": "List",
+        "create": "Create"
+    },
+    "list_display": {
+        "fields": [
+            {
+                "key": "char_field",
+                "label": "Char"
+            },
+            {
+                "key": "integer_field",
+                "label": "Integer"
+            },
+            {
+                "key": "float_field",
+                "label": "Float"
+            },
+            {
+                "key": "percent_field",
+                "label": "Percent"
+            },
+            {
+                "key": "decimal_field",
+                "label": "Decimal"
+            },
+            {
+                "key": "datetime_field",
+                "label": "DateTime"
+            },
+            {
+                "key": "date_field",
+                "label": "Date"
+            },
+            {
+                "key": "time_field",
+                "label": "Time"
+            },
+            {
+                "key": "boolean_field",
+                "label": "Boolean"
+            },
+            {
+                "key": "choice_field",
+                "label": "Choice"
+            },
+            {
+                "key": "status_field",
+                "label": "Status"
+            },
+            {
+                "key": "image_field",
+                "label": "Image"
+            },
+            {
+                "key": "file_field",
+                "label": "File"
+            }
+        ],
+        "formatting": [
+            {
+                "column": "integer_field",
+                "conditions": [
+                    {
+                        "icon": "wb-icon-thumbs-up-full",
+                        "condition": [
+                            "<",
+                            5000
+                        ]
+                    },
+                    {
+                        "style": {
+                            "backgroundColor": "rgb(100, 100, 100)"
+                        },
+                        "condition": [
+                            "<",
+                            5000
+                        ]
+                    }
+                ]
+            }
+        ],
+        "legends": [
+            {
+                "items": [
+                    {
+                        "icon": "wb-icon-trash",
+                        "label": "something"
+                    }
+                ]
+            }
+        ]
+    },
+    "instance_display": [
+        {
+            "fields": [
+                "char_field",
+                "text_field",
+                "integer_field",
+                "float_field",
+                "percent_field",
+                "decimal_field",
+                "datetime_field",
+                "date_field",
+                "time_field",
+                "boolean_field",
+                "choice_field",
+                "status_field",
+                "image_field",
+                "file_field"
+            ]
+        },
+        {
+            "list": {
+                "key": "related_model"
+            }
+        }
+    ],
+    "fields": {
+        "id": {
+            "key": "id",
+            "label": "ID",
+            "type": "primary_key",
+            "required": false,
+            "read_only": true,
+            "decorators": []
+        },
+        "char_field": {
+            "key": "char_field",
+            "label": "Char",
+            "type": "text",
+            "required": true,
+            "read_only": false,
+            "decorators": [
+                {
+                    "position": "left",
+                    "value": "Decorator"
+                }
+            ]
+        },
+        "text_field": {
+            "key": "text_field",
+            "label": "Text field",
+            "type": "texteditor",
+            "required": false,
+            "read_only": false,
+            "decorators": [],
+            "content_type": "html"
+        },
+        "float_field": {
+            "key": "float_field",
+            "label": "Float field",
+            "type": "number",
+            "required": true,
+            "read_only": false,
+            "decorators": [],
+            "precision": 2
+        },
+        "integer_field": {
+            "key": "integer_field",
+            "label": "Integer field",
+            "type": "number",
+            "required": true,
+            "read_only": false,
+            "decorators": [],
+            "precision": 0
+        },
+        "percent_field": {
+            "key": "percent_field",
+            "label": "Percent field",
+            "type": "percent",
+            "required": true,
+            "read_only": false,
+            "decorators": [
+                {
+                    "position": "right",
+                    "value": "%"
+                }
+            ],
+            "precision": 2
+        },
+        "decimal_field": {
+            "key": "decimal_field",
+            "label": "Decimal field",
+            "type": "number",
+            "required": true,
+            "read_only": false,
+            "decorators": [],
+            "precision": 4
+        },
+        "datetime_field": {
+            "key": "datetime_field",
+            "label": "Datetime field",
+            "type": "datetime",
+            "required": true,
+            "read_only": false,
+            "decorators": []
+        },
+        "datetime_field1": {
+            "key": "datetime_field1",
+            "label": "Datetime field1",
+            "type": "datetime",
+            "required": true,
+            "read_only": false,
+            "decorators": []
+        },
+        "date_field": {
+            "key": "date_field",
+            "label": "Date field",
+            "type": "date",
+            "required": true,
+            "read_only": false,
+            "decorators": []
+        },
+        "time_field": {
+            "key": "time_field",
+            "label": "Time field",
+            "type": "time",
+            "required": true,
+            "read_only": false,
+            "decorators": []
+        },
+        "boolean_field": {
+            "key": "boolean_field",
+            "label": "Boolean field",
+            "type": "boolean",
+            "required": true,
+            "read_only": false,
+            "decorators": []
+        },
+        "choice_field": {
+            "key": "choice_field",
+            "label": "Choice field",
+            "type": "select",
+            "required": false,
+            "read_only": false,
+            "default": "a",
+            "decorators": [],
+            "choices": [
+                {
+                    "value": "a",
+                    "label": "A"
+                },
+                {
+                    "value": "b",
+                    "label": "B"
+                }
+            ]
+        },
+        "status_field": {
+            "key": "status_field",
+            "label": "Status field",
+            "type": "status",
+            "required": false,
+            "read_only": true,
+            "default": "status1",
+            "decorators": [],
+            "choices": [
+                {
+                    "value": "status1",
+                    "label": "Status1"
+                },
+                {
+                    "value": "status2",
+                    "label": "Status2"
+                },
+                {
+                    "value": "status3",
+                    "label": "Status3"
+                }
+            ]
+        },
+        "image_field": {
+            "key": "image_field",
+            "label": "Image field",
+            "type": "image",
+            "required": false,
+            "read_only": false,
+            "decorators": []
+        },
+        "file_field": {
+            "key": "file_field",
+            "label": "File field",
+            "type": "file",
+            "required": false,
+            "read_only": false,
+            "decorators": []
+        },
+        "_additional_resources": {
+            "key": "_additional_resources",
+            "label": " additional resources",
+            "type": "_additional_resources",
+            "required": false,
+            "read_only": true,
+            "decorators": []
+        }
+    },
+    "search_fields": [
+        "char_field"
+    ],
+    "ordering_fields": [
+        "char_field",
+        "date_field",
+        "float_field",
+        "decimal_field"
+    ],
+    "filter_fields": {
+        "char_field": {
+            "label": "Char",
+            "type": "text",
+            "key": "char_field"
+        },
+        "date_field": {
+            "label": "Date",
+            "type": "daterange",
+            "key": "date_gte",
+            "gte": "date_gte",
+            "lte": "date_lte"
+        },
+        "before_2k": {
+            "label": "Before 2k",
+            "type": "boolean",
+            "key": "before_2k"
+        }
+    }
+}

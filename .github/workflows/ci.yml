@@ -37,4 +37,5 @@ jobs:
           DATABASE_URL: postgres://root:root@localhost:5432/bridger
       - uses: codecov/codecov-action@v1
         with:
+          name: Uploading Coverage Report to Codecov
           token: ${{ secrets.CODECOV_TOKEN }}

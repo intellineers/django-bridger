@@ -18,6 +18,7 @@ from .viewsets import (
     MyPandasView,
     ModelTestModelCalendarViewSet,
 )
+from django.views.generic import TemplateView
 
 # fmt: off
 router = BridgerRouter()
@@ -29,6 +30,7 @@ router.register(r"calendar", ModelTestModelCalendarViewSet, basename="calendar")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("bundle/", TemplateView.as_view(template_name="bundled_index.html")),
     path("admin/", admin.site.urls),
     path("bridger/", include(("bridger.urls", "bridger"), namespace="bridger")),
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

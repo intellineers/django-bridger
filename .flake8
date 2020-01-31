@@ -1,2 +1,9 @@
 [flake8]
-ignore = F401,E501,W503
+max-line-length = 99
+ignore =
+    W391 ;blank line at the end of file (black is fine with two lines, flake8 needs exactly 1)
+    E501 ;line too long (Black takes care of this and there is no way to multi line disable flake8)
+    F401 ;imported but unused
+    W503 ;line break before binary operator
+    E722 ;do not use bare 'except'
+    F821 ;undefined name

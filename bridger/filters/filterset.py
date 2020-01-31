@@ -48,7 +48,7 @@ class FilterSet(DjangoFilterSet):
         },
         models.ManyToManyField: {
             "filter_class": fields.ModelMultipleChoiceFilter,
-            "extra": lambda f: {"queryset": remote_queryset(f),},
+            "extra": lambda f: {"queryset": remote_queryset(f)},
         },
         # Reverse relationships
         OneToOneRel: {
@@ -60,11 +60,11 @@ class FilterSet(DjangoFilterSet):
         },
         ManyToOneRel: {
             "filter_class": fields.ModelMultipleChoiceFilter,
-            "extra": lambda f: {"queryset": remote_queryset(f),},
+            "extra": lambda f: {"queryset": remote_queryset(f)},
         },
         ManyToManyRel: {
             "filter_class": fields.ModelMultipleChoiceFilter,
-            "extra": lambda f: {"queryset": remote_queryset(f),},
+            "extra": lambda f: {"queryset": remote_queryset(f)},
         },
     }
 

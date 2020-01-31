@@ -49,7 +49,7 @@ class TestDateTimeField:
         assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00+01:00"
 
     @override_settings(TIME_ZONE="UCT", USE_TZ=True)
-    def test_to_representation_non_utc(self):
+    def test_to_representation_utc(self):
         localized_dt = pytz.timezone("UCT").localize(datetime(2019, 1, 1, 10, 0))
         assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00Z"
 

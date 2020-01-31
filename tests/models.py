@@ -72,7 +72,7 @@ class ModelTest(models.Model):
         field=status_field,
         source=[STATUS1],
         target=STATUS2,
-        custom={"_transition_button": MOVE_BUTTON1,},
+        custom={"_transition_button": MOVE_BUTTON1},
     )
     def move1(self):
         """Moves the model from Status1 to Status2"""

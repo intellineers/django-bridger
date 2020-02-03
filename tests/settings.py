@@ -156,24 +156,3 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
     "loggers": {"": {"level": "WARNING", "handlers": ["console"]}},
 }
-
-
-# BRIDGER SETTINGS
-# TODO: Create default settings
-
-
-def get_bridger_auth(request):
-    return {
-        "type": "JWT",
-        "config": {
-            "token": reverse("token_obtain_pair", request=request),
-            "refresh": reverse("token_refresh", request=request),
-            "verify": reverse("token_verify", request=request),
-            "username_field_key": get_user_model().USERNAME_FIELD,
-            "username_field_label": "Email",
-        },
-    }
-
-
-BRIDGER_AUTH = get_bridger_auth
-BRIDGER_FRONTEND_USER_CONFIGURATION_ORDER = ["config__order"]

@@ -70,10 +70,10 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
-    # "DEFAULT_PERMISSION_CLASSES": (
-    #     "rest_framework.permissions.IsAuthenticated",
-    #     "bridger.permissions.RestAPIModelPermissions",
-    # ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+        "bridger.permissions.RestAPIModelPermissions",
+    ),
     # 'DEFAULT_METADATA_CLASS': 'wbutils.metadata.WorkbenchMetaData'
     # 'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata'
 }

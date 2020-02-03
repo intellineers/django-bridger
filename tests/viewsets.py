@@ -17,12 +17,9 @@ from bridger.pandas.views import PandasAPIView
 
 from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
 from .models import ModelTest, RelatedModelTest
-from .serializers import (
-    ModelTestRepresentationSerializer,
-    ModelTestSerializer,
-    RelatedModelTestSerializer,
-    CalendarModelTestSerializer,
-)
+from .serializers import (CalendarModelTestSerializer,
+                          ModelTestRepresentationSerializer,
+                          ModelTestSerializer, RelatedModelTestSerializer)
 
 logger = logging.getLogger(__name__)
 

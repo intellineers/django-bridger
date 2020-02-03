@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
@@ -9,6 +11,9 @@ from rest_framework.reverse import reverse
 from .settings import get_bridger_auth
 from .enums import AuthType
 from .menus import default_registry
+
+
+logger = logging.getLogger(__name__)
 
 
 class Menu(APIView):
@@ -40,10 +45,8 @@ class Config(APIView):
         return Response(
             {
                 "authentication": get_bridger_auth(request),
-                # "authentication": {"type": AuthType.NONE.name},
-                "notification": {},
                 "profile": reverse("bridger:profile", request=request),
-                # "profile": {},
                 "menu": reverse("bridger:menu", request=request),
+                "notification": {},
             }
         )

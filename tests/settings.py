@@ -145,7 +145,7 @@ LOGGING = {
             "()": "colorlog.ColoredFormatter",
             "format": "%(log_color)s%(levelname)-8s[%(name)-12s][%(asctime)s]: %(message)s",
             "log_colors": {
-                "DEBUG": "bold_black",
+                "DEBUG": "blue",
                 "INFO": "white",
                 "WARNING": "yellow",
                 "ERROR": "red",
@@ -154,5 +154,5 @@ LOGGING = {
         },
     },
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
-    "loggers": {"": {"level": "WARNING", "handlers": ["console"]}},
+    "loggers": {"": {"level": "DEBUG", "handlers": ["console"]}},
 }

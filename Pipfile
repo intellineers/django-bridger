@@ -25,6 +25,7 @@ pymdown-extensions = "*"
 flake8 = "*"
 pytest-flake8 = "*"
 pytest-mypy = "*"
+pytest-isort = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

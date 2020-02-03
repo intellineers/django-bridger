@@ -6,7 +6,6 @@ from bridger.serializers import PrimaryKeyRelatedField
 from bridger.serializers.fields.mixins import BridgerSerializerFieldMixin
 from bridger.serializers.fields.related import BridgerManyRelatedField
 from bridger.serializers.fields.types import BridgerType, ReturnContentType
-
 from tests.models import ModelTest
 
 
@@ -82,4 +81,3 @@ class TestPrimaryKeyRelatedField:
             required=False, queryset=ModelTest.objects.all()
         ).run_validation(data=model_test.pk)
         assert validated_data == model_test
-

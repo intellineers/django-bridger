@@ -30,7 +30,7 @@ def jwt_auth(request: Request) -> Dict:
 
 def get_bridger_auth(request: Request, auth_type: AuthType = AuthType.JWT) -> Dict:
     auth_method = globals()[f"{auth_type.value.lower()}_auth"]
-    return getattr(settings, "BRIDGER_AUTH", jwt_auth)(request)
+    return getattr(settings, "BRIDGER_AUTH", auth_method)(request)
 
 
 def get_bridger_frontend_user_configuration_order() -> List:

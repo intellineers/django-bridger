@@ -76,6 +76,27 @@ class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
         return queryset.delete()
 
 
+class InfiniteDataModelView(ModelViewSet):
+
+    pagination_class = None
+
+    def list(self, request, *args, **kwargs) -> Response:
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+
+        aggregates = dict()
+        messages = dict()
+        if hasattr(self, "get_aggregates"):
+            aggregates = self.get_aggregates(queryset, queryset)
+
+        if hasattr(self, "get_messages"):
+            messages = self.get_messages(self.request, queryset, queryset)
+
+        return Response(
+            {"results": serializer.data, "aggregates": aggregates, "messages": messages}
+        )
+
+
 class ChartViewSet(MetadataMixin, ListModelMixin, viewsets.ViewSet):
     """A List View that is used for creating plotly charts"""
 

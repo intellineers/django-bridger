@@ -53,6 +53,12 @@ class ModelTestSerializer(serializers.ModelSerializer):
         )
 
 
+class CalendarModelTestSerializer(ModelTestSerializer):
+    class Meta:
+        model = ModelTest
+        fields = ("id", "char_field", "datetime_field", "datetime_field1")
+
+
 class RelatedModelTestSerializer(serializers.ModelSerializer):
 
     _model_test = ModelTestRepresentationSerializer(source="model_test")

@@ -17,8 +17,12 @@ from bridger.pandas.views import PandasAPIView
 
 from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
 from .models import ModelTest, RelatedModelTest
-from .serializers import (ModelTestRepresentationSerializer,
-                          ModelTestSerializer, RelatedModelTestSerializer)
+from .serializers import (
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestSerializer,
+    CalendarModelTestSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -166,10 +170,13 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         return {"message": "ABC1"}
 
 
-class ModelTestModelCalendarViewSet(ModelTestModelViewSet):
+class ModelTestModelCalendarViewSet(
+    ModelTestModelViewSet, viewsets.InfiniteDataModelView
+):
 
     filterset_class = CalendarFilter
-    pagination_class = None
+    serializer_class = CalendarModelTestSerializer
+    # pagination_class = None
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

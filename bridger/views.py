@@ -41,7 +41,7 @@ class Config(APIView):
     permission_classes = []
 
     def get(self, request: Request) -> Response:
-
+        # TODO: This needs to be a bit more flexible if the user wants to change something
         return Response(
             {
                 "authentication": get_bridger_auth(request),

@@ -154,5 +154,5 @@ LOGGING = {
         },
     },
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
-    "loggers": {"": {"level": "DEBUG", "handlers": ["console"]}},
+    "loggers": {"": {"level": "INFO", "handlers": ["console"]}},
 }

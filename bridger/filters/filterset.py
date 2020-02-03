@@ -1,5 +1,6 @@
 from django.db import models
-from django.db.models.fields.related import ManyToManyRel, ManyToOneRel, OneToOneRel
+from django.db.models.fields.related import (ManyToManyRel, ManyToOneRel,
+                                             OneToOneRel)
 from django_filters.rest_framework import FilterSet as DjangoFilterSet
 
 from bridger.filters import fields
@@ -76,4 +77,3 @@ class FilterSet(DjangoFilterSet):
             params["label"] = field.verbose_name
 
         return filter_class, params
-

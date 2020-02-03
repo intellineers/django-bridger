@@ -1,6 +1,7 @@
 import pytest
 
-from bridger.viewsets import ChartViewSet, ModelViewSet, RepresentationModelViewSet
+from bridger.viewsets import (ChartViewSet, ModelViewSet,
+                              RepresentationModelViewSet)
 
 
 @pytest.mark.django_db

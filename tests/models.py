@@ -4,8 +4,8 @@ from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
 
+from bridger.display import FieldSet, InstanceDisplay, Section
 from bridger.fsm.buttons import FSMButton
-from bridger.display import InstanceDisplay, Section, FieldSet
 
 
 class ModelTest(models.Model):

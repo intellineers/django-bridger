@@ -2,25 +2,20 @@ import inspect
 import logging
 import pprint
 from contextlib import suppress
-from functools import partialmethod, partial
+from functools import partial, partialmethod
 from optparse import OptionParser
 
-from django_fsm import (
-    FSMField,
-    TransitionNotAllowed,
-    get_available_user_FIELD_transitions,
-)
+from django.urls import resolve
+from django_fsm import (FSMField, TransitionNotAllowed,
+                        get_available_user_FIELD_transitions)
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.serializers import SerializerMetaclass
 
-from bridger.serializers import FSMStatusField
-from bridger.serializers import register_resource
-from django.urls import resolve
-
-from rest_framework.reverse import reverse
+from bridger.serializers import FSMStatusField, register_resource
 
 logger = logging.getLogger(__name__)
 

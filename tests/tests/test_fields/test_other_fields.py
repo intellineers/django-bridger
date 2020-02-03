@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.exceptions import ValidationError
 
-from bridger.serializers import StarRatingField, RangeSelectField
+from bridger.serializers import RangeSelectField, StarRatingField
 from bridger.serializers.fields.types import BridgerType
 
 from ...models import ModelTest

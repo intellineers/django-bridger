@@ -2,8 +2,8 @@
 from rest_framework import serializers
 
 from .mixins import BridgerSerializerFieldMixin
-from .types import BridgerType, ReturnContentType
 from .number import IntegerField
+from .types import BridgerType, ReturnContentType
 
 
 class StarRatingField(IntegerField):

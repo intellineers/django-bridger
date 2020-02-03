@@ -1,8 +1,9 @@
 import factory
 import pytz
+from django.conf import settings
 from factory.fuzzy import FuzzyChoice
 from faker import Faker
-from django.conf import settings
+
 from .models import ModelTest, RelatedModelTest
 
 

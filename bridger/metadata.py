@@ -1,11 +1,10 @@
 from collections import defaultdict
 
 from rest_framework.metadata import SimpleMetadata
+from rest_framework.reverse import reverse
 
 from .enums import WidgetType
 from .serializers import percent_decorator
-
-from rest_framework.reverse import reverse
 
 
 class BridgerMetaData(SimpleMetadata):

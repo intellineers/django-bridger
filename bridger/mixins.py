@@ -1,16 +1,17 @@
 import logging
+from typing import Dict, Generator, List
 
-from .metadata import BridgerMetaData
 from django.contrib.contenttypes.models import ContentType
-from rest_framework.reverse import reverse
-from rest_framework.request import Request
-from rest_framework.pagination import CursorPagination, LimitOffsetPagination
-from typing import Dict, List, Generator
-from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+from rest_framework.pagination import CursorPagination, LimitOffsetPagination
+from rest_framework.request import Request
+from rest_framework.reverse import reverse
 
 from bridger.enums import Button, WidgetType
 from bridger.serializers import RepresentationSerializer
+
+from .metadata import BridgerMetaData
 
 logger = logging.getLogger(__name__)
 

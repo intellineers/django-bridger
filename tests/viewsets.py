@@ -1,29 +1,24 @@
+import logging
+from collections import defaultdict
+
+import pandas as pd
 from django.db.models import Avg, Max, Sum
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
+from rest_framework import filters, views
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
-
-from .filters import ModelTestFilterSet, PandasFilterSet, CalendarFilter
-from .models import ModelTest, RelatedModelTest
-from .serializers import (
-    ModelTestRepresentationSerializer,
-    ModelTestSerializer,
-    RelatedModelTestSerializer,
-)
-
-from bridger.pandas.views import PandasAPIView
-from bridger.pandas import fields as pf
-
-import pandas as pd
-from rest_framework import views
-from rest_framework.response import Response
-import logging
-from collections import defaultdict
 from bridger.enums import Unit
+from bridger.pandas import fields as pf
+from bridger.pandas.views import PandasAPIView
+
+from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
+from .models import ModelTest, RelatedModelTest
+from .serializers import (ModelTestRepresentationSerializer,
+                          ModelTestSerializer, RelatedModelTestSerializer)
 
 logger = logging.getLogger(__name__)
 

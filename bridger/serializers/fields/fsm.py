@@ -1,5 +1,5 @@
-from bridger.serializers.fields.text import CharField
 from bridger.serializers.fields.choice import ChoiceField
+from bridger.serializers.fields.text import CharField
 
 
 # TODO: Color for each state

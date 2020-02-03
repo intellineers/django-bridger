@@ -1,9 +1,9 @@
 import pytest
 
-from .utils import AuthenticatedTest
-
-from bridger.views import Menu, Profile, Config
 from bridger.menus import default_registry
+from bridger.views import Config, Menu, Profile
+
+from .utils import AuthenticatedTest
 
 
 # TODO: Make proper Test

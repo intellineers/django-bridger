@@ -1,7 +1,9 @@
+from rest_framework.reverse import reverse
+
 from bridger import serializers
 from bridger.serializers import register_resource
+
 from .models import ModelTest, RelatedModelTest
-from rest_framework.reverse import reverse
 
 
 class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):

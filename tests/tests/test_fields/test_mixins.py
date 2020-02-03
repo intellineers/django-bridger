@@ -1,7 +1,9 @@
 import pytest
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import Field
+
 from bridger.serializers.fields.mixins import BridgerSerializerFieldMixin
+
 from ...models import ModelTest
 
 
@@ -88,4 +90,3 @@ class TestListField:
             "default": default_method(),
             "decorators": [],
         }
-

@@ -2,16 +2,15 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 
-from .settings import get_bridger_auth
 from .enums import AuthType
 from .menus import default_registry
-
+from .settings import get_bridger_auth
 
 logger = logging.getLogger(__name__)
 

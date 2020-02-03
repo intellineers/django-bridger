@@ -1,10 +1,12 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.filters import OrderingFilter
-from .metadata import PandasMetadata
-from bridger.mixins import MetadataMixin
 import pandas as pd
 from django.db.models import QuerySet
+from rest_framework.filters import OrderingFilter
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from bridger.mixins import MetadataMixin
+
+from .metadata import PandasMetadata
 
 
 class PandasAPIView(MetadataMixin, APIView):

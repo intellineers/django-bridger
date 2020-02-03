@@ -2,8 +2,9 @@ from decimal import Decimal
 
 import pytest
 from rest_framework.exceptions import ValidationError
-from rest_framework.test import APIRequestFactory
 from rest_framework.reverse import reverse
+from rest_framework.test import APIRequestFactory
+
 from bridger.serializers import AdditionalResourcesField, HyperlinkField
 
 

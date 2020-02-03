@@ -1,9 +1,9 @@
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, NamedTuple, Optional
 
+from django.contrib import admin
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
-from django.contrib import admin
 
 
 class ItemPermission(NamedTuple):

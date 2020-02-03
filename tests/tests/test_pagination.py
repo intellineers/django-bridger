@@ -16,4 +16,3 @@ class TestCursorPagination:
     #     response = self.view(request)
 
     #     assert response.data["aggregates"] is not None
-

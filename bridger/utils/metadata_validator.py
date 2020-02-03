@@ -1,6 +1,7 @@
 import json
 import os
-from jsonschema import validate, Draft7Validator
+
+from jsonschema import Draft7Validator, validate
 
 from bridger.buttons import Button
 

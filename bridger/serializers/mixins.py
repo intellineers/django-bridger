@@ -1,7 +1,7 @@
+from django.utils.http import urlencode
 from rest_framework.reverse import reverse
 
 from bridger.serializers.fields.related import ListSerializer
-from django.utils.http import urlencode
 
 
 class RepresentationSerializerMixin:

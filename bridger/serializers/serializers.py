@@ -6,10 +6,10 @@ from django_fsm import FSMField
 from rest_framework import serializers
 from rest_framework.request import Request
 
+from bridger.fsm.mixins import FSMSerializerMetaclass
 from bridger.serializers import fields
 
 from .mixins import RepresentationSerializerMixin
-from bridger.fsm.mixins import FSMSerializerMetaclass
 
 
 def decorator(position: str, value: str) -> Dict:

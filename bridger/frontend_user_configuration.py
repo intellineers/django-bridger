@@ -11,8 +11,8 @@ from rest_framework.filters import OrderingFilter
 
 from .filters import BooleanFilter, CharFilter, ModelChoiceFilter
 from .serializers import ModelSerializer, PrimaryKeyCharField
-from .viewsets import ModelViewSet
 from .settings import get_bridger_frontend_user_configuration_order
+from .viewsets import ModelViewSet
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.exceptions import ValidationError
 
-from bridger.serializers import PrimaryKeyField, PrimaryKeyCharField
+from bridger.serializers import PrimaryKeyCharField, PrimaryKeyField
 from bridger.serializers.fields.types import BridgerType
 
 from ...models import ModelTest

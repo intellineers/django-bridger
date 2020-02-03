@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, NamedTuple, Optional, Union, Tuple, Any, Dict
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple, Union
 
 
 class BaseField(NamedTuple):

@@ -1,4 +1,4 @@
-from bridger.menus import default_registry, PresetMenuItem, Menu, MenuItem
+from bridger.menus import Menu, MenuItem, PresetMenuItem, default_registry
 
 # default_registry.register(PresetMenuItem(label="News", preset="StainlyNewsWidget"))
 default_registry.register(

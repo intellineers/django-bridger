@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import NamedTuple, Optional, List
+from typing import List, NamedTuple, Optional
 
 from bridger.display import InstanceDisplay
 from bridger.enums import Button

@@ -1,8 +1,8 @@
 from django.urls import include, path
 
+from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 from .routers import BridgerRouter
 from .views import Config, Menu, Profile
-from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 
 # fmt: off
 router = BridgerRouter()

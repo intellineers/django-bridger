@@ -1,6 +1,5 @@
-from typing import Union
-
 from enum import Enum
+from typing import Union
 
 
 class Button(Enum):

@@ -1,21 +1,19 @@
-# Options
+# OPTION
 
 The option request describes the upcomming requests for an endpoint:
 
 seqdiag {
-  Client -> Server [label = "OPTIONS /model/"];
+  Client -> Server [label = "OPTIONS /model/", leftnote = "Widget Start"];
   Client <- Server [label = "List Metadata"];
 
   Client -> Server [label = "GET /model/"];
-  Client <- Server [label = "List Response"];
+  Client <- Server [label = "List Response", leftnote = "Widget Rendered"];
 }
 
+seqdiag {
+  Client -> Server [label = "OPTIONS /model/<id:int>", leftnote = "Widget Start"];
+  Client <- Server [label = "Instance Metadata"];
 
-<!-- seqdiag {
-  browser  -> webserver [label = "GET /index.html"];
-  browser <-- webserver;
-  browser  -> webserver [label = "POST /blog/comment"];
-              webserver  -> database [label = "INSERT comment"];
-              webserver <-- database;
-  browser <-- webserver;
-} -->
+  Client -> Server [label = "GET /model/<id:int>"];
+  Client <- Server [label = "Instance Response", leftnote = "Widget Rendered"];
+}

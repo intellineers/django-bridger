@@ -16,7 +16,14 @@ logger = logging.getLogger(__name__)
 
 
 class Menu(APIView):
-    permission_classes = [IsAuthenticated]
+    @property
+    def permission_classes(self):
+        bridger_auth = get_bridger_auth(None)
+
+        if bridger_auth["type"] is None:
+            return []
+
+        return [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
         return Response(default_registry.to_dict(request))

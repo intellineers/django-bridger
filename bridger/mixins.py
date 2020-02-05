@@ -64,14 +64,14 @@ class MetadataMixin:
             else WidgetType.INSTANCE.value
         )
 
-    # TODO: What if this is a endpoint without any ContentType?
     def get_identifier(self, request: Request) -> str:
         identifier = getattr(self, "IDENTIFIER", None)
-        if not identifier:
+        if not identifier and hasattr(self, "get_serializer_class"):
             ct = ContentType.objects.get_for_model(
                 self.get_serializer_class().Meta.model
             )
             return f"{ct.app_label}:{ct.model}"
+        assert identifier, "Each Endpoint needs an Identifier"
         return identifier
 
     def get_endpoint(self, request: Request) -> Optional[str]:
@@ -135,7 +135,11 @@ class MetadataMixin:
         buttons = list()
 
         pk = self.kwargs.get("pk", None)
-        ct = ContentType.objects.get_for_model(self.get_serializer_class().Meta.model)
+        ct = None
+        if hasattr(self, "get_serializer_class"):
+            ct = ContentType.objects.get_for_model(
+                self.get_serializer_class().Meta.model
+            )
 
         if pk:
             if hasattr(self, "INSTANCE_BUTTONS"):
@@ -156,16 +160,7 @@ class MetadataMixin:
         return buttons
 
     def get_create_buttons(self, request: Request) -> List[str]:
-        return getattr(
-            self,
-            "CREATE_BUTTONS",
-            [
-                Button.RESET.value,
-                Button.SAVE.value,
-                Button.SAVE_AND_CLOSE.value,
-                Button.SAVE_AND_NEW.value,
-            ],
-        )
+        return getattr(self, "CREATE_BUTTONS", [])
 
     def get_custom_buttons(self, request: Request) -> Dict[str, str]:
         return []
@@ -254,7 +249,12 @@ class MetadataMixin:
 
     # PAGINATION
     def get_pagination(self, request: Request):
-        pagination = self.pagination_class.__name__ if self.pagination_class else None
+
+        pagination = (
+            self.pagination_class.__name__
+            if hasattr(self, "pagination_class") and self.pagination_class
+            else None
+        )
 
         return {
             "CursorPagination": "cursor",
@@ -291,27 +291,30 @@ class MetadataMixin:
 
     def get_filter_fields(self, request: Request) -> Generator[Dict, None, None]:
         if DjangoFilterBackend in self.filter_backends:
-            filterset = (
-                DjangoFilterBackend().get_filterset_class(self).base_filters.items()
-            )
-            combined_fields = dict()
-            for name, field in filterset:
-                representation = field.get_representation(request, name)
-                combined_key = representation.get("combined_key", None)
-                if combined_key:
-                    # If there is a combined key we need to check wether this is the first
-                    # combined key we found. If not then we need to add this field together
-                    # with the previously found combined key, clean up and yield it
-                    if combined_key in combined_fields:
-                        other_representation = combined_fields[combined_key]
-                        for key in other_representation.keys() - representation.keys():
-                            representation[key] = other_representation[key]
+            filterset_class = DjangoFilterBackend().get_filterset_class(self)
 
-                        del representation["combined_key"]
-                        del combined_fields[combined_key]
+            if hasattr(filterset_class, "base_filters"):
+                filterset = filterset_class.base_filters.items()
+                combined_fields = dict()
+                for name, field in filterset:
+                    representation = field.get_representation(request, name)
+                    combined_key = representation.get("combined_key", None)
+                    if combined_key:
+                        # If there is a combined key we need to check wether this is the first
+                        # combined key we found. If not then we need to add this field together
+                        # with the previously found combined key, clean up and yield it
+                        if combined_key in combined_fields:
+                            other_representation = combined_fields[combined_key]
+                            for key in (
+                                other_representation.keys() - representation.keys()
+                            ):
+                                representation[key] = other_representation[key]
 
-                        yield combined_key, representation
+                            del representation["combined_key"]
+                            del combined_fields[combined_key]
+
+                            yield combined_key, representation
+                        else:
+                            combined_fields[combined_key] = representation
                     else:
-                        combined_fields[combined_key] = representation
-                else:
-                    yield name, representation
+                        yield name, representation

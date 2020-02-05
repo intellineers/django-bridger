@@ -17,6 +17,7 @@ from .filters import BooleanFilter, ModelChoiceFilter
 from .fsm.mixins import FSMViewSetMixin
 from .mixins import MetadataMixin
 from .pagination import CursorPagination
+from .enums import WidgetType
 
 logger = logging.getLogger(__name__)
 
@@ -100,8 +101,20 @@ class InfiniteDataModelView(ModelViewSet):
 class ChartViewSet(MetadataMixin, ListModelMixin, viewsets.ViewSet):
     """A List View that is used for creating plotly charts"""
 
-    CHART_DISPLAY = True
+    WIDGET_TYPE = WidgetType.CHART.value
     filter_backends = [DjangoFilterBackend]
+
+    def list(self, request, *args, **kwargs):
+        figure = self.get_plotly(self.filter_queryset(self.get_queryset()))
+        figure_dict = figure.to_plotly_json()
+        figure_dict["config"] = {"responsive": True, "displaylogo": False}
+        figure_dict["useResizeHandler"] = True
+        figure_dict["style"] = {"width": "100%", "height": "100%"}
+
+        return Response(figure_dict)
+
+    def get_queryset(self):
+        return self.queryset
 
     def filter_queryset(self, queryset: QuerySet) -> QuerySet:
         for backend in list(self.filter_backends):

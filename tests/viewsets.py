@@ -17,9 +17,14 @@ from bridger.pandas.views import PandasAPIView
 
 from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
 from .models import ModelTest, RelatedModelTest
-from .serializers import (CalendarModelTestSerializer,
-                          ModelTestRepresentationSerializer,
-                          ModelTestSerializer, RelatedModelTestSerializer)
+from .serializers import (
+    CalendarModelTestSerializer,
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestSerializer,
+)
+import plotly.graph_objects as go
+
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +67,55 @@ class MyPandasView(PandasAPIView):
                 "μ": df["integer_field"].mean(),
             }
         }
+
+
+class ModelTestChartViewSet(viewsets.ChartViewSet):
+
+    IDENTIFIER = "tests:chart"
+    queryset = ModelTest.objects.all()
+
+    def get_plotly(self, queryset):
+        df = pd.DataFrame(queryset.values("date_field", "integer_field"))
+        fig = go.Figure(
+            [
+                go.Scatter(
+                    x=df.date_field,
+                    y=df.integer_field,  # fill='tozeroy',
+                    line=dict(width=1),
+                    # line=dict(color=f"rgb({red}, {green}, {blue})", width=1),
+                    # fillcolor=f"rgba({red}, {green}, {blue}, 0.1)"
+                )
+            ]
+        )
+        fig.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            yaxis=dict(
+                title="",
+                titlefont=dict(color="#000000"),
+                tickfont=dict(color="#000000"),
+                anchor="x",
+                side="right",
+                showline=True,
+                linewidth=1,
+                linecolor="black",
+            ),
+            yaxis_type="log",
+            xaxis=dict(
+                title="",
+                titlefont=dict(color="#000000"),
+                tickfont=dict(color="#000000"),
+                showline=True,
+                linewidth=0.5,
+                linecolor="black",
+                showgrid=True,
+                gridcolor="lightgray",
+                gridwidth=1,
+            ),
+            autosize=True,
+            xaxis_rangeslider_visible=True,
+        )
+        return fig
 
 
 class ModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):

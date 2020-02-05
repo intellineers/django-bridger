@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.fields.related import (ManyToManyRel, ManyToOneRel,
                                              OneToOneRel)
-from django_filters.filterset import remote_queryset
+from django_filters.filterset import remote_queryset, settings
 from django_filters.rest_framework import FilterSet as DjangoFilterSet
 
 from bridger.filters import fields

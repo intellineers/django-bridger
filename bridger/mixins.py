@@ -275,9 +275,9 @@ class MetadataMixin:
 
     def get_titles(self, request: Request) -> Dict:
         return {
-            "instance": self.get_instance_widget_title(request)
-            "list": self.get_list_widget_title(request)
-            "create": self.get_create_widget_title(request)
+            "instance": self.get_instance_widget_title(request),
+            "list": self.get_list_widget_title(request),
+            "create": self.get_create_widget_title(request),
         }
 
     # Search, Ordering, Filter

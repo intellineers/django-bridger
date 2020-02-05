@@ -2,6 +2,7 @@ import logging
 from collections import defaultdict
 
 import pandas as pd
+import plotly.graph_objects as go
 from django.db.models import Avg, Max, Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
@@ -17,14 +18,9 @@ from bridger.pandas.views import PandasAPIView
 
 from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
 from .models import ModelTest, RelatedModelTest
-from .serializers import (
-    CalendarModelTestSerializer,
-    ModelTestRepresentationSerializer,
-    ModelTestSerializer,
-    RelatedModelTestSerializer,
-)
-import plotly.graph_objects as go
-
+from .serializers import (CalendarModelTestSerializer,
+                          ModelTestRepresentationSerializer,
+                          ModelTestSerializer, RelatedModelTestSerializer)
 
 logger = logging.getLogger(__name__)
 

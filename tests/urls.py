@@ -3,22 +3,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView, TokenVerifyView)
 
 from bridger.routers import BridgerRouter
 
-from .viewsets import (
-    ModelTestModelCalendarViewSet,
-    ModelTestModelViewSet,
-    ModelTestRepresentationViewSet,
-    MyPandasView,
-    RelatedModelTestModelViewSet,
-    ModelTestChartViewSet,
-)
+from .viewsets import (ModelTestChartViewSet, ModelTestModelCalendarViewSet,
+                       ModelTestModelViewSet, ModelTestRepresentationViewSet,
+                       MyPandasView, RelatedModelTestModelViewSet)
 
 # fmt: off
 router = BridgerRouter()

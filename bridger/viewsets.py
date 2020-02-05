@@ -13,11 +13,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from .enums import WidgetType
 from .filters import BooleanFilter, ModelChoiceFilter
 from .fsm.mixins import FSMViewSetMixin
 from .mixins import MetadataMixin
 from .pagination import CursorPagination
-from .enums import WidgetType
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, Generator, List
+from typing import Dict, Generator, List, Optional
 
 from django.contrib.contenttypes.models import ContentType
 from django_filters.rest_framework import DjangoFilterBackend
@@ -74,37 +74,47 @@ class MetadataMixin:
             return f"{ct.app_label}:{ct.model}"
         return identifier
 
-    def get_endpoint(self):
-        return getattr(self, "ENDPOINT", None)
+    def get_endpoint(self, request: Request) -> Optional[str]:
+        if hasattr(self, "ENDPOINT"):
+            return reverse(self.ENDPOINT, request=request)
+        return None
 
-    def get_list_endpoint(self):
-        return getattr(self, "LIST_ENDPOINT", self.get_endpoint())
+    def get_list_endpoint(self, request: Request) -> Optional[str]:
+        if hasattr(self, "LIST_ENDPOINT"):
+            return reverse(self.LIST_ENDPOINT, request=request)
+        return self.get_endpoint(request=request)
 
-    def get_instance_endpoint(self):
-        return getattr(self, "INSTANCE_ENDPOINT", self.get_endpoint())
+    def get_instance_endpoint(self, request: Request) -> Optional[str]:
+        if hasattr(self, "INSTANCE_ENDPOINT"):
+            return reverse(self.INSTANCE_ENDPOINT, request=request)
+        return self.get_endpoint(request=request)
 
-    def get_create_endpoint(self):
-        return getattr(self, "CREATE_ENDPOINT", self.get_endpoint())
+    def get_create_endpoint(self, request: Request) -> Optional[str]:
+        if hasattr(self, "CREATE_ENDPOINT"):
+            return reverse(self.CREATE_ENDPOINT, request=request)
+        return self.get_endpoint(request=request)
 
-    def get_delete_endpoint(self):
-        return getattr(self, "DELETE_ENDPOINT", self.get_endpoint())
+    def get_delete_endpoint(self, request: Request) -> Optional[str]:
+        if hasattr(self, "DELETE_ENDPOINT"):
+            return reverse(self.DELETE_ENDPOINT, request=request)
+        return self.get_endpoint(request=request)
 
     def get_endpoints(self, request: Request, buttons: List[str]) -> Dict[str, str]:
         endpoints = dict()
 
-        list_endpoint = self.get_list_endpoint()
-        instance_endpoint = self.get_instance_endpoint()
-        create_endpoint = self.get_create_endpoint()
-        delete_endpoint = self.get_instance_endpoint()
+        list_endpoint = self.get_list_endpoint(request=request)
+        instance_endpoint = self.get_instance_endpoint(request=request)
+        create_endpoint = self.get_create_endpoint(request=request)
+        delete_endpoint = self.get_instance_endpoint(request=request)
 
         if list_endpoint:
-            endpoints["list"] = reverse(list_endpoint, request=request)
+            endpoints["list"] = list_endpoint
 
         if instance_endpoint:
-            endpoints["instance"] = reverse(instance_endpoint, request=request)
+            endpoints["instance"] = instance_endpoint
 
         if create_endpoint:
-            endpoints["create"] = reverse(create_endpoint, request=request)
+            endpoints["create"] = create_endpoint
         elif Button.NEW.value in buttons:
             logger.warn(
                 "New Button Specified, but no create endpoint specified. New Button is removed."
@@ -112,7 +122,7 @@ class MetadataMixin:
             buttons.remove(Button.NEW.value)
 
         if delete_endpoint:
-            endpoints["delete"] = reverse(delete_endpoint, request=request)
+            endpoints["delete"] = delete_endpoint
         elif Button.DELETE.value in buttons:
             logger.warn(
                 "Delete Button Specified, but no delete endpoint specified. Delete Button is removed."

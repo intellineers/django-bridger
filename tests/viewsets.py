@@ -18,9 +18,12 @@ from bridger.pandas.views import PandasAPIView
 
 from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
 from .models import ModelTest, RelatedModelTest
-from .serializers import (CalendarModelTestSerializer,
-                          ModelTestRepresentationSerializer,
-                          ModelTestSerializer, RelatedModelTestSerializer)
+from .serializers import (
+    CalendarModelTestSerializer,
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +74,9 @@ class ModelTestChartViewSet(viewsets.ChartViewSet):
     queryset = ModelTest.objects.all()
 
     def get_plotly(self, queryset):
-        df = pd.DataFrame(queryset.values("date_field", "integer_field"))
+        df = pd.DataFrame(
+            queryset.order_by("date_field").values("date_field", "integer_field")
+        )
         fig = go.Figure(
             [
                 go.Scatter(

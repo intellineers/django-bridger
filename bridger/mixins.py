@@ -253,22 +253,24 @@ class MetadataMixin:
         }[pagination]
 
     # TITLES
-    def get_titles(self, request: Request):
-        titles = dict()
 
-        if hasattr(self, "INSTANCE_WIDGET_TITLE"):
-            titles["instance"] = self.INSTANCE_WIDGET_TITLE
+    def get_instance_widget_title(self, request: Request) -> str:
+        return getattr(self, "INSTANCE_WIDGET_TITLE", "")
 
-        if hasattr(self, "LIST_WIDGET_TITLE"):
-            titles["list"] = self.LIST_WIDGET_TITLE
+    def get_list_widget_title(self, request: Request) -> str:
+        return getattr(self, "LIST_WIDGET_TITLE", "")
 
-        if hasattr(self, "CREATE_WIDGET_TITLE"):
-            titles["create"] = self.CREATE_WIDGET_TITLE
+    def get_create_widget_title(self, request: Request) -> str:
+        return getattr(self, "CREATE_WIDGET_TITLE", "")
 
-        return titles
+    def get_titles(self, request: Request) -> Dict:
+        return {
+            "instance": self.get_instance_widget_title(request)
+            "list": self.get_list_widget_title(request)
+            "create": self.get_create_widget_title(request)
+        }
 
     # Search, Ordering, Filter
-
     def get_search_fields(self, request: Request) -> Generator[str, None, None]:
         if filters.SearchFilter in self.filter_backends:
             yield from self.search_fields

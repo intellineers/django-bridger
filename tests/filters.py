@@ -1,9 +1,14 @@
 from django.db.models import Q
 
-from bridger.filters import (BooleanFilter, CharFilter, DateFilter,
-                             DefaultDateRangeFilterValues, FilterSet)
+from bridger.filters import (
+    BooleanFilter,
+    CharFilter,
+    DateFilter,
+    DefaultDateRangeFilterValues,
+    FilterSet,
+)
 
-from .models import ModelTest
+from .models import ModelTest, RelatedModelTest
 
 
 class PandasFilterSet(FilterSet):
@@ -32,6 +37,12 @@ class ModelTestFilterSet(FilterSet):
     class Meta:
         model = ModelTest
         fields = ["char_field", "date_lte", "date_gte", "before_2k"]
+
+
+class RelatedModelTestFilterSet(FilterSet):
+    class Meta:
+        model = RelatedModelTest
+        fields = ["char_field", "model_test"]
 
 
 class CalendarFilter(FilterSet):

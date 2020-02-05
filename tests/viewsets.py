@@ -16,11 +16,19 @@ from bridger.enums import Unit
 from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 
-from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet
+from .filters import (
+    CalendarFilter,
+    ModelTestFilterSet,
+    PandasFilterSet,
+    RelatedModelTestFilterSet,
+)
 from .models import ModelTest, RelatedModelTest
-from .serializers import (CalendarModelTestSerializer,
-                          ModelTestRepresentationSerializer,
-                          ModelTestSerializer, RelatedModelTestSerializer)
+from .serializers import (
+    CalendarModelTestSerializer,
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -248,7 +256,7 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char", col=Unit.FRACTION(2)),
-            dp.Field(key="model_test", label="Model", col=Unit.REM(10)),
+            dp.Field(key="model_test", label="Model", col=Unit.FRACTION(2)),
             dp.Field(key="_left", col=Unit.REM(2)),
             dp.Field(key="_right", col=Unit.REM(2)),
         ]
@@ -256,6 +264,14 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     INSTANCE_DISPLAY = dp.InstanceDisplay(
         sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "model_test"]))]
     )
+
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    filter_class = RelatedModelTestFilterSet
+    search_fields = ["char_field"]
 
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestSerializer

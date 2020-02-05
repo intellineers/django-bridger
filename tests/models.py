@@ -88,6 +88,10 @@ class ModelTest(models.Model):
         """Moves the model from Status2 to Status3"""
         pass
 
+    @classmethod
+    def get_representation_endpoint(cls):
+        return "modeltestrepresentation-list"
+
     class Meta:
         verbose_name = "Test Model"
         verbose_name_plural = "Test Models"
@@ -96,6 +100,13 @@ class ModelTest(models.Model):
 class RelatedModelTest(models.Model):
 
     model_test = models.ForeignKey(
-        to="tests.ModelTest", related_name="related_models", on_delete=models.CASCADE
+        to="tests.ModelTest",
+        related_name="related_models",
+        on_delete=models.CASCADE,
+        verbose_name="Model Test",
     )
-    char_field = models.CharField(max_length=255)
+    char_field = models.CharField(max_length=255, verbose_name="Char")
+
+    class Meta:
+        verbose_name = "Related Model Test"
+        verbose_name_plural = "Related Model Tests"

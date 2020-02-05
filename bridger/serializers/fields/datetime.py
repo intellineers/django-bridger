@@ -6,6 +6,7 @@ from .types import BridgerType
 
 class DateTimeField(BridgerSerializerFieldMixin, serializers.DateTimeField):
     field_type = BridgerType.DATETIME.value
+    # format = "%Y-%m-%d"
 
 
 class DateField(BridgerSerializerFieldMixin, serializers.DateField):

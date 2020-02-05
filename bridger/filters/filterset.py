@@ -1,10 +1,13 @@
+import logging
+
 from django.db import models
-from django.db.models.fields.related import (ManyToManyRel, ManyToOneRel,
-                                             OneToOneRel)
+from django.db.models.fields.related import ManyToManyRel, ManyToOneRel, OneToOneRel
 from django_filters.filterset import remote_queryset, settings
 from django_filters.rest_framework import FilterSet as DjangoFilterSet
 
 from bridger.filters import fields
+
+logger = logging.getLogger(__name__)
 
 
 class FilterSet(DjangoFilterSet):
@@ -36,6 +39,7 @@ class FilterSet(DjangoFilterSet):
             "filter_class": fields.ModelChoiceFilter,
             "extra": lambda f: {
                 "queryset": remote_queryset(f),
+                "endpoint": f.related_model.get_representation_endpoint(),
                 "to_field_name": f.remote_field.field_name,
                 "null_label": settings.NULL_CHOICE_LABEL if f.null else None,
             },
@@ -44,29 +48,40 @@ class FilterSet(DjangoFilterSet):
             "filter_class": fields.ModelChoiceFilter,
             "extra": lambda f: {
                 "queryset": remote_queryset(f),
+                "endpoint": f.related_model.get_representation_endpoint(),
                 "to_field_name": f.remote_field.field_name,
                 "null_label": settings.NULL_CHOICE_LABEL if f.null else None,
             },
         },
         models.ManyToManyField: {
             "filter_class": fields.ModelMultipleChoiceFilter,
-            "extra": lambda f: {"queryset": remote_queryset(f)},
+            "extra": lambda f: {
+                "queryset": remote_queryset(f),
+                "endpoint": f.related_model.get_representation_endpoint(),
+            },
         },
         # Reverse relationships
         OneToOneRel: {
             "filter_class": fields.ModelChoiceFilter,
             "extra": lambda f: {
                 "queryset": remote_queryset(f),
+                "endpoint": f.related_model.get_representation_endpoint(),
                 "null_label": settings.NULL_CHOICE_LABEL if f.null else None,
             },
         },
         ManyToOneRel: {
             "filter_class": fields.ModelMultipleChoiceFilter,
-            "extra": lambda f: {"queryset": remote_queryset(f)},
+            "extra": lambda f: {
+                "queryset": remote_queryset(f),
+                "endpoint": f.related_model.get_representation_endpoint(),
+            },
         },
         ManyToManyRel: {
             "filter_class": fields.ModelMultipleChoiceFilter,
-            "extra": lambda f: {"queryset": remote_queryset(f)},
+            "extra": lambda f: {
+                "queryset": remote_queryset(f),
+                "endpoint": f.related_model.get_representation_endpoint(),
+            },
         },
     }
 

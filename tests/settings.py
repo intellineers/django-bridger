@@ -76,6 +76,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
         "bridger.permissions.RestAPIModelPermissions",
     ),
+    "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S%z"
     # 'DEFAULT_METADATA_CLASS': 'wbutils.metadata.WorkbenchMetaData'
     # 'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata'
 }

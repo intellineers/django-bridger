@@ -41,7 +41,7 @@ class AdditionalResourcesField(BridgerSerializerFieldMixin, serializers.ReadOnly
         return resources
 
 
-class HyperlinkField(serializers.ReadOnlyField):
+class HyperlinkField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
     def __init__(self, *args, **kwargs):
         self.reverse_name = kwargs.pop("reverse_name")
         super().__init__(*args, **kwargs)

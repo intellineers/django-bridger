@@ -162,7 +162,16 @@ class MetadataMixin:
         return buttons
 
     def get_create_buttons(self, request: Request) -> List[str]:
-        return getattr(self, "CREATE_BUTTONS", [])
+        return getattr(
+            self,
+            "CREATE_BUTTONS",
+            [
+                Button.SAVE.value,
+                Button.SAVE_AND_NEW.value,
+                Button.SAVE_AND_CLOSE.value,
+                Button.RESET.value,
+            ],
+        )
 
     def get_custom_buttons(self, request: Request) -> Dict[str, str]:
         return []

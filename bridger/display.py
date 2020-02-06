@@ -3,7 +3,7 @@ from typing import Any, Dict, List, NamedTuple, Optional, Tuple, Union
 
 
 class ColumnFormatting(NamedTuple):
-    style: str
+    style: Dict
     condition: Optional[Tuple[str, Union[int, float, str]]] = None
     all_columns: bool = False
 
@@ -37,11 +37,13 @@ class RowStyleCondition(NamedTuple):
 
 
 class RowFormatting(NamedTuple):
-    column: str
     conditions: List[Union[RowIconCondition, RowStyleCondition]]
+    column: Optional[str] = None
 
     def to_dict(self):
-        rd = defaultdict(list, {"column": self.column})
+        rd = defaultdict(list)
+        if self.column:
+            rd["column"] = self.column
         for condition in self.conditions:
             rd["conditions"].append(condition.to_dict())
         return rd

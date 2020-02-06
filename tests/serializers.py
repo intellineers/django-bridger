@@ -77,5 +77,4 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RelatedModelTest
-        read_only_fields = ["char_field"]
         fields = ("id", "char_field", "model_test", "_model_test", "upper_char_field")

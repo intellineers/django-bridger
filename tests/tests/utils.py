@@ -11,5 +11,6 @@ class AuthenticatedTest:
         )
         self.factory = APIRequestFactory()
         self.blank_get_request = self.factory.get("")
-
         force_authenticate(self.blank_get_request, self.superuser)
+
+        self.blank_unauthenticated_get_request = self.factory.get("")

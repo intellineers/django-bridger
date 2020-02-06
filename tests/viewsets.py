@@ -124,6 +124,13 @@ class ModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestRepresentationSerializer
 
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
+
+    search_fields = ["char_field"]
+
 
 class ModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "modeltest-list"
@@ -153,7 +160,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="file_field", label="File"),
         ],
         legends=[
-            dp.Legend(items=[dp.LegendItem(icon="wb-icon-trash", label="something")])
+            dp.Legend(
+                items=[dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Good Stuff")]
+            )
         ],
         formatting=[
             dp.RowFormatting(
@@ -163,11 +172,11 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                         icon="wb-icon-thumbs-up-full", condition=("<", 5000)
                     ),
                     dp.RowStyleCondition(
-                        style={"backgroundColor": "rgb(100, 100, 100)"},
+                        style={"backgroundColor": "rgb(80,220,100)"},
                         condition=("<", 5000),
                     ),
                 ],
-            )
+            ),
         ],
     )
 
@@ -277,7 +286,7 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         filters.SearchFilter,
         DjangoFilterBackend,
     ]
-    filter_fields = {"model_test": ["exact"]}
+    filter_fields = {"model_test": ["exact"], "char_field": ["exact"]}
     search_fields = ["char_field"]
 
     queryset = RelatedModelTest.objects.all()

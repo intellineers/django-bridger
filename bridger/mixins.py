@@ -10,7 +10,7 @@ from rest_framework.reverse import reverse
 
 from bridger.enums import Button, WidgetType
 from bridger.filters import DjangoFilterBackend
-from bridger.serializers import RepresentationSerializer, ListSerializer
+from bridger.serializers import ListSerializer, RepresentationSerializer
 
 from .metadata import BridgerMetaData
 from .utils import ilen

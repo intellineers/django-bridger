@@ -76,8 +76,19 @@ class RepresentationSerializer(RepresentationSerializerMixin, ModelSerializer):
     def __init__(self, *args, **kwargs):
         self.filter_params = kwargs.pop("filter_params", None)
 
-        if hasattr(self.Meta.model, "get_label_key"):
-            self.label_key = kwargs.pop("label_key", self.Meta.model.get_label_key())
-        else:
-            self.label_key = kwargs.pop("label_key", self.label_key)
+        self.endpoint = kwargs.pop(
+            "endpoint",
+            getattr(self, "endpoint", self.Meta.model.get_representation_endpoint()),
+        )
+
+        self.value_key = kwargs.pop(
+            "value_key",
+            getattr(self, "value_key", self.Meta.model.get_representation_value_key()),
+        )
+
+        self.label_key = kwargs.pop(
+            "label_key",
+            getattr(self, "label_key", self.Meta.model.get_representation_label_key()),
+        )
+
         super().__init__(*args, **kwargs)

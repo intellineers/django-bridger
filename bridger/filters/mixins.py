@@ -8,7 +8,8 @@ class BridgerFilterMixin:
         representation = {
             "label": self.label,
             "type": self.filter_type,
-            "key": name,
+            "key": self.field_name,
+            "lookup_expr": {self.lookup_expr: self.key},
         }
 
         if self.default:

@@ -4,11 +4,13 @@ from collections import defaultdict
 import pandas as pd
 import plotly.graph_objects as go
 from django.db.models import Avg, Max, Sum
-from django_filters.rest_framework import DjangoFilterBackend
+
+# from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from bridger.filters import DjangoFilterBackend
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
@@ -207,7 +209,12 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     ]
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestSerializer
-    filter_class = ModelTestFilterSet
+    # filter_class = ModelTestFilterSet
+    filter_fields = {
+        "integer_field": ["lte", "gte", "exact"],
+        "char_field": ["exact", "icontains"],
+        "datetime_field": ["lte", "gte"],
+    }
 
     search_fields = ("char_field",)
     ordering_fields = ("char_field", "date_field", "float_field", "decimal_field")
@@ -270,7 +277,7 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         filters.SearchFilter,
         DjangoFilterBackend,
     ]
-    filter_class = RelatedModelTestFilterSet
+    filter_fields = {"model_test": ["exact"]}
     search_fields = ["char_field"]
 
     queryset = RelatedModelTest.objects.all()

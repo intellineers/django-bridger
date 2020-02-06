@@ -8,10 +8,6 @@ from .models import ModelTest, RelatedModelTest
 
 class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
-    value_key = "id"
-    label_key = "{{char_field}}"
-    endpoint = "modeltestrepresentation-list"
-
     _detail = serializers.HyperlinkField(reverse_name="modeltest-detail")
     _detail_preview = serializers.HyperlinkField(reverse_name="modeltest-detail")
 

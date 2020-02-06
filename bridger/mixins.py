@@ -1,17 +1,19 @@
 import logging
+from collections import defaultdict
 from typing import Dict, Generator, List, Optional
 
 from django.contrib.contenttypes.models import ContentType
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import CursorPagination, LimitOffsetPagination
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
 from bridger.enums import Button, WidgetType
+from bridger.filters import DjangoFilterBackend
 from bridger.serializers import RepresentationSerializer
 
 from .metadata import BridgerMetaData
+from .utils import ilen
 
 logger = logging.getLogger(__name__)
 
@@ -291,30 +293,34 @@ class MetadataMixin:
 
     def get_filter_fields(self, request: Request) -> Generator[Dict, None, None]:
         if DjangoFilterBackend in self.filter_backends:
-            filterset_class = DjangoFilterBackend().get_filterset_class(self)
-
+            filterset_class = DjangoFilterBackend().get_filterset_class(
+                self, self.queryset
+            )
             if hasattr(filterset_class, "base_filters"):
                 filterset = filterset_class.base_filters.items()
-                combined_fields = dict()
-                for name, field in filterset:
+                field_names = [
+                    v.field_name for k, v in filterset_class.base_filters.items()
+                ]
+                stored_fields = dict()
+                for index, (name, field) in enumerate(filterset):
+
+                    upcomming_fields = ilen(
+                        filter(
+                            lambda f: f == field.field_name, field_names[index + 1 :]
+                        )
+                    )
                     representation = field.get_representation(request, name)
-                    combined_key = representation.get("combined_key", None)
-                    if combined_key:
-                        # If there is a combined key we need to check wether this is the first
-                        # combined key we found. If not then we need to add this field together
-                        # with the previously found combined key, clean up and yield it
-                        if combined_key in combined_fields:
-                            other_representation = combined_fields[combined_key]
-                            for key in (
-                                other_representation.keys() - representation.keys()
-                            ):
-                                representation[key] = other_representation[key]
 
-                            del representation["combined_key"]
-                            del combined_fields[combined_key]
+                    if upcomming_fields > 0 or field.field_name in stored_fields:
+                        _representation = stored_fields.get(
+                            field.field_name, representation
+                        )
+                        _representation["lookup_expr"].update(
+                            representation["lookup_expr"]
+                        )
+                        stored_fields[field.field_name] = _representation
 
-                            yield combined_key, representation
-                        else:
-                            combined_fields[combined_key] = representation
-                    else:
-                        yield name, representation
+                    if upcomming_fields == 0:
+                        yield field.field_name, stored_fields.get(
+                            field.field_name, representation
+                        )

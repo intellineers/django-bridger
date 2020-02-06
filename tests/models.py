@@ -48,8 +48,8 @@ class ModelTest(models.Model):
     percent_field = models.FloatField()
 
     # Date and Time
-    datetime_field = models.DateTimeField()
-    datetime_field1 = models.DateTimeField()
+    datetime_field = models.DateTimeField(verbose_name="DateTime")
+    datetime_field1 = models.DateTimeField(verbose_name="DateTime 1")
     date_field = models.DateField()
     time_field = models.TimeField()
 
@@ -91,6 +91,14 @@ class ModelTest(models.Model):
     @classmethod
     def get_representation_endpoint(cls):
         return "modeltestrepresentation-list"
+
+    @classmethod
+    def get_representation_value_key(cls):
+        return "id"
+
+    @classmethod
+    def get_representation_label_key(cls):
+        return "{{char_field}}"
 
     class Meta:
         verbose_name = "Test Model"

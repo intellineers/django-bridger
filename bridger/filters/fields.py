@@ -104,31 +104,15 @@ class DefaultDateRangeFilterValues(Enum):
     CURRENT_DATE = auto()
 
 
+class TimeFilter(BridgerFilterMixin, django_filters.TimeFilter):
+    filter_type = "time"
+
+
+class DateTimeFilter(BridgerFilterMixin, django_filters.DateFilter):
+    filter_type = "datetime"
+
+
 class DateFilter(BridgerFilterMixin, django_filters.DateFilter):
-    def __init__(self, *args, **kwargs):
-        self.date_range = kwargs.pop("date_range", None)
-        super().__init__(*args, **kwargs)
-
-    def get_representation(self, request, name):
-        representation = super().get_representation(request, name)
-        if self.date_range:
-            if self.default:
-
-                if self.default == DefaultDateRangeFilterValues.CURRENT_QUARTER_START:
-                    representation["default"] = {
-                        self.key: get_start_and_from_date(localdate())
-                    }
-                elif self.default == DefaultDateRangeFilterValues.CURRENT_QUARTER_END:
-                    representation["default"] = {
-                        # self.key: get_end_date_from_date(localdate())
-                    }
-
-            representation["type"] = "daterange"
-            representation["combined_key"] = self.field_name
-            representation[self.lookup_expr] = self.key
-
-        return representation
-
     filter_type = "date"
 
 
@@ -138,3 +122,7 @@ class CharFilter(BridgerFilterMixin, django_filters.CharFilter):
 
 class BooleanFilter(BridgerFilterMixin, django_filters.BooleanFilter):
     filter_type = "boolean"
+
+
+class NumberFilter(BridgerFilterMixin, django_filters.NumberFilter):
+    filter_type = "number"

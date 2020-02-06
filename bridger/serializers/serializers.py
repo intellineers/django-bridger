@@ -35,6 +35,7 @@ class ModelSerializer(
     serializers.ModelSerializer,
     metaclass=FSMSerializerMetaclass,
 ):
+
     serializer_field_mapping = {
         models.AutoField: fields.PrimaryKeyField,
         models.BooleanField: fields.BooleanField,

@@ -9,8 +9,10 @@ class RepresentationSerializerMixin:
     Adds basic functionality for Representation Serializer
     """
 
-    class Meta:
-        list_serializer_class = ListSerializer
+    @classmethod
+    def many_init(cls, *args, **kwargs):
+        kwargs["child"] = cls()
+        return ListSerializer(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):
         self.label_key = kwargs.pop("label_key", self.label_key)
@@ -33,7 +35,6 @@ class RepresentationSerializerMixin:
         filter_params = self.get_filter_params(request)
         if filter_params:
             url = f"{url}?{urlencode(filter_params)}"
-
         representation = {
             "representation_key": field_name,
             "related_key": self.source,

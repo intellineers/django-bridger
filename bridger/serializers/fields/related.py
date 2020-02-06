@@ -86,4 +86,5 @@ class ListSerializer(serializers.ListSerializer):
     def get_representation(self, request: Request, field_name: str) -> Dict:
         representation = self.child.get_representation(request, field_name)
         representation["multiple"] = True
+        representation["related_key"] = self.source
         return representation

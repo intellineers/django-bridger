@@ -115,6 +115,18 @@ class RelatedModelTest(models.Model):
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
+    @classmethod
+    def get_representation_endpoint(cls):
+        return "relatedmodeltestrepresentation-list"
+
+    @classmethod
+    def get_representation_value_key(cls):
+        return "id"
+
+    @classmethod
+    def get_representation_label_key(cls):
+        return "{{char_field}}"
+
     class Meta:
         verbose_name = "Related Model Test"
         verbose_name_plural = "Related Model Tests"

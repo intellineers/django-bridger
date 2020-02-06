@@ -10,7 +10,7 @@ from rest_framework.reverse import reverse
 
 from bridger.enums import Button, WidgetType
 from bridger.filters import DjangoFilterBackend
-from bridger.serializers import RepresentationSerializer
+from bridger.serializers import RepresentationSerializer, ListSerializer
 
 from .metadata import BridgerMetaData
 from .utils import ilen
@@ -180,12 +180,15 @@ class MetadataMixin:
     def get_fields(self, request: Request) -> Dict:
         fields = dict()
         rs = RepresentationSerializer
+        ls = ListSerializer
         field_items = self.get_serializer().fields.items()
 
-        for name, field in filter(lambda f: not isinstance(f[1], rs), field_items):
+        for name, field in filter(
+            lambda f: not isinstance(f[1], (rs, ls)), field_items
+        ):
             fields[name] = field.get_representation(request, name)
 
-        for name, field in filter(lambda f: isinstance(f[1], rs), field_items):
+        for name, field in filter(lambda f: isinstance(f[1], (rs, ls)), field_items):
             representation = field.get_representation(request, name)
             fields[representation["related_key"]].update(representation)
             del fields[representation["related_key"]]["related_key"]

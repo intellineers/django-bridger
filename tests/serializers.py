@@ -16,7 +16,21 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
         fields = ("id", "char_field", "_detail", "_detail_preview")
 
 
+class RelatedModelTestRepresentationSerializer(serializers.RepresentationSerializer):
+
+    _detail = serializers.HyperlinkField(reverse_name="relatedmodeltest-detail")
+
+    class Meta:
+        model = RelatedModelTest
+        fields = ("id", "char_field", "_detail")
+
+
 class ModelTestSerializer(serializers.ModelSerializer):
+
+    _related_models = RelatedModelTestRepresentationSerializer(
+        source="related_models", many=True
+    )
+
     @register_resource()
     def related_models(self, instance, request, user):
         return {"related_model": reverse("relatedmodeltest-list", request=request)}
@@ -45,6 +59,8 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "status_field",
             "image_field",
             "file_field",
+            "related_models",
+            "_related_models",
             "_additional_resources",
         )
 

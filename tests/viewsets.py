@@ -4,6 +4,7 @@ from collections import defaultdict
 import pandas as pd
 import plotly.graph_objects as go
 from django.db.models import Avg, Max, Sum
+
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
@@ -17,12 +18,20 @@ from bridger.filters import DjangoFilterBackend
 from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 
-from .filters import (CalendarFilter, ModelTestFilterSet, PandasFilterSet,
-                      RelatedModelTestFilterSet)
+from .filters import (
+    CalendarFilter,
+    ModelTestFilterSet,
+    PandasFilterSet,
+    RelatedModelTestFilterSet,
+)
 from .models import ModelTest, RelatedModelTest
-from .serializers import (CalendarModelTestSerializer,
-                          ModelTestRepresentationSerializer,
-                          ModelTestSerializer, RelatedModelTestSerializer)
+from .serializers import (
+    CalendarModelTestSerializer,
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestSerializer,
+    RelatedModelTestRepresentationSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -147,6 +156,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="choice_field", label="Choice"),
             dp.Field(key="status_field", label="Status"),
             dp.Field(key="image_field", label="Image"),
+            dp.Field(key="related_models", label="Related"),
             dp.Field(key="file_field", label="File"),
         ],
         legends=[
@@ -248,6 +258,11 @@ class ModelTestModelCalendarViewSet(
             filter_date_lte="end",
         ),
     )
+
+
+class RelatedModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):
+    queryset = RelatedModelTest.objects.all()
+    serializer_class = RelatedModelTestRepresentationSerializer
 
 
 class RelatedModelTestModelViewSet(viewsets.ModelViewSet):

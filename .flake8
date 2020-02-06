@@ -7,3 +7,4 @@ ignore =
     W503 ;line break before binary operator
     E722 ;do not use bare 'except'
     F821 ;undefined name
+    E203 ;whitespace before :, black sometimes formats this differently

@@ -23,12 +23,12 @@ class TestDateTimeField:
         [
             ("2019-01-01T10:00", datetime(2019, 1, 1, 11, 0)),
             ("2019-01-01T10:00Z", datetime(2019, 1, 1, 11, 0)),
-            ("2019-01-01T10:00+01:00", datetime(2019, 1, 1, 10, 0)),
+            ("2019-01-01T10:00+0100", datetime(2019, 1, 1, 10, 0)),
             ("2019-01-01T10:00:00Z", datetime(2019, 1, 1, 11, 0)),
-            ("2019-01-01T10:00:00+00:00", datetime(2019, 1, 1, 11, 0)),
-            ("2019-01-01T10:00:00+01:00", datetime(2019, 1, 1, 10, 0)),
+            ("2019-01-01T10:00:00+0000", datetime(2019, 1, 1, 11, 0)),
+            ("2019-01-01T10:00:00+0100", datetime(2019, 1, 1, 10, 0)),
             ("2019-01-01T10:00:00.0000Z", datetime(2019, 1, 1, 11, 0)),
-            ("2019-01-01T10:00:00.0000+01:00", datetime(2019, 1, 1, 10, 0)),
+            ("2019-01-01T10:00:00.0000+0100", datetime(2019, 1, 1, 10, 0)),
         ],
     )
     @override_settings(TIME_ZONE="UCT", USE_TZ=True)
@@ -46,12 +46,12 @@ class TestDateTimeField:
         localized_dt = pytz.timezone("Europe/Berlin").localize(
             datetime(2019, 1, 1, 10, 0)
         )
-        assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00+01:00"
+        assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00+0100"
 
     @override_settings(TIME_ZONE="UCT", USE_TZ=True)
     def test_to_representation_utc(self):
         localized_dt = pytz.timezone("UCT").localize(datetime(2019, 1, 1, 10, 0))
-        assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00Z"
+        assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00+0000"
 
     def test_field_type(self):
         assert self.field.field_type == BridgerType.DATETIME.value

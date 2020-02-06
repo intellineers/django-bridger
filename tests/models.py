@@ -115,6 +115,10 @@ class RelatedModelTest(models.Model):
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
+    @property
+    def upper_char_field(self):
+        return self.char_field.upper()
+
     @classmethod
     def get_representation_endpoint(cls):
         return "relatedmodeltestrepresentation-list"

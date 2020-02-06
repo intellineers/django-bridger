@@ -72,6 +72,12 @@ class ModelSerializer(
 
         return field_class, field_kwargs
 
+    def build_property_field(self, field_name, model_class):
+        field_class = fields.ReadOnlyField
+        field_kwargs = {}
+
+        return field_class, field_kwargs
+
 
 class RepresentationSerializer(RepresentationSerializerMixin, ModelSerializer):
     def __init__(self, *args, **kwargs):

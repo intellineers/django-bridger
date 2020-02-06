@@ -6,6 +6,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from .mixins import BridgerSerializerFieldMixin
+from .types import BridgerType
 
 logger = logging.getLogger(__name__)
 
@@ -51,3 +52,7 @@ class HyperlinkField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
         if request:
             return reverse(self.reverse_name, args=[obj.id], request=request)
         return reverse(self.reverse_name, args=[obj.id])
+
+
+class ReadOnlyField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
+    field_type = BridgerType.TEXT.value

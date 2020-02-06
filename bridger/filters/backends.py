@@ -1,4 +1,6 @@
-from django_filters.rest_framework import DjangoFilterBackend as StandardFilterBackend
+from django_filters.rest_framework import \
+    DjangoFilterBackend as StandardFilterBackend
+
 from .filterset import FilterSet
 
 

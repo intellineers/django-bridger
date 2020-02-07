@@ -1,7 +1,7 @@
 from rest_framework.reverse import reverse
 
 from bridger import serializers
-from bridger.serializers import register_resource
+from bridger.serializers import BridgerType, register_resource
 
 from .models import ModelTest, RelatedModelTest
 
@@ -74,7 +74,18 @@ class CalendarModelTestSerializer(ModelTestSerializer):
 class RelatedModelTestSerializer(serializers.ModelSerializer):
 
     _model_test = ModelTestRepresentationSerializer(source="model_test")
+    some_method_field = serializers.SerializerMethodField()
+
+    def get_some_method_field(self, obj):
+        return obj.char_field.lower()
 
     class Meta:
         model = RelatedModelTest
-        fields = ("id", "char_field", "model_test", "_model_test", "upper_char_field")
+        fields = (
+            "id",
+            "char_field",
+            "model_test",
+            "_model_test",
+            "upper_char_field",
+            "some_method_field",
+        )

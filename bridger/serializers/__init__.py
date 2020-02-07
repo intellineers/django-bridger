@@ -1,10 +1,12 @@
-from .fields import (AdditionalResourcesField, BooleanField, CharField,
-                     ChoiceField, DateField, DateTimeField, DecimalField,
-                     FileField, FloatField, FSMStatusField, HyperlinkField,
-                     ImageField, IntegerField, JSONTextEditorField, ListField,
-                     ListSerializer, PrimaryKeyCharField, PrimaryKeyField,
+from .fields import (AdditionalResourcesField, BooleanField, BridgerType,
+                     CharField, ChoiceField, DateField, DateTimeField,
+                     DecimalField, FileField, FloatField, FSMStatusField,
+                     HyperlinkField, ImageField, IntegerField,
+                     JSONTextEditorField, ListField, ListSerializer,
+                     PrimaryKeyCharField, PrimaryKeyField,
                      PrimaryKeyRelatedField, RangeSelectField, ReadOnlyField,
-                     StarRatingField, StringRelatedField, TextField, TimeField,
+                     ReturnContentType, SerializerMethodField, StarRatingField,
+                     StringRelatedField, TextField, TimeField,
                      register_resource)
 from .serializers import (ModelSerializer, RepresentationSerializer, decorator,
                           percent_decorator)

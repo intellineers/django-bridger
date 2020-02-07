@@ -56,3 +56,11 @@ class HyperlinkField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
 
 class ReadOnlyField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
     field_type = BridgerType.TEXT.value
+
+
+class SerializerMethodField(
+    BridgerSerializerFieldMixin, serializers.SerializerMethodField
+):
+    def __init__(self, method_name=None, field_type=BridgerType.TEXT.value, **kwargs):
+        self.field_type = field_type
+        super().__init__(method_name, **kwargs)

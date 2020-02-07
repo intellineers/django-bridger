@@ -55,4 +55,3 @@ class TestButton:
     )
     def test_methods(self, method, buttons):
         assert getattr(Button, method)() == buttons
-

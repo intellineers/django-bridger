@@ -57,7 +57,9 @@ class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
         serialized_content = {"instance": serializer.data}
 
         if hasattr(self, "get_messages"):
-            serialized_content["messages"] = self.get_messages(request)
+            serialized_content["messages"] = self.get_messages(
+                request=request, instance=instance
+            )
 
         return Response(serialized_content)
 
@@ -76,6 +78,11 @@ class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
     def perform_destroy_multiple(self, queryset):
         return queryset.delete()
 
+    def get_messages(
+        self, request, queryset=None, paginated_queryset=None, instance=None
+    ):
+        return []
+
 
 class InfiniteDataModelView(ModelViewSet):
 
@@ -91,7 +98,9 @@ class InfiniteDataModelView(ModelViewSet):
             aggregates = self.get_aggregates(queryset, queryset)
 
         if hasattr(self, "get_messages"):
-            messages = self.get_messages(self.request, queryset, queryset)
+            messages = self.get_messages(
+                request=self.request, queryset=queryset, paginated_queryset=queryset
+            )
 
         return Response(
             {"results": serializer.data, "aggregates": aggregates, "messages": messages}

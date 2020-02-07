@@ -107,7 +107,7 @@ class MetadataMixin:
         list_endpoint = self.get_list_endpoint(request=request)
         instance_endpoint = self.get_instance_endpoint(request=request)
         create_endpoint = self.get_create_endpoint(request=request)
-        delete_endpoint = self.get_instance_endpoint(request=request)
+        delete_endpoint = self.get_delete_endpoint(request=request)
 
         if list_endpoint:
             endpoints["list"] = list_endpoint
@@ -129,7 +129,7 @@ class MetadataMixin:
             logger.warn(
                 "Delete Button Specified, but no delete endpoint specified. Delete Button is removed."
             )
-            buttons.remove(Button.NEW.value)
+            buttons.remove(Button.DELETE.value)
 
         return endpoints
 

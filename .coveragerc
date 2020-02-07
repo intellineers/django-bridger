@@ -5,3 +5,5 @@ omit =
     .tox/*
     */migrations/*
     manage.py
+
+    */metadata_validator.py

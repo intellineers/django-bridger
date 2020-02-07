@@ -214,7 +214,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestSerializer
     # filter_class = ModelTestFilterSet
-    filter_fields = {
+    filterset_fields = {
         "integer_field": ["lte", "gte", "exact"],
         "char_field": ["exact", "icontains"],
         "datetime_field": ["lte", "gte"],
@@ -234,8 +234,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             },
         }
 
-    def get_messages(self, request, queryset=None, paginated_queryset=None):
-        return {"message": "ABC1"}
+    def get_messages(self, request, queryset=None, paginated_queryset=None, instance=None):
+        return [{"message": "ABC1", "type": "INFO"}]
 
 
 class ModelTestModelCalendarViewSet(

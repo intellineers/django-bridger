@@ -234,7 +234,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             },
         }
 
-    def get_messages(self, request, queryset=None, paginated_queryset=None, instance=None):
+    def get_messages(
+        self, request, queryset=None, paginated_queryset=None, instance=None
+    ):
         return [{"message": "ABC1", "type": "INFO"}]
 
 
@@ -244,7 +246,9 @@ class ModelTestModelCalendarViewSet(
 
     filterset_class = CalendarFilter
     serializer_class = CalendarModelTestSerializer
-    # pagination_class = None
+
+    LIST_ENDPOINT = "calendar-list"
+    INSTANCE_ENDPOINT = DELETE_ENDPOINT = CREATE_ENDPOINT = "modeltest-list"
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

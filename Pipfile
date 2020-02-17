@@ -29,7 +29,6 @@ pytest-isort = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}
-plotly = "*"
 
 [requires]
 python_version = "3.6"

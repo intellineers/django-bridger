@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3fd359b594b387f309d202951c282a647e46675335f20c7db5bdd6ada801e73c"
+            "sha256": "4fde9c61bc0fe95add8dc048f27053de58d4642d4a0f68474d843e1c17040004"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -154,7 +154,6 @@
                 "sha256:a19ed783bcf094e6207b3699ab261465bf3c7d299403678801de634bf17e2559",
                 "sha256:bb5271f648913cf330a0de4ede3084cda848f8ad8b080330a0678e1b21df97b0"
             ],
-            "index": "pypi",
             "version": "==4.5.0"
         },
         "psycopg2-binary": {
@@ -454,11 +453,11 @@
         },
         "django-extensions": {
             "hashes": [
-                "sha256:4524eca892d23fa6e93b0620901983b287ff5dc806f1b978d6a98541f06b9471",
-                "sha256:936e8e3962024d3c75ea54f4e0248002404ca7ca7fb698430e60b06b5555b4e7"
+                "sha256:12064d2f7301b2092639e8cccfc53927966a4967f6e841b4a6be220083f37d3a",
+                "sha256:85adae2a91ebfa67b5b5d1b5d35a3bb2452663de812347b981a37092fb35290b"
             ],
             "index": "pypi",
-            "version": "==2.2.6"
+            "version": "==2.2.7"
         },
         "docutils": {
             "hashes": [

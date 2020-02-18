@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_extensions",
+    "channels",
     "bridger",
     "tests",
     "corsheaders",
@@ -81,6 +82,8 @@ REST_FRAMEWORK = {
     # 'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata'
 }
 
+JWT_AUTH = {"JWT_AUTH_COOKIE": "JWT"}
+
 ROOT_URLCONF = "tests.urls"
 
 TEMPLATES = [
@@ -100,7 +103,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tests.wsgi.application"
-
+ASGI_APPLICATION = "tests.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

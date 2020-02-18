@@ -6,15 +6,24 @@ from bridger.enums import Button
 
 
 class CustomButton(NamedTuple):
-    key: str
+    key: Optional[str] = None
+    endpoint: Optional[str] = None
+
     label: Optional[str] = None
     icon: Optional[str] = None
     title: Optional[str] = None
 
     def to_dict(self):
         assert self.label or self.icon, "At least a label or an icon is needed."
+        assert self.key or self.endpoint, "At least a key or an endpoint is needed."
 
-        rv = defaultdict(dict, {"type": self.button_type, "key": self.key})
+        rv = defaultdict(dict, {"type": self.button_type})
+
+        if self.key:
+            rv["key"] = self.key
+
+        if self.endpoint:
+            rv["endpoint"] = self.endpoint
 
         if self.label:
             rv["label"] = self.label

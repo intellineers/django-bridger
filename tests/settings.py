@@ -82,7 +82,17 @@ REST_FRAMEWORK = {
     # 'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata'
 }
 
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+
 JWT_AUTH = {"JWT_AUTH_COOKIE": "JWT"}
+
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = (
+    "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"
+)
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 ROOT_URLCONF = "tests.urls"
 

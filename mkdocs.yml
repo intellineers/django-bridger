@@ -8,6 +8,7 @@ nav:
     - Workflow: workflow.md
     - Menu: menu.md
     - Scripts: scripts.md
+    - Websockets: websockets.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:

@@ -18,7 +18,7 @@ class JWTAuthMiddleware:
         try:
             jwt_access_token = scope["cookies"]["JWT-access"]
             UntypedToken(jwt_access_token)
-        except (InvalidToken, TokenError, KeyError) as e:
+        except (InvalidToken, TokenError, KeyError):
             return self.inner(dict(scope))
         else:
             decoded_data = jwt_decode(

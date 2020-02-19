@@ -74,6 +74,7 @@ class CalendarModelTestSerializer(ModelTestSerializer):
 class RelatedModelTestSerializer(serializers.ModelSerializer):
 
     _model_test = ModelTestRepresentationSerializer(source="model_test")
+    _model_tests = ModelTestRepresentationSerializer(source="model_tests", many=True)
     some_method_field = serializers.SerializerMethodField()
 
     def get_some_method_field(self, obj):
@@ -86,6 +87,8 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
             "char_field",
             "model_test",
             "_model_test",
+            "model_tests",
+            "_model_tests",
             "upper_char_field",
             "some_method_field",
         )

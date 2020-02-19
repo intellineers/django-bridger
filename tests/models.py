@@ -140,6 +140,12 @@ class RelatedModelTest(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Model Test",
     )
+    model_tests = models.ManyToManyField(
+        to="tests.ModelTest",
+        related_name="related_models_m2m",
+        null=True,
+        verbose_name="Model Tests",
+    )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
     @property

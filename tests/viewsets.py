@@ -282,7 +282,11 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "model_test"]))]
+        sections=[
+            dp.Section(
+                fields=dp.FieldSet(fields=["char_field", "model_test", "model_tests"])
+            )
+        ]
     )
 
     filter_backends = [

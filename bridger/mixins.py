@@ -118,7 +118,7 @@ class MetadataMixin:
         if create_endpoint:
             endpoints["create"] = create_endpoint
         elif Button.NEW.value in buttons:
-            logger.warn(
+            logger.warning(
                 "New Button Specified, but no create endpoint specified. New Button is removed."
             )
             buttons.remove(Button.NEW.value)
@@ -126,7 +126,7 @@ class MetadataMixin:
         if delete_endpoint:
             endpoints["delete"] = delete_endpoint
         elif Button.DELETE.value in buttons:
-            logger.warn(
+            logger.warning(
                 "Delete Button Specified, but no delete endpoint specified. Delete Button is removed."
             )
             buttons.remove(Button.DELETE.value)

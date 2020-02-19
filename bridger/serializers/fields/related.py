@@ -17,6 +17,10 @@ class BridgerManyRelatedField(ManyRelatedField):
         super().__init__(*args, **kwargs)
 
     def run_validation(self, data=empty):
+
+        if len(data) == 1 and "," in data[0]:
+            data = data[0].split(",")
+
         if data is None and self.allow_null:
             data = []
         return super().run_validation(data)

@@ -143,7 +143,7 @@ class RelatedModelTest(models.Model):
     model_tests = models.ManyToManyField(
         to="tests.ModelTest",
         related_name="related_models_m2m",
-        null=True,
+        blank=True,
         verbose_name="Model Tests",
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")

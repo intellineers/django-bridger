@@ -3,12 +3,29 @@ from datetime import date, time
 from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
+from rest_framework.reverse import reverse
 
 from bridger.display import FieldSet, InstanceDisplay, Section
 from bridger.fsm.buttons import FSMButton
+from bridger.search import register as search_register
 
 
+@search_register(endpoint="modeltest-list")
 class ModelTest(models.Model):
+    @classmethod
+    def search_for_term(cls, search_term, request=None):
+        return (
+            cls.objects.all()
+            .annotate(
+                _search=models.functions.Concat(
+                    models.F("char_field"),
+                    models.Value(" "),
+                    models.F("text_field"),
+                    output_field=models.CharField(),
+                )
+            )
+            .annotate(_repr=models.F("char_field"))
+        )
 
     STATUS1 = "status1"
     STATUS2 = "status2"
@@ -105,7 +122,15 @@ class ModelTest(models.Model):
         verbose_name_plural = "Test Models"
 
 
+@search_register(endpoint="relatedmodeltest-list")
 class RelatedModelTest(models.Model):
+    @classmethod
+    def search_for_term(cls, request=None):
+        return (
+            cls.objects.all()
+            .annotate(_search=models.F("char_field"))
+            .annotate(_repr=models.F("char_field"))
+        )
 
     model_test = models.ForeignKey(
         to="tests.ModelTest",

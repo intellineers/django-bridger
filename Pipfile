@@ -26,6 +26,7 @@ flake8 = "*"
 pytest-flake8 = "*"
 pytest-mypy = "*"
 pytest-isort = "*"
+jupyter = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}
@@ -43,3 +44,4 @@ start_db = "docker-compose up -d"
 psql = "docker exec -it django-bridger_postgres_1 psql"
 docs = "mkdocs serve -a 0.0.0.0:8000"
 sort_import = "isort -rc ."
+notebook = "python manage.py shell_plus --notebook"

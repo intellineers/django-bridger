@@ -1,5 +1,6 @@
 import operator
 from functools import reduce
+
 from django.db.models import F, Q, QuerySet, Value
 from django.db.models.functions import Concat
 

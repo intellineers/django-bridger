@@ -2,8 +2,7 @@ import logging
 from collections import OrderedDict
 
 from django.db import models
-from django.db.models.fields.related import (ManyToManyRel, ManyToOneRel,
-                                             OneToOneRel)
+from django.db.models.fields.related import ManyToManyRel, ManyToOneRel, OneToOneRel
 from django_filters.filterset import remote_queryset, settings
 from django_filters.rest_framework import FilterSet as DjangoFilterSet
 
@@ -102,7 +101,11 @@ class FilterSet(DjangoFilterSet):
     @classmethod
     def filter_for_lookup(cls, field, lookup_type):
 
-        filter_class, params = super().filter_for_lookup(field, lookup_type)
+        if lookup_type == "exact" and getattr(field, "choices", None):
+            filter_class, params = fields.ChoiceFilter, {"choices": field.choices}
+        else:
+            filter_class, params = super().filter_for_lookup(field, lookup_type)
+
         if hasattr(field, "verbose_name"):
             params["label"] = field.verbose_name
 

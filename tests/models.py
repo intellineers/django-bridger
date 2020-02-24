@@ -79,7 +79,9 @@ class ModelTest(models.Model):
     )
 
     # Status
-    status_field = FSMField(default=STATUS1, choices=status_choices)
+    status_field = FSMField(
+        default=STATUS1, choices=status_choices, verbose_name="Status"
+    )
 
     # Files
     image_field = models.ImageField(null=True)

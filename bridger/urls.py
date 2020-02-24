@@ -1,9 +1,9 @@
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 from .routers import BridgerRouter
 from .views import Config, Menu, Profile
-from django.views.generic import TemplateView
 
 # fmt: off
 router = BridgerRouter()

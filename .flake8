@@ -8,3 +8,4 @@ ignore =
     E722 ;do not use bare 'except'
     F821 ;undefined name
     E203 ;whitespace before :, black sometimes formats this differently
+    F403 ;import *

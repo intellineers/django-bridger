@@ -1,5 +1,6 @@
 from enum import Enum
 
+import celery
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField
 from django.db import models
@@ -7,8 +8,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from bridger.buttons import CustomButton, WidgetButton
-
-from .tasks import send_mail, send_system
 
 
 class NotificationSendType(Enum):
@@ -57,11 +56,13 @@ class Notification(models.Model):
 
 @receiver(post_save, sender=Notification)
 def post_create_notification(sender, instance, created, **kwargs):
-    # if created:
-    dispatch = {
-        NotificationSendType.MAIL.value: [send_mail],
-        NotificationSendType.SYSTEM.value: [send_system],
-        NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
-    }
-    for action in dispatch[instance.send_type]:
-        action(instance)
+    send_mail = "bridger.notifications.send_mail"
+    send_system = "bridger.notifications.send_system"
+    if created:
+        dispatch = {
+            NotificationSendType.MAIL.value: [send_mail],
+            NotificationSendType.SYSTEM.value: [send_system],
+            NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
+        }
+        for action in dispatch[instance.send_type]:
+            celery.execute.send_task(action, args=[instance.id])

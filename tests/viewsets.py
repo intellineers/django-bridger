@@ -4,7 +4,6 @@ from collections import defaultdict
 import pandas as pd
 import plotly.graph_objects as go
 from django.db.models import Avg, Max, Sum
-
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
@@ -20,20 +19,14 @@ from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 from bridger.serializers import PrimaryKeyRelatedField
 
-from .filters import (
-    CalendarFilter,
-    ModelTestFilterSet,
-    PandasFilterSet,
-    RelatedModelTestFilterSet,
-)
+from .filters import (CalendarFilter, ModelTestFilterSet, PandasFilterSet,
+                      RelatedModelTestFilterSet)
 from .models import ModelTest, RelatedModelTest
-from .serializers import (
-    CalendarModelTestSerializer,
-    ModelTestRepresentationSerializer,
-    ModelTestSerializer,
-    RelatedModelTestRepresentationSerializer,
-    RelatedModelTestSerializer,
-)
+from .serializers import (CalendarModelTestSerializer,
+                          ModelTestRepresentationSerializer,
+                          ModelTestSerializer,
+                          RelatedModelTestRepresentationSerializer,
+                          RelatedModelTestSerializer)
 
 logger = logging.getLogger(__name__)
 
@@ -317,4 +310,3 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
             serializer.fields["model_tests"].child_relation.default = default_values
 
         return serializer
-

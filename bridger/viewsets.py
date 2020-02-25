@@ -69,18 +69,6 @@ class ModelViewSet(
         except AttributeError:
             return None
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance)
-    #     serialized_content = {"instance": serializer.data}
-
-    #     if hasattr(self, "get_messages"):
-    #         serialized_content["messages"] = self.get_messages(
-    #             request=request, instance=instance
-    #         )
-
-    #     return Response(serialized_content)
-
     def destroy_multiple(self, request, *args, **kwargs):
         model = self.get_serializer_class().Meta.model
         app_label = model._meta.app_label

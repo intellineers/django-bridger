@@ -1,4 +1,5 @@
 from bridger.menus import Menu, MenuItem, PresetMenuItem, default_registry
+from celery_app import app as celery_app
 
 # default_registry.register(PresetMenuItem(label="News", preset="StainlyNewsWidget"))
 default_registry.register(

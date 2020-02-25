@@ -41,6 +41,7 @@ allow_prereleases = false
 [scripts]
 test = "pytest -v"
 local = "python manage.py runserver 0.0.0.0:5000"
+celery = "celery -A celery_app worker -l info -Ofair --concurrency=1 -E"
 start_db = "docker-compose up -d"
 psql = "docker exec -it django-bridger_postgres_1 psql"
 docs = "mkdocs serve -a 0.0.0.0:8000"

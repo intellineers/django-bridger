@@ -82,15 +82,18 @@ REST_FRAMEWORK = {
     # 'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata'
 }
 
+CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+CELERY_TASK_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_RESULT_SERIALIZER = "json"
+
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
 JWT_AUTH = {"JWT_AUTH_COOKIE": "JWT"}
 
 EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = (
-    "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"
-)
+EMAIL_HOST_PASSWORD = os.environ["SENDGRID_API_KEY"]
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

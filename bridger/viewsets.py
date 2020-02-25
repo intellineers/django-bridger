@@ -84,22 +84,9 @@ class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
         return []
 
     def get_serializer_changes(self, serializer):
-        """Takes a serializer instance to make alterations to it possible
-        
-        Arguments:
-            serializer {wbutils.serializers.ModelSerializer}
-        
-        Returns:
-            wbutils.serializers.ModelSerializer
-        """
         return serializer
 
     def get_serializer(self, *args, **kwargs):
-        """Gets the serializer class and returns an instance with potential changes
-        
-        Returns:
-            wbutils.serializers.ModelSerializer
-        """
         return self.get_serializer_changes(super().get_serializer(*args, **kwargs))
 
 

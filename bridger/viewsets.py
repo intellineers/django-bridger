@@ -22,7 +22,23 @@ from .pagination import CursorPagination
 logger = logging.getLogger(__name__)
 
 
-class RepresentationModelViewSet(MetadataMixin, viewsets.ReadOnlyModelViewSet):
+class InstanceMixin:
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        serialized_content = {"instance": serializer.data}
+
+        if hasattr(self, "get_messages"):
+            serialized_content["messages"] = self.get_messages(
+                request=request, instance=instance
+            )
+
+        return Response(serialized_content)
+
+
+class RepresentationModelViewSet(
+    MetadataMixin, InstanceMixin, viewsets.ReadOnlyModelViewSet
+):
     """A Representation View that is used for serializing related fields"""
 
     filter_backends = [filters.OrderingFilter]
@@ -31,7 +47,9 @@ class RepresentationModelViewSet(MetadataMixin, viewsets.ReadOnlyModelViewSet):
     ordering_fields = ordering = ["id"]
 
 
-class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
+class ModelViewSet(
+    MetadataMixin, InstanceMixin, FSMViewSetMixin, viewsets.ModelViewSet
+):
     """A Model View that is used to serializer models"""
 
     filter_backends = [filters.OrderingFilter]
@@ -51,17 +69,17 @@ class ModelViewSet(MetadataMixin, FSMViewSetMixin, viewsets.ModelViewSet):
         except AttributeError:
             return None
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        serialized_content = {"instance": serializer.data}
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     serialized_content = {"instance": serializer.data}
 
-        if hasattr(self, "get_messages"):
-            serialized_content["messages"] = self.get_messages(
-                request=request, instance=instance
-            )
+    #     if hasattr(self, "get_messages"):
+    #         serialized_content["messages"] = self.get_messages(
+    #             request=request, instance=instance
+    #         )
 
-        return Response(serialized_content)
+    #     return Response(serialized_content)
 
     def destroy_multiple(self, request, *args, **kwargs):
         model = self.get_serializer_class().Meta.model

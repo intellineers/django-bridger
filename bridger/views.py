@@ -33,11 +33,14 @@ class Profile(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
+        # TODO: Overwritable from withing settings.py
         return Response(
             {
                 "config": reverse(
                     "bridger:frontenduserconfiguration-list", request=request
                 ),
+                "name": f"{request.user.first_name} {request.user.last_name}",
+                "email": request.user.email,
                 "image": "TODO: Here comes the URL",
             }
         )

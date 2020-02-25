@@ -22,6 +22,10 @@ class BridgerManyRelatedField(ManyRelatedField):
         if data not in [None, empty] and len(data) == 1 and "," in data[0]:
             data = data[0].split(",")
 
+        # If the data is a list of an empty string we need to convert it (FORM DATA)
+        if data not in [None, empty] and len(data) == 1 and data[0] == "":
+            data = []
+
         # If the data is None and null is an allowed value, data needs to be set to an empty list
         if data is None and self.allow_null:
             data = []

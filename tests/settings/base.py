@@ -91,11 +91,14 @@ CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
 
 JWT_AUTH = {"JWT_AUTH_COOKIE": "JWT"}
 
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = os.environ["SENDGRID_API_KEY"]
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+if "SENDGRID_API_KEY" in os.environ:
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_USER = "apikey"
+    EMAIL_HOST_PASSWORD = os.environ["SENDGRID_API_KEY"]
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ROOT_URLCONF = "tests.urls"
 

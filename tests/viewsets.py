@@ -4,10 +4,12 @@ from collections import defaultdict
 import pandas as pd
 import plotly.graph_objects as go
 from django.db.models import Avg, Max, Sum
+
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.serializers import ListSerializer
 
 from bridger import buttons as bt
 from bridger import display as dp
@@ -16,15 +18,22 @@ from bridger.enums import Unit
 from bridger.filters import DjangoFilterBackend
 from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
+from bridger.serializers import PrimaryKeyRelatedField
 
-from .filters import (CalendarFilter, ModelTestFilterSet, PandasFilterSet,
-                      RelatedModelTestFilterSet)
+from .filters import (
+    CalendarFilter,
+    ModelTestFilterSet,
+    PandasFilterSet,
+    RelatedModelTestFilterSet,
+)
 from .models import ModelTest, RelatedModelTest
-from .serializers import (CalendarModelTestSerializer,
-                          ModelTestRepresentationSerializer,
-                          ModelTestSerializer,
-                          RelatedModelTestRepresentationSerializer,
-                          RelatedModelTestSerializer)
+from .serializers import (
+    CalendarModelTestSerializer,
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestRepresentationSerializer,
+    RelatedModelTestSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -301,3 +310,11 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
 
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestSerializer
+
+    def get_serializer_changes(self, serializer):
+        if not isinstance(serializer, ListSerializer):
+            default_values = ModelTest.objects.all()[:3].values_list("id", flat=True)
+            serializer.fields["model_tests"].child_relation.default = default_values
+
+        return serializer
+

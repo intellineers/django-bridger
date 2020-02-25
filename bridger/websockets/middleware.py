@@ -14,7 +14,7 @@ class JWTAuthMiddleware:
 
     def __call__(self, scope):
         close_old_connections()
-
+        print(scope)
         try:
             jwt_access_token = scope["cookies"]["JWT-access"]
             UntypedToken(jwt_access_token)

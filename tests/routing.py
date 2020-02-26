@@ -3,8 +3,7 @@ from django.urls import path
 
 from bridger.notifications.consumers import NotificationConsumer
 from bridger.websockets.auth import JWTAuthMiddlewareStack
-from bridger.websockets.consumers import \
-    AsyncAuthenticatedJsonWebsocketConsumer
+from bridger.websockets.consumers import AsyncAuthenticatedJsonWebsocketConsumer
 
 websocket_urlpatterns = [
     path("ws/socket/", AsyncAuthenticatedJsonWebsocketConsumer),

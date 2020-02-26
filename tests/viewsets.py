@@ -19,14 +19,15 @@ from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 from bridger.serializers import PrimaryKeyRelatedField
 
-from .filters import (CalendarFilter, ModelTestFilterSet, PandasFilterSet,
-                      RelatedModelTestFilterSet)
+from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet, RelatedModelTestFilterSet
 from .models import ModelTest, RelatedModelTest
-from .serializers import (CalendarModelTestSerializer,
-                          ModelTestRepresentationSerializer,
-                          ModelTestSerializer,
-                          RelatedModelTestRepresentationSerializer,
-                          RelatedModelTestSerializer)
+from .serializers import (
+    CalendarModelTestSerializer,
+    ModelTestRepresentationSerializer,
+    ModelTestSerializer,
+    RelatedModelTestRepresentationSerializer,
+    RelatedModelTestSerializer
+)
 
 logger = logging.getLogger(__name__)
 

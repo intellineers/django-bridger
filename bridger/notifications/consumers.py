@@ -1,5 +1,6 @@
-from bridger.websockets.consumers import \
-    AsyncAuthenticatedJsonWebsocketConsumer
+from bridger.websockets.consumers import AsyncAuthenticatedJsonWebsocketConsumer
+
+from .models import Notification
 
 
 class NotificationConsumer(AsyncAuthenticatedJsonWebsocketConsumer):
@@ -10,4 +11,6 @@ class NotificationConsumer(AsyncAuthenticatedJsonWebsocketConsumer):
             await self.channel_layer.group_add(channel_layer_name, self.channel_name)
 
     async def notification_notify(self, content):
-        await self.send_json(content["content"])
+        await self.send_json(
+            Notification.objects.get(id=content["notification_id"]).to_payload()
+        )

@@ -1,6 +1,5 @@
 from django.db.models import QuerySet
-from rest_framework.pagination import \
-    CursorPagination as DefaultCursorPagination
+from rest_framework.pagination import CursorPagination as DefaultCursorPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import View

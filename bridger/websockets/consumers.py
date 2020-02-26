@@ -1,5 +1,4 @@
-from channels.generic.websocket import (AsyncJsonWebsocketConsumer,
-                                        JsonWebsocketConsumer)
+from channels.generic.websocket import AsyncJsonWebsocketConsumer, JsonWebsocketConsumer
 
 
 class AsyncAuthenticatedConsumerMixin:

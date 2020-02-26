@@ -17,7 +17,7 @@ def send_system(notification_id):
     channel_layer_name = f"notification-{notification.recipient.id}"
     async_to_sync(get_channel_layer().group_send)(
         channel_layer_name,
-        {"content": notification.to_payload(), "type": "notification.notify"},
+        {"notification_id": notification.id, "type": "notification.notify"},
     )
 
 

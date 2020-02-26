@@ -6,8 +6,7 @@ from functools import partial, partialmethod
 from optparse import OptionParser
 
 from django.urls import resolve
-from django_fsm import (FSMField, TransitionNotAllowed,
-                        get_available_user_FIELD_transitions)
+from django_fsm import FSMField, TransitionNotAllowed, get_available_user_FIELD_transitions
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.request import Request

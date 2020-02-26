@@ -1,7 +1,12 @@
 from django.db.models import Q
 
-from bridger.filters import (BooleanFilter, CharFilter, DateFilter,
-                             DefaultDateRangeFilterValues, FilterSet)
+from bridger.filters import (
+    BooleanFilter,
+    CharFilter,
+    DateFilter,
+    DefaultDateRangeFilterValues,
+    FilterSet
+)
 
 from .models import ModelTest, RelatedModelTest
 

@@ -9,6 +9,8 @@ nav:
     - Menu: menu.md
     - Scripts: scripts.md
     - Websockets: websockets.md
+    - Buttons: buttons.md
+    - Display: display.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:

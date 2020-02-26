@@ -25,10 +25,14 @@ class Notification(models.Model):
     message = models.TextField(null=True, blank=True)
     buttons = JSONField(default=list, null=True, blank=True)
 
-    timestamp_created = models.DateTimeField(auto_now_add=True)
-    timestamp_received = models.DateTimeField(null=True, blank=True)
-    timestamp_read = models.DateTimeField(null=True, blank=True)
-    timestamp_mailed = models.DateTimeField(null=True, blank=True)
+    timestamp_created = models.DateTimeField(auto_now_add=True, verbose_name="Created")
+    timestamp_received = models.DateTimeField(
+        null=True, blank=True, verbose_name="Received"
+    )
+    timestamp_read = models.DateTimeField(null=True, blank=True, verbose_name="Read")
+    timestamp_mailed = models.DateTimeField(
+        null=True, blank=True, verbose_name="Mailed"
+    )
 
     send_type_choices = (
         (NotificationSendType.SYSTEM.value, "System"),

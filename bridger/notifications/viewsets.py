@@ -1,9 +1,10 @@
 from django.utils import timezone
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
-from bridger import display as dp
 from bridger import buttons as bt
+from bridger import display as dp
 from bridger import viewsets
 
 from .models import Notification
@@ -20,33 +21,39 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     INSTANCE_BUTTONS = ["refresh", "delete"]
     CREATE_BUTTONS = []
 
-    CUSTOM_BUTTONS = [
-        bt.ActionButton(
-            method="POST",
-            action_label="All notifications read.",
-            endpoint="http://localhost:5000/bridger/notification/mark_all_as_read/",
-            description_fields="Do you want to mark notifications as read?",
-            label="Mark all as read",
-            icon="wb-icon-eye-open",
-            confirm_label="Yes",
-            cancel_label="Cancel",
-        ),
-        bt.ActionButton(
-            method="POST",
-            action_label="Delete all read notifications.",
-            endpoint="http://localhost:5000/bridger/notification/delete_all_read/",
-            description_fields="Do you want delete all read notifications?",
-            label="Delete all read notifications",
-            icon="wb-icon-trash",
-            confirm_label="Yes",
-            cancel_label="Cancel",
-        ),
-    ]
+    def get_custom_buttons(self, request):
+        return [
+            bt.ActionButton(
+                method="POST",
+                action_label="All notifications read.",
+                endpoint=reverse(
+                    "bridger:notification-mark-all-as-read", request=request
+                ),
+                description_fields="Do you want to mark notifications as read?",
+                label="Mark all as read",
+                icon="wb-icon-eye-open",
+                confirm_label="Yes",
+                cancel_label="Cancel",
+            ).to_dict(),
+            bt.ActionButton(
+                method="POST",
+                action_label="Delete all read notifications.",
+                endpoint=reverse(
+                    "bridger:notification-delete-all-read", request=request
+                ),
+                description_fields="Do you want delete all read notifications?",
+                label="Delete all read notifications",
+                icon="wb-icon-trash",
+                confirm_label="Yes",
+                cancel_label="Cancel",
+            ).to_dict(),
+        ]
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="title", label="Title"),
             dp.Field(key="timestamp_created", label="Created"),
+            dp.Field(key="message", label="Message"),
         ],
         formatting=[
             dp.RowFormatting(
@@ -59,7 +66,18 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     )
 
     INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(fields=["title", "message"]))]
+        sections=[
+            dp.Section(
+                fields=dp.FieldSet(
+                    fields=[
+                        dp.FieldSet(fields=["timestamp_created", "timestamp_received"]),
+                        dp.FieldSet(fields=["timestamp_received", "timestamp_mailed"]),
+                        "title",
+                        "message",
+                    ]
+                )
+            )
+        ]
     )
 
     queryset = Notification.objects.all()
@@ -73,6 +91,12 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
             obj.timestamp_read = timezone.now()
             obj.save()
         return super().retrieve(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        self.get_queryset().filter(timestamp_received__isnull=True).update(
+            timestamp_received=timezone.now()
+        )
+        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         return super().get_queryset().filter(recipient=self.request.user)

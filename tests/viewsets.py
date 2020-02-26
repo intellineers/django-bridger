@@ -219,7 +219,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     serializer_class = ModelTestSerializer
     # filter_class = ModelTestFilterSet
     filterset_fields = {
-        "integer_field": ["lte", "gte", "exact"],
+        "integer_field": ["lte", "gte", "lt", "gt", "exact"],
         "char_field": ["exact", "icontains"],
         "datetime_field": ["lte", "gte"],
         "status_field": ["exact"],

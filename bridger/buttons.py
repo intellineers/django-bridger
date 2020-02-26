@@ -108,6 +108,8 @@ class ActionButton(NamedTuple):
         rv["descriptions_fields"] = self.description_fields
         if self.instance_display:
             rv["form_display"] = self.instance_display.to_dict()
+        else:
+            rv["form_display"] = []
 
         if self.label:
             rv["label"] = self.label

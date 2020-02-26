@@ -133,33 +133,51 @@ class MetadataMixin:
 
         return endpoints
 
-    def get_buttons(self, request: Request) -> List[str]:
+    def get_instance_buttons(self, request: Request) -> List[str]:
         buttons = list()
-
-        pk = self.kwargs.get("pk", None)
         ct = None
         if hasattr(self, "get_serializer_class"):
             ct = ContentType.objects.get_for_model(
                 self.get_serializer_class().Meta.model
             )
 
+        if hasattr(self, "INSTANCE_BUTTONS"):
+            return self.INSTANCE_BUTTONS
+        elif ct:
+            if f"{ct.app_label}.change_{ct.model}":
+                buttons.append(Button.SAVE.value)
+            if f"{ct.app_label}.delete_{ct.model}":
+                buttons.append(Button.DELETE.value)
+
+        return buttons
+
+    def get_list_buttons(self, request: Request) -> List[str]:
+        buttons = list()
+        ct = None
+        if hasattr(self, "get_serializer_class"):
+            ct = ContentType.objects.get_for_model(
+                self.get_serializer_class().Meta.model
+            )
+        if hasattr(self, "LIST_BUTTONS"):
+            return self.LIST_BUTTONS
+        elif ct:
+            if f"{ct.app_label}.add_{ct.model}":
+                buttons.append(Button.NEW.value)
+        return buttons
+
+    def get_buttons(self, request: Request) -> List[str]:
+        buttons = list()
+
+        pk = self.kwargs.get("pk", None)
+
         if pk:
-            if hasattr(self, "INSTANCE_BUTTONS"):
-                return self.INSTANCE_BUTTONS
-            elif ct:
-                if f"{ct.app_label}.change_{ct.model}":
-                    buttons.append(Button.SAVE.value)
-                if f"{ct.app_label}.delete_{ct.model}":
-                    buttons.append(Button.DELETE.value)
+            buttons.extend(self.get_instance_buttons(request))
         else:
-            if hasattr(self, "LIST_BUTTONS"):
-                return self.LIST_BUTTONS
-            elif ct:
-                if f"{ct.app_label}.add_{ct.model}":
-                    buttons.append(Button.NEW.value)
+            buttons.extend(self.get_list_buttons(request))
 
         buttons.append(Button.REFRESH.value)
-        return buttons
+
+        return set(buttons)
 
     def get_create_buttons(self, request: Request) -> List[str]:
         return getattr(
@@ -174,7 +192,7 @@ class MetadataMixin:
         )
 
     def get_custom_buttons(self, request: Request) -> Dict[str, str]:
-        return []
+        return [bt.to_dict() for bt in getattr(self, "CUSTOM_BUTTONS", [])]
 
     def get_instance_display(self, request: Request) -> List:
         if hasattr(self, "INSTANCE_DISPLAY"):
@@ -205,28 +223,28 @@ class MetadataMixin:
         return fields
 
     # BUTTONS
-    def get_instance_buttons(self, request):
-        instance_buttons = getattr(self, "INSTANCE_BUTTONS", None)
-        if instance_buttons:
-            return instance_buttons
+    # def get_instance_buttons(self, request):
+    #     instance_buttons = getattr(self, "INSTANCE_BUTTONS", None)
+    #     if instance_buttons:
+    #         return instance_buttons
 
-        if self.kwargs.get("pk", None):
-            instance_buttons = ["refresh"]
-        else:
-            instance_buttons = ["reset"]
+    #     if self.kwargs.get("pk", None):
+    #         instance_buttons = ["refresh"]
+    #     else:
+    #         instance_buttons = ["reset"]
 
-        ct = ContentType.objects.get_for_model(self.get_serializer_class().Meta.model)
+    #     ct = ContentType.objects.get_for_model(self.get_serializer_class().Meta.model)
 
-        save_permission = f"{ct.app_label}.change_{ct.model}"
-        delete_permission = f"{ct.app_label}.delete_{ct.model}"
+    #     save_permission = f"{ct.app_label}.change_{ct.model}"
+    #     delete_permission = f"{ct.app_label}.delete_{ct.model}"
 
-        if request.user.has_perm(save_permission):
-            instance_buttons.append("save")
+    #     if request.user.has_perm(save_permission):
+    #         instance_buttons.append("save")
 
-        if request.user.has_perm(delete_permission) and self.kwargs.get("pk", None):
-            instance_buttons.append("delete")
+    #     if request.user.has_perm(delete_permission) and self.kwargs.get("pk", None):
+    #         instance_buttons.append("delete")
 
-        return instance_buttons
+    #     return instance_buttons
 
     def get_preview_display(self, request: Request):
         return getattr(self, "PREVIEW_DISPLAY", "")
@@ -246,20 +264,20 @@ class MetadataMixin:
                 for button in getattr(self, "CUSTOM_LIST_INSTANCE_BUTTONS", [])
             ]
 
-    def get_list_buttons(self, request):
-        list_buttons = getattr(self, "LIST_BUTTONS", None)
-        if list_buttons:
-            return list_buttons
+    # def get_list_buttons(self, request):
+    #     list_buttons = getattr(self, "LIST_BUTTONS", None)
+    #     if list_buttons:
+    #         return list_buttons
 
-        list_buttons = ["refresh"]
+    #     list_buttons = ["refresh"]
 
-        ct = ContentType.objects.get_for_model(self.get_serializer_class().Meta.model)
-        permission = f"{ct.app_label}.add_{ct.model}"
+    #     ct = ContentType.objects.get_for_model(self.get_serializer_class().Meta.model)
+    #     permission = f"{ct.app_label}.add_{ct.model}"
 
-        if request.user.has_perm(permission):
-            list_buttons.append("new")
+    #     if request.user.has_perm(permission):
+    #         list_buttons.append("new")
 
-        return list_buttons
+    #     return list_buttons
 
     # PAGINATION
     def get_pagination(self, request: Request):

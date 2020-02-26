@@ -6,7 +6,7 @@ from .models import Notification
 class NotificationModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = (
+        fields = read_only_fields = (
             "id",
             "recipient",
             "title",

@@ -2,12 +2,14 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
+from .notifications.viewsets import ModelTestModelViewSet
 from .routers import BridgerRouter
 from .views import Config, Menu, Profile
 
 # fmt: off
 router = BridgerRouter()
 router.register(r"frontenduserconfiguration", FrontendUserConfigurationModelViewSet, basename="frontenduserconfiguration")
+router.register(r"notification", ModelTestModelViewSet, basename="notification")
 # fmt: on
 
 urlpatterns = [

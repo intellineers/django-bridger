@@ -7,6 +7,7 @@ from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
 from .enums import AuthType
+from .notifications.config import get_notification_config
 
 logger = logging.getLogger(__name__)
 

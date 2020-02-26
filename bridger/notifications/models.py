@@ -3,7 +3,7 @@ from enum import Enum
 import celery
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField
-from django.db import models
+from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -65,4 +65,6 @@ def post_create_notification(sender, instance, created, **kwargs):
             NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
         }
         for action in dispatch[instance.send_type]:
-            celery.execute.send_task(action, args=[instance.id])
+            transaction.on_commit(
+                lambda: celery.execute.send_task(action, args=[instance.id])
+            )

@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from .enums import AuthType
 from .menus import default_registry
-from .settings import get_bridger_auth
+from .settings import get_bridger_auth, get_notification_config
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +56,6 @@ class Config(APIView):
                 "authentication": get_bridger_auth(request),
                 "profile": reverse("bridger:profile", request=request),
                 "menu": reverse("bridger:menu", request=request),
-                "notification": {},
+                "notification": get_notification_config(request=request),
             }
         )

@@ -13,7 +13,6 @@ class NotificationConsumer(AsyncAuthenticatedJsonWebsocketConsumer):
         if "user" in self.scope:
             channel_layer_name = f"notification-{self.scope['user'].id}"
             await self.channel_layer.group_add(channel_layer_name, self.channel_name)
-
             await self.channel_layer.group_send(
                 channel_layer_name,
                 {"type": "notification.info", "user_id": self.scope["user"].id},

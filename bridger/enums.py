@@ -66,6 +66,7 @@ class Operator(Enum):
     GREATER_EQUAL = ">="
     LESS = "<"
     LESS_EQUAL = "<="
+    EXISTS = "∃"
 
 
 class Unit(Enum):

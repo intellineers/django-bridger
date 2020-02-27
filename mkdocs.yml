@@ -1,5 +1,5 @@
 site_name: Bridger
-theme: readthedocs
+# theme: readthedocs
 nav:
     - Getting started: index.md
     - Serializers: serializers.md

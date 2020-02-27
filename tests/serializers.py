@@ -31,6 +31,8 @@ class ModelTestSerializer(serializers.ModelSerializer):
         source="related_models", many=True
     )
 
+    annotated_char_field = serializers.CharField()
+
     @register_resource()
     def related_models(self, instance, request, user):
         return {"related_model": reverse("relatedmodeltest-list", request=request)}
@@ -61,6 +63,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "file_field",
             "related_models",
             "_related_models",
+            "annotated_char_field",
             "_additional_resources",
         )
 

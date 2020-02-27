@@ -77,13 +77,12 @@ class ActionButton(NamedTuple):
     key: Optional[str] = None
     endpoint: Optional[str] = None
 
-    description_fields: List[str] = []
-    instance_display: Optional[InstanceDisplay] = None
-
     label: Optional[str] = None
     icon: Optional[str] = None
     title: Optional[str] = None
 
+    description_fields: List[str] = []
+    instance_display: Optional[InstanceDisplay] = None
     confirm_label: Optional[str] = None
     cancel_label: Optional[str] = None
 

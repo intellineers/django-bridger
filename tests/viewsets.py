@@ -3,7 +3,7 @@ from collections import defaultdict
 
 import pandas as pd
 import plotly.graph_objects as go
-from django.db.models import Avg, Max, Sum
+from django.db.models import Avg, F, Max, Sum
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
@@ -148,6 +148,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char"),
+            dp.Field(key="annotated_char_field", label="A-Char"),
             dp.Field(key="integer_field", label="Integer"),
             dp.Field(key="float_field", label="Float"),
             dp.Field(key="percent_field", label="Percent"),
@@ -223,6 +224,8 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         "char_field": ["exact", "icontains"],
         "datetime_field": ["lte", "gte"],
         "status_field": ["exact"],
+        "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
+        "annotated_char_field": ["exact", "icontains"],
     }
 
     search_fields = ("char_field",)
@@ -243,6 +246,13 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         self, request, queryset=None, paginated_queryset=None, instance=None
     ):
         return [{"message": "ABC1", "type": "INFO"}]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        qs = qs.annotate(annotated_char_field=F("char_field"))
+
+        return qs
 
 
 class ModelTestModelCalendarViewSet(

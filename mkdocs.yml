@@ -19,6 +19,8 @@ markdown_extensions:
     - markdown_blockdiag:
         format: svg
     - markdown_include.include
+    - codehilite
+    - mkautodoc
 plugins:
     - search
 extra_css: [docs.css]

@@ -20,6 +20,8 @@ jobs:
           ports:
           - 5432:5432
           options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        redis:
+          image: redis:latest
 
       steps:
       - uses: actions/checkout@v2
@@ -28,7 +30,10 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      
+      - name: Start Redis
+        uses: superchargejs/redis-github-action@v1
+        with:
+          redis-version: latest
       - name: Install Tox and dependencies
         run: pip install tox
       - name: Run Tox

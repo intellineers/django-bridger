@@ -1,17 +1,18 @@
 site_name: Bridger
-theme:
-    name: null
-    custom_dir: 'cinder'
+# theme:
+#     name: null
+#     custom_dir: 'cinder'
+theme: readthedocs
 nav:
-    - Getting started: index.md
-    - Serializers: serializers.md
-    - Viewsets: viewsets.md
-    - Filters: filters.md
-    - Workflow: workflow.md
-    - Menu: menu.md
-    - Scripts: scripts.md
-    - Websockets: websockets.md
-    - Buttons: buttons.md
+    # - Getting started: index.md
+    # - Serializers: serializers.md
+    # - Viewsets: viewsets.md
+    # - Filters: filters.md
+    # - Workflow: workflow.md
+    # - Menu: menu.md
+    # - Scripts: scripts.md
+    # - Websockets: websockets.md
+    # - Buttons: buttons.md
     - Display: display.md
 markdown_extensions:
     - admonition
@@ -20,3 +21,4 @@ markdown_extensions:
     - markdown_include.include
 plugins:
     - search
+extra_css: [docs.css]

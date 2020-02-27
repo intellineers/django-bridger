@@ -4,15 +4,15 @@ theme:
     titles_only: False
     navigation_depth: 4
 nav:
-    # - Getting started: index.md
-    # - Serializers: serializers.md
-    # - Viewsets: viewsets.md
-    # - Filters: filters.md
-    # - Workflow: workflow.md
-    # - Menu: menu.md
-    # - Scripts: scripts.md
-    # - Websockets: websockets.md
-    # - Buttons: buttons.md
+    - Getting started: index.md
+    - Serializers: serializers.md
+    - Viewsets: viewsets.md
+    - Filters: filters.md
+    - Workflow: workflow.md
+    - Menu: menu.md
+    - Scripts: scripts.md
+    - Websockets: websockets.md
+    - Buttons: buttons.md
     - Display: display.md
 markdown_extensions:
     - admonition

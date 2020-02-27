@@ -30,8 +30,8 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Start Redis
-        uses: superchargejs/redis-github-action@v1
+      - name: Redis Server in GitHub Actions
+        uses: supercharge/redis-github-action@1.1.0
         with:
           redis-version: latest
       - name: Install Tox and dependencies

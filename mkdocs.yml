@@ -1,8 +1,8 @@
 site_name: Bridger
-# theme:
-#     name: null
-#     custom_dir: 'cinder'
-theme: readthedocs
+theme:
+    name: readthedocs
+    titles_only: False
+    navigation_depth: 4
 nav:
     # - Getting started: index.md
     # - Serializers: serializers.md

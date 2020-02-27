@@ -11,7 +11,7 @@ from bridger.config import config_registry
 def get_notification_config(request: Request):
     scheme = "wss" if request.scheme == "https" else "ws"
     host = request.get_host()
-    default_websocket_url = f"{scheme}://{host}/notification/"
+    default_websocket_url = f"{scheme}://{host}/ws/notification/"
     websocket_url = getattr(settings, "BRIDGER_WEBSOCKET_URL", default_websocket_url)
 
     return {

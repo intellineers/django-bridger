@@ -17,6 +17,10 @@ class NotificationSendType(Enum):
 
 
 class Notification(models.Model):
+    """
+        A model that represents a notification that is send as a system notification or mail or both
+    """
+
     recipient = models.ForeignKey(
         to=get_user_model(), related_name="notifications", on_delete=models.CASCADE
     )

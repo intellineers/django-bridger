@@ -1,8 +1,9 @@
 site_name: Bridger
+
 theme:
-    name: readthedocs
-    titles_only: False
-    navigation_depth: 4
+    name: material
+extra_css: [docs.css]
+
 nav:
     - Getting started: index.md
     - Serializers: serializers.md
@@ -20,7 +21,6 @@ markdown_extensions:
         format: svg
     - markdown_include.include
     - codehilite
-    - mkautodoc
+    # - djangodocstrings
 plugins:
     - search
-extra_css: [docs.css]

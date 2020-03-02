@@ -77,27 +77,27 @@ class MetadataMixin:
         return identifier
 
     def get_endpoint(self, request: Request) -> Optional[str]:
-        if hasattr(self, "ENDPOINT"):
+        if hasattr(self, "ENDPOINT") and self.ENDPOINT is not None:
             return reverse(self.ENDPOINT, request=request)
         return None
 
     def get_list_endpoint(self, request: Request) -> Optional[str]:
-        if hasattr(self, "LIST_ENDPOINT"):
+        if hasattr(self, "LIST_ENDPOINT") and self.LIST_ENDPOINT is not None:
             return reverse(self.LIST_ENDPOINT, request=request)
         return self.get_endpoint(request=request)
 
     def get_instance_endpoint(self, request: Request) -> Optional[str]:
-        if hasattr(self, "INSTANCE_ENDPOINT"):
+        if hasattr(self, "INSTANCE_ENDPOINT") and self.INSTANCE_ENDPOINT is not None:
             return reverse(self.INSTANCE_ENDPOINT, request=request)
         return self.get_endpoint(request=request)
 
     def get_create_endpoint(self, request: Request) -> Optional[str]:
-        if hasattr(self, "CREATE_ENDPOINT"):
+        if hasattr(self, "CREATE_ENDPOINT") and self.CREATE_ENDPOINT is not None:
             return reverse(self.CREATE_ENDPOINT, request=request)
         return self.get_endpoint(request=request)
 
     def get_delete_endpoint(self, request: Request) -> Optional[str]:
-        if hasattr(self, "DELETE_ENDPOINT"):
+        if hasattr(self, "DELETE_ENDPOINT") and self.DELETE_ENDPOINT is not None:
             return reverse(self.DELETE_ENDPOINT, request=request)
         return self.get_endpoint(request=request)
 

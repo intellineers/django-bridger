@@ -11,6 +11,8 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
     _detail = serializers.HyperlinkField(reverse_name="modeltest-detail")
     _detail_preview = serializers.HyperlinkField(reverse_name="modeltest-detail")
 
+    filter_params = {"some_key": "some_value"}
+
     class Meta:
         model = ModelTest
         fields = ("id", "char_field", "_detail", "_detail_preview")

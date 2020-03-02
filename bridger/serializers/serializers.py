@@ -81,7 +81,9 @@ class ModelSerializer(
 
 class RepresentationSerializer(RepresentationSerializerMixin, ModelSerializer):
     def __init__(self, *args, **kwargs):
-        self.filter_params = kwargs.pop("filter_params", None)
+        self.filter_params = kwargs.pop(
+            "filter_params", getattr(self, "filter_params", None)
+        )
 
         self.endpoint = kwargs.pop(
             "endpoint",

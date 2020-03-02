@@ -32,8 +32,12 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 description_fields="Do you want to mark notifications as read?",
                 label="Mark all as read",
                 icon="wb-icon-eye-open",
-                confirm_label="Yes",
-                cancel_label="Cancel",
+                confirm_config=bt.AdditionalButtonConfig(
+                    label="Yes", level=bt.ButtonLevel.SUCCESS
+                ),
+                cancel_config=bt.AdditionalButtonConfig(
+                    label="Nope", level=bt.ButtonLevel.SUCCESS
+                ),
             ).to_dict(),
             bt.ActionButton(
                 method="POST",
@@ -44,8 +48,12 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 description_fields="Do you want delete all read notifications?",
                 label="Delete all read notifications",
                 icon="wb-icon-trash",
-                confirm_label="Yes",
-                cancel_label="Cancel",
+                confirm_config=bt.AdditionalButtonConfig(
+                    label="Yupdidoo", level=bt.ButtonLevel.WARNING
+                ),
+                cancel_config=bt.AdditionalButtonConfig(
+                    label="Nah", level=bt.ButtonLevel.ERROR
+                ),
             ).to_dict(),
         ]
 

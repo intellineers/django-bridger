@@ -5,7 +5,7 @@ from bridger.filters import (
     CharFilter,
     DateFilter,
     DefaultDateRangeFilterValues,
-    FilterSet
+    FilterSet,
 )
 
 from .models import ModelTest, RelatedModelTest
@@ -20,25 +20,26 @@ class PandasFilterSet(FilterSet):
 
 
 class ModelTestFilterSet(FilterSet):
-    pass
 
-    # # char_field = CharFilter(label="Char")
-    # before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
+    # char_field = CharFilter(label="Char")
+    before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
     # date_lte = DateFilter(label="Date", lookup_expr="lte", field_name="date_field",)
     # date_gte = DateFilter(label="Date", lookup_expr="gte", field_name="date_field",)
 
-    # def filter_2k(self, queryset, name, value):
-    #     if value:
-    #         return queryset.filter(date_field__year__lt=2000)
-    #     return queryset
+    def filter_2k(self, queryset, name, value):
+        if value:
+            return queryset.filter(date_field__year__lt=2000)
+        return queryset
 
-    # class Meta:
-    #     model = ModelTest
-    #     fields = ["char_field", "date_lte", "date_gte", "before_2k"]
-    #     fields = {
-    #         "integer_field": ["lte", "gte", "exact"],
-    #         "char_field": ["exact", "icontains"],
-    #     }
+    class Meta:
+        model = ModelTest
+        fields = {
+            "integer_field": ["lte", "gte", "lt", "gt", "exact"],
+            "char_field": ["exact", "icontains"],
+            "datetime_field": ["lte", "gte"],
+            "status_field": ["exact"],
+            "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
+        }
 
 
 class RelatedModelTestFilterSet(FilterSet):

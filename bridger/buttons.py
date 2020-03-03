@@ -109,6 +109,8 @@ class ActionButton(NamedTuple):
     confirm_config: Optional[AdditionalButtonConfig] = None
     cancel_config: Optional[AdditionalButtonConfig] = None
 
+    identifiers: List[str] = None
+
     button_type = Button.ACTION.value
 
     def to_dict(self):
@@ -147,5 +149,8 @@ class ActionButton(NamedTuple):
 
         if self.cancel_config:
             rv["cancel_config"] = self.cancel_config.to_dict()
+
+        if self.identifiers is not None:
+            rv["identifiers"] = self.identifiers
 
         return rv

@@ -29,6 +29,7 @@ pytest-isort = "*"
 jupyter = "*"
 mkautodoc = "*"
 mkdocs-material = "*"
+pytest-xdist = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

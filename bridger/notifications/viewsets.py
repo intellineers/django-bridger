@@ -32,12 +32,9 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 description_fields="Do you want to mark notifications as read?",
                 label="Mark all as read",
                 icon="wb-icon-eye-open",
-                confirm_config=bt.AdditionalButtonConfig(
-                    label="Yes", level=bt.ButtonLevel.SUCCESS
-                ),
-                cancel_config=bt.AdditionalButtonConfig(
-                    label="Nope", level=bt.ButtonLevel.SUCCESS
-                ),
+                confirm_config=bt.AdditionalButtonConfig(label="Read all"),
+                cancel_config=bt.AdditionalButtonConfig(label="Cancel"),
+                identifiers=[reverse("bridger:notification-list", request=request)],
             ).to_dict(),
             bt.ActionButton(
                 method="POST",
@@ -49,11 +46,12 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 label="Delete all read notifications",
                 icon="wb-icon-trash",
                 confirm_config=bt.AdditionalButtonConfig(
-                    label="Yupdidoo", level=bt.ButtonLevel.WARNING
+                    label="Delete all", level=bt.ButtonLevel.WARNING
                 ),
                 cancel_config=bt.AdditionalButtonConfig(
-                    label="Nah", level=bt.ButtonLevel.ERROR
+                    label="Cancel", level=bt.ButtonLevel.ERROR
                 ),
+                identifiers=[reverse("bridger:notification-list", request=request)],
             ).to_dict(),
         ]
 

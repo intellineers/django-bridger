@@ -24,7 +24,7 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     def get_custom_buttons(self, request):
         return [
             bt.ActionButton(
-                method="POST",
+                method="post",
                 action_label="All notifications read.",
                 endpoint=reverse(
                     "bridger:notification-mark-all-as-read", request=request
@@ -34,10 +34,10 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 icon="wb-icon-eye-open",
                 confirm_config=bt.AdditionalButtonConfig(label="Read all"),
                 cancel_config=bt.AdditionalButtonConfig(label="Cancel"),
-                identifiers=[reverse("bridger:notification-list", request=request)],
+                identifiers=["relatedmodeltest-list"],
             ).to_dict(),
             bt.ActionButton(
-                method="POST",
+                method="post",
                 action_label="Delete all read notifications.",
                 endpoint=reverse(
                     "bridger:notification-delete-all-read", request=request

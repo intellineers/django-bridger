@@ -150,6 +150,9 @@ class RelatedModelTest(models.Model):
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
+    def __str__(self):
+        return self.char_field
+
     @property
     def upper_char_field(self):
         return self.char_field.upper()

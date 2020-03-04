@@ -9,6 +9,7 @@ from .fields import (
     ModelChoiceFilter,
     ModelMultipleChoiceFilter,
     MultipleChoiceFilter,
+    NumberFilter,
     TimeFilter
 )
 from .filterset import FilterSet

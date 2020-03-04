@@ -1,6 +1,6 @@
 from collections import defaultdict
-from typing import Any, List, NamedTuple, Optional, Tuple, Union
 from enum import Enum
+from typing import Any, List, NamedTuple, Optional, Tuple, Union
 
 from bridger.display import InstanceDisplay
 from bridger.enums import Button

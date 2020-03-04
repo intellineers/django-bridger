@@ -4,7 +4,6 @@ from collections import defaultdict
 import pandas as pd
 import plotly.graph_objects as go
 from django.db.models import Avg, F, Max, Sum
-
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
@@ -20,19 +19,14 @@ from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 from bridger.serializers import PrimaryKeyRelatedField
 
-from .filters import (
-    CalendarFilter,
-    ModelTestFilterSet,
-    PandasFilterSet,
-    RelatedModelTestFilterSet,
-)
+from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet, RelatedModelTestFilterSet
 from .models import ModelTest, RelatedModelTest
 from .serializers import (
     CalendarModelTestSerializer,
     ModelTestRepresentationSerializer,
     ModelTestSerializer,
     RelatedModelTestRepresentationSerializer,
-    RelatedModelTestSerializer,
+    RelatedModelTestSerializer
 )
 
 logger = logging.getLogger(__name__)
@@ -46,7 +40,7 @@ class MyPandasView(PandasAPIView):
         DjangoFilterBackend,
     ]
     search_fields = ["char_field"]
-    filter_class = PandasFilterSet
+    filterset_class = PandasFilterSet
 
     INSTANCE_ENDPOINT = "modeltest-list"
     LIST_ENDPOINT = "pandas_view"
@@ -224,7 +218,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     ]
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestSerializer
-    filter_class = ModelTestFilterSet
+    filterset_class = ModelTestFilterSet
     # filterset_fields = {
     #     "integer_field": ["lte", "gte", "lt", "gt", "exact"],
     #     "char_field": ["exact", "icontains"],

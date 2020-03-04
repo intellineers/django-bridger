@@ -5,7 +5,7 @@ from bridger.filters import (
     CharFilter,
     DateFilter,
     DefaultDateRangeFilterValues,
-    FilterSet,
+    FilterSet
 )
 
 from .models import ModelTest, RelatedModelTest
@@ -27,6 +27,7 @@ class ModelTestFilterSet(FilterSet):
     # date_gte = DateFilter(label="Date", lookup_expr="gte", field_name="date_field",)
 
     def filter_2k(self, queryset, name, value):
+        print(name)
         if value:
             return queryset.filter(date_field__year__lt=2000)
         return queryset
@@ -39,6 +40,7 @@ class ModelTestFilterSet(FilterSet):
             "datetime_field": ["lte", "gte"],
             "status_field": ["exact"],
             "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
+            "before_2k": ["exact", "icontains"],
         }
 
 

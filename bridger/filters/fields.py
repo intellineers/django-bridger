@@ -126,3 +126,12 @@ class BooleanFilter(BridgerFilterMixin, django_filters.BooleanFilter):
 
 class NumberFilter(BridgerFilterMixin, django_filters.NumberFilter):
     filter_type = "number"
+
+    def __init__(self, precision=0, *args, **kwargs):
+        self.precision = precision
+        super().__init__(*args, **kwargs)
+
+    def get_representation(self, request, name):
+        representation = super().get_representation(request, name)
+        representation["precision"] = self.precision
+        return representation

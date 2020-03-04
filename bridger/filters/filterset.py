@@ -106,6 +106,10 @@ class FilterSet(DjangoFilterSet):
         else:
             filter_class, params = super().filter_for_lookup(field, lookup_type)
 
+        # Check if it is a decimal field:
+        if hasattr(field, "decimal_places"):
+            params["precision"] = field.decimal_places
+
         if hasattr(field, "verbose_name"):
             params["label"] = field.verbose_name
 

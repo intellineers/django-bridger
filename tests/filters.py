@@ -5,7 +5,7 @@ from bridger.filters import (
     CharFilter,
     DateFilter,
     DefaultDateRangeFilterValues,
-    FilterSet,
+    FilterSet
 )
 
 from .models import ModelTest, RelatedModelTest
@@ -21,10 +21,7 @@ class PandasFilterSet(FilterSet):
 
 class ModelTestFilterSet(FilterSet):
 
-    # char_field = CharFilter(label="Char")
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
-    # date_lte = DateFilter(label="Date", lookup_expr="lte", field_name="date_field",)
-    # date_gte = DateFilter(label="Date", lookup_expr="gte", field_name="date_field",)
 
     def filter_2k(self, queryset, name, value):
         if value:

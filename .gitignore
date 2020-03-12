@@ -106,6 +106,9 @@ venv.bak/
 # VS Code Config
 .vscode/
 
+# IDEA Config (Jetbrains)
+.idea/
+
 # Django Mediafiles/Staticfiles
 mediafiles/
 staticfiles/

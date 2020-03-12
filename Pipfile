@@ -29,6 +29,7 @@ jupyter = "*"
 mkautodoc = "*"
 mkdocs-material = "*"
 pytest-sugar = "*"
+tox = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

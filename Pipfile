@@ -34,7 +34,7 @@ pytest-sugar = "*"
 django-bridger = {editable = true,path = "."}
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
 
 [pipenv]
 allow_prereleases = false

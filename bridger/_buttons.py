@@ -79,7 +79,9 @@ class CustomButton:
     title: Optional[str] = None
 
     def __post_init__(self):
-        assert bool(self.key) != bool(self.endpoint), self.error_messages["xor_key_endpoint"]
+        assert bool(self.key) != bool(self.endpoint), self.error_messages[
+            "xor_key_endpoint"
+        ]
         assert self.label or self.icon, self.error_messages["or_label_icon"]
         assert hasattr(self, "button_type"), self.error_messages["exists_button_type"]
 
@@ -87,10 +89,10 @@ class CustomButton:
     #     return super().__dict__
 
     def __iter__(self):
-        for field in ["key", "endpoint", "label", "icon", "title"]:
-            value = getattr(self, field, None)
+        for field_key in ["key", "endpoint", "label", "icon", "title"]:
+            value = getattr(self, field_key, None)
             if value:
-                yield field, value
+                yield field_key, value
 
         yield "type", self.button_type.value
 

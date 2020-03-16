@@ -45,7 +45,16 @@ class FSMViewSetMixinMetaclass(type):
                     transitions = getattr(model, f"get_all_{field.name}_transitions")(
                         model()
                     )
+                    # Since the method above can potentially return a transition multiple times
+                    # i.e. when a transitions has multiple sources, we need to filter out those transitions
+                    _discovered_transitions = list()
+
                     for transition in transitions:
+                        if transition.name in _discovered_transitions:
+                            continue
+                        else:
+                            _discovered_transitions.append(transition.name)
+
                         # Get the Transition Button and add it to the front of the instance buttons
                         button = transition.custom.get("_transition_button")
 
@@ -144,9 +153,15 @@ class FSMSerializerMetaclass(SerializerMetaclass):
                             namespace = f"{url.namespace}:" if url.namespace else ""
                             base_url_name = url.url_name.split("-")[:-1]
 
+                            # We need to pass the kwargs from the view through to the reverse call
+                            # And additionally pass in the instance.id as the pk
+                            # NOTE: What happens if the reverse parameter is not called pk? Is that possible?
+                            kwargs = self.context["view"].kwargs
+                            kwargs.update({"pk": instance.id})
+
                             endpoint = reverse(
                                 f"{namespace}{'-'.join(base_url_name)}-{transition.name}",
-                                args=[instance.id],
+                                kwargs=kwargs,
                                 request=request,
                             )
                             return {transition.name: endpoint}

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from bridger import buttons as bt
+from bridger.enums import RequestType
 from bridger import display as dp
 from bridger import viewsets
 
@@ -21,10 +22,10 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     INSTANCE_BUTTONS = ["refresh", "delete"]
     CREATE_BUTTONS = []
 
-    def get_custom_buttons(self, request):
+    def get_custom_buttons(self, request, buttons):
         return [
             bt.ActionButton(
-                method="post",
+                method=RequestType.POST,
                 action_label="All notifications read.",
                 endpoint=reverse(
                     "bridger:notification-mark-all-as-read", request=request
@@ -32,12 +33,12 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 description_fields="Do you want to mark notifications as read?",
                 label="Mark all as read",
                 icon="wb-icon-eye-open",
-                confirm_config=bt.AdditionalButtonConfig(label="Read all"),
-                cancel_config=bt.AdditionalButtonConfig(label="Cancel"),
+                confirm_config=bt.ButtonConfig(label="Read all"),
+                cancel_config=bt.ButtonConfig(label="Cancel"),
                 identifiers=["relatedmodeltest-list"],
-            ).to_dict(),
+            ),
             bt.ActionButton(
-                method="post",
+                method=RequestType.POST,
                 action_label="Delete all read notifications.",
                 endpoint=reverse(
                     "bridger:notification-delete-all-read", request=request
@@ -45,14 +46,14 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 description_fields="Do you want delete all read notifications?",
                 label="Delete all read notifications",
                 icon="wb-icon-trash",
-                confirm_config=bt.AdditionalButtonConfig(
+                confirm_config=bt.ButtonConfig(
                     label="Delete all", level=bt.ButtonLevel.WARNING
                 ),
-                cancel_config=bt.AdditionalButtonConfig(
+                cancel_config=bt.ButtonConfig(
                     label="Cancel", level=bt.ButtonLevel.ERROR
                 ),
                 identifiers=[reverse("bridger:notification-list", request=request)],
-            ).to_dict(),
+            ),
         ]
 
     LIST_DISPLAY = dp.ListDisplay(
@@ -62,10 +63,10 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="message", label="Message"),
         ],
         formatting=[
-            dp.RowFormatting(
+            dp.Formatting(
                 column="timestamp_read",
-                conditions=[
-                    dp.RowIconCondition(icon="wb-icon-eye-open", condition=("∃", True)),
+                formatting_rules=[
+                    dp.FormattingRule(icon="wb-icon-eye-open", condition=("∃", True)),
                 ],
             ),
         ],

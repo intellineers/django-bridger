@@ -2,6 +2,16 @@ from enum import Enum
 from typing import Union
 
 
+class RequestType(Enum):
+    GET = "get"
+    POST = "post"
+    DELETE = "delete"
+    PATCH = "patch"
+    PUT = "put"
+    OPTIONS = "options"
+    HEAD = "head"
+
+
 class Button(Enum):
 
     # Buttons
@@ -75,7 +85,7 @@ class Unit(Enum):
     PIXEL = "px"
 
     def __call__(self, _value):
-        return (_value, self.value)
+        return (float(_value), self.value)
 
     def unit(self, _value: Union[float, str, int]):
         assert isinstance(

@@ -6,7 +6,7 @@ from django_fsm import FSMField, transition
 from rest_framework.reverse import reverse
 
 from bridger.display import FieldSet, InstanceDisplay, Section
-from bridger.fsm.buttons import FSMButton
+from bridger.buttons import ActionButton
 from bridger.search import register as search_register
 
 
@@ -32,7 +32,7 @@ class ModelTest(models.Model):
     STATUS3 = "status3"
     status_choices = ((STATUS1, "Status1"), (STATUS2, "Status2"), (STATUS3, "Status3"))
 
-    MOVE_BUTTON1 = FSMButton(
+    MOVE_BUTTON1 = ActionButton(
         icon="wb-icon-thumbs-up-full",
         key="move1",
         label="Move1",
@@ -43,7 +43,7 @@ class ModelTest(models.Model):
         ),
     )
 
-    MOVE_BUTTON2 = FSMButton(
+    MOVE_BUTTON2 = ActionButton(
         icon="wb-icon-thumbs-up-full",
         key="move2",
         label="Move2",

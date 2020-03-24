@@ -4,7 +4,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from bridger.mixins import MetadataMixin
+from bridger.metadata.views import MetadataMixin
 
 from .metadata import PandasMetadata
 

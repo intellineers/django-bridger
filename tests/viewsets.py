@@ -169,13 +169,13 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             )
         ],
         formatting=[
-            dp.RowFormatting(
+            dp.Formatting(
                 column="integer_field",
-                conditions=[
-                    dp.RowIconCondition(
+                formatting_rules=[
+                    dp.FormattingRule(
                         icon="wb-icon-thumbs-up-full", condition=("<", 5000)
                     ),
-                    dp.RowStyleCondition(
+                    dp.FormattingRule(
                         style={"backgroundColor": "rgb(80,220,100)"},
                         condition=("<", 5000),
                     ),
@@ -264,19 +264,12 @@ class ModelTestModelCalendarViewSet(
     LIST_ENDPOINT = "calendar-list"
     INSTANCE_ENDPOINT = DELETE_ENDPOINT = CREATE_ENDPOINT = "modeltest-list"
 
-    LIST_DISPLAY = dp.ListDisplay(
-        fields=[
-            dp.Field(key="char_field", label="Char",),
-            dp.Field(key="datetime_field", label="DateTime",),
-            dp.Field(key="datetime_field1", label="DateTime",),
-        ],
-        calendar=dp.Calender(
-            title="char_field",
-            start="datetime_field",
-            end="datetime_field1",
-            filter_date_gte="start",
-            filter_date_lte="end",
-        ),
+    LIST_DISPLAY = dp.Calendar(
+        title="char_field",
+        start="datetime_field",
+        end="datetime_field1",
+        filter_date_gte="start",
+        filter_date_lte="end",
     )
 
 
@@ -289,10 +282,8 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "relatedmodeltest-list"
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
-            dp.Field(key="char_field", label="Char", col=Unit.FRACTION(2)),
-            dp.Field(key="model_test", label="Model", col=Unit.FRACTION(2)),
-            dp.Field(key="_left", col=Unit.REM(2)),
-            dp.Field(key="_right", col=Unit.REM(2)),
+            dp.Field(key="char_field", label="Char", width=Unit.FRACTION(2)),
+            dp.Field(key="model_test", label="Model", width=Unit.FRACTION(2)),
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(

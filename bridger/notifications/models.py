@@ -7,7 +7,7 @@ from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from bridger.buttons import CustomButton, WidgetButton
+from bridger.buttons import WidgetButton
 
 
 class NotificationSendType(Enum):

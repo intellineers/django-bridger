@@ -12,7 +12,7 @@ class FilterFieldsMetadata(BridgerMetadataMixin):
 
 
 class FilterFieldsMetadataMixin:
-    def _get_filter_fields(self, request: Request):
+    def get_filter_fields(self, request: Request):
         if DjangoFilterBackend in self.filter_backends:
             filterset_class = DjangoFilterBackend().get_filterset_class(
                 self, self.queryset
@@ -45,3 +45,6 @@ class FilterFieldsMetadataMixin:
                         yield field.field_name, stored_fields.get(
                             field.field_name, representation
                         )
+    
+    def _get_filter_fields(self, request: Request):
+        return dict(self.get_filter_fields(request))

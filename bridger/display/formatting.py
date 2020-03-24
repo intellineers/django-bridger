@@ -7,7 +7,7 @@ from bridger.enums import Operator
 @dataclass
 class Condition:
     operator: Operator
-    value: Union[str, float, int]
+    value: Union[str, float, int, bool]
 
     def __post_init__(self):
         if self.operator == Operator.EXISTS:

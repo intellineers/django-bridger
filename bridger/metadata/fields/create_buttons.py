@@ -2,7 +2,7 @@ from typing import List
 
 from rest_framework.request import Request
 
-from bridger.enums import Button 
+from bridger.enums import Button
 from bridger.metadata.mixins import BridgerMetadataMixin
 
 
@@ -12,9 +12,10 @@ class CreateButtonMetadata(BridgerMetadataMixin):
 
 
 class CreateButtonMetadataMixin:
-    def get_create_buttons(self, request: Request, buttons: List[str] = None) -> List[str]:
+    def get_create_buttons(
+        self, request: Request, buttons: List[str] = None
+    ) -> List[str]:
         return buttons or Button.create_buttons()
-        
 
     def _get_create_buttons(self, request: Request) -> List[str]:
         return self.get_create_buttons(

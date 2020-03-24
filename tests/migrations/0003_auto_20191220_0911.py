@@ -6,19 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0002_relatedmodeltest'),
+        ("tests", "0002_relatedmodeltest"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='modeltest',
-            name='float_field',
+            model_name="modeltest",
+            name="float_field",
             field=models.FloatField(default=1),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='modeltest',
-            name='percent_field',
+            model_name="modeltest",
+            name="percent_field",
             field=models.FloatField(default=1),
             preserve_default=False,
         ),

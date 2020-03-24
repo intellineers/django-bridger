@@ -1,5 +1,6 @@
-from rest_framework.request import Request
 from rest_framework import filters
+from rest_framework.request import Request
+
 from bridger.metadata.mixins import BridgerMetadataMixin
 
 

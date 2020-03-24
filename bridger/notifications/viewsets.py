@@ -4,9 +4,9 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from bridger import buttons as bt
-from bridger.enums import RequestType
 from bridger import display as dp
 from bridger import viewsets
+from bridger.enums import RequestType
 
 from .models import Notification
 from .serializers import NotificationModelSerializer

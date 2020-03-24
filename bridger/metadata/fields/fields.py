@@ -11,8 +11,7 @@ class FieldsMetadata(BridgerMetadataMixin):
     method_name = "_get_fields"
 
 
-class FieldsMetadataMixin:        
-
+class FieldsMetadataMixin:
     def get_fields(self, request: Request) -> Dict:
         fields = dict()
         rs = RepresentationSerializer
@@ -40,5 +39,5 @@ class FieldsMetadataMixin:
         for key in serializer_class.get_percent_fields():
             fields[key]["type"] = "percent"
             fields[key]["decorators"].append(percent_decorator)
-            
+
         return fields

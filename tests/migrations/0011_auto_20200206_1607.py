@@ -7,32 +7,42 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0010_modeltest_datetime_field1'),
+        ("tests", "0010_modeltest_datetime_field1"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='relatedmodeltest',
-            options={'verbose_name': 'Related Model Test', 'verbose_name_plural': 'Related Model Tests'},
+            name="relatedmodeltest",
+            options={
+                "verbose_name": "Related Model Test",
+                "verbose_name_plural": "Related Model Tests",
+            },
         ),
         migrations.AlterField(
-            model_name='modeltest',
-            name='datetime_field',
-            field=models.DateTimeField(verbose_name='DateTime'),
+            model_name="modeltest",
+            name="datetime_field",
+            field=models.DateTimeField(verbose_name="DateTime"),
         ),
         migrations.AlterField(
-            model_name='modeltest',
-            name='datetime_field1',
-            field=models.DateTimeField(verbose_name='DateTime 1'),
+            model_name="modeltest",
+            name="datetime_field1",
+            field=models.DateTimeField(verbose_name="DateTime 1"),
         ),
         migrations.AlterField(
-            model_name='relatedmodeltest',
-            name='char_field',
-            field=models.CharField(max_length=255, verbose_name='Char'),
+            model_name="relatedmodeltest",
+            name="char_field",
+            field=models.CharField(max_length=255, verbose_name="Char"),
         ),
         migrations.AlterField(
-            model_name='relatedmodeltest',
-            name='model_test',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='related_models', to='tests.ModelTest', verbose_name='Model Test'),
+            model_name="relatedmodeltest",
+            name="model_test",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="related_models",
+                to="tests.ModelTest",
+                verbose_name="Model Test",
+            ),
         ),
     ]

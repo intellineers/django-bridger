@@ -1,7 +1,8 @@
-from rest_framework.request import Request
 from rest_framework import filters
-from bridger.metadata.mixins import BridgerMetadataMixin
+from rest_framework.request import Request
+
 from bridger.filters import DjangoFilterBackend
+from bridger.metadata.mixins import BridgerMetadataMixin
 from bridger.utils import ilen
 
 

@@ -14,7 +14,6 @@ class CustomButtonMetadata(BridgerMetadataMixin):
 class CustomButtonMetadataMixin:
     def get_custom_buttons(self, request: Request, buttons: List) -> List:
         return buttons
-        
 
     def _get_custom_buttons(self, request: Request) -> List:
         buttons = self.get_custom_buttons(

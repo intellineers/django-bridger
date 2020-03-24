@@ -5,7 +5,6 @@ from rest_framework.reverse import reverse
 
 from bridger.metadata.mixins import BridgerMetadataMixin
 
-
 Endpoint_T = Union[str, Tuple[str, List, Dict]]
 
 
@@ -15,7 +14,9 @@ class EndpointMetadata(BridgerMetadataMixin):
 
 
 class EndpointMetadataMixin:
-    def get_generic_endpoint(self, request: Request, endpoint: Endpoint_T = None) -> Endpoint_T:
+    def get_generic_endpoint(
+        self, request: Request, endpoint: Endpoint_T = None
+    ) -> Endpoint_T:
         return endpoint
 
     def _get_generic_endpoint(self, request: Request, endpoint_type: str) -> Endpoint_T:

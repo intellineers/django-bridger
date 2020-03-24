@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, List, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 from bridger.display.formatting import Formatting, FormattingRule
 
@@ -15,7 +15,7 @@ class Field:
         yield "key", self.key
         yield "label", self.label
         yield "formatting_rules", [dict(rule) for rule in self.formatting_rules]
-        
+
         if self.width:
             yield "width", self.width
 
@@ -42,12 +42,14 @@ class Legend:
 
     def __post_init__(self):
         if self.key:
-            assert all([bool(item.value) for item in self.items]), "If key is set, all items need to specify a value."
+            assert all(
+                [bool(item.value) for item in self.items]
+            ), "If key is set, all items need to specify a value."
 
     def __iter__(self):
         if self.label:
             yield "label", self.label
-        
+
         if self.key:
             yield "key", self.key
 

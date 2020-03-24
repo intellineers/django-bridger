@@ -207,7 +207,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                     ]
                 )
             ),
-            dp.Section(section_list=dp.SectionList(key="related_model")),
+            dp.Section(
+                title="Related Models", section_list=dp.SectionList(key="related_model")
+            ),
         ]
     )
 

@@ -7,13 +7,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bridger', '0002_notification'),
+        ("bridger", "0002_notification"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notification',
-            name='buttons',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=list, null=True),
+            model_name="notification",
+            name="buttons",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True, default=list, null=True
+            ),
         ),
     ]

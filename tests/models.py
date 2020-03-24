@@ -5,8 +5,8 @@ from django.utils import timezone
 from django_fsm import FSMField, transition
 from rest_framework.reverse import reverse
 
-from bridger.display import FieldSet, InstanceDisplay, Section
 from bridger.buttons import ActionButton
+from bridger.display import FieldSet, InstanceDisplay, Section
 from bridger.search import register as search_register
 
 

@@ -1,6 +1,6 @@
 import logging
 from collections import defaultdict
-from typing import Dict, Generator, List, Optional, Tuple, Union, Iterator
+from typing import Dict, Generator, Iterator, List, Optional, Tuple, Union
 
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import filters
@@ -55,10 +55,8 @@ class MetadataMixin(
 
         return fields
 
-
     def get_preview_display(self, request: Request):
         return getattr(self, "PREVIEW_DISPLAY", "")
 
     def get_preview_buttons(self, request: Request):
         return [button.to_dict() for button in getattr(self, "PREVIEW_BUTTONS", [])]
-

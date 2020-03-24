@@ -7,13 +7,17 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0003_auto_20191220_0911'),
+        ("tests", "0003_auto_20191220_0911"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='modeltest',
-            name='status_field',
-            field=django_fsm.FSMField(choices=[('status1', 'Status1'), ('status2', 'Status2')], default='status1', max_length=50),
+            model_name="modeltest",
+            name="status_field",
+            field=django_fsm.FSMField(
+                choices=[("status1", "Status1"), ("status2", "Status2")],
+                default="status1",
+                max_length=50,
+            ),
         ),
     ]

@@ -7,16 +7,31 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0001_initial'),
+        ("tests", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='RelatedModelTest',
+            name="RelatedModelTest",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('char_field', models.CharField(max_length=255)),
-                ('model_test', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='related_models', to='tests.ModelTest')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("char_field", models.CharField(max_length=255)),
+                (
+                    "model_test",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="related_models",
+                        to="tests.ModelTest",
+                    ),
+                ),
             ],
         ),
     ]

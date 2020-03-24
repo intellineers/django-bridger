@@ -4,17 +4,17 @@ from .fields import (
     CustomButtonMetadataMixin,
     CustomInstanceButtonMetadataMixin,
     EndpointMetadataMixin,
-    IdentifierMetadataMixin,
-    PaginationMetadataMixin,
-    WidgetTypeMetadataMixin,
-    TitleMetadataMixin,
-    SearchFieldsMetadataMixin,
-    OrderingFieldsMetadataMixin,
+    FieldsMetadataMixin,
     FilterFieldsMetadataMixin,
+    IdentifierMetadataMixin,
     InstanceDisplayMetadataMixin,
     ListDisplayMetadataMixin,
-    FieldsMetadataMixin,
+    OrderingFieldsMetadataMixin,
+    PaginationMetadataMixin,
     PKMetadataMixin,
+    SearchFieldsMetadataMixin,
+    TitleMetadataMixin,
+    WidgetTypeMetadataMixin
 )
 from .metadata import BridgerMetadata
 

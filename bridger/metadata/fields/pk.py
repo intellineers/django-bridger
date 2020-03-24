@@ -2,7 +2,7 @@ from typing import Dict, Union
 
 from rest_framework.request import Request
 
-from bridger.display import InstanceDisplay, ListDisplay, Calendar
+from bridger.display import Calendar, InstanceDisplay, ListDisplay
 from bridger.metadata.mixins import BridgerMetadataMixin
 
 
@@ -15,11 +15,8 @@ class PKMetadataMixin:
     def get_pk(self, request: Request, pk=None):
         if pk:
             return pk
-        
+
         return self.kwargs.get("pk", None)
-        
 
     def _get_pk(self, request: Request):
-        return self.get_pk(
-            request=request, pk=getattr(self, "PK", None)
-        )
+        return self.get_pk(request=request, pk=getattr(self, "PK", None))

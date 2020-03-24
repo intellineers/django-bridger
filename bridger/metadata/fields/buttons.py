@@ -13,8 +13,9 @@ class ButtonMetadata(BridgerMetadataMixin):
 
 
 class ButtonMetadataMixin:
-
-    def get_instance_buttons(self, request: Request, buttons: List[str] = None) -> List[str]:
+    def get_instance_buttons(
+        self, request: Request, buttons: List[str] = None
+    ) -> List[str]:
         if buttons:
             return buttons
 
@@ -37,7 +38,9 @@ class ButtonMetadataMixin:
             request=request, buttons=getattr(self, "INSTANCE_BUTTONS", None)
         )
 
-    def get_list_buttons(self, request: Request, buttons: List[str] = None) -> List[str]:
+    def get_list_buttons(
+        self, request: Request, buttons: List[str] = None
+    ) -> List[str]:
         if buttons:
             return buttons
 
@@ -76,6 +79,4 @@ class ButtonMetadataMixin:
         return set(button_list)
 
     def _get_buttons(self, request: Request) -> str:
-        return self.get_buttons(
-            request=request, buttons=getattr(self, "BUTTONS", None)
-        )
+        return self.get_buttons(request=request, buttons=getattr(self, "BUTTONS", None))

@@ -11,10 +11,9 @@ class Condition:
 
     def __post_init__(self):
         if self.operator == Operator.EXISTS:
-            assert isinstance(self.value, bool), \
-                f"{Operator.EXISTS.value} is only compatible with bool"
-
-
+            assert isinstance(
+                self.value, bool
+            ), f"{Operator.EXISTS.value} is only compatible with bool"
 
     def __iter__(self):
         yield self.operator.value, self.value
@@ -43,8 +42,9 @@ class Formatting:
 
     def __post_init__(self):
         if self.column is None:
-            assert all([not bool(rule.condition) for rule in self.formatting_rules]), \
-                "Specifying conditions, without a reference column is not possible."
+            assert all(
+                [not bool(rule.condition) for rule in self.formatting_rules]
+            ), "Specifying conditions, without a reference column is not possible."
 
     def __iter__(self):
         yield "column", self.column

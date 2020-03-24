@@ -10,7 +10,6 @@ class TitleMetadata(BridgerMetadataMixin):
 
 
 class TitleMetadataMixin:
-    
     def get_instance_title(self, request: Request, title: str = None) -> str:
         if title:
             return title
@@ -47,7 +46,11 @@ class TitleMetadataMixin:
 
     def _get_titles(self, request: Request) -> str:
         return {
-            "instance": self.get_instance_title(request, getattr(self, "INSTANCE_TITLE", None)),
+            "instance": self.get_instance_title(
+                request, getattr(self, "INSTANCE_TITLE", None)
+            ),
             "list": self.get_list_title(request, getattr(self, "LIST_TITLE", None)),
-            "create": self.get_create_title(request, getattr(self, "CREATE_TITLE", None)),
+            "create": self.get_create_title(
+                request, getattr(self, "CREATE_TITLE", None)
+            ),
         }

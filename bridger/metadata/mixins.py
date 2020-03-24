@@ -1,5 +1,4 @@
 class BridgerMetadataMixin:
-
     def __init__(self, view, request, *args, **kwargs):
         self.view = view
         self.request = request

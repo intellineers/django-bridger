@@ -8,22 +8,21 @@ from .fields import (
     CustomButtonMetadata,
     CustomInstanceButtonMetadata,
     EndpointMetadata,
-    IdentifierMetadata,
-    PaginationMetadata,
-    TitleMetadata,
-    WidgetTypeMetadata,
-    SearchFieldsMetadata,
-    OrderingFieldsMetadata,
+    FieldsMetadata,
     FilterFieldsMetadata,
+    IdentifierMetadata,
     InstanceDisplayMetadata,
     ListDisplayMetadata,
-    FieldsMetadata,
+    OrderingFieldsMetadata,
+    PaginationMetadata,
     PKMetadata,
+    SearchFieldsMetadata,
+    TitleMetadata,
+    WidgetTypeMetadata
 )
 
 
 class BridgerMetadata(BaseMetadata):
-
     def __init__(self, *args, **kwargs):
         self.modules = [
             IdentifierMetadata,

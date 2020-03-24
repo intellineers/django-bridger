@@ -18,7 +18,7 @@ from .fields import (
     PKMetadata,
     SearchFieldsMetadata,
     TitleMetadata,
-    WidgetTypeMetadata
+    WidgetTypeMetadata,
 )
 
 

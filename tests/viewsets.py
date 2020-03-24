@@ -4,6 +4,7 @@ from collections import defaultdict
 import pandas as pd
 import plotly.graph_objects as go
 from django.db.models import Avg, F, Max, Sum
+
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, views
 from rest_framework.response import Response
@@ -13,20 +14,25 @@ from rest_framework.serializers import ListSerializer
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
-from bridger.enums import Unit, Operator
+from bridger.enums import Operator, Unit
 from bridger.filters import DjangoFilterBackend
 from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 from bridger.serializers import PrimaryKeyRelatedField
 
-from .filters import CalendarFilter, ModelTestFilterSet, PandasFilterSet, RelatedModelTestFilterSet
+from .filters import (
+    CalendarFilter,
+    ModelTestFilterSet,
+    PandasFilterSet,
+    RelatedModelTestFilterSet,
+)
 from .models import ModelTest, RelatedModelTest
 from .serializers import (
     CalendarModelTestSerializer,
     ModelTestRepresentationSerializer,
     ModelTestSerializer,
     RelatedModelTestRepresentationSerializer,
-    RelatedModelTestSerializer
+    RelatedModelTestSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -150,21 +156,31 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Field(key="char_field", label="Char"),
             dp.Field(key="annotated_char_field", label="A-Char"),
             dp.Field(key="integer_field", label="Integer"),
-            dp.Field(key="float_field", label="Float", formatting_rules=[
-                dp.FormattingRule(icon="wb-icon-trash", condition=dp.Condition(
-                    operator=Operator.LESS, value=0
-                ))
-            ]),
+            dp.Field(
+                key="float_field",
+                label="Float",
+                formatting_rules=[
+                    dp.FormattingRule(
+                        icon="wb-icon-trash",
+                        condition=dp.Condition(operator=Operator.LESS, value=0),
+                    )
+                ],
+            ),
             dp.Field(key="percent_field", label="Percent"),
             dp.Field(key="decimal_field", label="Decimal"),
             dp.Field(key="datetime_field", label="DateTime"),
             dp.Field(key="date_field", label="Date"),
             dp.Field(key="time_field", label="Time"),
-            dp.Field(key="boolean_field", label="Boolean", formatting_rules=[
-                dp.FormattingRule(style={"color": "red"}, condition=dp.Condition(
-                    operator=Operator.EQUAL, value=True
-                ))
-            ]),
+            dp.Field(
+                key="boolean_field",
+                label="Boolean",
+                formatting_rules=[
+                    dp.FormattingRule(
+                        style={"color": "red"},
+                        condition=dp.Condition(operator=Operator.EQUAL, value=True),
+                    )
+                ],
+            ),
             dp.Field(key="choice_field", label="Choice"),
             dp.Field(key="status_field", label="Status"),
             dp.Field(key="image_field", label="Image"),

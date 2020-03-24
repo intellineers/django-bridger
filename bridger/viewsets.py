@@ -16,6 +16,7 @@ from rest_framework.reverse import reverse
 from .enums import WidgetType
 from .filters import BooleanFilter, ModelChoiceFilter
 from .fsm.mixins import FSMViewSetMixin
+
 # from .mixins import MetadataMixin
 from .metadata.views import MetadataMixin
 from .pagination import CursorPagination

@@ -11,7 +11,7 @@ from bridger.notifications.consumers import NotificationConsumer
 from bridger.notifications.models import (
     Notification,
     NotificationSendType,
-    post_create_notification
+    post_create_notification,
 )
 from bridger.websockets.auth import JWTAuthMiddlewareStack
 

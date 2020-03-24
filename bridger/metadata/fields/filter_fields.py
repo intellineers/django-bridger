@@ -45,6 +45,6 @@ class FilterFieldsMetadataMixin:
                         yield field.field_name, stored_fields.get(
                             field.field_name, representation
                         )
-    
+
     def _get_filter_fields(self, request: Request):
         return dict(self.get_filter_fields(request))

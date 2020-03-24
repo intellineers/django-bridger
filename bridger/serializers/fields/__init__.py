@@ -6,7 +6,7 @@ from .fields import (
     HyperlinkField,
     ReadOnlyField,
     SerializerMethodField,
-    register_resource
+    register_resource,
 )
 from .file import FileField, ImageField
 from .fsm import FSMStatusField

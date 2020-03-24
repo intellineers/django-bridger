@@ -31,7 +31,7 @@ class FormattingRule:
         if self.condition:
             if isinstance(self.condition, tuple):
                 yield "condition", self.condition
-            else: 
+            else:
                 yield "condition", (self.condition.operator.value, self.condition.value)
 
 

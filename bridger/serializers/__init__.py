@@ -27,6 +27,11 @@ from .fields import (
     StringRelatedField,
     TextField,
     TimeField,
-    register_resource
+    register_resource,
 )
-from .serializers import ModelSerializer, RepresentationSerializer, decorator, percent_decorator
+from .serializers import (
+    ModelSerializer,
+    RepresentationSerializer,
+    decorator,
+    percent_decorator,
+)

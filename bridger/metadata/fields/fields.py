@@ -3,7 +3,11 @@ from typing import Dict, Union
 from rest_framework.request import Request
 
 from bridger.metadata.mixins import BridgerMetadataMixin
-from bridger.serializers import ListSerializer, RepresentationSerializer, percent_decorator
+from bridger.serializers import (
+    ListSerializer,
+    RepresentationSerializer,
+    percent_decorator,
+)
 
 
 class FieldsMetadata(BridgerMetadataMixin):

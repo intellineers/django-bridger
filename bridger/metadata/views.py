@@ -14,7 +14,7 @@ from .fields import (
     PKMetadataMixin,
     SearchFieldsMetadataMixin,
     TitleMetadataMixin,
-    WidgetTypeMetadataMixin
+    WidgetTypeMetadataMixin,
 )
 from .metadata import BridgerMetadata
 

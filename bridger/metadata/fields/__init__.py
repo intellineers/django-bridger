@@ -3,13 +3,13 @@ from .create_buttons import CreateButtonMetadata, CreateButtonMetadataMixin
 from .custom_buttons import CustomButtonMetadata, CustomButtonMetadataMixin
 from .custom_instance_buttons import (
     CustomInstanceButtonMetadata,
-    CustomInstanceButtonMetadataMixin
+    CustomInstanceButtonMetadataMixin,
 )
 from .display import (
     InstanceDisplayMetadata,
     InstanceDisplayMetadataMixin,
     ListDisplayMetadata,
-    ListDisplayMetadataMixin
+    ListDisplayMetadataMixin,
 )
 from .endpoints import EndpointMetadata, EndpointMetadataMixin
 from .fields import FieldsMetadata, FieldsMetadataMixin

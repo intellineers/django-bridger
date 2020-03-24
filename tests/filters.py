@@ -5,7 +5,7 @@ from bridger.filters import (
     CharFilter,
     DateFilter,
     DefaultDateRangeFilterValues,
-    FilterSet
+    FilterSet,
 )
 
 from .models import ModelTest, RelatedModelTest

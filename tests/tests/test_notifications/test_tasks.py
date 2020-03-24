@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from bridger.notifications.models import (
     Notification,
     NotificationSendType,
-    post_create_notification
+    post_create_notification,
 )
 from bridger.notifications.tasks import send_mail, send_system
 

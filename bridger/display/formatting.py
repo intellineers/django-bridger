@@ -15,8 +15,6 @@ class Condition:
                 self.value, bool
             ), f"{Operator.EXISTS.value} is only compatible with bool"
 
-    def __iter__(self):
-        yield self.operator.value, self.value
 
 
 @dataclass
@@ -32,7 +30,10 @@ class FormattingRule:
         yield "icon", self.icon
         yield "style", self.style
         if self.condition:
-            yield "condition", tuple(self.condition)
+            if isinstance(self.condition, tuple):
+                yield "condition", self.condition
+            else: 
+                yield "condition", (self.condition.operator.value, self.condition.value)
 
 
 @dataclass

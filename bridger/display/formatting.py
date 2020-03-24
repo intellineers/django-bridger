@@ -16,7 +16,6 @@ class Condition:
             ), f"{Operator.EXISTS.value} is only compatible with bool"
 
 
-
 @dataclass
 class FormattingRule:
     icon: str = None

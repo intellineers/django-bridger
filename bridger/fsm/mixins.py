@@ -160,7 +160,9 @@ class FSMSerializerMetaclass(SerializerMetaclass):
 
                             # We need to pass the kwargs from the view through to the reverse call
                             # And additionally pass in the instance.id as the pk
-                            # NOTE: What happens if the reverse parameter is not called pk? Is that possible?
+                            # NOTE: What happens if the reverse parameter is not called pk?
+                            # NOTE: Is that even possible?
+
                             kwargs = self.context["view"].kwargs
                             kwargs.update({"pk": instance.id})
 

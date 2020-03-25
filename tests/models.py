@@ -7,6 +7,7 @@ from rest_framework.reverse import reverse
 
 from bridger.buttons import ActionButton
 from bridger.display import FieldSet, InstanceDisplay, Section
+from bridger.enums import RequestType
 from bridger.search import register as search_register
 
 
@@ -33,6 +34,7 @@ class ModelTest(models.Model):
     status_choices = ((STATUS1, "Status1"), (STATUS2, "Status2"), (STATUS3, "Status3"))
 
     MOVE_BUTTON1 = ActionButton(
+        method=RequestType.PATCH,
         icon="wb-icon-thumbs-up-full",
         key="move1",
         label="Move1",
@@ -44,6 +46,7 @@ class ModelTest(models.Model):
     )
 
     MOVE_BUTTON2 = ActionButton(
+        method=RequestType.PATCH,
         icon="wb-icon-thumbs-up-full",
         key="move2",
         label="Move2",

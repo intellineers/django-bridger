@@ -109,13 +109,15 @@ class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
         obj = self.get_object()
         serializer_class = self.get_serializer_class()
 
+        serializer_context = self.get_serializer_context()
+
         if request.method == "GET":
             return Response(
-                serializer_class(instance=obj, context={"request": request}).data
+                serializer_class(instance=obj, context=serializer_context).data
             )
 
         serializer = serializer_class(
-            instance=obj, data=request.data, partial=True, context={"request": request}
+            instance=obj, data=request.data, partial=True, context=serializer_context
         )
         if serializer.is_valid():
             if len(serializer.validated_data) > 0:
@@ -131,7 +133,7 @@ class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
             getattr(obj, action)()
             obj.save()
 
-            serializer = serializer_class(instance=obj, context={"request": request})
+            serializer = serializer_class(instance=obj, context=serializer_context)
             return Response(serializer.data)
 
         return Response(errors, status=status.HTTP_412_PRECONDITION_FAILED)
@@ -160,6 +162,8 @@ class FSMSerializerMetaclass(SerializerMetaclass):
                             # We need to pass the kwargs from the view through to the reverse call
                             # And additionally pass in the instance.id as the pk
                             # NOTE: What happens if the reverse parameter is not called pk? Is that possible?
+                            print(self.context)
+                            # kwargs={}
                             kwargs = self.context["view"].kwargs
                             kwargs.update({"pk": instance.id})
 

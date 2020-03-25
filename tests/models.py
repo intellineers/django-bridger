@@ -43,6 +43,7 @@ class ModelTest(models.Model):
         instance_display=InstanceDisplay(
             sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
         ),
+        identifiers=["tests:modeltest"],
     )
 
     MOVE_BUTTON2 = ActionButton(
@@ -55,6 +56,7 @@ class ModelTest(models.Model):
         instance_display=InstanceDisplay(
             sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
         ),
+        identifiers=["tests:modeltest"],
     )
 
     # Text

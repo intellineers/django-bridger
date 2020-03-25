@@ -50,7 +50,7 @@ class MyPandasView(PandasAPIView):
 
     INSTANCE_ENDPOINT = "modeltest-list"
     LIST_ENDPOINT = "pandas_view"
-    LIST_WIDGET_TITLE = "Pandas List"
+    LIST_TITLE = "Pandas List"
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

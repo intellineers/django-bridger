@@ -149,12 +149,11 @@ class FSMSerializerMetaclass(SerializerMetaclass):
                     model()
                 )
                 for transition in transitions:
-
                     def method(self, instance, request, user, field, transition):
                         transitions = get_available_user_FIELD_transitions(
                             instance, user, field
                         )
-                        if transition in transitions:
+                        if transition.name in [t.name for t in transitions]:
                             url = resolve(request.path_info)
                             namespace = f"{url.namespace}:" if url.namespace else ""
                             base_url_name = url.url_name.split("-")[:-1]

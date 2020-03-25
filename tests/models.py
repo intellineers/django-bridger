@@ -104,12 +104,12 @@ class ModelTest(models.Model):
 
     @transition(
         field=status_field,
-        source=[STATUS2],
+        source=[STATUS1, STATUS2],
         target=STATUS3,
         custom={"_transition_button": MOVE_BUTTON2},
     )
     def move2(self):
-        """Moves the model from Status2 to Status3"""
+        """Moves the model from Status1 or Status2 to Status3"""
         pass
 
     @classmethod

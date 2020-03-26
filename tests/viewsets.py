@@ -320,6 +320,17 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         ]
     )
 
+    CUSTOM_LIST_INSTANCE_BUTTONS = [
+        bt.ActionButton(
+            label="TestButton",
+            icon="wb-icon-trash",
+            endpoint="https://www.google.com",
+            instance_display=dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=[
+                "char_field"
+            ]))])
+        )
+    ]
+
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,

@@ -66,4 +66,4 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         yield "identifiers", self.identifiers
 
         if self.instance_display:
-            yield "instance_display", dict(self.instance_display)
+            yield "instance_display", list(self.instance_display)

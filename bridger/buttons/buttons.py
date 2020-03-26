@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Any, List, Optional
 
+from bridger.display import InstanceDisplay
 from bridger.enums import RequestType
 
 from .bases import ButtonConfig, ButtonTypeMixin, ButtonUrlMixin
@@ -44,16 +45,13 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     action_label: str = ""
 
     description_fields: str = "<p>Are you sure you want to proceed?</p>"
+    instance_display: InstanceDisplay = None
     confirm_config: ButtonConfig = ButtonConfig(label="Confirm", title="Confirm")
     cancel_config: ButtonConfig = ButtonConfig(label="Cancel", title="Cancel")
 
     identifiers: List[str] = field(default_factory=list)
 
-    # TODO:
-    # Instance Display
-    # Fields
-    # This still has to be worked through:
-    instance_display: Any = None
+    # TODO: Not functional yet
     fields: Any = None
 
     def __iter__(self):
@@ -66,3 +64,6 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         yield "cancel_config", dict(self.cancel_config)
 
         yield "identifiers", self.identifiers
+
+        if self.instance_display:
+            yield "instance_display", dict(self.instance_display)

@@ -1,9 +1,14 @@
 from bridger import serializers
 
+
 from .models import Notification
 
 
 class NotificationModelSerializer(serializers.ModelSerializer):
+
+    @serializers.register_dynamic_button()
+    def notification_buttons(self, instance, request, user):
+        return instance.buttons
 
     class Meta:
         model = Notification
@@ -12,9 +17,9 @@ class NotificationModelSerializer(serializers.ModelSerializer):
             "recipient",
             "title",
             "message",
-            "buttons",
             "timestamp_created",
             "timestamp_received",
             "timestamp_read",
             "timestamp_mailed",
+            "_buttons",
         )

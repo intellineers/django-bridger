@@ -1,7 +1,9 @@
 from rest_framework.reverse import reverse
 
 from bridger import serializers
-from bridger.serializers import BridgerType, register_resource
+from bridger.serializers import BridgerType, register_resource, register_dynamic_button
+
+from bridger import buttons as bt
 
 from .models import ModelTest, RelatedModelTest
 
@@ -35,6 +37,10 @@ class ModelTestSerializer(serializers.ModelSerializer):
 
     annotated_char_field = serializers.CharField()
 
+    @register_dynamic_button()
+    def something(self, instance, request, user):
+        return [bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")]
+
     @register_resource()
     def related_models(self, instance, request, user):
         return {"related_model": reverse("relatedmodeltest-list", request=request)}
@@ -67,6 +73,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "_related_models",
             "annotated_char_field",
             "_additional_resources",
+            "_buttons",
         )
 
 

@@ -62,6 +62,7 @@ class ModelSerializer(
     serializer_fsm_field = fields.FSMStatusField
 
     _additional_resources = fields.AdditionalResourcesField()
+    _buttons = fields.DynamicButtonField()
 
     def build_standard_field(self, field_name, model_field):
         field_class, field_kwargs = super().build_standard_field(

@@ -1,5 +1,6 @@
 from .fields import (
     AdditionalResourcesField,
+    DynamicButtonField,
     BooleanField,
     BridgerType,
     CharField,
@@ -28,6 +29,7 @@ from .fields import (
     TextField,
     TimeField,
     register_resource,
+    register_dynamic_button,
 )
 from .serializers import (
     ModelSerializer,

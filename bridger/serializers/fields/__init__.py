@@ -3,10 +3,12 @@ from .choice import ChoiceField
 from .datetime import DateField, DateTimeField, TimeField
 from .fields import (
     AdditionalResourcesField,
+    DynamicButtonField,
     HyperlinkField,
     ReadOnlyField,
     SerializerMethodField,
     register_resource,
+    register_dynamic_button,
 )
 from .file import FileField, ImageField
 from .fsm import FSMStatusField

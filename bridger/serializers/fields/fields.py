@@ -23,6 +23,36 @@ def _is_additional_resource(attr):
     return hasattr(attr, "_is_additional_resource")
 
 
+def register_dynamic_button():
+    def decorator(func):
+        func._is_dynamic_button = True
+        return func
+
+    return decorator
+
+
+def _is_dynamic_button(attr):
+    return hasattr(attr, "_is_dynamic_button")
+
+
+class DynamicButtonField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
+
+    field_type = "_dynamic_buttons"
+
+    def get_attribute(self, instance):
+        return instance
+
+    def to_representation(self, value):
+        request = self.parent.context["request"]
+        buttons = list()
+
+        for _, button_func in getmembers(self.parent.__class__, _is_dynamic_button):
+            btns = button_func(self.parent, instance=value, request=request, user=request.user)
+            buttons.extend([dict(btn) for btn in btns])
+
+        return buttons
+
+
 class AdditionalResourcesField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
 
     field_type = "_additional_resources"

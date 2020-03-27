@@ -6,7 +6,7 @@ from bridger.websockets.auth import JWTAuthMiddlewareStack
 from bridger.websockets.consumers import AsyncAuthenticatedJsonWebsocketConsumer
 
 websocket_urlpatterns = [
-    path("ws/socket/", AsyncAuthenticatedJsonWebsocketConsumer),
+    # path("ws/socket/", AsyncAuthenticatedJsonWebsocketConsumer),
     path("ws/notification/", NotificationConsumer),
 ]
 

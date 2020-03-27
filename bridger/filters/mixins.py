@@ -10,12 +10,13 @@ class BridgerFilterMixin:
             "type": self.filter_type,
             "key": self.field_name,
             "lookup_expr": {self.lookup_expr: self.key},
+            "default": {},
         }
 
         if self.default:
             if callable(self.default):
-                representation["default"] = self.default(field=self, request=request)
+                representation["default"][self.lookup_expr] = self.default(field=self, request=request)
             else:
-                representation["default"] = self.default
+                representation["default"][self.lookup_expr] = self.default
 
         return representation

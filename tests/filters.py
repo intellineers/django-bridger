@@ -1,15 +1,13 @@
 from django.db.models import Q
-
 from bridger.filters import (
     BooleanFilter,
     CharFilter,
     DateFilter,
-    DefaultDateRangeFilterValues,
     FilterSet,
 )
+from bridger.filters.defaults import current_quarter_date_start, current_quarter_date_end
 
 from .models import ModelTest, RelatedModelTest
-
 
 class PandasFilterSet(FilterSet):
     char_field = CharFilter(label="Char")
@@ -22,6 +20,10 @@ class PandasFilterSet(FilterSet):
 class ModelTestFilterSet(FilterSet):
 
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
+
+    datetime_field = DateFilter(
+        label="DateTime", lookup_expr="exact", field_name="datetime_field", default=current_quarter_date_end
+    )
 
     def filter_2k(self, queryset, name, value):
         if value:

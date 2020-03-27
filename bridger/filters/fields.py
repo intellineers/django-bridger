@@ -98,12 +98,6 @@ class ModelChoiceFilter(BridgerFilterMixin, django_filters.ModelChoiceFilter):
         return representation
 
 
-class DefaultDateRangeFilterValues(Enum):
-    CURRENT_QUARTER_START = auto()
-    CURRENT_QUARTER_END = auto()
-    CURRENT_DATE = auto()
-
-
 class TimeFilter(BridgerFilterMixin, django_filters.TimeFilter):
     filter_type = "time"
 

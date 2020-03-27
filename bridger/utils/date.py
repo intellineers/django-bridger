@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 from django.conf import settings
 
@@ -50,3 +50,23 @@ def get_date_interval_from_get(request):
             end = None
 
     return start, end
+
+
+def get_quarter_from_date(d):
+    return ((d.month - 1) // 3) + 1
+
+
+def get_start_date_from_date(d):
+    quarter = get_quarter_from_date(d)
+    return date(d.year, quarter * 3 - 2, 1)
+
+
+def get_end_date_from_date(d):
+    quarter = get_quarter_from_date(d)
+    return date(
+        d.year + ((quarter * 3 + 1) // 12), (quarter * 3 + 1) % 12, 1
+    ) - timedelta(days=1)
+
+
+def get_start_and_end_date_from_date(d):
+    return get_start_date_from_date(d), get_end_date_from_date(d)

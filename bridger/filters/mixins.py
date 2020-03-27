@@ -13,6 +13,9 @@ class BridgerFilterMixin:
         }
 
         if self.default:
-            representation["default"] = self.default
+            if callable(self.default):
+                representation["default"] = self.default(field=self, request=request)
+            else:
+                representation["default"] = self.default
 
         return representation

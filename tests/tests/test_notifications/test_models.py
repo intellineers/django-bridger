@@ -39,4 +39,5 @@ class TestNotification:
             "title": notification.title,
             "message": notification.message,
             "buttons": notification.buttons,
+            "endpoint": None
         }

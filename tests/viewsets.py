@@ -149,8 +149,9 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     CREATE_WIDGET_TITLE = "Create"
 
     PREVIEW_BUTTONS = [bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")]
-    PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
-    PREVIEW_TYPE = "html"
+    # PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
+    
+    PREVIEW_TYPE = "instance_display"
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
@@ -235,6 +236,31 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
             dp.Section(
                 title="Related Models", section_list=dp.SectionList(key="related_model")
             ),
+        ]
+    )
+    PREVIEW_DISPLAY = dp.InstanceDisplay(
+        sections=[
+            dp.Section(
+                fields=dp.FieldSet(
+                    fields=[
+                        "char_field",
+                        "text_field",
+                        ["integer_field",
+                        "float_field",],
+                        # "percent_field",
+                        # "decimal_field",
+                        # "datetime_field",
+                        # "datetime_field1",
+                        # "date_field",
+                        # "time_field",
+                        # "boolean_field",
+                        # "choice_field",
+                        # "status_field",
+                        "image_field",
+                        # "file_field",
+                    ]
+                )
+            )
         ]
     )
 

@@ -150,6 +150,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
 
     PREVIEW_BUTTONS = [bt.HyperlinkButton(key="hl-bt", icon="wb-icon-trash")]
     PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
+    PREVIEW_TYPE = "html"
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

@@ -19,6 +19,7 @@ from .fields import (
     SearchFieldsMetadata,
     TitleMetadata,
     WidgetTypeMetadata,
+    PreviewMetadata,
 )
 
 
@@ -37,6 +38,7 @@ class BridgerMetadata(BaseMetadata):
             SearchFieldsMetadata,
             OrderingFieldsMetadata,
             FilterFieldsMetadata,
+            PreviewMetadata,
         ]
         self.model_modules = [
             InstanceDisplayMetadata,

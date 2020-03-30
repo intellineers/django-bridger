@@ -21,3 +21,5 @@ from .pk import PKMetadata, PKMetadataMixin
 from .search_fields import SearchFieldsMetadata, SearchFieldsMetadataMixin
 from .titles import TitleMetadata, TitleMetadataMixin
 from .widget_type import WidgetTypeMetadata, WidgetTypeMetadataMixin
+
+from .preview import PreviewMetadata, PreviewMetadataMixin

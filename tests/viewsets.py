@@ -311,6 +311,7 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         fields=[
             dp.Field(key="char_field", label="Char", width=Unit.FRACTION(2)),
             dp.Field(key="model_test", label="Model", width=Unit.FRACTION(2)),
+            dp.Field(key="model_tests", label="Model(M2M)", width=Unit.FRACTION(2)),
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(

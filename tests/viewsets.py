@@ -143,10 +143,7 @@ class ModelTestRepresentationViewSet(viewsets.RepresentationModelViewSet):
 
 class ModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "modeltest-list"
-    INSTANCE_DOCS = "tests/endpoint_documentation/model_test.md"
-    LIST_DOCS = """# H1 Documentation for Lists
-    This is something
-    """
+    INSTANCE_DOCS = LIST_DOCS = "tests/endpoint_documentation/model_test.md"
 
     INSTANCE_WIDGET_TITLE = "{{char_field}}"
     LIST_WIDGET_TITLE = "List"

@@ -19,16 +19,15 @@ class DocsMetadataMixin:
     def _get_docs(self, request: Request) -> str:
         pk = self.kwargs.get("pk", None)
         endpoints = self._get_endpoints(request)
-        # print(endpoints)
 
-        if pk and hasattr(self, "INSTANCE_DOCS"):
+        if self.basename and pk and hasattr(self, "INSTANCE_DOCS"):
             return reverse(
                 viewname=f"{self.basename}-instance-docs",
                 args=[pk],
                 request=request
             )
 
-        if hasattr(self, "LIST_DOCS"):
+        if self.basename and hasattr(self, "LIST_DOCS"):
             return reverse(
                 viewname=f"{self.basename}-list-docs",
                 request=request

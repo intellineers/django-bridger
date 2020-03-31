@@ -25,6 +25,13 @@ class ModelTestFilterSet(FilterSet):
         label="DateTime", lookup_expr="exact", field_name="datetime_field", default=current_quarter_date_end
     )
 
+    some_date_filter = DateFilter(
+        label="Some Date Filter", lookup_expr="exact", method="filter_some_date"
+    )
+
+    def filter_some_date(self, queryset, name, value):
+        return queryset
+
     def filter_2k(self, queryset, name, value):
         if value:
             return queryset.filter(date_field__year__lt=2000)

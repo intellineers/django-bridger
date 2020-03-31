@@ -148,7 +148,10 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     LIST_WIDGET_TITLE = "List"
     CREATE_WIDGET_TITLE = "Create"
 
-    PREVIEW_BUTTONS = [bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")]
+    PREVIEW_BUTTONS = [
+        bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash"),
+        bt.WidgetButton(key="self_endpoint", icon="wb-icon-data")
+    ]
     # PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
     
     PREVIEW_TYPE = "instance_display"

@@ -45,6 +45,10 @@ class ModelTestSerializer(serializers.ModelSerializer):
     def related_models(self, instance, request, user):
         return {"related_model": reverse("relatedmodeltest-list", request=request)}
 
+    @register_resource()
+    def self_endpoint(self, instance, request, user):
+        return {"self_endpoint": reverse("modeltest-detail", args=[instance.id], request=request)}
+
     class Meta:
         percent_fields = ["percent_field"]
         decorators = {

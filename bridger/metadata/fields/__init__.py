@@ -23,3 +23,4 @@ from .titles import TitleMetadata, TitleMetadataMixin
 from .widget_type import WidgetTypeMetadata, WidgetTypeMetadataMixin
 
 from .preview import PreviewMetadata, PreviewMetadataMixin
+from .docs import DocsMetadata, DocsMetadataMixin

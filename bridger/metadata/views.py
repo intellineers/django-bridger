@@ -16,6 +16,7 @@ from .fields import (
     TitleMetadataMixin,
     WidgetTypeMetadataMixin,
     PreviewMetadataMixin,
+    DocsMetadataMixin,
 )
 from .metadata import BridgerMetadata
 
@@ -38,5 +39,6 @@ class MetadataMixin(
     FieldsMetadataMixin,
     PKMetadataMixin,
     PreviewMetadataMixin,
+    DocsMetadataMixin,
 ):
     metadata_class = BridgerMetadata

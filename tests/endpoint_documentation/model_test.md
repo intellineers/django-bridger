@@ -24,6 +24,7 @@ The Model Test is an example of a model which incorporates all possible fields a
 ### The default workflow is:
 
 blockdiag {
-    Status1 -> Status2 -> Status3;
+    Status1 -> Status2;
     Status2 -> Status3;
+    Status1 -> Status3;
 }

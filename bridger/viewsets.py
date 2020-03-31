@@ -1,6 +1,12 @@
 import logging
 
 import markdown
+from markdown.extensions.tables import TableExtension
+from markdown_blockdiag import BlockdiagExtension
+
+from rest_framework.renderers import StaticHTMLRenderer
+from rest_framework.decorators import action, renderer_classes
+
 import django_filters
 from django.conf import settings
 from django.db.models import QuerySet
@@ -13,7 +19,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.decorators import action
 
 from .enums import WidgetType
 from .filters import BooleanFilter, ModelChoiceFilter
@@ -99,24 +104,24 @@ class ModelViewSet(
     def get_serializer(self, *args, **kwargs):
         return self.get_serializer_changes(super().get_serializer(*args, **kwargs))
 
-    @action(methods=["get"], detail=False, url_name="list-docs")
+    @action(methods=["get"], detail=False, url_name="list-docs", renderer_classes=[StaticHTMLRenderer])
     def __list_docs__(self, request, *args, **kwargs):
         try:
             with open(self.LIST_DOCS, "r") as f:
-                return Response(f.read())
+                return Response(markdown.markdown(f.read(), extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
         except FileNotFoundError:
-            return Response(self.LIST_DOCS)
+            return Response(markdown.markdown(self.LIST_DOCS, extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
         except AttributeError:
             return Response("No documentation available.")
         
 
-    @action(methods=["get"], detail=True, url_name="instance-docs")
+    @action(methods=["get"], detail=True, url_name="instance-docs", renderer_classes=[StaticHTMLRenderer])
     def __instance_docs__(self, request, *args, **kwargs):
         try:
             with open(self.INSTANCE_DOCS, "r") as f:
-                return Response(f.read())
+                return Response(markdown.markdown(f.read(), extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
         except FileNotFoundError:
-            return Response(self.INSTANCE_DOCS)
+            return Response(markdown.markdown(self.INSTANCE_DOCS, extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
         except AttributeError:
             return Response("No documentation available.")
 

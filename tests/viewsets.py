@@ -316,7 +316,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     def get_messages(
         self, request, queryset=None, paginated_queryset=None, instance=None
     ):
-        return [{"message": "ABC1", "type": "INFO"}]
+        return [info("This is a message.")]
 
     def get_queryset(self):
         qs = super().get_queryset()

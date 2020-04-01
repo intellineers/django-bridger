@@ -91,6 +91,8 @@ class ModelTestChartViewSet(viewsets.ChartViewSet):
     filter_fields = {"date_field": ["lte", "gte"]}
     ordering_fields = ("date_field",)
 
+    LIST_TITLE = "Model Chart"
+
     def get_plotly(self, queryset):
         df = pd.DataFrame(
             queryset.order_by("date_field").values("date_field", "integer_field")
@@ -385,6 +387,13 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
 
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestSerializer
+
+    def get_messages(
+        self, request, queryset=None, paginated_queryset=None, instance=None
+    ):
+        if instance:
+            return [{"type": "info", "message": "This is an instance message"}]
+        return [{"type": "info", "message": "This is a list message"}]
 
     def get_serializer_changes(self, serializer):
         if not isinstance(serializer, ListSerializer):

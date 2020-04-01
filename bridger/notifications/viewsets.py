@@ -15,8 +15,8 @@ from .serializers import NotificationModelSerializer
 class NotificationModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "bridger:notification-list"
 
-    INSTANCE_WIDGET_TITLE = "Notification: {{title}}"
-    LIST_WIDGET_TITLE = "Notifications"
+    INSTANCE_TITLE = "Notification: {{title}}"
+    LIST_TITLE = "Notifications"
 
     LIST_BUTTONS = ["refresh"]
     INSTANCE_BUTTONS = ["refresh", "delete"]

@@ -3,7 +3,6 @@ import logging
 import markdown
 from markdown.extensions.tables import TableExtension
 from markdown_blockdiag import BlockdiagExtension
-
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.decorators import action, renderer_classes
 

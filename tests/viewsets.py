@@ -81,7 +81,7 @@ class MyPandasView(PandasAPIView):
 class ModelTestChartViewSet(viewsets.ChartViewSet):
 
     filter_backends = [
-        # filters.OrderingFilter,
+        filters.OrderingFilter,
         DjangoFilterBackend,
     ]
 
@@ -89,6 +89,7 @@ class ModelTestChartViewSet(viewsets.ChartViewSet):
     queryset = ModelTest.objects.all()
 
     filter_fields = {"date_field": ["lte", "gte"]}
+    ordering_fields = ("date_field",)
 
     def get_plotly(self, queryset):
         df = pd.DataFrame(

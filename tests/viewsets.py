@@ -80,8 +80,15 @@ class MyPandasView(PandasAPIView):
 
 class ModelTestChartViewSet(viewsets.ChartViewSet):
 
+    filter_backends = [
+        # filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
+
     IDENTIFIER = "tests:chart"
     queryset = ModelTest.objects.all()
+
+    filter_fields = {"date_field": ["lte", "gte"]}
 
     def get_plotly(self, queryset):
         df = pd.DataFrame(

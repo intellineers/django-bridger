@@ -19,6 +19,7 @@ from bridger.filters import DjangoFilterBackend
 from bridger.pandas import fields as pf
 from bridger.pandas.views import PandasAPIView
 from bridger.serializers import PrimaryKeyRelatedField
+from bridger.messages import info
 
 from .filters import (
     CalendarFilter,
@@ -392,8 +393,8 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         self, request, queryset=None, paginated_queryset=None, instance=None
     ):
         if instance:
-            return [{"type": "info", "message": "This is an instance message"}]
-        return [{"type": "info", "message": "This is a list message"}]
+            return [info("This is an instance message.")]
+        return [info("This is a list message")]
 
     def get_serializer_changes(self, serializer):
         if not isinstance(serializer, ListSerializer):

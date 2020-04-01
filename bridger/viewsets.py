@@ -37,9 +37,10 @@ class InstanceMixin:
         serialized_content = {"instance": serializer.data}
 
         if hasattr(self, "get_messages"):
-            serialized_content["messages"] = self.get_messages(
+            messages = self.get_messages(
                 request=request, instance=instance
             )
+            serialized_content["messages"] = [dict(message) for message in messages]
 
         return Response(serialized_content)
 

@@ -24,8 +24,10 @@ class CursorPagination(DefaultCursorPagination):
                 request=request,
                 queryset=queryset,
                 paginated_queryset=paginated_queryset,
+                initial=not bool(self.cursor)
             )
-            self.messages = [dict(message) for message in messages]
+            if messages:
+                self.messages = [dict(message) for message in messages]
 
         return paginated_queryset
 

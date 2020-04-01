@@ -390,11 +390,14 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     serializer_class = RelatedModelTestSerializer
 
     def get_messages(
-        self, request, queryset=None, paginated_queryset=None, instance=None
+        self, request, queryset=None, paginated_queryset=None, instance=None, initial=False
     ):
+
         if instance:
             return [info("This is an instance message.")]
-        return [info("This is a list message")]
+
+        if initial:
+            return [info("This is a list message")]
 
     def get_serializer_changes(self, serializer):
         if not isinstance(serializer, ListSerializer):

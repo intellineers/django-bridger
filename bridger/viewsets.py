@@ -40,7 +40,8 @@ class InstanceMixin:
             messages = self.get_messages(
                 request=request, instance=instance
             )
-            serialized_content["messages"] = [dict(message) for message in messages]
+            if messages:
+                serialized_content["messages"] = [dict(message) for message in messages]
 
         return Response(serialized_content)
 

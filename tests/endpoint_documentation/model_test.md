@@ -37,7 +37,13 @@ Vivamus dapibus pulvinar nibh non pulvinar. Pellentesque dui diam, posuere quis 
 ### The default workflow is:
 
 blockdiag {
+    Lisa[color=orange, shape=cloud]
+    Lisa2[color=red, shape=actor]
+
+
     Status1 -> Status2;
     Status2 -> Status3;
     Status1 -> Status3;
+    Status3 -> Lisa;
+    Lisa -> Lisa2;
 }

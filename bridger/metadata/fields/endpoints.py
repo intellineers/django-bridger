@@ -61,11 +61,14 @@ class EndpointMetadataMixin:
         create_endpoint = self._get_create_endpoint(request=request)
         delete_endpoint = self._get_delete_endpoint(request=request)
 
-        if list_endpoint or endpoint:
-            endpoints["list"] = list_endpoint or endpoint
+        
+        if not self.kwargs.get("pk", None):
+            if instance_endpoint or endpoint:
+                endpoints["instance"] = instance_endpoint or endpoint
 
-        if instance_endpoint or endpoint:
-            endpoints["instance"] = instance_endpoint or endpoint
+        else:
+            if list_endpoint or endpoint:
+                endpoints["list"] = list_endpoint or endpoint
 
         if create_endpoint or endpoint:
             endpoints["create"] = create_endpoint or endpoint

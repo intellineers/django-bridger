@@ -15,7 +15,9 @@ class TestMenu(AuthenticatedTest):
 
         assert response.data == default_registry.to_dict(self.blank_get_request)
 
-    @override_settings(BRIDGER_AUTH=lambda request: {"type": None})
+    @override_settings(
+        BRIDGER_SETTINGS={"DEFAULT_AUTH_CONFIG": "bridger.auth.unauthenticated"}
+    )
     def test_unauthenticated_menu(self):
         menu = Menu.as_view()
         response = menu(self.blank_unauthenticated_get_request)

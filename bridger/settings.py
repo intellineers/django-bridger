@@ -69,7 +69,6 @@ class BridgerSettings:
         if attr in self.import_strings:
             val = perform_import(val, attr)
 
-        setattr(self, attr, val)
         return val
 
 

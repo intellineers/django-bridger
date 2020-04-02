@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class Menu(APIView):
     @property
     def permission_classes(self):
-        bridger_auth = get_bridger_auth(None)
+        bridger_auth = bridger_settings.DEFAULT_AUTH_CONFIG(None)
 
         if bridger_auth["type"] is None:
             return []

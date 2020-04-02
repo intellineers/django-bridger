@@ -5,6 +5,10 @@ from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
 
+def unauthenticated(request: Request) -> Dict:
+    return {"type": None}
+
+
 def jwt_auth(request: Request) -> Dict:
     user_model = get_user_model()
     username_field_key = user_model.USERNAME_FIELD

@@ -18,8 +18,8 @@ DEFAULTS = {
     "DEFAULT_AUTH_CONFIG": "bridger.auth.jwt_auth",
     "DEFAULT_NOTIFICATION_CONFIG": "bridger.notifications.settings.notification_config",
     "DEFAULT_MARKDOWN_EXTENSIONS": [
-        FSMExtension(),
         TableExtension(),
+        FSMExtension(),
         BlockdiagExtension(format="svg"),
     ],
 }

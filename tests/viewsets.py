@@ -367,7 +367,7 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
         ]
     )
 
-    CUSTOM_LIST_INSTANCE_BUTTONS = [
+    CUSTOM_INSTANCE_BUTTONS = CUSTOM_LIST_INSTANCE_BUTTONS = [
         bt.DropDownButton(icon="wb-icon-trash", buttons=[
             bt.ActionButton(
                 label="TestButton",

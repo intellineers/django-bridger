@@ -95,7 +95,7 @@ class ModelViewSet(
         return queryset.delete()
 
     def get_messages(
-        self, request, queryset=None, paginated_queryset=None, instance=None
+        self, request, queryset=None, paginated_queryset=None, instance=None, initial=False
     ):
         return []
 

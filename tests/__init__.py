@@ -19,7 +19,6 @@ default_registry.register(
             MenuItem(label="Calendar", endpoint="calendar-list",),
             MenuItem(label="PANDAS", endpoint="pandas_view",),
             MenuItem(label="CHART", endpoint="modelchart-list",),
-            MenuItem(label="Notifications", endpoint="bridger:notification-list",),
         ],
     )
 )

@@ -9,7 +9,6 @@ from rest_framework.reverse import reverse
 class ItemPermission(NamedTuple):
     permissions: List[str] = []
     method: Optional[Callable] = None
-    # is_employee: bool = False
 
     def has_permission(self, request: Request):
         if request.user.is_superuser:
@@ -18,11 +17,6 @@ class ItemPermission(NamedTuple):
         for permission in self.permissions:
             if not request.user.has_perm(permission):
                 return False
-
-        # TODO: This has to be transformed to a employee method permission
-        # example: def employee_perm(request) -> return request.user.profile.is_employee
-        # if self.is_employee and not request.user.profile.is_employee:
-        #     return False
 
         if self.method:
             return self.method(request=request)

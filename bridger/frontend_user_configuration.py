@@ -11,7 +11,7 @@ from rest_framework.filters import OrderingFilter
 
 from .filters import BooleanFilter, CharFilter, ModelChoiceFilter
 from .serializers import ModelSerializer, PrimaryKeyCharField
-from .settings import get_bridger_frontend_user_configuration_order
+from .settings import bridger_settings
 from .viewsets import ModelViewSet
 
 logger = logging.getLogger(__name__)
@@ -84,7 +84,7 @@ class FrontendUserConfigurationModelViewSet(ModelViewSet):
 
     ordering_fields = ordering = [
         "id",
-        *get_bridger_frontend_user_configuration_order(),
+        *bridger_settings.DEFAULT_FRONTEND_USER_CONFIGURATION_ORDER,
     ]
 
     def get_queryset(self):

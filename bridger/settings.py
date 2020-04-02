@@ -5,36 +5,73 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
-
-from .enums import AuthType
-from .notifications.config import get_notification_config
+from django.utils.module_loading import import_string
 
 logger = logging.getLogger(__name__)
 
 
-def jwt_auth(request: Request) -> Dict:
-    user_model = get_user_model()
-    username_field_key = user_model.USERNAME_FIELD
-    username_field_label = user_model._meta.get_field(username_field_key).verbose_name
+DEFAULTS = {
+    "DEFAULT_FRONTEND_USER_CONFIGURATION_ORDER": ["config__order"],
+    "DEFAULT_AUTH_CONFIG": "bridger.auth.jwt_auth",
+    "DEFAULT_NOTIFICATION_CONFIG": "bridger.notifications.settings.notification_config",
+}
 
-    return {
-        "type": "JWT",
-        "config": {
-            "token": reverse("token_obtain_pair", request=request),
-            "refresh": reverse("token_refresh", request=request),
-            "verify": reverse("token_verify", request=request),
-            "username_field_key": username_field_key,
-            "username_field_label": username_field_label,
-        },
-    }
+IMPORT_STRINGS = ["DEFAULT_AUTH_CONFIG", "DEFAULT_NOTIFICATION_CONFIG"]
 
 
-def get_bridger_auth(request: Request, auth_type: AuthType = AuthType.JWT) -> Dict:
-    auth_method = globals()[f"{auth_type.value.lower()}_auth"]
-    return getattr(settings, "BRIDGER_AUTH", auth_method)(request)
+def perform_import(val, setting_name):
+    """
+    If the given setting is a string import notation,
+    then perform the necessary import or imports.
+    """
+    if val is None:
+        return None
+    elif isinstance(val, str):
+        return import_from_string(val, setting_name)
+    elif isinstance(val, (list, tuple)):
+        return [import_from_string(item, setting_name) for item in val]
+    return val
 
 
-def get_bridger_frontend_user_configuration_order() -> List:
-    return getattr(
-        settings, "BRIDGER_FRONTEND_USER_CONFIGURATION_ORDER", ["config__order"]
-    )
+def import_from_string(val, setting_name):
+    """
+    Attempt to import a class from a string representation.
+    """
+    try:
+        return import_string(val)
+    except ImportError as e:
+        msg = "Could not import '%s' for API setting '%s'. %s: %s." % (
+            val,
+            setting_name,
+            e.__class__.__name__,
+            e,
+        )
+        raise ImportError(msg)
+
+
+class BridgerSettings:
+    """The settings, which is mostly taken from the settings module of Django Rest Framework"""
+
+    def __init__(self, defaults=None, import_strings=None):
+        self.defaults = defaults or DEFAULTS
+        self.import_strings = import_strings or IMPORT_STRINGS
+
+    @property
+    def settings(self):
+        return getattr(settings, "BRIDGER_SETTINGS", {})
+
+    def __getattr__(self, attr):
+        if attr not in self.defaults:
+            raise AttributeError(f"Invalid Bridger Settings: {attr}")
+
+        val = self.settings.get(attr, self.defaults[attr])
+
+        if attr in self.import_strings:
+            val = perform_import(val, attr)
+
+        setattr(self, attr, val)
+        return val
+
+
+bridger_settings = BridgerSettings(DEFAULTS, IMPORT_STRINGS)
+

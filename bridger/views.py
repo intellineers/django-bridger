@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from .enums import AuthType
 from .menus import default_registry
-from .settings import get_bridger_auth, get_notification_config
+from .settings import bridger_settings
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,6 @@ class Profile(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        # TODO: Overwritable from withing settings.py
         return Response(
             {
                 "config": reverse(
@@ -50,12 +49,13 @@ class Config(APIView):
     permission_classes = []
 
     def get(self, request: Request) -> Response:
-        # TODO: This needs to be a bit more flexible if the user wants to change something
         return Response(
             {
-                "authentication": get_bridger_auth(request),
+                "authentication": bridger_settings.DEFAULT_AUTH_CONFIG(request),
                 "profile": reverse("bridger:profile", request=request),
                 "menu": reverse("bridger:menu", request=request),
-                "notification": get_notification_config(request=request),
+                "notification": bridger_settings.DEFAULT_NOTIFICATION_CONFIG(
+                    request=request
+                ),
             }
         )

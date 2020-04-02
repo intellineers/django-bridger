@@ -368,14 +368,17 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     )
 
     CUSTOM_LIST_INSTANCE_BUTTONS = [
-        bt.ActionButton(
-            label="TestButton",
-            icon="wb-icon-trash",
-            endpoint="https://www.google.com",
-            instance_display=dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=[
-                "char_field"
-            ]))])
-        )
+        bt.DropDownButton(icon="wb-icon-trash", buttons=[
+            bt.ActionButton(
+                label="TestButton",
+                icon="wb-icon-trash",
+                endpoint="https://www.google.com",
+                instance_display=dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=[
+                    "char_field"
+                ])
+            ),])),
+            bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")
+        ])
     ]
 
     filter_backends = [

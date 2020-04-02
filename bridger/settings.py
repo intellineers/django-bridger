@@ -3,17 +3,25 @@ from typing import Dict, List
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils.module_loading import import_string
+from markdown.extensions.tables import TableExtension
+from markdown_blockdiag import BlockdiagExtension
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
-from django.utils.module_loading import import_string
+
+from bridger.fsm.markdown_extensions import FSMExtension
 
 logger = logging.getLogger(__name__)
-
 
 DEFAULTS = {
     "DEFAULT_FRONTEND_USER_CONFIGURATION_ORDER": ["config__order"],
     "DEFAULT_AUTH_CONFIG": "bridger.auth.jwt_auth",
     "DEFAULT_NOTIFICATION_CONFIG": "bridger.notifications.settings.notification_config",
+    "DEFAULT_MARKDOWN_EXTENSIONS": [
+        FSMExtension(),
+        TableExtension(),
+        BlockdiagExtension(format="svg"),
+    ],
 }
 
 IMPORT_STRINGS = ["DEFAULT_AUTH_CONFIG", "DEFAULT_NOTIFICATION_CONFIG"]
@@ -73,4 +81,3 @@ class BridgerSettings:
 
 
 bridger_settings = BridgerSettings(DEFAULTS, IMPORT_STRINGS)
-

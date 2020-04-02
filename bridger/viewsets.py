@@ -1,24 +1,25 @@
 import logging
 
-import markdown
-from markdown.extensions.tables import TableExtension
-from markdown_blockdiag import BlockdiagExtension
-from rest_framework.renderers import StaticHTMLRenderer
-from rest_framework.decorators import action, renderer_classes
-
 import django_filters
 from django.conf import settings
 from django.db.models import QuerySet
 from django.urls.exceptions import NoReverseMatch
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import (
+    action,
+    api_view,
+    permission_classes,
+    renderer_classes,
+)
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from .docs import get_markdown_docs
 from .enums import WidgetType
 from .filters import BooleanFilter, ModelChoiceFilter
 from .fsm.mixins import FSMViewSetMixin
@@ -26,6 +27,7 @@ from .fsm.mixins import FSMViewSetMixin
 # from .mixins import MetadataMixin
 from .metadata.views import MetadataMixin
 from .pagination import CursorPagination
+from .settings import bridger_settings
 
 logger = logging.getLogger(__name__)
 
@@ -37,9 +39,7 @@ class InstanceMixin:
         serialized_content = {"instance": serializer.data}
 
         if hasattr(self, "get_messages"):
-            messages = self.get_messages(
-                request=request, instance=instance
-            )
+            messages = self.get_messages(request=request, instance=instance)
             if messages:
                 serialized_content["messages"] = [dict(message) for message in messages]
 
@@ -95,7 +95,12 @@ class ModelViewSet(
         return queryset.delete()
 
     def get_messages(
-        self, request, queryset=None, paginated_queryset=None, instance=None, initial=False
+        self,
+        request,
+        queryset=None,
+        paginated_queryset=None,
+        instance=None,
+        initial=False,
     ):
         return []
 
@@ -105,26 +110,23 @@ class ModelViewSet(
     def get_serializer(self, *args, **kwargs):
         return self.get_serializer_changes(super().get_serializer(*args, **kwargs))
 
-    @action(methods=["get"], detail=False, url_name="list-docs", renderer_classes=[StaticHTMLRenderer])
+    @action(
+        methods=["get"],
+        detail=False,
+        url_name="list-docs",
+        renderer_classes=[StaticHTMLRenderer],
+    )
     def __list_docs__(self, request, *args, **kwargs):
-        try:
-            with open(self.LIST_DOCS, "r") as f:
-                return Response(markdown.markdown(f.read(), extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
-        except FileNotFoundError:
-            return Response(markdown.markdown(self.LIST_DOCS, extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
-        except AttributeError:
-            return Response("No documentation available.")
-        
+        return get_markdown_docs(self.LIST_DOCS)
 
-    @action(methods=["get"], detail=True, url_name="instance-docs", renderer_classes=[StaticHTMLRenderer])
+    @action(
+        methods=["get"],
+        detail=True,
+        url_name="instance-docs",
+        renderer_classes=[StaticHTMLRenderer],
+    )
     def __instance_docs__(self, request, *args, **kwargs):
-        try:
-            with open(self.INSTANCE_DOCS, "r") as f:
-                return Response(markdown.markdown(f.read(), extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
-        except FileNotFoundError:
-            return Response(markdown.markdown(self.INSTANCE_DOCS, extensions=[TableExtension(), BlockdiagExtension(format="svg")]))
-        except AttributeError:
-            return Response("No documentation available.")
+        return get_markdown_docs(self.INSTANCE_DOCS)
 
 
 class InfiniteDataModelView(ModelViewSet):

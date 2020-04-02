@@ -1,3 +1,7 @@
+### The default workflow is:
+
+!!!bridger-fsm:tests.ModelTest:status_field
+
 # Model Test
 
 The Model Test is an example of a model which incorporates all possible fields and therefore shows how all fields are rendered with their filters, etc.
@@ -34,9 +38,9 @@ Vivamus dapibus pulvinar nibh non pulvinar. Pellentesque dui diam, posuere quis 
 | image_field     | Image       | image    |                                     |
 | file_field      | File        | file     |                                     |
 
-### The default workflow is:
 
-blockdiag {
+
+<!-- blockdiag {
     Lisa[color=orange, shape=cloud]
     Lisa2[color=red, shape=actor]
 
@@ -46,4 +50,4 @@ blockdiag {
     Status1 -> Status3;
     Status3 -> Lisa;
     Lisa -> Lisa2;
-}
+} -->

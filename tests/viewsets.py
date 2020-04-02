@@ -314,7 +314,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         }
 
     def get_messages(
-        self, request, queryset=None, paginated_queryset=None, instance=None
+        self, request, queryset=None, paginated_queryset=None, instance=None, initial=False
     ):
         return [info("This is a message.")]
 

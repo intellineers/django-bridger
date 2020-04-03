@@ -38,6 +38,10 @@ class PresetMenuItem(NamedTuple):
 class MenuItem(NamedTuple):
     label: str
     endpoint: str
+
+    endpoint_args: List = []
+    endpoint_kwargs: Dict = {}
+
     permission: Optional[ItemPermission] = None
     add: Any = None
 
@@ -45,7 +49,12 @@ class MenuItem(NamedTuple):
         if self.permission is None or self.permission.has_permission(request):
             item = {
                 "label": self.label,
-                "endpoint": reverse(viewname=self.endpoint, request=request),
+                "endpoint": reverse(
+                    viewname=self.endpoint,
+                    request=request,
+                    args=self.endpoint_args,
+                    kwargs=self.endpoint_kwargs,
+                ),
             }
 
             if self.add:

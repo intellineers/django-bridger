@@ -156,9 +156,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     ENDPOINT = "modeltest-list"
     LIST_DOCS = "tests/endpoint_documentation/model_test.md"
 
-    INSTANCE_DOCS = (
-        "# Instance Doc\n"
-    )
+    INSTANCE_DOCS = "# Instance Doc\n"
 
     INSTANCE_WIDGET_TITLE = "{{char_field}}"
     LIST_WIDGET_TITLE = "List"
@@ -166,10 +164,10 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
 
     PREVIEW_BUTTONS = [
         bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash"),
-        bt.WidgetButton(key="self_endpoint", icon="wb-icon-data")
+        bt.WidgetButton(key="self_endpoint", icon="wb-icon-data"),
     ]
     # PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
-    
+
     PREVIEW_TYPE = "instance_display"
 
     LIST_DISPLAY = dp.ListDisplay(
@@ -264,8 +262,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                     fields=[
                         "char_field",
                         "text_field",
-                        ["integer_field",
-                        "float_field",],
+                        ["integer_field", "float_field",],
                         # "percent_field",
                         # "decimal_field",
                         # "datetime_field",
@@ -291,13 +288,6 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestSerializer
     filterset_class = ModelTestFilterSet
-    # filterset_fields = {
-    #     "integer_field": ["lte", "gte", "lt", "gt", "exact"],
-    #     "char_field": ["exact", "icontains"],
-    #     "datetime_field": ["lte", "gte"],
-    #     "status_field": ["exact"],
-    #     "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
-    # }
 
     search_fields = ("char_field",)
     ordering_fields = ("char_field", "date_field", "float_field", "decimal_field")
@@ -314,7 +304,12 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
         }
 
     def get_messages(
-        self, request, queryset=None, paginated_queryset=None, instance=None, initial=False
+        self,
+        request,
+        queryset=None,
+        paginated_queryset=None,
+        instance=None,
+        initial=False,
     ):
         return [info("This is a message.")]
 
@@ -368,17 +363,24 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     )
 
     CUSTOM_INSTANCE_BUTTONS = CUSTOM_LIST_INSTANCE_BUTTONS = [
-        bt.DropDownButton(icon="wb-icon-trash", buttons=[
-            bt.ActionButton(
-                label="TestButton",
-                icon="wb-icon-trash",
-                endpoint="https://www.google.com",
-                instance_display=dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=[
-                    "char_field"
-                ])
-            ),])),
-            bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")
-        ])
+        bt.DropDownButton(
+            icon="wb-icon-trash",
+            buttons=[
+                bt.ActionButton(
+                    label="TestButton",
+                    icon="wb-icon-trash",
+                    endpoint="https://www.google.com",
+                    instance_display=dp.InstanceDisplay(
+                        sections=[
+                            dp.Section(fields=dp.FieldSet(fields=["char_field"])),
+                        ]
+                    ),
+                ),
+                bt.HyperlinkButton(
+                    endpoint="https://www.google.com", icon="wb-icon-trash"
+                ),
+            ],
+        )
     ]
 
     filter_backends = [
@@ -393,7 +395,12 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     serializer_class = RelatedModelTestSerializer
 
     def get_messages(
-        self, request, queryset=None, paginated_queryset=None, instance=None, initial=False
+        self,
+        request,
+        queryset=None,
+        paginated_queryset=None,
+        instance=None,
+        initial=False,
     ):
 
         if instance:
@@ -404,7 +411,10 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
 
     def get_serializer_changes(self, serializer):
         if not isinstance(serializer, ListSerializer):
-            default_values = ModelTest.objects.all()[:3].values_list("id", flat=True)
-            serializer.fields["model_tests"].child_relation.default = default_values
+            if "model_tests" in serializer.fields:
+                default_values = ModelTest.objects.all()[:3].values_list(
+                    "id", flat=True
+                )
+                serializer.fields["model_tests"].child_relation.default = default_values
 
         return serializer

@@ -28,6 +28,7 @@ from .fsm.mixins import FSMViewSetMixin
 from .metadata.views import MetadataMixin
 from .pagination import CursorPagination
 from .settings import bridger_settings
+from .history.serializers import get_historical_serializer
 
 logger = logging.getLogger(__name__)
 
@@ -127,6 +128,14 @@ class ModelViewSet(
     )
     def __instance_docs__(self, request, *args, **kwargs):
         return get_markdown_docs(self.INSTANCE_DOCS)
+
+    @action(methods=["get"], detail=True, url_name="history")
+    def __history__(self, request, *args, **kwargs):
+        obj = self.get_object()
+        serializer_class = get_historical_serializer(obj.history.model)
+        serializer = serializer_class(obj.history.all(), many=True)
+
+        return Response(serializer.data)
 
 
 class InfiniteDataModelView(ModelViewSet):

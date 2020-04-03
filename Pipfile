@@ -33,6 +33,7 @@ tox = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}
+django-simple-history = "*"
 
 [requires]
 python_version = "3.7"

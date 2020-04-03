@@ -1,6 +1,8 @@
 from bridger.menus import Menu, MenuItem, PresetMenuItem, default_registry
 from celery_app import app as celery_app
 
+from .models import RelatedModelTest
+
 # default_registry.register(PresetMenuItem(label="News", preset="StainlyNewsWidget"))
 default_registry.register(
     Menu(
@@ -22,7 +24,7 @@ default_registry.register(
             MenuItem(
                 label="History",
                 endpoint="relatedmodeltest-history",
-                endpoint_args=[259],
+                endpoint_args=[10],
             ),
         ],
     )

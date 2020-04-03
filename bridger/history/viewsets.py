@@ -7,7 +7,8 @@ from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
 from bridger.enums import RequestType
-
+from django.db.models.functions import Concat
+from django.db.models import F, Value
 from .serializers import get_historical_serializer
 from bridger.enums import Button
 
@@ -23,6 +24,7 @@ def get_historical_viewset(model, historical_model):
                 dp.Field(key="history_date", label="Changed"),
                 dp.Field(key="history_change_reason", label="Reason"),
                 dp.Field(key="history_type", label="Type"),
+                # dp.Field(key="user_repr", label="User"),
             ]
         )
 
@@ -37,6 +39,17 @@ def get_historical_viewset(model, historical_model):
         serializer_class = get_historical_serializer(historical_model)
 
         ordering_fields = ("history_id",)
+
+        def get_queryset(self):
+            qs = super().get_queryset()
+            qs = qs.annotate(
+                user_repr=Concat(
+                    F("history_user__first_name"),
+                    Value(" "),
+                    F("history_user__last_name"),
+                )
+            )
+            return qs
 
     return HistoricalModelViewSet
 

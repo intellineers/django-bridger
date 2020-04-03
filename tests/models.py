@@ -116,6 +116,10 @@ class ModelTest(models.Model):
         pass
 
     @classmethod
+    def get_endpoint_basename(cls):
+        return "modeltest"
+
+    @classmethod
     def get_endpoint(cls):
         return "modeltest-list"
 

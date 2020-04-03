@@ -27,7 +27,9 @@ class EndpointMetadataMixin:
             model = type(obj)
             opts = model._meta
 
-            if hasattr(opts, "simple_history_manager_attribute"):
+            if hasattr(opts, "simple_history_manager_attribute") and hasattr(
+                model, "get_endpoint_basename"
+            ):
                 return (
                     f"{model.get_endpoint_basename()}-history-list",
                     [obj.id],

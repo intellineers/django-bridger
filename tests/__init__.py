@@ -1,6 +1,7 @@
 from bridger.menus import Menu, MenuItem, PresetMenuItem, default_registry
 from celery_app import app as celery_app
 
+
 # default_registry.register(PresetMenuItem(label="News", preset="StainlyNewsWidget"))
 default_registry.register(
     Menu(
@@ -19,6 +20,17 @@ default_registry.register(
             MenuItem(label="Calendar", endpoint="calendar-list",),
             MenuItem(label="PANDAS", endpoint="pandas_view",),
             MenuItem(label="CHART", endpoint="modelchart-list",),
+            # MenuItem(
+            #     label="History",
+            #     endpoint="relatedmodeltest-history",
+            #     endpoint_args=[10],
+            # ),
+            # MenuItem(
+            #     label="History-Instance",
+            #     endpoint="relatedmodeltest-detail",
+            #     endpoint_args=[259],
+            #     get_params={"history_id": 4},
+            # ),
         ],
     )
 )

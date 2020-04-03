@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
 from rest_framework.reverse import reverse
+from simple_history.models import HistoricalRecords
 
 from bridger.buttons import ActionButton
 from bridger.display import FieldSet, InstanceDisplay, Section
@@ -92,6 +93,8 @@ class ModelTest(models.Model):
     image_field = models.ImageField(null=True)
     file_field = models.FileField(null=True)
 
+    history = HistoricalRecords()
+
     @transition(
         field=status_field,
         source=[STATUS1],
@@ -111,6 +114,10 @@ class ModelTest(models.Model):
     def move2(self):
         """Moves the model from Status1 or Status2 to Status3"""
         pass
+
+    @classmethod
+    def get_endpoint(cls):
+        return "modeltest-list"
 
     @classmethod
     def get_representation_endpoint(cls):
@@ -155,12 +162,18 @@ class RelatedModelTest(models.Model):
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
+    history = HistoricalRecords()
+
     def __str__(self):
         return self.char_field
 
     @property
     def upper_char_field(self):
         return self.char_field.upper()
+
+    @classmethod
+    def get_endpoint_basename(cls):
+        return "relatedmodeltest"
 
     @classmethod
     def get_representation_endpoint(cls):

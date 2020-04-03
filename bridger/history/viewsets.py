@@ -24,7 +24,7 @@ def get_historical_viewset(model, historical_model):
                 dp.Field(key="history_date", label="Changed"),
                 dp.Field(key="history_change_reason", label="Reason"),
                 dp.Field(key="history_type", label="Type"),
-                # dp.Field(key="user_repr", label="User"),
+                dp.Field(key="user_repr", label="User"),
             ]
         )
 

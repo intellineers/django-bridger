@@ -4,6 +4,7 @@ from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
 from bridger.metadata.mixins import BridgerMetadataMixin
+from contextlib import suppress
 
 Endpoint_T = Union[str, Tuple[str, List, Dict]]
 
@@ -18,6 +19,22 @@ class EndpointMetadataMixin:
         self, request: Request, endpoint: Endpoint_T = None
     ) -> Endpoint_T:
         return endpoint
+
+    def get_history_endpoint(self, request, endpoint=None):
+
+        with suppress(AssertionError):
+            obj = self.get_object()
+            model = type(obj)
+            opts = model._meta
+
+            if hasattr(opts, "simple_history_manager_attribute"):
+                return (
+                    f"{model.get_endpoint_basename()}-history-list",
+                    [obj.id],
+                    {},
+                )
+
+        return None
 
     def _get_generic_endpoint(self, request: Request, endpoint_type: str) -> Endpoint_T:
         field_name = endpoint_type.upper()
@@ -52,6 +69,9 @@ class EndpointMetadataMixin:
     def _get_delete_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "delete_endpoint")
 
+    def _get_history_endpoint(self, request: Request) -> Endpoint_T:
+        return self._get_generic_endpoint(request, "history_endpoint")
+
     def _get_endpoints(self, request: Request) -> Iterator[Dict[str, str]]:
         endpoints = dict()
 
@@ -60,8 +80,8 @@ class EndpointMetadataMixin:
         instance_endpoint = self._get_instance_endpoint(request=request)
         create_endpoint = self._get_create_endpoint(request=request)
         delete_endpoint = self._get_delete_endpoint(request=request)
+        history_endpoint = self._get_history_endpoint(request=request)
 
-        
         if not self.kwargs.get("pk", None):
             if instance_endpoint or endpoint:
                 endpoints["instance"] = instance_endpoint or endpoint
@@ -69,6 +89,9 @@ class EndpointMetadataMixin:
         else:
             if list_endpoint or endpoint:
                 endpoints["list"] = list_endpoint or endpoint
+
+            if history_endpoint:
+                endpoints["history"] = history_endpoint
 
         if create_endpoint or endpoint:
             endpoints["create"] = create_endpoint or endpoint

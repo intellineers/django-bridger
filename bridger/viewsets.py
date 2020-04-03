@@ -36,30 +36,12 @@ from django.shortcuts import get_object_or_404
 
 class InstanceMixin:
     def retrieve(self, request, *args, **kwargs):
+
         instance = self.get_object()
-
-        history_id = request.GET.get("history_id", None)
-        if history_id:
-
-            original_opts = type(instance)._meta
-            model = getattr(
-                type(instance), original_opts.simple_history_manager_attribute
-            ).model
-
-            obj = get_object_or_404(
-                model,
-                **{original_opts.pk.attname: instance.id, "history_id": history_id},
-            )
-
-            for field in filter(
-                lambda f: not f.attname.startswith("history_"), obj._meta.fields
-            ):
-                setattr(instance, field.attname, getattr(obj, field.attname))
-
         serializer = self.get_serializer(instance)
         serialized_content = {"instance": serializer.data}
 
-        if hasattr(self, "get_messages") and not history_id:
+        if hasattr(self, "get_messages"):
             messages = self.get_messages(request=request, instance=instance)
             if messages:
                 serialized_content["messages"] = [dict(message) for message in messages]
@@ -87,6 +69,7 @@ class ModelViewSet(
     pagination_class = CursorPagination
 
     ordering_fields = ordering = ["id"]
+    historical_mode = False
 
     @classmethod
     def get_model(cls):
@@ -149,13 +132,32 @@ class ModelViewSet(
     def __instance_docs__(self, request, *args, **kwargs):
         return get_markdown_docs(self.INSTANCE_DOCS)
 
-    @action(methods=["get"], detail=True, url_name="history")
-    def __history__(self, request, *args, **kwargs):
+    def history_list(self, request, *args, **kwargs):
         obj = self.get_object()
         serializer_class = get_historical_serializer(obj.history.model)
         serializer = serializer_class(obj.history.all(), many=True)
 
         return Response({"results": serializer.data})
+
+    def history_retrieve(self, request, *args, **kwargs):
+        obj = self.get_object()
+        model = type(obj)
+        opts = model._meta
+
+        historical_model = getattr(model, opts.simple_history_manager_attribute).model
+        historical_opts = historical_model._meta
+        historical_obj = get_object_or_404(
+            historical_model,
+            **{opts.pk.attname: obj.id, "history_id": kwargs["history_id"]},
+        )
+
+        for field in filter(
+            lambda f: not f.attname.startswith("history_"), obj._meta.fields
+        ):
+            setattr(obj, field.attname, getattr(historical_obj, field.attname))
+
+        serializer = self.get_serializer(obj)
+        return Response({"instance": serializer.data})
 
 
 class InfiniteDataModelView(ModelViewSet):

@@ -172,8 +172,8 @@ class RelatedModelTest(models.Model):
         return self.char_field.upper()
 
     @classmethod
-    def get_endpoint(cls):
-        return "relatedmodeltest-list"
+    def get_endpoint_basename(cls):
+        return "relatedmodeltest"
 
     @classmethod
     def get_representation_endpoint(cls):

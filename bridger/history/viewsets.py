@@ -26,7 +26,12 @@ def get_historical_viewset(model, historical_model):
             ]
         )
 
-        # INSTANCE_ENDPOINT = model.get_endpoint()
+        def get_instance_endpoint(self, request, endpoint=None):
+            return (
+                f"{model.get_endpoint_basename()}-history-list",
+                [self.kwargs["model_pk"]],
+                {},
+            )
 
         queryset = historical_model.objects.all()
         serializer_class = get_historical_serializer(historical_model)

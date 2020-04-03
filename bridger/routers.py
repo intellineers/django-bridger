@@ -45,10 +45,17 @@ class BridgerRouter(DefaultRouter):
             initkwargs={},
         ),
         Route(
-            url=r"^{prefix}/{lookup}/history/{history_lookup}{trailing_slash}$",
-            mapping={"get": "history_get",},
-            name="{basename}-history111",
+            url=r"^{prefix}/{lookup}/history{trailing_slash}$",
+            mapping={"get": "history_list"},
+            name="{basename}-history-list",
             detail=False,
-            initkwargs={"suffix": "History"},
+            initkwargs={"suffix": "History List", "historical_mode": True},
+        ),
+        Route(
+            url=r"^{prefix}/{lookup}/history/(?P<history_id>[^/.]+){trailing_slash}$",
+            mapping={"get": "history_retrieve",},
+            name="{basename}-history-detail",
+            detail=True,
+            initkwargs={"suffix": "History Instance", "historical_mode": True},
         ),
     ]

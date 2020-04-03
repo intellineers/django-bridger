@@ -31,15 +31,35 @@ from .settings import bridger_settings
 from .history.serializers import get_historical_serializer
 
 logger = logging.getLogger(__name__)
+from django.shortcuts import get_object_or_404
 
 
 class InstanceMixin:
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
+
+        history_id = request.GET.get("history_id", None)
+        if history_id:
+
+            original_opts = type(instance)._meta
+            model = getattr(
+                type(instance), original_opts.simple_history_manager_attribute
+            ).model
+
+            obj = get_object_or_404(
+                model,
+                **{original_opts.pk.attname: instance.id, "history_id": history_id},
+            )
+
+            for field in filter(
+                lambda f: not f.attname.startswith("history_"), obj._meta.fields
+            ):
+                setattr(instance, field.attname, getattr(obj, field.attname))
+
         serializer = self.get_serializer(instance)
         serialized_content = {"instance": serializer.data}
 
-        if hasattr(self, "get_messages"):
+        if hasattr(self, "get_messages") and not history_id:
             messages = self.get_messages(request=request, instance=instance)
             if messages:
                 serialized_content["messages"] = [dict(message) for message in messages]
@@ -135,7 +155,7 @@ class ModelViewSet(
         serializer_class = get_historical_serializer(obj.history.model)
         serializer = serializer_class(obj.history.all(), many=True)
 
-        return Response(serializer.data)
+        return Response({"results": serializer.data})
 
 
 class InfiniteDataModelView(ModelViewSet):

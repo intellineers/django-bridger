@@ -44,4 +44,11 @@ class BridgerRouter(DefaultRouter):
             detail=True,
             initkwargs={},
         ),
+        Route(
+            url=r"^{prefix}/{lookup}/history/{history_lookup}{trailing_slash}$",
+            mapping={"get": "history_get",},
+            name="{basename}-history111",
+            detail=False,
+            initkwargs={"suffix": "History"},
+        ),
     ]

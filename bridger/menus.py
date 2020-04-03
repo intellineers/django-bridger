@@ -42,6 +42,8 @@ class MenuItem(NamedTuple):
     endpoint_args: List = []
     endpoint_kwargs: Dict = {}
 
+    get_params: Dict = {}
+
     permission: Optional[ItemPermission] = None
     add: Any = None
 
@@ -56,6 +58,9 @@ class MenuItem(NamedTuple):
                     kwargs=self.endpoint_kwargs,
                 ),
             }
+
+            if self.get_params:
+                item["endpoint"] += f"?history_id={self.get_params['history_id']}"
 
             if self.add:
                 item["add"] = self.add.to_dict(request=request)

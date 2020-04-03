@@ -25,6 +25,12 @@ default_registry.register(
                 endpoint="relatedmodeltest-history",
                 endpoint_args=[10],
             ),
+            MenuItem(
+                label="History-Instance",
+                endpoint="relatedmodeltest-detail",
+                endpoint_args=[259],
+                get_params={"history_id": 4},
+            ),
         ],
     )
 )

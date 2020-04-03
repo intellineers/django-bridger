@@ -58,6 +58,7 @@ class RepresentationModelViewSet(
     pagination_class = CursorPagination
 
     ordering_fields = ordering = ["id"]
+    historical_mode = False
 
 
 class ModelViewSet(

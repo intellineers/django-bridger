@@ -407,7 +407,7 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
             return [info("This is an instance message.")]
 
         if initial:
-            return [info("This is a list message")]
+            return [info("This is a list message", autoclose=5)]
 
     def get_serializer_changes(self, serializer):
         if not isinstance(serializer, ListSerializer):

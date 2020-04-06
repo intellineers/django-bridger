@@ -25,6 +25,7 @@ class CustomInstanceButtonMetadataMixin:
             )
             button_list = list()
             for button in buttons:
+                button.request = request
                 button_list.append(dict(button))
             return button_list
         else:
@@ -34,5 +35,6 @@ class CustomInstanceButtonMetadataMixin:
             )
             button_list = list()
             for button in buttons:
+                button.request = request
                 button_list.append(dict(button))
             return button_list

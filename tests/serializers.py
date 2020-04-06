@@ -8,6 +8,12 @@ from bridger import buttons as bt
 from .models import ModelTest, RelatedModelTest
 
 
+class ActionButtonSerializer(serializers.Serializer):
+
+    char_field = serializers.CharField()
+    custom_field = serializers.ChoiceField(choices=["a", "b"])
+
+
 class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
     _detail = serializers.HyperlinkField(reverse_name="modeltest-detail")
@@ -39,7 +45,9 @@ class ModelTestSerializer(serializers.ModelSerializer):
 
     @register_dynamic_button()
     def something(self, instance, request, user):
-        return [bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")]
+        return [
+            bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")
+        ]
 
     @register_resource()
     def related_models(self, instance, request, user):
@@ -47,7 +55,11 @@ class ModelTestSerializer(serializers.ModelSerializer):
 
     @register_resource()
     def self_endpoint(self, instance, request, user):
-        return {"self_endpoint": reverse("modeltest-detail", args=[instance.id], request=request)}
+        return {
+            "self_endpoint": reverse(
+                "modeltest-detail", args=[instance.id], request=request
+            )
+        }
 
     class Meta:
         percent_fields = ["percent_field"]

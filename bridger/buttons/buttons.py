@@ -1,8 +1,11 @@
 from dataclasses import dataclass, field
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
+
+from rest_framework.request import Request
 
 from bridger.display import InstanceDisplay
 from bridger.enums import RequestType
+from bridger.serializers import ListSerializer, RepresentationSerializer, Serializer
 
 from .bases import ButtonConfig, ButtonTypeMixin, ButtonUrlMixin
 from .enums import ButtonType, HyperlinkTarget
@@ -46,13 +49,34 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
 
     description_fields: str = "<p>Are you sure you want to proceed?</p>"
     instance_display: InstanceDisplay = None
+    serializer: Serializer = None
     confirm_config: ButtonConfig = ButtonConfig(label="Confirm", title="Confirm")
     cancel_config: ButtonConfig = ButtonConfig(label="Cancel", title="Cancel")
 
     identifiers: List[str] = field(default_factory=list)
 
-    # TODO: Not functional yet
-    fields: Any = None
+    def get_fields(self, request: Request) -> Dict:
+        fields = dict()
+        rs = RepresentationSerializer
+        ls = ListSerializer
+        field_items = self.serializer().fields.items()
+
+        for name, field in filter(
+            lambda f: not isinstance(f[1], (rs, ls)), field_items
+        ):
+            fields[name] = field.get_representation(request, name)
+
+        for name, field in filter(lambda f: isinstance(f[1], (rs, ls)), field_items):
+            representation = field.get_representation(request, name)
+            fields[representation["related_key"]].update(representation)
+            del fields[representation["related_key"]]["related_key"]
+
+        return fields
+
+    def _get_fields(self, request: Request) -> Dict:
+        fields = self.get_fields(request)
+        serializer_class = self.serializer
+        return fields
 
     def __iter__(self):
         yield from super().__iter__()
@@ -67,3 +91,9 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
 
         if self.instance_display:
             yield "instance_display", list(self.instance_display)
+
+        if self.serializer:
+            assert (
+                hasattr(self, "request") and self.request is not None
+            ), "Action Buttons who define a custom serializer, needs to have access to the request"
+            yield "fields", self._get_fields(self.request)

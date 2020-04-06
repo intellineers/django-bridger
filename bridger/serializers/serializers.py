@@ -30,6 +30,10 @@ class AdditionalMetadataMixin:
         yield from getattr(cls.Meta, "percent_fields", list())
 
 
+class Serializer(AdditionalMetadataMixin, serializers.Serializer):
+    pass
+
+
 class ModelSerializer(
     AdditionalMetadataMixin,
     serializers.ModelSerializer,

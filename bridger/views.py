@@ -2,15 +2,20 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
+from .buttons import ActionButton
+from .display import InstanceDisplay, Section, FieldSet
 from .enums import AuthType
 from .menus import default_registry
 from .settings import bridger_settings
+
+from .share import ShareSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -45,10 +50,33 @@ class Profile(APIView):
         )
 
 
+class Share(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        user_id = request.POST.get("user_id", None)
+        widget_endpoint = request.POST.get("widget_endpoint", None)
+
+        return Response({})
+
+
 class Config(APIView):
     permission_classes = []
 
     def get(self, request: Request) -> Response:
+        btn = ActionButton(
+            label="Share",
+            icon="wb-icon-share",
+            endpoint=reverse("bridger:share", request=request),
+            instance_display=InstanceDisplay(
+                sections=[
+                    Section(fields=FieldSet(fields=["user_id", "widget_endpoint"]))
+                ]
+            ),
+            serializer=ShareSerializer,
+        )
+        btn.request = request
+
         return Response(
             {
                 "authentication": bridger_settings.DEFAULT_AUTH_CONFIG(request),
@@ -57,5 +85,6 @@ class Config(APIView):
                 "notification": bridger_settings.DEFAULT_NOTIFICATION_CONFIG(
                     request=request
                 ),
+                "share": dict(btn),
             }
         )

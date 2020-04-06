@@ -32,6 +32,7 @@ from .fields import (
     register_dynamic_button,
 )
 from .serializers import (
+    Serializer,
     ModelSerializer,
     RepresentationSerializer,
     decorator,

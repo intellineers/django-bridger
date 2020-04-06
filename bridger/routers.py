@@ -56,6 +56,6 @@ class BridgerRouter(DefaultRouter):
             mapping={"get": "history_retrieve",},
             name="{basename}-history-detail",
             detail=True,
-            initkwargs={"suffix": "History Instance", "historical_mode": True},
+            initkwargs={"suffix": "History Instance", "historical_mode": False},
         ),
     ]

@@ -4,8 +4,6 @@ from bridger import serializers
 
 def get_historical_serializer(historical_model):
     class HistoricalModelSerializer(serializers.ModelSerializer):
-        # user_repr = serializers.CharField()
-
         user_repr = serializers.SerializerMethodField()
 
         def get_user_repr(self, obj):

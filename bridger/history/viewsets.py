@@ -19,6 +19,12 @@ def get_historical_viewset(model, historical_model):
         BUTTONS = [Button.REFRESH.value]
         CREATE_BUTTONS = []
 
+        def get_custom_instance_buttons(self, request, buttons):
+            return []
+
+        def get_custom_list_instance_buttons(self, request, buttons):
+            return []
+
         LIST_DISPLAY = dp.ListDisplay(
             fields=[
                 dp.Field(key="history_date", label="Changed"),

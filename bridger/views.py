@@ -66,7 +66,7 @@ class Config(APIView):
     def get(self, request: Request) -> Response:
         btn = ActionButton(
             label="Share",
-            icon="wb-icon-share",
+            icon="wb-icon-trade",
             endpoint=reverse("bridger:share", request=request),
             instance_display=InstanceDisplay(
                 sections=[

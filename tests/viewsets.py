@@ -264,17 +264,7 @@ class ModelTestModelViewSet(viewsets.ModelViewSet):
                         "char_field",
                         "text_field",
                         ["integer_field", "float_field",],
-                        # "percent_field",
-                        # "decimal_field",
-                        # "datetime_field",
-                        # "datetime_field1",
-                        # "date_field",
-                        # "time_field",
-                        # "boolean_field",
-                        # "choice_field",
-                        # "status_field",
                         "image_field",
-                        # "file_field",
                     ]
                 )
             )

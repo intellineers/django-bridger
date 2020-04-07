@@ -178,6 +178,7 @@ class ModelViewSet(
 class InfiniteDataModelView(ModelViewSet):
 
     pagination_class = None
+    historical_mode = False
 
     def list(self, request, *args, **kwargs) -> Response:
         queryset = self.filter_queryset(self.get_queryset())
@@ -203,6 +204,7 @@ class ChartViewSet(MetadataMixin, ListModelMixin, viewsets.ViewSet):
 
     WIDGET_TYPE = WidgetType.CHART.value
     filter_backends = [DjangoFilterBackend]
+    historical_mode = False
 
     def list(self, request, *args, **kwargs):
         figure = self.get_plotly(self.filter_queryset(self.get_queryset()))

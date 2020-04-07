@@ -22,7 +22,7 @@ class EndpointMetadataMixin:
 
     def get_history_endpoint(self, request, endpoint=None):
 
-        with suppress(AssertionError):
+        with suppress(AssertionError, AttributeError):
             obj = self.get_object()
             model = type(obj)
             opts = model._meta

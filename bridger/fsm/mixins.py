@@ -62,16 +62,24 @@ class FSMViewSetMixinMetaclass(type):
                         # Get the Transition Button and add it to the front of the instance buttons
                         button = transition.custom.get("_transition_button")
 
+                        instance_btns = [button] + list(
+                            filter(
+                                lambda x: button.key != x.key,
+                                getattr(_class, "CUSTOM_INSTANCE_BUTTONS", []),
+                            )
+                        )
+                        list_btns = [button] + list(
+                            filter(
+                                lambda x: button.key != x.key,
+                                getattr(_class, "CUSTOM_LIST_INSTANCE_BUTTONS", []),
+                            )
+                        )
+
                         setattr(
-                            _class,
-                            "CUSTOM_INSTANCE_BUTTONS",
-                            [button] + (getattr(_class, "CUSTOM_INSTANCE_BUTTONS", [])),
+                            _class, "CUSTOM_INSTANCE_BUTTONS", instance_btns,
                         )
                         setattr(
-                            _class,
-                            "CUSTOM_LIST_INSTANCE_BUTTONS",
-                            [button]
-                            + (getattr(_class, "CUSTOM_LIST_INSTANCE_BUTTONS", [])),
+                            _class, "CUSTOM_LIST_INSTANCE_BUTTONS", list_btns,
                         )
 
                         # Create a method that calls fsm_route with the request and the action name

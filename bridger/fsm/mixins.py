@@ -25,7 +25,9 @@ logger = logging.getLogger(__name__)
 
 # We have to move the method generation into a method, because we need a real new instance of this method everytime
 def get_method(transition):
-    def method(self, request: Request, transition=transition, pk=None) -> Response:
+    def method(
+        self, request: Request, transition=transition, pk=None, **kwargs
+    ) -> Response:
         return self.fsm_route(request, transition.name)
 
     return method

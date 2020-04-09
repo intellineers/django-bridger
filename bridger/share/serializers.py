@@ -1,4 +1,3 @@
-from bridger.notifications.models import Notification, NotificationSendType
 from bridger.serializers import Serializer, CharField, IntegerField, TextField
 
 

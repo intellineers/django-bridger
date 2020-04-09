@@ -5,9 +5,15 @@ from bridger.filters import (
     DateFilter,
     FilterSet,
 )
-from bridger.filters.defaults import current_quarter_date_start, current_quarter_date_end, current_month_date_start, current_month_date_end
+from bridger.filters.defaults import (
+    current_quarter_date_start,
+    current_quarter_date_end,
+    current_month_date_start,
+    current_month_date_end,
+)
 
 from .models import ModelTest, RelatedModelTest
+
 
 class PandasFilterSet(FilterSet):
     char_field = CharFilter(label="Char")
@@ -22,12 +28,8 @@ class ModelTestFilterSet(FilterSet):
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
 
     datetime_field = DateFilter(
-        label="DateTime", lookup_expr="exact", field_name="datetime_field", default=current_month_date_end
+        label="DateTime", lookup_expr="exact", field_name="datetime_field",
     )
-
-    # some_date_filter = DateFilter(
-    #     label="Some Date Filter", lookup_expr="exact", method="filter_some_date"
-    # )
 
     def filter_some_date(self, queryset, name, value):
         return queryset
@@ -47,6 +49,7 @@ class ModelTestFilterSet(FilterSet):
             "status_field": ["exact"],
             "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
             "before_2k": ["exact", "icontains"],
+            "related_models": ["exact"],
         }
 
 

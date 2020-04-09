@@ -80,9 +80,15 @@ class ModelViewSet(
 ):
     """A Model View that is used to serializer models"""
 
-    filter_backends = [filters.OrderingFilter]
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
     pagination_class = CursorPagination
 
+    filter_fields = {}
+    search_fields = []
     ordering_fields = ordering = ["id"]
     historical_mode = False
 

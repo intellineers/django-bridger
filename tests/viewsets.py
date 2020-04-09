@@ -352,10 +352,10 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
             )
         ]
     )
-
     CUSTOM_INSTANCE_BUTTONS = CUSTOM_LIST_INSTANCE_BUTTONS = [
         bt.DropDownButton(
-            icon="wb-icon-trash",
+            label="Dropdown",
+            icon="wb-icon-triangle-down",
             buttons=[
                 bt.ActionButton(
                     label="TestButton",
@@ -373,37 +373,22 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
                     serializer=ActionButtonSerializer,
                 ),
                 bt.HyperlinkButton(
-                    endpoint="https://www.google.com", icon="wb-icon-trash"
+                    endpoint="https://www.google.com", icon="wb-icon-trash",
                 ),
             ],
         ),
     ]
 
-    filter_backends = [
-        filters.OrderingFilter,
-        filters.SearchFilter,
-        DjangoFilterBackend,
-    ]
     filter_fields = {"model_test": ["exact"], "char_field": ["exact"]}
     search_fields = ["char_field"]
-
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestSerializer
 
-    def get_messages(
-        self,
-        request,
-        queryset=None,
-        paginated_queryset=None,
-        instance=None,
-        initial=False,
-    ):
-
+    def get_messages(self, instance=None, initial=None, **kwargs):
         if instance:
             return [info("This is an instance message.")]
-
         if initial:
-            return [info("This is a list message", autoclose=5)]
+            return [info("This is a list message")]
 
     def get_serializer_changes(self, serializer):
         if not isinstance(serializer, ListSerializer):
@@ -412,5 +397,4 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
                     "id", flat=True
                 )
                 serializer.fields["model_tests"].child_relation.default = default_values
-
         return serializer

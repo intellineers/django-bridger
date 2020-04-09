@@ -20,7 +20,7 @@ class DropDownButton(ButtonTypeMixin, ButtonConfig):
         for button in self.buttons:
             if hasattr(self, "request"):
                 button.request = self.request
-            yield button
+            yield dict(button)
 
     def __iter__(self):
         yield from super().__iter__()

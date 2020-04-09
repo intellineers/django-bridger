@@ -6,9 +6,6 @@
 
 The Model Test is an example of a model which incorporates all possible fields and therefore shows how all fields are rendered with their filters, etc.
 
-!!! warning
-    This is a warning
-
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam hendrerit nisl et sodales convallis. Aenean nec nibh finibus, rhoncus dolor at, sagittis ante. Pellentesque vestibulum varius consectetur. Nam eget nulla mi. Suspendisse potenti. Aliquam fermentum augue purus, porttitor laoreet eros sagittis at. Fusce vitae sapien et elit facilisis gravida vel ut elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas porttitor lectus non massa maximus tincidunt. Cras pellentesque tincidunt diam et ultricies. Maecenas tincidunt molestie magna vel aliquet. Phasellus fringilla ante mollis faucibus rutrum. Donec vulputate lacus eu cursus porttitor. Phasellus maximus laoreet metus, eget ultricies neque congue nec. Sed posuere fermentum gravida.
 
 Aliquam quis tempor est. Etiam lorem arcu, pulvinar id mauris eu, pellentesque tincidunt mi. Proin vitae ipsum est. Vestibulum bibendum justo eget metus pharetra lacinia. Suspendisse sed dui id sapien auctor gravida. Suspendisse interdum mi augue, eget mattis quam tincidunt in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer id nisi at orci iaculis ultrices a ac ipsum. Morbi tempor libero vel lorem convallis pretium. Nulla facilisi. Aenean a nunc elementum, lobortis quam at, aliquet dui.

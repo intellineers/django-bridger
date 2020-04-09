@@ -21,3 +21,4 @@ class BridgerType(Enum):
 class ReturnContentType(Enum):
     HTML = "html"
     JSON = "json"
+    MARKDOWN = "markdown"

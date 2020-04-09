@@ -4,7 +4,9 @@ from django.views.generic import TemplateView
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 from .notifications.viewsets import NotificationModelViewSet
 from .routers import BridgerRouter
-from .views import Config, Menu, Profile, Share
+from .views import Config, Menu, Profile
+
+from .share.views import ShareAPIView
 
 # fmt: off
 router = BridgerRouter()
@@ -16,7 +18,7 @@ urlpatterns = [
     path("config/", Config.as_view(), name="config"),
     path("profile/", Profile.as_view(), name="profile"),
     path("menu/", Menu.as_view(), name="menu"),
-    path("share/", Share.as_view(), name="share"),
+    path("share/", ShareAPIView.as_view(), name="share"),
     path("", include(router.urls)),
 ]
 

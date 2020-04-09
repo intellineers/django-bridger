@@ -17,6 +17,9 @@ DEFAULTS = {
     "DEFAULT_FRONTEND_USER_CONFIGURATION_ORDER": ["config__order"],
     "DEFAULT_AUTH_CONFIG": "bridger.auth.jwt_auth",
     "DEFAULT_NOTIFICATION_CONFIG": "bridger.notifications.settings.notification_config",
+    "DEFAULT_SHARE_BUTTON": "bridger.share.buttons.share_action_button",
+    "DEFAULT_SHARE_NOTIFICATION": "bridger.share.notifications.share_notification",
+    "DEFAULT_SHARE_SERIALIZER": "bridger.share.serializers.ShareSerializer",
     "DEFAULT_MARKDOWN_EXTENSIONS": [
         TableExtension(),
         FSMExtension(),
@@ -24,7 +27,13 @@ DEFAULTS = {
     ],
 }
 
-IMPORT_STRINGS = ["DEFAULT_AUTH_CONFIG", "DEFAULT_NOTIFICATION_CONFIG"]
+IMPORT_STRINGS = [
+    "DEFAULT_AUTH_CONFIG",
+    "DEFAULT_NOTIFICATION_CONFIG",
+    "DEFAULT_SHARE_BUTTON",
+    "DEFAULT_SHARE_NOTIFICATION",
+    "DEFAULT_SHARE_SERIALIZER",
+]
 
 
 def perform_import(val, setting_name):

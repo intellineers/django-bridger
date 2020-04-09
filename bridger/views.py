@@ -50,32 +50,10 @@ class Profile(APIView):
         )
 
 
-class Share(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request: Request) -> Response:
-        user_id = request.POST.get("user_id", None)
-        widget_endpoint = request.POST.get("widget_endpoint", None)
-
-        return Response({})
-
-
 class Config(APIView):
     permission_classes = []
 
     def get(self, request: Request) -> Response:
-        btn = ActionButton(
-            label="Share",
-            icon="wb-icon-trade",
-            endpoint=reverse("bridger:share", request=request),
-            instance_display=InstanceDisplay(
-                sections=[
-                    Section(fields=FieldSet(fields=["user_id", "widget_endpoint"]))
-                ]
-            ),
-            serializer=ShareSerializer,
-        )
-        btn.request = request
 
         return Response(
             {
@@ -85,6 +63,6 @@ class Config(APIView):
                 "notification": bridger_settings.DEFAULT_NOTIFICATION_CONFIG(
                     request=request
                 ),
-                "share": dict(btn),
+                "share": dict(bridger_settings.DEFAULT_SHARE_BUTTON(request=request)),
             }
         )

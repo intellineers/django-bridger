@@ -20,20 +20,6 @@ from .share import ShareSerializer
 logger = logging.getLogger(__name__)
 
 
-class Menu(APIView):
-    @property
-    def permission_classes(self):
-        bridger_auth = bridger_settings.DEFAULT_AUTH_CONFIG(None)
-
-        if bridger_auth["type"] is None:
-            return []
-
-        return [IsAuthenticated]
-
-    def get(self, request: Request) -> Response:
-        return Response(default_registry.to_dict(request))
-
-
 class Profile(APIView):
     permission_classes = [IsAuthenticated]
 

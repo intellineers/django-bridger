@@ -1,11 +1,11 @@
-from bridger.menus import Menu, MenuItem, PresetMenuItem, default_registry
+from bridger.menus import Menu, MenuItem, default_registry
 from celery_app import app as celery_app
 
 
-# default_registry.register(PresetMenuItem(label="News", preset="StainlyNewsWidget"))
+default_registry.alphabetical_sorted = True
 default_registry.register(
     Menu(
-        label="Our Menu",
+        label="Normal Views",
         items=[
             MenuItem(
                 label="M1",
@@ -17,20 +17,18 @@ default_registry.register(
                 endpoint="relatedmodeltest-list",
                 add=MenuItem(label="Add Something", endpoint="relatedmodeltest-list"),
             ),
+        ],
+        index=1,
+    ),
+)
+default_registry.register(
+    Menu(
+        label="Special Views",
+        items=[
             MenuItem(label="Calendar", endpoint="calendar-list",),
             MenuItem(label="PANDAS", endpoint="pandas_view",),
             MenuItem(label="CHART", endpoint="modelchart-list",),
-            # MenuItem(
-            #     label="History",
-            #     endpoint="relatedmodeltest-history",
-            #     endpoint_args=[10],
-            # ),
-            # MenuItem(
-            #     label="History-Instance",
-            #     endpoint="relatedmodeltest-detail",
-            #     endpoint_args=[259],
-            #     get_params={"history_id": 4},
-            # ),
         ],
-    )
+        index=2,
+    ),
 )

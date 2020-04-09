@@ -1,0 +1,69 @@
+from dataclasses import dataclass, field
+from typing import Callable, Dict, List, Optional, Union
+
+from django.utils.http import urlencode
+from rest_framework.request import Request
+from rest_framework.reverse import reverse
+
+
+@dataclass
+class ItemPermission:
+    permissions: List[str] = field(default_factory=list)
+    method: Optional[Callable] = None
+
+    def has_permission(self, request: Request) -> bool:
+        if request.user.is_superuser:
+            return True
+
+        for permission in self.permissions:
+            if not request.user.has_perm(permission):
+                return False
+
+        if self.method:
+            return self.method(request=request)
+
+        return True
+
+
+@dataclass
+class MenuItem:
+    label: str
+
+    endpoint: str
+    endpoint_args: List[str] = field(default_factory=list)
+    endpoint_kwargs: Dict[str, str] = field(default_factory=dict)
+    endpoint_get_parameters: Dict[str, str] = field(default_factory=dict)
+
+    permission: Optional[ItemPermission] = None
+    add: Optional["MenuItem"] = None
+
+    def __iter__(self):
+        if self.permission is None or self.permission.has_permission(request=request):
+            request = getattr(self, "request", None)
+            endpoint = reverse(
+                viewname=self.endpoint,
+                args=self.endpoint_args,
+                kwargs=self.endpoint_kwargs,
+                request=request,
+            )
+            endpoint = self.endpoint
+
+            if self.endpoint_get_parameters:
+                endpoint += f"?{urlencode(self.endpoint_get_parameters)}"
+
+            yield "label", self.label
+            yield "endpoint", endpoint
+            if self.add:
+                yield "add", dict(self.add)
+
+
+@dataclass
+class Menu:
+    label: str
+    items: List[Union[MenuItem, "Menu"]] = field(default_factory=list)
+
+    index: Optional[int] = None
+
+    def __iter__(self):
+        yield "label", self.label
+        yield "items", [dict(item) for item in filter(lambda x: bool(x), self.items)]

@@ -30,13 +30,16 @@ class ModelTestModelViewSet(ModelViewSet):
     LIST_WIDGET_TITLE = "List"
     CREATE_WIDGET_TITLE = "Create"
 
+    PREVIEW_TYPE = "instance_display"
+    PREVIEW_DISPLAY = dp.InstanceDisplay(
+        sections=[dp.Section(fields=dp.FieldSet(fields=["image_field", "char_field"]))]
+    )
     PREVIEW_BUTTONS = [
-        bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash"),
+        bt.HyperlinkButton(endpoint="https://www.google.com", label="Open Google"),
+        bt.HyperlinkButton(endpoint="https://www.nytimes.com", label="Open NYTimes"),
         bt.WidgetButton(key="self_endpoint", icon="wb-icon-data"),
     ]
-    # PREVIEW_DISPLAY = """<p>Char: {{char_field}}</p>"""
-
-    PREVIEW_TYPE = "instance_display"
+    # PREVIEW_DISPLAY = """{{image_field}}"""
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
@@ -121,20 +124,6 @@ class ModelTestModelViewSet(ModelViewSet):
             dp.Section(
                 title="Related Models", section_list=dp.SectionList(key="related_model")
             ),
-        ]
-    )
-    PREVIEW_DISPLAY = dp.InstanceDisplay(
-        sections=[
-            dp.Section(
-                fields=dp.FieldSet(
-                    fields=[
-                        "char_field",
-                        "text_field",
-                        ["integer_field", "float_field",],
-                        "image_field",
-                    ]
-                )
-            )
         ]
     )
 

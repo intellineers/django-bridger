@@ -15,6 +15,7 @@ nav:
     - Websockets: websockets.md
     - Buttons: buttons.md
     - Display: display.md
+    - Share: share.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:

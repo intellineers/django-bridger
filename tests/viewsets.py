@@ -354,37 +354,29 @@ class RelatedModelTestModelViewSet(viewsets.ModelViewSet):
     )
 
     CUSTOM_INSTANCE_BUTTONS = CUSTOM_LIST_INSTANCE_BUTTONS = [
-        bt.ActionButton(
-            label="TestButton",
+        bt.DropDownButton(
             icon="wb-icon-trash",
-            endpoint="http://localhost:5000/relatedmodeltest/",
-            instance_display=dp.InstanceDisplay(
-                sections=[
-                    dp.Section(
-                        fields=dp.FieldSet(fields=["char_field", "custom_field"])
+            buttons=[
+                bt.ActionButton(
+                    label="TestButton",
+                    icon="wb-icon-trash",
+                    endpoint="http://localhost:5000/relatedmodeltest/",
+                    instance_display=dp.InstanceDisplay(
+                        sections=[
+                            dp.Section(
+                                fields=dp.FieldSet(
+                                    fields=["char_field", "custom_field"]
+                                )
+                            ),
+                        ]
                     ),
-                ]
-            ),
-            serializer=ActionButtonSerializer,
+                    serializer=ActionButtonSerializer,
+                ),
+                bt.HyperlinkButton(
+                    endpoint="https://www.google.com", icon="wb-icon-trash"
+                ),
+            ],
         ),
-        # bt.DropDownButton(
-        #     icon="wb-icon-trash",
-        #     buttons=[
-        #         bt.ActionButton(
-        #             label="TestButton",
-        #             icon="wb-icon-trash",
-        #             endpoint="https://www.google.com",
-        #             instance_display=dp.InstanceDisplay(
-        #                 sections=[
-        #                     dp.Section(fields=dp.FieldSet(fields=["char_field"])),
-        #                 ]
-        #             ),
-        #         ),
-        #         bt.HyperlinkButton(
-        #             endpoint="https://www.google.com", icon="wb-icon-trash"
-        #         ),
-        #     ],
-        # )
     ]
 
     filter_backends = [

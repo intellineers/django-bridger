@@ -16,9 +16,15 @@ class DropDownButton(ButtonTypeMixin, ButtonConfig):
     button_type = ButtonType.DROPDOWN
     buttons: List = field(default_factory=list)
 
+    def get_buttons(self):
+        for button in self.buttons:
+            if hasattr(self, "request"):
+                button.request = self.request
+            yield button
+
     def __iter__(self):
         yield from super().__iter__()
-        yield "buttons", [dict(button) for button in self.buttons]
+        yield "buttons", self.get_buttons()
 
 
 @dataclass

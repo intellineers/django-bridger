@@ -68,9 +68,15 @@ class RepresentationModelViewSet(
 ):
     """A Representation View that is used for serializing related fields"""
 
-    filter_backends = [filters.OrderingFilter]
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
     pagination_class = CursorPagination
 
+    filter_fields = {}
+    search_fields = []
     ordering_fields = ordering = ["id"]
     historical_mode = False
 
@@ -209,7 +215,16 @@ class ChartViewSet(MetadataMixin, ListModelMixin, viewsets.ViewSet):
     """A List View that is used for creating plotly charts"""
 
     WIDGET_TYPE = WidgetType.CHART.value
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    pagination_class = CursorPagination
+
+    filter_fields = {}
+    search_fields = []
+    ordering_fields = []
     historical_mode = False
 
     def list(self, request, *args, **kwargs):

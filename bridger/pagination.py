@@ -17,14 +17,16 @@ class CursorPagination(DefaultCursorPagination):
         paginated_queryset = super().paginate_queryset(queryset, request, view)
 
         if hasattr(view, "get_aggregates"):
-            self.aggregates = view.get_aggregates(queryset, paginated_queryset)
+            self.aggregates = view.get_aggregates(
+                queryset=queryset, paginated_queryset=paginated_queryset
+            )
 
         if hasattr(view, "get_messages"):
             messages = view.get_messages(
                 request=request,
                 queryset=queryset,
                 paginated_queryset=paginated_queryset,
-                initial=not bool(self.cursor)
+                initial=not bool(self.cursor),
             )
             if messages:
                 self.messages = [dict(message) for message in messages]

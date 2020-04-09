@@ -1,5 +1,7 @@
 import pandas as pd
 from django.db.models import QuerySet
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,9 +13,16 @@ from .metadata import PandasMetadata
 
 class PandasAPIView(MetadataMixin, APIView):
 
-    filter_backends = [OrderingFilter]
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+
     metadata_class = PandasMetadata
 
+    filter_fields = {}
+    search_fields = []
     ordering_fields = []
 
     def filter_queryset(self, queryset: QuerySet) -> QuerySet:

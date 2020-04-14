@@ -14,6 +14,7 @@ from bridger.fsm.markdown_extensions import FSMExtension
 logger = logging.getLogger(__name__)
 
 DEFAULTS = {
+    "PROFILE": "bridger.profile.default_profile",
     "DEFAULT_FRONTEND_USER_CONFIGURATION_ORDER": ["config__order"],
     "DEFAULT_AUTH_CONFIG": "bridger.auth.jwt_auth",
     "DEFAULT_NOTIFICATION_CONFIG": "bridger.notifications.settings.notification_config",
@@ -28,6 +29,7 @@ DEFAULTS = {
 }
 
 IMPORT_STRINGS = [
+    "PROFILE",
     "DEFAULT_AUTH_CONFIG",
     "DEFAULT_NOTIFICATION_CONFIG",
     "DEFAULT_SHARE_BUTTON",

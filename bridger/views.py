@@ -31,7 +31,7 @@ class Profile(APIView):
                 ),
                 "name": f"{request.user.first_name} {request.user.last_name}",
                 "email": request.user.email,
-                "image": "TODO: Here comes the URL",
+                "profile": bridger_settings.PROFILE(request),
             }
         )
 

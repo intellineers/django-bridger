@@ -8,11 +8,13 @@ from .views import Config, Profile
 
 from .share.views import ShareAPIView
 from .menus.views import MenuAPIView
+from .profile import UserViewSet
 
 # fmt: off
 router = BridgerRouter()
 router.register(r"frontenduserconfiguration", FrontendUserConfigurationModelViewSet, basename="frontenduserconfiguration")
 router.register(r"notification", NotificationModelViewSet, basename="notification")
+router.register(r"user", UserViewSet, basename="user")
 # fmt: on
 
 urlpatterns = [

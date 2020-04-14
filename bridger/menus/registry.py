@@ -18,6 +18,7 @@ class MenuRegistry:
             key = lambda x: x.label
 
         for menu in sorted(filter(lambda x: bool(x), self._registry), key=key):
+            menu.request = request
             yield dict(menu)
 
 

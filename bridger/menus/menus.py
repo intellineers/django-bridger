@@ -38,15 +38,14 @@ class MenuItem:
     add: Optional["MenuItem"] = None
 
     def __iter__(self):
+        request = getattr(self, "request", None)
         if self.permission is None or self.permission.has_permission(request=request):
-            request = getattr(self, "request", None)
             endpoint = reverse(
                 viewname=self.endpoint,
                 args=self.endpoint_args,
                 kwargs=self.endpoint_kwargs,
                 request=request,
             )
-            endpoint = self.endpoint
 
             if self.endpoint_get_parameters:
                 endpoint += f"?{urlencode(self.endpoint_get_parameters)}"
@@ -54,6 +53,7 @@ class MenuItem:
             yield "label", self.label
             yield "endpoint", endpoint
             if self.add:
+                self.add.request = request
                 yield "add", dict(self.add)
 
 
@@ -65,5 +65,10 @@ class Menu:
     index: Optional[int] = None
 
     def __iter__(self):
+        request = getattr(self, "request", None)
         yield "label", self.label
-        yield "items", [dict(item) for item in filter(lambda x: bool(x), self.items)]
+        items = list()
+        for item in filter(lambda x: bool(x), self.items):
+            item.request = request
+            items.append(dict(item))
+        yield "items", items

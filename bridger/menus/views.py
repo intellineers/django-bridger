@@ -18,4 +18,5 @@ class MenuAPIView(APIView):
         return [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
+        default_registry.request = request
         return Response(list(default_registry))

@@ -33,6 +33,7 @@ class MenuItem:
     endpoint_args: List[str] = field(default_factory=list)
     endpoint_kwargs: Dict[str, str] = field(default_factory=dict)
     endpoint_get_parameters: Dict[str, str] = field(default_factory=dict)
+    reverse: bool = True
 
     permission: Optional[ItemPermission] = None
     add: Optional["MenuItem"] = None
@@ -40,12 +41,15 @@ class MenuItem:
     def __iter__(self):
         request = getattr(self, "request", None)
         if self.permission is None or self.permission.has_permission(request=request):
-            endpoint = reverse(
-                viewname=self.endpoint,
-                args=self.endpoint_args,
-                kwargs=self.endpoint_kwargs,
-                request=request,
-            )
+            if self.reverse:
+                endpoint = reverse(
+                    viewname=self.endpoint,
+                    args=self.endpoint_args,
+                    kwargs=self.endpoint_kwargs,
+                    request=request,
+                )
+            else:
+                endpoint = self.endpoint
 
             if self.endpoint_get_parameters:
                 endpoint += f"?{urlencode(self.endpoint_get_parameters)}"

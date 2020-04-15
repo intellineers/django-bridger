@@ -1,13 +1,3 @@
-<!-- 
-BRIDGER_TITLE: str
-BRIDGER_FAVICON_URL: str
-BRIDGER_FONT_URL: str
-BRIDGER_CDN_URLS: [str]
-BRIDGER_CSS_URL: str
-BRIDGER_CONFIG_URL: str
-BRIDGER_JS_URL: str
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,23 +10,34 @@ BRIDGER_JS_URL: str
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <!-- TITLE -->
-    <title>{{BRIDGER_TITLE}}</title>
+    <title>{{BRIDGER_CONTEXT.TITLE}}</title>
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/png" href="{{BRIDGER_FAVICON_URL}}" />
+    {% if BRIDGER_CONTEXT.FAVICON_URL %}
+    <link rel="shortcut icon" type="image/png" href="{{BRIDGER_CONTEXT.FAVICON_URL}}" />
+    {% endif %}
     <!-- FONT -->
-    <link href="{{BRIDGER_FONT_URL}}" rel="stylesheet">
+    <link href="{{BRIDGER_CONTEXT.FONT_URL}}" rel="stylesheet">
     <!-- EXTERNAL CDNS -->
-    {% for bridger_cdn_url in BRIDGER_CDN_URLS %}
+    {% for bridger_cdn_url in BRIDGER_CONTEXT.CDN_URLS %}
     <script src="{{bridger_cdn_url}}"></script>
     {% endfor %}
     <!-- BRIDGER CSS -->
-    <link href="{{BRIDGER_CSS_URL}}" rel="stylesheet" type="text/css">
-    <script type="text/javascript">window.bridger_config_url = "{{BRIDGER_CONFIG_URL}}"</script>
+    {% if BRIDGER_CONTEXT.CSS_URL %}
+    <link href="{{BRIDGER_CONTEXT.CSS_URL}}" rel="stylesheet" type="text/css">
+    {% endif %}
+
+    {% if BRIDGER_CONTEXT.CONFIG_URL %}
+    <script type="text/javascript">window.bridger_config_url = "{{BRIDGER_CONTEXT.CONFIG_URL}}"</script>
+    {% endif %}
+    
 </head>
 
 <body><noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script type="application/javascript" src="{{BRIDGER_JS_URL}}"></script>
+    <!-- BRIDGER JS -->
+    {% if BRIDGER_CONTEXT.JS_URL %}
+    <script type="application/javascript" src="{{BRIDGER_CONTEXT.JS_URL}}"></script>
+    {% endif %}
 </body>
 
 </html>

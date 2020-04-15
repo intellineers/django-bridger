@@ -10,7 +10,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from bridger.routers import BridgerRouter
-from bridger.urls import bundled_frontend
+from bridger.frontend import FrontendView
 
 from .viewsets import (
     ModelTestChartViewSet,
@@ -34,7 +34,7 @@ router.register(r"modelchart", ModelTestChartViewSet, basename="modelchart")
 
 urlpatterns = [
     path("", include(router.urls)),
-    bundled_frontend("frontend/"),
+    FrontendView.bundled_view("frontend/"),
     # path("bundle/", TemplateView.as_view(template_name="bundled_index.html")),
     path("admin/", admin.site.urls),
     path("bridger/", include(("bridger.urls", "bridger"), namespace="bridger")),

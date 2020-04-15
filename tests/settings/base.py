@@ -186,3 +186,11 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
     "loggers": {"": {"level": "INFO", "handlers": ["console"]}},
 }
+
+BRIDGER_SETTINGS = {
+    "FRONTEND_CONTEXT": {
+        "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/test/css/main-0-5-5.css",
+        "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/test/js/main-0-5-13.js",
+    }
+}
+

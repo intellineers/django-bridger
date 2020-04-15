@@ -26,6 +26,16 @@ DEFAULTS = {
         FSMExtension(),
         BlockdiagExtension(format="svg"),
     ],
+    "FRONTEND_TEMPLATE": "bridger/frontend.html",
+    "FRONTEND_CONTEXT": {
+        "TITLE": "Workbench",
+        "FONT_URL": "https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,900&display=swap",
+        "CDN_URLS": ["https://cdn.plot.ly/plotly-latest.min.js"],
+        "FAVICON_URL": None,
+        "CSS_URL": None,
+        "CONFIG_URL": None,
+        "JS_URL": None,
+    },
 }
 
 IMPORT_STRINGS = [
@@ -84,6 +94,10 @@ class BridgerSettings:
             raise AttributeError(f"Invalid Bridger Settings: {attr}")
 
         val = self.settings.get(attr, self.defaults[attr])
+
+        if isinstance(val, dict):
+            self.defaults[attr].update(val)
+            val = self.defaults[attr]
 
         if attr in self.import_strings:
             val = perform_import(val, attr)

@@ -24,9 +24,3 @@ urlpatterns = [
     path("share/", ShareAPIView.as_view(), name="share"),
     path("", include(router.urls)),
 ]
-
-
-def bundled_frontend(url):
-    return path(
-        f"{url}", TemplateView.as_view(template_name="bridger/frontend_index.html")
-    )

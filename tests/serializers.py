@@ -105,6 +105,8 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
     _model_tests = ModelTestRepresentationSerializer(source="model_tests", many=True)
     some_method_field = serializers.SerializerMethodField()
 
+    char_field = serializers.CharField(label="Char", secure=True)
+
     def get_some_method_field(self, obj):
         return obj.char_field.lower()
 

@@ -8,8 +8,14 @@ class CharField(BridgerSerializerFieldMixin, serializers.CharField):
     field_type = BridgerType.TEXT.value
 
     def __init__(self, *args, **kwargs):
-
+        self.secure = kwargs.pop("secure", False)
         super().__init__(*args, **kwargs)
+
+    def get_representation(self, request, field_name):
+        representation = super().get_representation(request, field_name)
+        if self.secure:
+            representation["secure"] = True
+        return representation
 
 
 class StringRelatedField(BridgerSerializerFieldMixin, serializers.StringRelatedField):

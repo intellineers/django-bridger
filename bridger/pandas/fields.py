@@ -1,6 +1,8 @@
 from collections import defaultdict
 from typing import Any, Dict, List, NamedTuple, Optional, Tuple, Union
 
+from bridger.serializers import percent_decorator
+
 
 class BaseField(NamedTuple):
     key: str
@@ -32,6 +34,7 @@ class FloatField(NamedTuple):
     key: str
     label: str
     precision: int = 2
+    percent: bool = False
     decorators: List = None
     type = "number"
 
@@ -42,6 +45,13 @@ class FloatField(NamedTuple):
             "type": self.type,
             "precision": self.precision,
         }
+
+        if self.percent:
+            base["type"] = "percent"
+
+            if not self.decorators:
+                base["decorators"] = [percent_decorator]
+
         if self.decorators:
             base["decorators"] = self.decorators
 

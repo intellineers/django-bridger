@@ -31,6 +31,7 @@ class MyPandasView(PandasAPIView):
                 key="integer_field",
                 label="Integer",
                 precision=2,
+                percent=True,
                 decorators=[decorator(position="left", value="@")],
             ),
         ]

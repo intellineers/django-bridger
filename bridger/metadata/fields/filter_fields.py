@@ -31,7 +31,7 @@ class FilterFieldsMetadataMixin:
                         )
                     )
                     representation = field.get_representation(request, name)
-                    
+
                     if upcomming_fields > 0 or field.field_name in stored_fields:
                         _representation = stored_fields.get(
                             field.field_name, representation
@@ -39,9 +39,7 @@ class FilterFieldsMetadataMixin:
                         _representation["lookup_expr"].update(
                             representation["lookup_expr"]
                         )
-                        _representation["default"].update(
-                            representation["default"]
-                        )
+                        _representation["default"].update(representation["default"])
                         stored_fields[field.field_name] = _representation
 
                     if upcomming_fields == 0:

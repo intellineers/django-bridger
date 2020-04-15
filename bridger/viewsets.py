@@ -4,7 +4,9 @@ import django_filters
 from django.conf import settings
 from django.db.models import QuerySet
 from django.urls.exceptions import NoReverseMatch
-from django_filters.rest_framework import DjangoFilterBackend
+
+# from django_filters.rest_framework import DjangoFilterBackend
+from bridger.filters import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import (
     action,

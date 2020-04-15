@@ -27,4 +27,6 @@ urlpatterns = [
 
 
 def bundled_frontend(url):
-    return path(f"{url}", TemplateView.as_view(template_name="bridger/frontend.html"))
+    return path(
+        f"{url}", TemplateView.as_view(template_name="bridger/frontend_index.html")
+    )

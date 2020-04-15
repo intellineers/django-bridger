@@ -1,29 +1,42 @@
+<!-- 
+BRIDGER_TITLE: str
+BRIDGER_FAVICON_URL: str
+BRIDGER_FONT_URL: str
+BRIDGER_CDN_URLS: [str]
+BRIDGER_CSS_URL: str
+BRIDGER_CONFIG_URL: str
+BRIDGER_JS_URL: str
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <!-- DEFAULTS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <link rel="shortcut icon" type="image/png" href="/static/favicon.724bc5764d3a.ico" />
-    <title>Workbench</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,900&display=swap" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link href="https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/test/css/main-0-5-5.css" rel="stylesheet"
-        type="text/css">
-    <!-- <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css"> -->
-    <script type="text/javascript">window.bridger_config_url = "http://localhost:5000/bridger/config/"
-    </script>
+    <!-- TITLE -->
+    <title>{{BRIDGER_TITLE}}</title>
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/png" href="{{BRIDGER_FAVICON_URL}}" />
+    <!-- FONT -->
+    <link href="{{BRIDGER_FONT_URL}}" rel="stylesheet">
+    <!-- EXTERNAL CDNS -->
+    {% for bridger_cdn_url in BRIDGER_CDN_URLS %}
+    <script src="{{bridger_cdn_url}}"></script>
+    {% endfor %}
+    <!-- BRIDGER CSS -->
+    <link href="{{BRIDGER_CSS_URL}}" rel="stylesheet" type="text/css">
+    <script type="text/javascript">window.bridger_config_url = "{{BRIDGER_CONFIG_URL}}"</script>
 </head>
 
 <body><noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script type="application/javascript"
-        src="https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/test/js/main-0-5-13.js"></script>
+    <script type="application/javascript" src="{{BRIDGER_JS_URL}}"></script>
 </body>
 
 </html>

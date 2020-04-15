@@ -6,8 +6,14 @@ class BaseField(NamedTuple):
     key: str
     label: str
 
+    decorators: List = None
+
     def to_dict(self):
-        return {"key": self.key, "label": self.label, "type": self.type}
+        base = {"key": self.key, "label": self.label, "type": self.type}
+        if self.decorators:
+            base["decorators"] = self.decorators
+
+        return base
 
 
 class PKField(BaseField):
@@ -26,15 +32,20 @@ class FloatField(NamedTuple):
     key: str
     label: str
     precision: int = 2
+    decorators: List = None
     type = "number"
 
     def to_dict(self):
-        return {
+        base = {
             "key": self.key,
             "label": self.label,
             "type": self.type,
             "precision": self.precision,
         }
+        if self.decorators:
+            base["decorators"] = self.decorators
+
+        return base
 
 
 class IntegerField(FloatField):

@@ -1,6 +1,7 @@
 from bridger import display as dp
 from bridger.pandas.views import PandasAPIView
 from bridger.pandas import fields as pf
+from bridger.serializers import decorator
 
 from tests.filters import PandasFilterSet
 from tests.models import ModelTest
@@ -26,7 +27,12 @@ class MyPandasView(PandasAPIView):
         fields=[
             pf.PKField(key="id", label="ID"),
             pf.CharField(key="char_field", label="Char"),
-            pf.FloatField(key="integer_field", label="Integer", precision=2),
+            pf.FloatField(
+                key="integer_field",
+                label="Integer",
+                precision=2,
+                decorators=[decorator(position="left", value="@")],
+            ),
         ]
     )
     queryset = ModelTest.objects.all()

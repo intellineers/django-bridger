@@ -104,6 +104,7 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
     _model_test = ModelTestRepresentationSerializer(source="model_test")
     _model_tests = ModelTestRepresentationSerializer(source="model_tests", many=True)
     some_method_field = serializers.SerializerMethodField()
+    text_json = serializers.JSONTextEditorField()
 
     char_field = serializers.CharField(label="Char", secure=True)
 
@@ -121,4 +122,5 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
             "_model_tests",
             "upper_char_field",
             "some_method_field",
+            "text_json",
         )

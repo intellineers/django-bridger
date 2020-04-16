@@ -34,7 +34,9 @@ class RelatedModelTestModelViewSet(ReadOnlyModelViewSet):
     INSTANCE_DISPLAY = dp.InstanceDisplay(
         sections=[
             dp.Section(
-                fields=dp.FieldSet(fields=["char_field", "model_test", "model_tests"])
+                fields=dp.FieldSet(
+                    fields=["char_field", "model_test", "model_tests", "text_json"]
+                )
             )
         ]
     )

@@ -1,6 +1,7 @@
 from datetime import date, time
 
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 from django_fsm import FSMField, transition
 from rest_framework.reverse import reverse
@@ -150,6 +151,7 @@ class RelatedModelTest(models.Model):
             .annotate(_repr=models.F("char_field"))
         )
 
+    text_json = JSONField(default=dict)
     model_test = models.ForeignKey(
         to="tests.ModelTest",
         related_name="related_models",

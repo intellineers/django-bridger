@@ -151,7 +151,7 @@ class RelatedModelTest(models.Model):
             .annotate(_repr=models.F("char_field"))
         )
 
-    text_json = JSONField(default=dict)
+    text_json = JSONField(default=list, blank=True, null=True)
     model_test = models.ForeignKey(
         to="tests.ModelTest",
         related_name="related_models",

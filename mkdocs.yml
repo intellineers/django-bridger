@@ -1,9 +1,5 @@
 site_name: Bridger
 
-theme:
-    name: material
-extra_css: [docs.css]
-
 nav:
     - Getting started: index.md
     - Serializers: serializers.md

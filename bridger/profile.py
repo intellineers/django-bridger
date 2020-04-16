@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
+from bridger import display as dp
 from bridger.viewsets import ModelViewSet
 from bridger.serializers import ModelSerializer
 
@@ -26,6 +27,10 @@ class UserSerializer(ModelSerializer):
 
 
 class UserViewSet(ModelViewSet):
+
+    INSTANCE_DISPLAY = dp.InstanceDisplay(
+        sections=[dp.Section(fields=dp.FieldSet(fields=["username", "email"]))]
+    )
 
     serializer_class = UserSerializer
     queryset = get_user_model().objects.all()

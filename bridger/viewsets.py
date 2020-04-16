@@ -83,6 +83,110 @@ class RepresentationModelViewSet(
     historical_mode = False
 
 
+class ReadOnlyModelViewSet(
+    MetadataMixin, InstanceMixin, FSMViewSetMixin, viewsets.ReadOnlyModelViewSet
+):
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    pagination_class = CursorPagination
+
+    filter_fields = {}
+    search_fields = []
+    ordering_fields = ordering = ["id"]
+    historical_mode = False
+
+    @classmethod
+    def get_model(cls):
+        try:
+            if hasattr(cls, "queryset"):
+                return cls.queryset.model
+            elif hasattr(cls, "serializer_class"):
+                return cls.serializer_class.Meta.model
+            else:
+                return None
+        except AttributeError:
+            return None
+
+    def destroy_multiple(self, request, *args, **kwargs):
+        model = self.get_serializer_class().Meta.model
+        app_label = model._meta.app_label
+
+        queryset = model.objects.filter(id__in=request.data)
+        destroyed = self.perform_destroy_multiple(queryset)
+
+        return Response(
+            {"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+    def perform_destroy_multiple(self, queryset):
+        return queryset.delete()
+
+    def get_messages(
+        self,
+        request,
+        queryset=None,
+        paginated_queryset=None,
+        instance=None,
+        initial=False,
+    ):
+        return []
+
+    def get_serializer_changes(self, serializer):
+        return serializer
+
+    def get_serializer(self, *args, **kwargs):
+        return self.get_serializer_changes(super().get_serializer(*args, **kwargs))
+
+    @action(
+        methods=["get"],
+        detail=False,
+        url_name="list-docs",
+        renderer_classes=[StaticHTMLRenderer],
+    )
+    def __list_docs__(self, request, *args, **kwargs):
+        return get_markdown_docs(self.LIST_DOCS)
+
+    @action(
+        methods=["get"],
+        detail=True,
+        url_name="instance-docs",
+        renderer_classes=[StaticHTMLRenderer],
+    )
+    def __instance_docs__(self, request, *args, **kwargs):
+        return get_markdown_docs(self.INSTANCE_DOCS)
+
+    def history_list(self, request, *args, **kwargs):
+        obj = self.get_object()
+        serializer_class = get_historical_serializer(obj.history.model)
+        serializer = serializer_class(obj.history.all(), many=True)
+
+        return Response({"results": serializer.data})
+
+    def history_retrieve(self, request, *args, **kwargs):
+        obj = self.get_object()
+        model = type(obj)
+        opts = model._meta
+
+        historical_model = getattr(model, opts.simple_history_manager_attribute).model
+        historical_opts = historical_model._meta
+        historical_obj = get_object_or_404(
+            historical_model,
+            **{opts.pk.attname: obj.id, "history_id": kwargs["history_id"]},
+        )
+
+        for field in filter(
+            lambda f: not f.attname.startswith("history_"), obj._meta.fields
+        ):
+            setattr(obj, field.attname, getattr(historical_obj, field.attname))
+
+        serializer = self.get_serializer(obj)
+        return Response({"instance": serializer.data})
+
+
 class ModelViewSet(
     MetadataMixin, InstanceMixin, FSMViewSetMixin, viewsets.ModelViewSet
 ):
@@ -201,7 +305,9 @@ class InfiniteDataModelView(ModelViewSet):
         aggregates = dict()
         messages = dict()
         if hasattr(self, "get_aggregates"):
-            aggregates = self.get_aggregates(queryset, queryset)
+            aggregates = self.get_aggregates(
+                queryset=queryset, paginated_queryset=queryset
+            )
 
         if hasattr(self, "get_messages"):
             messages = self.get_messages(

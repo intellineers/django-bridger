@@ -3,7 +3,11 @@ from bridger import display as dp
 from bridger.enums import Unit
 from bridger.messages import info
 from bridger.serializers import ListSerializer
-from bridger.viewsets import ModelViewSet, RepresentationModelViewSet
+from bridger.viewsets import (
+    ModelViewSet,
+    RepresentationModelViewSet,
+    ReadOnlyModelViewSet,
+)
 
 from tests.models import ModelTest, RelatedModelTest
 from tests.serializers import (
@@ -18,7 +22,7 @@ class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
     serializer_class = RelatedModelTestRepresentationSerializer
 
 
-class RelatedModelTestModelViewSet(ModelViewSet):
+class RelatedModelTestModelViewSet(ReadOnlyModelViewSet):
     ENDPOINT = "relatedmodeltest-list"
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

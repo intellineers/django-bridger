@@ -50,5 +50,6 @@ class PandasAPIView(MetadataMixin, APIView):
     def get(self, request):
         self.request = request
         df = self.manipulate_dataframe(self.get_dataframe(request))
+        df.where(pd.notnull(df), None)
         aggregates = self.get_aggregates(request, df)
         return Response({"results": df.T.to_dict().values(), "aggregates": aggregates})

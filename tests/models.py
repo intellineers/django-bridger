@@ -152,6 +152,7 @@ class RelatedModelTest(models.Model):
         )
 
     text_json = JSONField(default=list, blank=True, null=True)
+    text_markdown = models.TextField(default="")
     model_test = models.ForeignKey(
         to="tests.ModelTest",
         related_name="related_models",

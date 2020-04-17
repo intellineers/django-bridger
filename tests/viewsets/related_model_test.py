@@ -35,7 +35,13 @@ class RelatedModelTestModelViewSet(ModelViewSet):
         sections=[
             dp.Section(
                 fields=dp.FieldSet(
-                    fields=["char_field", "model_test", "model_tests", "text_json"]
+                    fields=[
+                        "char_field",
+                        "model_test",
+                        "model_tests",
+                        "text_json",
+                        "text_markdown",
+                    ]
                 )
             )
         ]

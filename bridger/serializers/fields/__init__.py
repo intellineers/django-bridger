@@ -18,5 +18,5 @@ from .number import DecimalField, FloatField, IntegerField
 from .other import RangeSelectField, StarRatingField
 from .primary_key import PrimaryKeyCharField, PrimaryKeyField
 from .related import ListSerializer, PrimaryKeyRelatedField
-from .text import CharField, StringRelatedField, TextField
+from .text import CharField, StringRelatedField, TextField, MarkdownTextField
 from .types import BridgerType, ReturnContentType

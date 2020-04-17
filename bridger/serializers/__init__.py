@@ -30,6 +30,7 @@ from .fields import (
     TimeField,
     register_resource,
     register_dynamic_button,
+    MarkdownTextField,
 )
 from .serializers import (
     Serializer,

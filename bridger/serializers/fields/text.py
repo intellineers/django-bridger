@@ -30,3 +30,7 @@ class TextField(CharField):
         representation = super().get_representation(request, field_name)
         representation["content_type"] = self.texteditor_content_type
         return representation
+
+
+class MarkdownTextField(TextField):
+    texteditor_content_type = ReturnContentType.MARKDOWN.value

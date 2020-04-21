@@ -70,11 +70,13 @@ class Menu:
 
     def __iter__(self):
         request = getattr(self, "request", None)
-        yield "label", self.label
         items = list()
         for item in filter(lambda x: bool(x), self.items):
             item.request = request
             serialized_item = dict(item)
             if serialized_item:
                 items.append(serialized_item)
-        yield "items", items
+
+        if len(items) > 0:
+            yield "label", self.label
+            yield "items", items

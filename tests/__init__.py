@@ -7,10 +7,15 @@ default_registry.register(
     Menu(
         label="Normal Views",
         items=[
-            MenuItem(
-                label="M1",
-                endpoint="modeltest-list",
-                add=MenuItem(label="Add Something", endpoint="modeltest-list"),
+            Menu(
+                label="Sub Normal Views",
+                items=[
+                    MenuItem(
+                        label="M1",
+                        endpoint="modeltest-list",
+                        add=MenuItem(label="Add Something", endpoint="modeltest-list"),
+                    ),
+                ],
             ),
             MenuItem(
                 label="RM1",

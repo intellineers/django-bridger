@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable
 
 
 def uniquify_dict_iterable(iterable: Iterable, unique_key: str) -> Iterable[Dict]:

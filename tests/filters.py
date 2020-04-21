@@ -4,6 +4,7 @@ from bridger.filters import (
     CharFilter,
     DateFilter,
     FilterSet,
+    NumberFilter,
 )
 from bridger.filters.defaults import (
     current_quarter_date_start,
@@ -16,13 +17,17 @@ from .models import ModelTest, RelatedModelTest
 
 
 class PandasFilterSet(FilterSet):
-    char_field = CharFilter(
-        label="Char", required=True, lookup_expr="icontains", default="a"
+
+    integer_annotated_lte = NumberFilter(
+        label="Integer Annotated", field_name="integer_annotated", lookup_expr="lte"
+    )
+    integer_annotated_gte = NumberFilter(
+        label="Integer Annotated", field_name="integer_annotated", lookup_expr="gte"
     )
 
     class Meta:
         model = ModelTest
-        fields = {"char_field": ["icontains"]}
+        fields = {"integer_field": ["lte", "gte"]}
 
 
 class ModelTestFilterSet(FilterSet):

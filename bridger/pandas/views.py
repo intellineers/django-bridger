@@ -51,5 +51,5 @@ class PandasAPIView(MetadataMixin, APIView):
         self.request = request
         df = self.manipulate_dataframe(self.get_dataframe(request))
         df.where(pd.notnull(df), None)
-        aggregates = self.get_aggregates(request, df)
+        aggregates = self.get_aggregates(request, df) if not df.empty else {}
         return Response({"results": df.T.to_dict().values(), "aggregates": aggregates})

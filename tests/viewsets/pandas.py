@@ -1,3 +1,5 @@
+from django.db.models import F
+
 from bridger import display as dp
 from bridger.pandas.views import PandasAPIView
 from bridger.pandas import fields as pf
@@ -20,6 +22,7 @@ class MyPandasView(PandasAPIView):
         fields=[
             dp.Field(key="char_field", label="Char"),
             dp.Field(key="integer_field", label="Integer"),
+            dp.Field(key="integer_annotated", label="Integer Anno"),
         ],
     )
 
@@ -34,10 +37,18 @@ class MyPandasView(PandasAPIView):
                 percent=True,
                 decorators=[decorator(position="left", value="@")],
             ),
+            pf.FloatField(
+                key="integer_annotated", label="Integer Annotated", precision=2,
+            ),
         ]
     )
     queryset = ModelTest.objects.all()
     ordering_fields = ["integer_field"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.annotate(integer_annotated=F("integer_field") - 1)
+        return qs
 
     def get_aggregates(self, request, df):
         return {

@@ -1,4 +1,4 @@
-from bridger.menus import Menu, MenuItem, default_registry
+from bridger.menus import ItemPermission, Menu, MenuItem, default_registry
 from celery_app import app as celery_app
 
 

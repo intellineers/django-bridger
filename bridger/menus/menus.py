@@ -74,5 +74,7 @@ class Menu:
         items = list()
         for item in filter(lambda x: bool(x), self.items):
             item.request = request
-            items.append(dict(item))
+            serialized_item = dict(item)
+            if serialized_item:
+                items.append(serialized_item)
         yield "items", items

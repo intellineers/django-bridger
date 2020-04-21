@@ -19,7 +19,9 @@ class MenuRegistry:
 
         for menu in sorted(filter(lambda x: bool(x), self._registry), key=key):
             menu.request = request
-            yield dict(menu)
+            serialized_menu = dict(menu)
+            if len(serialized_menu["items"]) > 0:
+                yield dict(menu)
 
 
 default_registry = MenuRegistry()

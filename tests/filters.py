@@ -16,11 +16,13 @@ from .models import ModelTest, RelatedModelTest
 
 
 class PandasFilterSet(FilterSet):
-    char_field = CharFilter(label="Char")
+    char_field = CharFilter(
+        label="Char", required=True, lookup_expr="icontains", default="a"
+    )
 
     class Meta:
         model = ModelTest
-        fields = ["char_field"]
+        fields = {"char_field": ["icontains"]}
 
 
 class ModelTestFilterSet(FilterSet):

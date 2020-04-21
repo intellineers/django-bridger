@@ -1,6 +1,6 @@
 import pandas as pd
 from django.db.models import QuerySet
-from django_filters.rest_framework import DjangoFilterBackend
+from bridger.filters import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response

@@ -65,6 +65,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
         percent_fields = ["percent_field"]
         decorators = {
             "char_field": serializers.decorator(position="left", value="Decorator"),
+            "integer_field": serializers.decorator(position="left", value="#"),
         }
 
         model = ModelTest

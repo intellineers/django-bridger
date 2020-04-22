@@ -26,9 +26,9 @@ class ButtonMetadataMixin:
                 self.get_serializer_class().Meta.model
             )
 
-            if f"{ct.app_label}.change_{ct.model}":
+            if request.user.has_perm(f"{ct.app_label}.change_{ct.model}"):
                 button_list.append(Button.SAVE.value)
-            if f"{ct.app_label}.delete_{ct.model}":
+            if request.user.has_perm(f"{ct.app_label}.delete_{ct.model}"):
                 button_list.append(Button.DELETE.value)
 
         return button_list

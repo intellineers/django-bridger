@@ -80,6 +80,8 @@ class ModelTest(models.Model):
     # Boolean
     boolean_field = models.BooleanField()
 
+    star_rating = models.PositiveIntegerField()
+
     # Choice
     choice_field = models.CharField(
         max_length=64, choices=(("a", "A"), ("b", "B")), default="a"

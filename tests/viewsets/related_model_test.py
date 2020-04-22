@@ -29,6 +29,8 @@ class RelatedModelTestModelViewSet(ModelViewSet):
             dp.Field(key="char_field", label="Char", width=Unit.FRACTION(2)),
             dp.Field(key="model_test", label="Model", width=Unit.FRACTION(2)),
             dp.Field(key="model_tests", label="Model(M2M)", width=Unit.FRACTION(2)),
+            dp.Field(key="_left", label="", width=Unit.FRACTION(0.5)),
+            dp.Field(key="_right", label="", width=Unit.FRACTION(1)),
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(

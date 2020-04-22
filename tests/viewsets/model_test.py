@@ -75,6 +75,7 @@ class ModelTestModelViewSet(ModelViewSet):
             dp.Field(key="image_field", label="Image"),
             dp.Field(key="related_models", label="Related"),
             dp.Field(key="file_field", label="File"),
+            dp.Field(key="star_rating", label="Star"),
         ],
         legends=[
             dp.Legend(
@@ -117,6 +118,7 @@ class ModelTestModelViewSet(ModelViewSet):
                         "status_field",
                         "image_field",
                         "file_field",
+                        "star_rating",
                     ]
                 )
             ),

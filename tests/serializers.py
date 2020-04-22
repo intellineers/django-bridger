@@ -42,6 +42,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
     )
 
     annotated_char_field = serializers.CharField()
+    star_rating = serializers.StarRatingField()
 
     @register_dynamic_button()
     def something(self, instance, request, user):
@@ -89,6 +90,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "related_models",
             "_related_models",
             "annotated_char_field",
+            "star_rating",
             "_additional_resources",
             "_buttons",
         )

@@ -127,11 +127,11 @@ class DateRangeFilter(BridgerFilterMixin, django_filters.CharFilter):
 
         if self.default:
             if callable(self.default):
-                representation["default"] = self.default(
-                    field=self, request=request, view=view
-                )
+                default = self.default(field=self, request=request, view=view)
             else:
-                representation["default"] = self.default
+                default = self.default
+
+            representation["default"] = f"{default[0] or ''},{default[1] or ''}"
 
         return representation
 

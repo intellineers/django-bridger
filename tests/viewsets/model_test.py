@@ -117,10 +117,13 @@ class ModelTestModelViewSet(ModelViewSet):
             dp.Section(
                 fields=dp.FieldSet(
                     fields=[
-                        "char_field",
+                        dp.FieldSet(
+                            fields=[
+                                "image_field",
+                                ["char_field", ["integer_field", "float_field"]],
+                            ]
+                        ),
                         "text_field",
-                        "integer_field",
-                        "float_field",
                         "percent_field",
                         "decimal_field",
                         "datetime_field",
@@ -130,7 +133,6 @@ class ModelTestModelViewSet(ModelViewSet):
                         "boolean_field",
                         "choice_field",
                         "status_field",
-                        "image_field",
                         "file_field",
                         "star_rating",
                     ]

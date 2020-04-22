@@ -22,3 +22,9 @@ def current_month_date_end(field, request, view):
     today = date.today()
     return date(today.year, today.month, monthrange(today.year, today.month)[1])
 
+
+def current_quarter_date_interval(field, request, view):
+    return (
+        current_quarter_date_start(field, request, view),
+        current_quarter_date_end(field, request, view),
+    )

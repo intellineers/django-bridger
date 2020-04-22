@@ -5,12 +5,14 @@ from bridger.filters import (
     DateFilter,
     FilterSet,
     NumberFilter,
+    DateRangeFilter,
 )
 from bridger.filters.defaults import (
     current_quarter_date_start,
     current_quarter_date_end,
     current_month_date_start,
     current_month_date_end,
+    current_quarter_date_interval,
 )
 
 from .models import ModelTest, RelatedModelTest
@@ -42,7 +44,7 @@ class ModelTestFilterSet(FilterSet):
         label="DateTime", lookup_expr="exact", field_name="datetime_field",
     )
 
-    date_field = DateFilter(label="Date", default=latest_date_filter)
+    date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
 
     def filter_some_date(self, queryset, name, value):
         return queryset
@@ -58,7 +60,7 @@ class ModelTestFilterSet(FilterSet):
             "integer_field": ["lte", "gte", "lt", "gt", "exact"],
             "char_field": ["exact", "icontains"],
             "datetime_field": ["lte", "gte"],
-            "date_field": ["exact"],
+            # "date_field": ["exact"],
             "status_field": ["exact"],
             "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
             "before_2k": ["exact", "icontains"],

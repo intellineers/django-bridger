@@ -3,6 +3,7 @@ from enum import Enum, auto
 
 import django_filters
 from django.utils.timezone import localdate
+from django.utils.dateparse import parse_date
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.reverse import reverse
 
@@ -108,6 +109,42 @@ class DateTimeFilter(BridgerFilterMixin, django_filters.DateFilter):
 
 class DateFilter(BridgerFilterMixin, django_filters.DateFilter):
     filter_type = "date"
+
+
+class DateRangeFilter(BridgerFilterMixin, django_filters.CharFilter):
+    filter_type = "daterange"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def get_representation(self, request, name, view):
+        self.key = name
+        representation = {
+            "label": self.label,
+            "type": self.filter_type,
+            "key": self.field_name,
+        }
+
+        if self.default:
+            if callable(self.default):
+                representation["default"] = self.default(
+                    field=self, request=request, view=view
+                )
+            else:
+                representation["default"] = self.default
+
+        return representation
+
+    def filter(self, qs, value):
+        start, end = [parse_date(date_string) for date_string in value.split(",")]
+
+        if start:
+            qs = qs.filter(**{f"{self.field_name}__gte": start})
+
+        if end:
+            qs = qs.filter(**{f"{self.field_name}__lte": end})
+
+        return qs
 
 
 class CharFilter(BridgerFilterMixin, django_filters.CharFilter):

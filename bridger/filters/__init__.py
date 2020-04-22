@@ -4,6 +4,7 @@ from .fields import (
     CharFilter,
     ChoiceFilter,
     DateFilter,
+    DateRangeFilter,
     DateTimeFilter,
     ModelChoiceFilter,
     ModelMultipleChoiceFilter,

@@ -51,26 +51,32 @@ class RelatedModelTestModelViewSet(ModelViewSet):
             label="Dropdown",
             icon="wb-icon-triangle-down",
             buttons=[
-                bt.ActionButton(
-                    label="TestButton",
-                    icon="wb-icon-trash",
-                    endpoint="http://localhost:5000/relatedmodeltest/",
-                    instance_display=dp.InstanceDisplay(
-                        sections=[
-                            dp.Section(
-                                fields=dp.FieldSet(
-                                    fields=["char_field", "custom_field"]
-                                )
+                bt.DropDownButton(
+                    label="Dropdown",
+                    icon="wb-icon-triangle-down",
+                    buttons=[
+                        bt.ActionButton(
+                            label="TestButton",
+                            icon="wb-icon-trash",
+                            endpoint="http://localhost:5000/relatedmodeltest/",
+                            instance_display=dp.InstanceDisplay(
+                                sections=[
+                                    dp.Section(
+                                        fields=dp.FieldSet(
+                                            fields=["char_field", "custom_field"]
+                                        )
+                                    ),
+                                ]
                             ),
-                        ]
-                    ),
-                    serializer=ActionButtonSerializer,
-                ),
-                bt.HyperlinkButton(
-                    endpoint="https://www.google.com", icon="wb-icon-trash",
+                            serializer=ActionButtonSerializer,
+                        ),
+                        bt.HyperlinkButton(
+                            endpoint="https://www.google.com", icon="wb-icon-trash",
+                        ),
+                    ],
                 ),
             ],
-        ),
+        )
     ]
 
     filter_fields = {"model_test": ["exact"], "char_field": ["exact"]}

@@ -30,6 +30,10 @@ class PandasFilterSet(FilterSet):
         fields = {"integer_field": ["lte", "gte"]}
 
 
+def latest_date_filter(field, request, view):
+    return view.get_queryset().earliest("date_field").date_field
+
+
 class ModelTestFilterSet(FilterSet):
 
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
@@ -37,6 +41,8 @@ class ModelTestFilterSet(FilterSet):
     datetime_field = DateFilter(
         label="DateTime", lookup_expr="exact", field_name="datetime_field",
     )
+
+    date_field = DateFilter(label="Date", default=latest_date_filter)
 
     def filter_some_date(self, queryset, name, value):
         return queryset

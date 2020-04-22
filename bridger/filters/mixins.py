@@ -4,7 +4,7 @@ class BridgerFilterMixin:
         self.required = kwargs.pop("required", False)
         super().__init__(*args, **kwargs)
 
-    def get_representation(self, request, name):
+    def get_representation(self, request, name, view):
         self.key = name
         representation = {
             "label": self.label,
@@ -17,7 +17,7 @@ class BridgerFilterMixin:
         if self.default:
             if callable(self.default):
                 representation["default"][self.lookup_expr] = self.default(
-                    field=self, request=request
+                    field=self, request=request, view=view
                 )
             else:
                 representation["default"][self.lookup_expr] = self.default

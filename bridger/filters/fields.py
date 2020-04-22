@@ -19,8 +19,8 @@ class ChoiceFilter(BridgerFilterMixin, django_filters.ChoiceFilter):
         self.choices = kwargs["choices"]
         super().__init__(*args, **kwargs)
 
-    def get_representation(self, request, name):
-        representation = super().get_representation(request, name)
+    def get_representation(self, request, name, view):
+        representation = super().get_representation(request, name, view)
         representation["choices"] = list()
         for choice in self.choices:
             representation["choices"].append({"value": choice[0], "label": choice[1]})
@@ -36,8 +36,8 @@ class MultipleChoiceFilter(BridgerFilterMixin, django_filters.MultipleChoiceFilt
         # self.widget = django_filters.widgets.QueryArrayWidget
         super().__init__(*args, **kwargs)
 
-    def get_representation(self, request, name):
-        representation = super().get_representation(request, name)
+    def get_representation(self, request, name, view):
+        representation = super().get_representation(request, name, view)
         representation["multiple"] = True
         representation["choices"] = list()
         for choice in self.choices:
@@ -61,8 +61,8 @@ class ModelMultipleChoiceFilter(
             kwargs["widget"] = django_filters.widgets.CSVWidget
         super().__init__(*args, **kwargs)
 
-    def get_representation(self, request, name):
-        representation = super().get_representation(request, name)
+    def get_representation(self, request, name, view):
+        representation = super().get_representation(request, name, view)
         representation["multiple"] = True
 
         if hasattr(self.queryset.model, "get_label_key"):
@@ -88,8 +88,8 @@ class ModelChoiceFilter(BridgerFilterMixin, django_filters.ModelChoiceFilter):
         self.label_key = kwargs.pop("label_key", None)
         super().__init__(*args, **kwargs)
 
-    def get_representation(self, request, name):
-        representation = super().get_representation(request, name)
+    def get_representation(self, request, name, view):
+        representation = super().get_representation(request, name, view)
         representation["endpoint"] = {
             "url": reverse(self.endpoint, request=request),
             "value_key": self.value_key,
@@ -125,7 +125,7 @@ class NumberFilter(BridgerFilterMixin, django_filters.NumberFilter):
         self.precision = precision
         super().__init__(*args, **kwargs)
 
-    def get_representation(self, request, name):
-        representation = super().get_representation(request, name)
+    def get_representation(self, request, name, view):
+        representation = super().get_representation(request, name, view)
         representation["precision"] = self.precision
         return representation

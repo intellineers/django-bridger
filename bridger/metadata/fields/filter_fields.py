@@ -30,7 +30,7 @@ class FilterFieldsMetadataMixin:
                             lambda f: f == field.field_name, field_names[index + 1 :]
                         )
                     )
-                    representation = field.get_representation(request, name)
+                    representation = field.get_representation(request, name, self)
 
                     if upcomming_fields > 0 or field.field_name in stored_fields:
                         _representation = stored_fields.get(

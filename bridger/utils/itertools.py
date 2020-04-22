@@ -1,7 +1,7 @@
 from typing import Dict, Iterable
 
 
-def uniquify_dict_iterable(iterable: Iterable, unique_key: str) -> Iterable[Dict]:
+def uniquify_dict_iterable(iterable: Iterable[Dict], unique_key: str) -> Iterable[Dict]:
     keys = list()
     for item in iterable:
         if key := item.get(unique_key):

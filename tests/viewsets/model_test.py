@@ -80,7 +80,21 @@ class ModelTestModelViewSet(ModelViewSet):
         legends=[
             dp.Legend(
                 items=[dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Good Stuff")]
-            )
+            ),
+            dp.Legend(
+                key="status_field",
+                items=[
+                    dp.LegendItem(
+                        icon="wb-icon-thumbs-up-full", label="Status1", value="status1"
+                    ),
+                    dp.LegendItem(
+                        icon="wb-icon-thumbs-up-full", label="Status2", value="status2"
+                    ),
+                    dp.LegendItem(
+                        icon="wb-icon-thumbs-up-full", label="Status3", value="status3"
+                    ),
+                ],
+            ),
         ],
         formatting=[
             dp.Formatting(

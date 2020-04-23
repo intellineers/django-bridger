@@ -12,7 +12,7 @@ from rest_framework.filters import OrderingFilter
 from .filters import BooleanFilter, CharFilter, ModelChoiceFilter
 from .serializers import ModelSerializer, PrimaryKeyCharField
 from .settings import bridger_settings
-from .viewsets import ModelViewSet
+from .viewsets import InfiniteDataModelView
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +76,7 @@ class FrontendUserConfigurationFilterSet(django_filters.rest_framework.FilterSet
         fields = ["is_root", "config"]
 
 
-class FrontendUserConfigurationModelViewSet(ModelViewSet):
+class FrontendUserConfigurationModelViewSet(InfiniteDataModelView):
     INSTANCE_BUTTONS = LIST_BUTTONS = []
     serializer_class = FrontendUserConfigurationModelSerializer
     filter_backends = [OrderingFilter, DjangoFilterBackend]
@@ -90,4 +90,3 @@ class FrontendUserConfigurationModelViewSet(ModelViewSet):
     def get_queryset(self):
         return FrontendUserConfiguration.objects.filter(user=self.request.user)
 
-    pagination_class = None

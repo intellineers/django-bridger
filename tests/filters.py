@@ -60,7 +60,6 @@ class ModelTestFilterSet(FilterSet):
             "integer_field": ["lte", "gte", "lt", "gt", "exact"],
             "char_field": ["exact", "icontains"],
             "datetime_field": ["lte", "gte"],
-            # "date_field": ["exact"],
             "status_field": ["exact"],
             "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
             "before_2k": ["exact", "icontains"],

@@ -115,6 +115,7 @@ class DateRangeFilter(BridgerFilterMixin, django_filters.CharFilter):
     filter_type = "daterange"
 
     def __init__(self, *args, **kwargs):
+        self.filter_method = kwargs.pop("method", self.method)
         super().__init__(*args, **kwargs)
 
     def get_representation(self, request, name, view):
@@ -135,15 +136,20 @@ class DateRangeFilter(BridgerFilterMixin, django_filters.CharFilter):
 
         return representation
 
+    @staticmethod
+    def method(qs, name, d1=None, d2=None):
+        if d1:
+            qs = qs.filter(**{f"{name}__gte": d1})
+
+        if d2:
+            qs = qs.filter(**{f"{name}__lte": d2})
+
+        return qs
+
     def filter(self, qs, value):
         if len(value.split(",")) == 2:
             start, end = [parse_date(date_string) for date_string in value.split(",")]
-
-            if start:
-                qs = qs.filter(**{f"{self.field_name}__gte": start})
-
-            if end:
-                qs = qs.filter(**{f"{self.field_name}__lte": end})
+            qs = self.filter_method(qs, self.field_name, start, end)
 
         return qs
 

@@ -124,7 +124,7 @@ class DateRangeFilter(BridgerFilterMixin, django_filters.CharFilter):
             "label": self.label,
             "type": self.filter_type,
             "key": self.field_name,
-            "lookup_expr": "exact",
+            "lookup_expr": {"exact": self.field_name,},
         }
 
         if self.default:

@@ -44,7 +44,7 @@ class ModelTestFilterSet(FilterSet):
         label="DateTime", lookup_expr="exact", field_name="datetime_field",
     )
 
-    date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
+    # date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
 
     def filter_some_date(self, queryset, name, value):
         return queryset

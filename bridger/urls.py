@@ -9,6 +9,7 @@ from .views import Config, Profile
 from .share.views import ShareAPIView
 from .menus.views import MenuAPIView
 from .profile import UserViewSet
+from .markdown.views import BlockDiag
 
 # fmt: off
 router = BridgerRouter()
@@ -22,5 +23,6 @@ urlpatterns = [
     path("profile/", Profile.as_view(), name="profile"),
     path("menu/", MenuAPIView.as_view(), name="menu"),
     path("share/", ShareAPIView.as_view(), name="share"),
+    path("markdown/blockdiag/", BlockDiag.as_view(), name="blockdiag"),
     path("", include(router.urls)),
 ]

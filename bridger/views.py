@@ -50,5 +50,8 @@ class Config(APIView):
                     request=request
                 ),
                 "share": dict(bridger_settings.DEFAULT_SHARE_BUTTON(request=request)),
+                "markdown": {
+                    "blockdiag": reverse("bridger:blockdiag", request=request)
+                },
             }
         )

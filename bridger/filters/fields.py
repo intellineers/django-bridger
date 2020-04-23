@@ -136,13 +136,14 @@ class DateRangeFilter(BridgerFilterMixin, django_filters.CharFilter):
         return representation
 
     def filter(self, qs, value):
-        start, end = [parse_date(date_string) for date_string in value.split(",")]
+        if len(value.split(",")) == 2:
+            start, end = [parse_date(date_string) for date_string in value.split(",")]
 
-        if start:
-            qs = qs.filter(**{f"{self.field_name}__gte": start})
+            if start:
+                qs = qs.filter(**{f"{self.field_name}__gte": start})
 
-        if end:
-            qs = qs.filter(**{f"{self.field_name}__lte": end})
+            if end:
+                qs = qs.filter(**{f"{self.field_name}__lte": end})
 
         return qs
 

@@ -41,10 +41,14 @@ class ModelTestFilterSet(FilterSet):
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
 
     datetime_field = DateFilter(
-        label="DateTime", lookup_expr="exact", field_name="datetime_field",
+        label="DateTime",
+        lookup_expr="gte",
+        field_name="datetime_field",
+        required=True,
+        default=latest_date_filter,
     )
 
-    date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
+    # date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
 
     def filter_some_date(self, queryset, name, value):
         return queryset

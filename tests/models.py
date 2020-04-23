@@ -167,7 +167,7 @@ class RelatedModelTest(models.Model):
         to="tests.ModelTest",
         related_name="related_models_m2m",
         blank=True,
-        verbose_name="Model Tests",
+        verbose_name="Model Tests1",
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 

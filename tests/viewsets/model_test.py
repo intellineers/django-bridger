@@ -44,7 +44,7 @@ class ModelTestModelViewSet(ModelViewSet):
         fields=[
             dp.Field(key="char_field", label="Char"),
             dp.Field(key="annotated_char_field", label="A-Char"),
-            dp.Field(key="integer_field", label="Integer"),
+            # dp.Field(key="integer_field", label="Integer"),
             dp.Field(
                 key="float_field",
                 label="Float",

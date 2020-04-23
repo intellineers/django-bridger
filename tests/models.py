@@ -66,7 +66,7 @@ class ModelTest(models.Model):
     text_field = models.TextField(null=True, blank=True)
 
     # Numbers
-    integer_field = models.IntegerField()
+    integer_field = models.IntegerField(verbose_name="Integer")
     float_field = models.FloatField()
     decimal_field = models.DecimalField(decimal_places=4, max_digits=7)
     percent_field = models.FloatField()

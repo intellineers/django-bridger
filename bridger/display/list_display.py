@@ -42,6 +42,7 @@ class Legend:
 
     def __post_init__(self):
         if self.key:
+            # TODO: What if we filter for boolean values, item.value == False, then this won't work anymore
             assert all(
                 [bool(item.value) for item in self.items]
             ), "If key is set, all items need to specify a value."

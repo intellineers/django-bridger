@@ -15,6 +15,7 @@ import os
 import dj_database_url
 from django.contrib.auth import get_user_model
 from rest_framework.reverse import reverse
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -192,5 +193,15 @@ BRIDGER_SETTINGS = {
         "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/test/css/main-0-5-5.css",
         "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/test/js/main-1-0-0-alpha-0.js",
     }
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUDIENCE": None,
+    "ISSUER": None,
 }
 

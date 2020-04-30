@@ -35,20 +35,22 @@ from .history.serializers import get_historical_serializer
 logger = logging.getLogger(__name__)
 from django.shortcuts import get_object_or_404
 
+from ._viewsets.mixins import RetrieveModelMixin, ListModelMixin
+
 
 class InstanceMixin:
-    def retrieve(self, request, *args, **kwargs):
+    # def retrieve(self, request, *args, **kwargs):
 
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        serialized_content = {"instance": serializer.data}
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     serialized_content = {"instance": serializer.data}
 
-        if hasattr(self, "get_messages"):
-            messages = self.get_messages(request=request, instance=instance)
-            if messages:
-                serialized_content["messages"] = [dict(message) for message in messages]
+    #     if hasattr(self, "get_messages"):
+    #         messages = self.get_messages(request=request, instance=instance)
+    #         if messages:
+    #             serialized_content["messages"] = [dict(message) for message in messages]
 
-        return Response(serialized_content)
+    #     return Response(serialized_content)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", False)
@@ -199,7 +201,12 @@ class ReadOnlyModelViewSet(
 
 
 class ModelViewSet(
-    MetadataMixin, InstanceMixin, FSMViewSetMixin, viewsets.ModelViewSet
+    MetadataMixin,
+    InstanceMixin,
+    FSMViewSetMixin,
+    RetrieveModelMixin,
+    ListModelMixin,
+    viewsets.ModelViewSet,
 ):
     """A Model View that is used to serializer models"""
 
@@ -242,15 +249,15 @@ class ModelViewSet(
     def perform_destroy_multiple(self, queryset):
         return queryset.delete()
 
-    def get_messages(
-        self,
-        request,
-        queryset=None,
-        paginated_queryset=None,
-        instance=None,
-        initial=False,
-    ):
-        return []
+    # def get_messages(
+    #     self,
+    #     request,
+    #     queryset=None,
+    #     paginated_queryset=None,
+    #     instance=None,
+    #     initial=False,
+    # ):
+    #     return []
 
     def get_serializer_changes(self, serializer):
         return serializer

@@ -161,8 +161,8 @@ class FSMSerializerMetaclass(SerializerMetaclass):
                 for transition in transitions:
 
                     def method(self, instance, request, user, field, transition):
-                        if self.context["view"].historical_mode:
-                            return {}
+                        # if self.context["view"].historical_mode:
+                        #     return {}
 
                         transitions = get_available_user_FIELD_transitions(
                             instance, user, field

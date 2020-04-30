@@ -11,5 +11,5 @@ class OrderingFieldsMetadata(BridgerMetadataMixin):
 
 class OrderingFieldsMetadataMixin:
     def _get_ordering_fields(self, request: Request):
-        if filters.OrderingFilter in self.filter_backends:
+        if filters.OrderingFilter in getattr(self, "filter_backends", []):
             yield from self.ordering_fields

@@ -11,5 +11,5 @@ class SearchFieldsMetadata(BridgerMetadataMixin):
 
 class SearchFieldsMetadataMixin:
     def _get_search_fields(self, request: Request):
-        if filters.SearchFilter in self.filter_backends:
+        if filters.SearchFilter in getattr(self, "filter_backends", []):
             yield from self.search_fields

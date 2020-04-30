@@ -15,12 +15,14 @@ class TitleMetadataMixin:
             return title
 
         if hasattr(self, "get_serializer_class"):
-            model = self.get_serializer_class().Meta.model
+            serializer_class = self.get_serializer_class()
+            if hasattr(serializer_class, "Meta"):
+                model = self.get_serializer_class().Meta.model
 
-            if hasattr(model, "get_representation_label_key"):
-                return f"{model._meta.verbose_name}: {model.get_representation_label_key()}"
+                if hasattr(model, "get_representation_label_key"):
+                    return f"{model._meta.verbose_name}: {model.get_representation_label_key()}"
 
-            return model._meta.verbose_name
+                return model._meta.verbose_name
 
         return ""
 
@@ -29,8 +31,10 @@ class TitleMetadataMixin:
             return title
 
         if hasattr(self, "get_serializer_class"):
-            model = self.get_serializer_class().Meta.model
-            return model._meta.verbose_name_plural
+            serializer_class = self.get_serializer_class()
+            if hasattr(serializer_class, "Meta"):
+                model = self.get_serializer_class().Meta.model
+                return model._meta.verbose_name_plural
 
         return ""
 
@@ -39,8 +43,10 @@ class TitleMetadataMixin:
             return title
 
         if hasattr(self, "get_serializer_class"):
-            model = self.get_serializer_class().Meta.model
-            return f"Create {model._meta.verbose_name}"
+            serializer_class = self.get_serializer_class()
+            if hasattr(serializer_class, "Meta"):
+                model = self.get_serializer_class().Meta.model
+                return f"Create {model._meta.verbose_name}"
 
         return ""
 

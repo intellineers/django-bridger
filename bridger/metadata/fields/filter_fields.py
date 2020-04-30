@@ -13,7 +13,7 @@ class FilterFieldsMetadata(BridgerMetadataMixin):
 
 class FilterFieldsMetadataMixin:
     def get_filter_fields(self, request: Request):
-        if DjangoFilterBackend in self.filter_backends:
+        if DjangoFilterBackend in getattr(self, "filter_backends", []):
             filterset_class = DjangoFilterBackend().get_filterset_class(
                 self, self.queryset
             )

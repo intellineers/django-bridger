@@ -13,7 +13,7 @@ from bridger.routers import BridgerRouter
 from bridger.frontend import FrontendView
 
 from .viewsets import (
-    ModelTestChartViewSet,
+    # ModelTestChartViewSet,
     ModelTestModelCalendarViewSet,
     ModelTestModelViewSet,
     ModelTestRepresentationViewSet,
@@ -29,7 +29,7 @@ router.register(r"modeltestrepresentation", ModelTestRepresentationViewSet, base
 router.register(r"relatedmodeltest", RelatedModelTestModelViewSet, basename="relatedmodeltest")
 router.register(r"relatedmodeltestrepresentation", RelatedModelTestRepresentationViewSet, basename="relatedmodeltestrepresentation")
 router.register(r"calendar", ModelTestModelCalendarViewSet, basename="calendar")
-router.register(r"modelchart", ModelTestChartViewSet, basename="modelchart")
+# router.register(r"modelchart", ModelTestChartViewSet, basename="modelchart")
 # fmt: on
 
 urlpatterns = [

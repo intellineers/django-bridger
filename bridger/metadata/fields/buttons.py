@@ -22,14 +22,15 @@ class ButtonMetadataMixin:
         button_list = list()
 
         if hasattr(self, "get_serializer_class"):
-            ct = ContentType.objects.get_for_model(
-                self.get_serializer_class().Meta.model
-            )
+            serializer_class = self.get_serializer_class()
+            if hasattr(serializer_class, "Meta"):
+                model = self.get_serializer_class().Meta.model
+                ct = ContentType.objects.get_for_model(model)
 
-            if request.user.has_perm(f"{ct.app_label}.change_{ct.model}"):
-                button_list.append(Button.SAVE.value)
-            if request.user.has_perm(f"{ct.app_label}.delete_{ct.model}"):
-                button_list.append(Button.DELETE.value)
+                if request.user.has_perm(f"{ct.app_label}.change_{ct.model}"):
+                    button_list.append(Button.SAVE.value)
+                if request.user.has_perm(f"{ct.app_label}.delete_{ct.model}"):
+                    button_list.append(Button.DELETE.value)
 
         return button_list
 
@@ -47,12 +48,13 @@ class ButtonMetadataMixin:
         button_list = list()
 
         if hasattr(self, "get_serializer_class"):
-            ct = ContentType.objects.get_for_model(
-                self.get_serializer_class().Meta.model
-            )
+            serializer_class = self.get_serializer_class()
+            if hasattr(serializer_class, "Meta"):
+                model = self.get_serializer_class().Meta.model
+                ct = ContentType.objects.get_for_model(model)
 
-            if f"{ct.app_label}.add_{ct.model}":
-                button_list.append(Button.NEW.value)
+                if f"{ct.app_label}.add_{ct.model}":
+                    button_list.append(Button.NEW.value)
 
         return button_list
 

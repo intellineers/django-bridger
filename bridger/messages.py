@@ -36,3 +36,7 @@ def success(message, **kwargs):
 
 def error(message, **kwargs):
     return Message(message=message, message_type=MessageType.ERROR, **kwargs)
+
+
+def serialize_messages(messages):
+    return [dict(message) for message in messages]

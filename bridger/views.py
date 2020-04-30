@@ -53,5 +53,9 @@ class Config(APIView):
                 "markdown": {
                     "blockdiag": reverse("bridger:blockdiag", request=request)
                 },
+                "clubhouse": {
+                    "endpoint": reverse("bridger:clubhouse-list", request=request),
+                    "add": reverse("bridger:clubhouse-list", request=request),
+                },
             }
         )

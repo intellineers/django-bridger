@@ -1,5 +1,6 @@
 from typing import Dict, Iterator, List, Tuple, Union
 
+from django.urls.exceptions import NoReverseMatch
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
@@ -54,7 +55,10 @@ class EndpointMetadataMixin:
         else:
             viewname, args, kwargs = endpoint
 
-        return reverse(viewname=viewname, request=request, args=args, kwargs=kwargs)
+        try:
+            return reverse(viewname=viewname, request=request, args=args, kwargs=kwargs)
+        except NoReverseMatch:
+            return None
 
     def _get_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "endpoint")

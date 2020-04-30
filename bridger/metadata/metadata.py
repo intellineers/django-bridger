@@ -41,7 +41,7 @@ class BridgerMetadata(BaseMetadata):
             OrderingFieldsMetadata,
             FilterFieldsMetadata,
             PreviewMetadata,
-            DocsMetadata,
+            # DocsMetadata,
         ]
         self.model_modules = [
             InstanceDisplayMetadata,
@@ -60,18 +60,18 @@ class BridgerMetadata(BaseMetadata):
             yield from module(view, request)
 
     def determine_metadata(self, request, view):
-        if view.historical_mode:
-            format_kwarg = view.format_kwarg
-            old_kwargs = view.kwargs
+        # if view.historical_mode:
+        #     format_kwarg = view.format_kwarg
+        #     old_kwargs = view.kwargs
 
-            model = type(view.get_object())
-            historical_model = view.get_object().history.model
+        #     model = type(view.get_object())
+        #     historical_model = view.get_object().history.model
 
-            view_class = get_historical_viewset(model, historical_model)
-            view = view_class()
-            view.kwargs = {"model_pk": old_kwargs["pk"]}
-            view.request = request
-            view.format_kwarg = format_kwarg
+        #     view_class = get_historical_viewset(model, historical_model)
+        #     view = view_class()
+        #     view.kwargs = {"model_pk": old_kwargs["pk"]}
+        #     view.request = request
+        #     view.format_kwarg = format_kwarg
 
         metadata = dict(self.generate_metadata(request, view))
 

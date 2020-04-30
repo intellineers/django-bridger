@@ -1,5 +1,6 @@
 from django.db.models import QuerySet
 from rest_framework.pagination import CursorPagination as DefaultCursorPagination
+from rest_framework.pagination import BasePagination
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import View
@@ -13,33 +14,5 @@ class CursorPagination(DefaultCursorPagination):
 
     page_size = 25
 
-    def paginate_queryset(self, queryset, request, view=None):
-        paginated_queryset = super().paginate_queryset(queryset, request, view)
-
-        if hasattr(view, "get_aggregates"):
-            self.aggregates = view.get_aggregates(
-                queryset=queryset, paginated_queryset=paginated_queryset
-            )
-
-        if hasattr(view, "get_messages"):
-            messages = view.get_messages(
-                request=request,
-                queryset=queryset,
-                paginated_queryset=paginated_queryset,
-                initial=not bool(self.cursor),
-            )
-            if messages:
-                self.messages = [dict(message) for message in messages]
-
-        return paginated_queryset
-
-    def get_paginated_response(self, data):
-        paginated_response = super().get_paginated_response(data)
-
-        if hasattr(self, "aggregates") and self.aggregates:
-            paginated_response.data["aggregates"] = self.aggregates
-
-        if hasattr(self, "messages") and self.messages:
-            paginated_response.data["messages"] = self.messages
-
-        return paginated_response
+    def is_initial(self):
+        return self.cursor is None

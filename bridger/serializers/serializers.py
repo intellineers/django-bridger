@@ -23,11 +23,13 @@ percent_decorator = decorator(position="right", value="%")
 class AdditionalMetadataMixin:
     @classmethod
     def get_decorators(cls):
-        yield from getattr(cls.Meta, "decorators", dict()).items()
+        if hasattr(cls, "Meta"):
+            yield from getattr(cls.Meta, "decorators", dict()).items()
 
     @classmethod
     def get_percent_fields(cls):
-        yield from getattr(cls.Meta, "percent_fields", list())
+        if hasattr(cls, "Meta"):
+            yield from getattr(cls.Meta, "percent_fields", list())
 
 
 class Serializer(AdditionalMetadataMixin, serializers.Serializer):

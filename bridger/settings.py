@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Dict, List
 
 from django.conf import settings
@@ -36,6 +37,8 @@ DEFAULTS = {
         "CONFIG_URL": None,
         "JS_URL": None,
     },
+    "CLUBHOUSE_API_TOKEN": os.environ.get("CLUBHOUSE_API_TOKEN", ""),
+    "CLUBHOUSE_PROJECT_ID": os.environ.get("CLUBHOUSE_PROJECT_ID", ""),
 }
 
 IMPORT_STRINGS = [

@@ -32,7 +32,8 @@ default_registry.register(
         items=[
             MenuItem(label="Calendar", endpoint="calendar-list",),
             MenuItem(label="PANDAS", endpoint="pandas_view",),
-            MenuItem(label="CHART", endpoint="modelchart-list",),
+            MenuItem(label="Clubhouse", endpoint="bridger:clubhouse-list",),
+            # MenuItem(label="CHART", endpoint="modelchart-list",),
         ],
         index=2,
     ),

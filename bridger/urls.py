@@ -10,12 +10,14 @@ from .share.views import ShareAPIView
 from .menus.views import MenuAPIView
 from .profile import UserViewSet
 from .markdown.views import BlockDiag
+from .clubhouse import ClubHouseView
 
 # fmt: off
 router = BridgerRouter()
 router.register(r"frontenduserconfiguration", FrontendUserConfigurationModelViewSet, basename="frontenduserconfiguration")
 router.register(r"notification", NotificationModelViewSet, basename="notification")
 router.register(r"user", UserViewSet, basename="user")
+router.register(r"clubhouse", ClubHouseView, basename="clubhouse")
 # fmt: on
 
 urlpatterns = [

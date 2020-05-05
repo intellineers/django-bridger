@@ -21,6 +21,8 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
     filter_params = {"some_key": "some_value"}
 
+    label_key = "{{|:-}}LEFT ALIGN{{|::}}CENTER{{|-:}}{{char_field}}"
+
     class Meta:
         model = ModelTest
         fields = ("id", "char_field", "_detail", "_detail_preview")

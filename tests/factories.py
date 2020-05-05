@@ -25,6 +25,7 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
         "pyfloat", left_digits=0, right_digits=4, positive=True,
     )
     integer_field = factory.Faker("pyint")
+    star_rating = factory.Faker("pyint", min_value=1, max_value=5)
     decimal_field = factory.Faker("pydecimal", left_digits=3, right_digits=4)
     datetime_field = pytz.timezone(settings.TIME_ZONE).localize(Faker().date_time())
     datetime_field1 = pytz.timezone(settings.TIME_ZONE).localize(Faker().date_time())

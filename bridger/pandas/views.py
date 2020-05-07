@@ -39,7 +39,9 @@ class PandasAPIView(MetadataMixin, APIView):
     def get_dataframe(self, request):
         assert hasattr(self, "pandas_fields"), "No pandas_fields specified"
         queryset = self.filter_queryset(self.get_queryset())
-        return pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
+        if queryset.exists():
+            return pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
+        return pd.DataFrame()
 
     def manipulate_dataframe(self, df):
         return df

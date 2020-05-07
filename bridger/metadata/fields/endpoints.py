@@ -60,6 +60,9 @@ class EndpointMetadataMixin:
         except NoReverseMatch:
             return None
 
+    def get_pk_endpoint_field(self, request: Request) -> str:
+        return "{{" + getattr(self, "PK_FIELD", "id") + "}}"
+
     def _get_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "endpoint")
 
@@ -67,15 +70,13 @@ class EndpointMetadataMixin:
         return self._get_generic_endpoint(request, "list_endpoint")
 
     def _get_instance_endpoint(self, request: Request) -> Endpoint_T:
-        pk_field = "{{" + getattr(self, "PK_FIELD", "id") + "}}"
-        return f"{self._get_generic_endpoint(request, 'instance_endpoint')}{pk_field}/"
+        return f"{self._get_generic_endpoint(request, 'instance_endpoint')}{self.get_pk_endpoint_field(request)}/"
 
     def _get_create_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "create_endpoint")
 
     def _get_delete_endpoint(self, request: Request) -> Endpoint_T:
-        pk_field = "{{" + getattr(self, "PK_FIELD", "id") + "}}"
-        return f"{self._get_generic_endpoint(request, 'delete_endpoint')}{pk_field}/"
+        return f"{self._get_generic_endpoint(request, 'delete_endpoint')}{self.get_pk_endpoint_field(request)}/"
 
     def _get_history_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "history_endpoint")

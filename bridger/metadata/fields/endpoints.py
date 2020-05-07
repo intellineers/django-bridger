@@ -67,13 +67,15 @@ class EndpointMetadataMixin:
         return self._get_generic_endpoint(request, "list_endpoint")
 
     def _get_instance_endpoint(self, request: Request) -> Endpoint_T:
-        return self._get_generic_endpoint(request, "instance_endpoint")
+        pk_field = "{{" + getattr(self, "PK_FIELD", "id") + "}}"
+        return f"{self._get_generic_endpoint(request, 'instance_endpoint')}{pk_field}/"
 
     def _get_create_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "create_endpoint")
 
     def _get_delete_endpoint(self, request: Request) -> Endpoint_T:
-        return self._get_generic_endpoint(request, "delete_endpoint")
+        pk_field = "{{" + getattr(self, "PK_FIELD", "id") + "}}"
+        return f"{self._get_generic_endpoint(request, 'delete_endpoint')}{pk_field}/"
 
     def _get_history_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "history_endpoint")

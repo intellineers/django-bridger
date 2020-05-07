@@ -92,25 +92,21 @@ class EndpointMetadataMixin:
         history_endpoint = self._get_history_endpoint(request=request)
 
         if not self.kwargs.get("pk", None):
-            if instance_endpoint or endpoint:
-                endpoints[
-                    "instance"
-                ] = f"{instance_endpoint or endpoint}{self.get_pk_endpoint_field(request)}/"
+            if url := instance_endpoint or endpoint:
+                endpoints["instance"] = f"{url}{self.get_pk_endpoint_field(request)}/"
 
         else:
-            if list_endpoint or endpoint:
-                endpoints["list"] = list_endpoint or endpoint
+            if url := list_endpoint or endpoint:
+                endpoints["list"] = url
 
             if history_endpoint:
                 endpoints["history"] = history_endpoint
 
         if not getattr(self, "READ_ONLY", False):
-            if create_endpoint or endpoint:
-                endpoints["create"] = create_endpoint or endpoint
+            if url := create_endpoint or endpoint:
+                endpoints["create"] = url
 
-            if delete_endpoint or endpoint:
-                endpoints[
-                    "delete"
-                ] = f"{delete_endpoint or endpoint}{self.get_pk_endpoint_field(request)}/"
+            if url := delete_endpoint or endpoint:
+                endpoints["delete"] = f"{url}{self.get_pk_endpoint_field(request)}/"
 
         return endpoints

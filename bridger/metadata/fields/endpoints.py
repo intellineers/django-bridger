@@ -99,10 +99,11 @@ class EndpointMetadataMixin:
             if history_endpoint:
                 endpoints["history"] = history_endpoint
 
-        if create_endpoint or endpoint:
-            endpoints["create"] = create_endpoint or endpoint
+        if not getattr(self, "READ_ONLY", False):
+            if create_endpoint or endpoint:
+                endpoints["create"] = create_endpoint or endpoint
 
-        if delete_endpoint or endpoint:
-            endpoints["delete"] = delete_endpoint or endpoint
+            if delete_endpoint or endpoint:
+                endpoints["delete"] = delete_endpoint or endpoint
 
         return endpoints

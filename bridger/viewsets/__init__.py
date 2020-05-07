@@ -1,4 +1,5 @@
 from .viewsets import (
+    ChartViewSet,
     InfiniteDataModelView,
     ModelViewSet,
     ReadOnlyInfiniteModelViewSet,

@@ -31,9 +31,9 @@ default_registry.register(
         label="Special Views",
         items=[
             MenuItem(label="Calendar", endpoint="calendar-list",),
-            MenuItem(label="PANDAS", endpoint="pandas_view",),
+            MenuItem(label="Pandas", endpoint="pandas_view",),
             MenuItem(label="Clubhouse", endpoint="bridger:clubhouse-list",),
-            # MenuItem(label="CHART", endpoint="modelchart-list",),
+            MenuItem(label="Chart", endpoint="modelchart-list",),
         ],
         index=2,
     ),

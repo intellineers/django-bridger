@@ -82,6 +82,7 @@ class RelatedModelTestModelViewSet(ReadOnlyModelViewSet):
 
     filter_fields = {"model_test": ["exact"], "char_field": ["exact"]}
     search_fields = ["char_field"]
+    ordering_fields = ["id", "model_test__char_field"]
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestSerializer
 

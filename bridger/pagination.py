@@ -16,3 +16,8 @@ class CursorPagination(DefaultCursorPagination):
 
     def is_initial(self):
         return self.cursor is None
+
+    def _get_position_from_instance(self, instance, ordering):
+        new_ordering = [*ordering]
+        new_ordering[0] = new_ordering[0].split("__")[0]
+        return super()._get_position_from_instance(instance, new_ordering)

@@ -70,13 +70,13 @@ class EndpointMetadataMixin:
         return self._get_generic_endpoint(request, "list_endpoint")
 
     def _get_instance_endpoint(self, request: Request) -> Endpoint_T:
-        return f"{self._get_generic_endpoint(request, 'instance_endpoint')}{self.get_pk_endpoint_field(request)}/"
+        return self._get_generic_endpoint(request, "instance_endpoint")
 
     def _get_create_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "create_endpoint")
 
     def _get_delete_endpoint(self, request: Request) -> Endpoint_T:
-        return f"{self._get_generic_endpoint(request, 'delete_endpoint')}{self.get_pk_endpoint_field(request)}/"
+        return self._get_generic_endpoint(request, "delete_endpoint")
 
     def _get_history_endpoint(self, request: Request) -> Endpoint_T:
         return self._get_generic_endpoint(request, "history_endpoint")
@@ -93,7 +93,9 @@ class EndpointMetadataMixin:
 
         if not self.kwargs.get("pk", None):
             if instance_endpoint or endpoint:
-                endpoints["instance"] = instance_endpoint or endpoint
+                endpoints[
+                    "instance"
+                ] = f"{instance_endpoint or endpoint}{self.get_pk_endpoint_field(request)}/"
 
         else:
             if list_endpoint or endpoint:
@@ -107,6 +109,8 @@ class EndpointMetadataMixin:
                 endpoints["create"] = create_endpoint or endpoint
 
             if delete_endpoint or endpoint:
-                endpoints["delete"] = delete_endpoint or endpoint
+                endpoints[
+                    "delete"
+                ] = f"{delete_endpoint or endpoint}{self.get_pk_endpoint_field(request)}/"
 
         return endpoints

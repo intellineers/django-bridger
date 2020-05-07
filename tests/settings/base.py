@@ -191,7 +191,7 @@ LOGGING = {
 BRIDGER_SETTINGS = {
     "FRONTEND_CONTEXT": {
         "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/css/main-0-5-5.css",
-        "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-0-14.js",
+        "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-0-15-rc-1.js",
     }
 }
 

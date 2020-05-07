@@ -29,7 +29,7 @@ class Notification(models.Model):
     message = models.TextField(null=True, blank=True)
     buttons = JSONField(default=list, null=True, blank=True)
 
-    endpoint = models.URLField(null=True, blank=True)
+    endpoint = models.URLField(null=True, blank=True, max_length=2048)
 
     timestamp_created = models.DateTimeField(auto_now_add=True, verbose_name="Created")
     timestamp_received = models.DateTimeField(

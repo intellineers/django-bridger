@@ -26,6 +26,9 @@ class MyPandasView(PandasAPIView):
         ],
     )
 
+    def get_filterset_class(self, request):
+        return PandasFilterSet
+
     pandas_fields = pf.PandasFields(
         fields=[
             pf.PKField(key="id", label="ID"),
@@ -43,7 +46,7 @@ class MyPandasView(PandasAPIView):
         ]
     )
     queryset = ModelTest.objects.all()
-    ordering_fields = ["integer_field"]
+    ordering_fields = ["integer_field", "integer_annotated"]
 
     def get_queryset(self):
         qs = super().get_queryset()

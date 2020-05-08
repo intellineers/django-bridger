@@ -22,7 +22,7 @@ class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
     serializer_class = RelatedModelTestRepresentationSerializer
 
 
-class RelatedModelTestModelViewSet(ReadOnlyModelViewSet):
+class RelatedModelTestModelViewSet(ModelViewSet):
     ENDPOINT = "relatedmodeltest-list"
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

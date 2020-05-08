@@ -78,7 +78,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
-        # "bridger.permissions.RestAPIModelPermissions",
+        "bridger.permissions.RestAPIModelPermissions",
     ),
     "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S%z"
     # 'DEFAULT_METADATA_CLASS': 'wbutils.metadata.WorkbenchMetaData'
@@ -191,7 +191,7 @@ LOGGING = {
 BRIDGER_SETTINGS = {
     "FRONTEND_CONTEXT": {
         "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/css/main-0-5-5.css",
-        "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-0-15-rc-1.js",
+        "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-0-15-rc-3.js",
     }
 }
 

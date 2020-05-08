@@ -40,6 +40,8 @@ class ModelTestModelViewSet(ModelViewSet):
         bt.WidgetButton(key="self_endpoint", icon="wb-icon-data"),
     ]
 
+    PK_FIELD = "id"
+
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
             dp.Field(key="char_field", label="Char"),

@@ -1,6 +1,11 @@
+from typing import Dict
+
 import requests
 from django.utils.html import strip_tags
+
+from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from bridger import display as dp
 from bridger import serializers
@@ -10,6 +15,13 @@ from bridger.viewsets import ViewSet
 
 
 story_type_choices = (("bug", "Bug"), ("feature", "Feature"))
+
+
+def config(request: Request) -> Dict:
+    return {
+        "endpoint": reverse("bridger:clubhouse-list", request=request),
+        "add": reverse("bridger:clubhouse-list", request=request),
+    }
 
 
 class ClubhouseSerializer(serializers.Serializer):

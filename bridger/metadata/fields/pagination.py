@@ -18,6 +18,6 @@ class PaginationMetadataMixin:
 
         return {
             "CursorPagination": "cursor",
-            "LimitOffsetPagination": "page",
+            "LimitOffsetPagination": "limitoffset",
             None: None,
         }[pagination]

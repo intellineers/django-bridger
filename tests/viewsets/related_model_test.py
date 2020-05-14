@@ -16,6 +16,8 @@ from tests.serializers import (
     RelatedModelTestSerializer,
 )
 
+from bridger.pagination import LimitOffsetPagination
+
 
 class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
     queryset = RelatedModelTest.objects.all()
@@ -23,6 +25,8 @@ class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
 
 
 class RelatedModelTestModelViewSet(ModelViewSet):
+    pagination_class = LimitOffsetPagination
+
     ENDPOINT = "relatedmodeltest-list"
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

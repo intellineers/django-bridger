@@ -62,7 +62,11 @@ class ModelTest(models.Model):
     )
 
     # Text
-    char_field = models.CharField(max_length=255, verbose_name="Char")
+    char_field = models.CharField(
+        max_length=255,
+        verbose_name="Char",
+        help_text="This is the help text of a char field.",
+    )
     text_field = models.TextField(null=True, blank=True)
 
     # Numbers

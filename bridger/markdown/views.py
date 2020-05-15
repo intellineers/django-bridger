@@ -1,5 +1,8 @@
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
+
+from django.template import Template, Context, exceptions
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -24,6 +27,18 @@ class BlockDiag(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(svg)
+
+
+class TemplateTagView(APIView):
+    permission_classes = []
+
+    def post(self, request: Request) -> Response:
+        try:
+            return Response(
+                Template(request.data.get("templatetag")).render(Context({}))
+            )
+        except exceptions.TemplateSyntaxError:
+            return Response(status=400)
 
 
 class AssetCreateView(APIView):

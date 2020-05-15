@@ -9,7 +9,12 @@ from .views import Config, Profile
 from .share.views import ShareAPIView
 from .menus.views import MenuAPIView
 from .profile import UserViewSet
-from .markdown.views import BlockDiag, AssetCreateView, AssetRetrieveView
+from .markdown.views import (
+    BlockDiag,
+    AssetCreateView,
+    AssetRetrieveView,
+    TemplateTagView,
+)
 from .clubhouse import ClubHouseView
 
 # fmt: off
@@ -28,5 +33,6 @@ urlpatterns = [
     path("markdown/blockdiag/", BlockDiag.as_view(), name="blockdiag"),
     path("markdown/asset/", AssetCreateView.as_view(), name="asset-create"),
     path("markdown/asset/<uuid>/", AssetRetrieveView.as_view(), name="asset-retrieve"),
+    path("markdown/templatetag/", TemplateTagView.as_view(), name="mk-templatetag"),
     path("", include(router.urls)),
 ]

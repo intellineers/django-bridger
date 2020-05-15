@@ -37,6 +37,7 @@ DEFAULTS = {
         "CONFIG_URL": None,
         "JS_URL": None,
     },
+    "MARKDOWN_TEMPLATE_TAGS": [],
     "CLUBHOUSE_CONFIG": "bridger.clubhouse.config",
     "CLUBHOUSE_API_TOKEN": os.environ.get("CLUBHOUSE_API_TOKEN", ""),
     "CLUBHOUSE_PROJECT_ID": os.environ.get("CLUBHOUSE_PROJECT_ID", ""),

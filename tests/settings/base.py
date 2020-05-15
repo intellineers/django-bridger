@@ -168,6 +168,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 MEDIA_URL = "/media/"
 
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
+AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL")
+AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION")
+
+AWS_DEFAULT_ACL = None
+AWS_S3_FILE_OVERWRITE = False
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -192,7 +203,8 @@ BRIDGER_SETTINGS = {
     "FRONTEND_CONTEXT": {
         "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/css/main-0-5-5.css",
         "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-1-2-rc-0.js",
-    }
+    },
+    "MARKDOWN_TEMPLATE_TAGS": ["test_tags"],
 }
 
 SIMPLE_JWT = {

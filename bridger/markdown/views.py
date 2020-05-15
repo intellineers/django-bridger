@@ -13,6 +13,7 @@ from rest_framework import status
 from markdown_blockdiag.utils import draw_blockdiag, DIAG_MODULES
 from blockdiag.parser import ParseException
 
+from bridger.settings import bridger_settings
 from .models import Asset
 
 
@@ -33,12 +34,20 @@ class TemplateTagView(APIView):
     permission_classes = []
 
     def post(self, request: Request) -> Response:
-        try:
-            return Response(
-                Template(request.data.get("templatetag")).render(Context({}))
-            )
-        except exceptions.TemplateSyntaxError:
-            return Response(status=400)
+        if templatetag := request.data.get("templatetag"):
+            try:
+                loaded_template_tags = (
+                    (
+                        f"{{% load {' '.join(bridger_settings.MARKDOWN_TEMPLATE_TAGS)} %}}"
+                    )
+                    if len(bridger_settings.MARKDOWN_TEMPLATE_TAGS) > 0
+                    else ""
+                )
+                template = Template(loaded_template_tags + templatetag)
+                return Response(template.render(Context({})))
+            except exceptions.TemplateSyntaxError:
+                return Response("malformatted templatetag", status=400)
+        return Response("templatetag missing", status=400)
 
 
 class AssetCreateView(APIView):

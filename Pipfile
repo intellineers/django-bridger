@@ -28,6 +28,8 @@ pytest-isort = "*"
 jupyter = "*"
 tox = "*"
 mypy = "*"
+django-storages = "*"
+boto3 = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}

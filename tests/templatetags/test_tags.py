@@ -5,16 +5,6 @@ from tests.models import ModelTest
 register = template.Library()
 
 
-class ModelTestImageNode(template.Node):
-    def __init__(self, model_test):
-        self.instance = model_test
-
-    def render(self, context):
-        if self.instance.image_field:
-            return f"<img src='{self.instance.image_field.url}' />"
-        return ""
-
-
 class ModelTestTextNode(template.Node):
     def __init__(self, model_test):
         self.instance = model_test
@@ -23,10 +13,12 @@ class ModelTestTextNode(template.Node):
         return self.instance.text_field or ""
 
 
-@register.tag
-def model_test_image(parser, token):
-    args = token.split_contents()
-    return ModelTestImageNode(ModelTest.objects.get(id=args[1]))
+@register.inclusion_tag("tests/template_tags/model_test_image.html", takes_context=True)
+def model_test_image(context, model_test_id):
+    model_test = ModelTest.objects.get(id=model_test_id)
+    if model_test.image_field:
+        return {"model_test": model_test}
+    return {}
 
 
 @register.tag

@@ -44,9 +44,12 @@ class TemplateTagView(APIView):
                     else ""
                 )
                 template = Template(loaded_template_tags + templatetag)
-                return Response(template.render(Context({})))
+                return Response(template.render(Context({"request": request})))
             except exceptions.TemplateSyntaxError:
                 return Response("malformatted templatetag", status=400)
+            except Exception as e:
+                print(e)
+                return Response("not handled exception", status=400)
         return Response("templatetag missing", status=400)
 
 

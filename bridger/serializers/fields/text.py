@@ -1,3 +1,4 @@
+from rest_framework.reverse import reverse
 from rest_framework import serializers
 
 from .mixins import BridgerSerializerFieldMixin
@@ -34,3 +35,15 @@ class TextField(CharField):
 
 class MarkdownTextField(TextField):
     texteditor_content_type = ReturnContentType.MARKDOWN.value
+
+    def __init__(self, metadata_field=None, *args, **kwargs):
+        self.metadata_field = metadata_field
+        super().__init__(*args, **kwargs)
+
+    def get_representation(self, request, field_name):
+        r = super().get_representation(request, field_name)
+        r["image_upload"] = reverse("bridger:markdown-asset-upload", request=request)
+        r["tags"] = reverse("bridger:markdown-tags", request=request)
+        if self.metadata_field:
+            r["metadata_field"] = self.metadata_field
+        return r

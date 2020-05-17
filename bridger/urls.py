@@ -31,8 +31,8 @@ urlpatterns = [
     path("menu/", MenuAPIView.as_view(), name="menu"),
     path("share/", ShareAPIView.as_view(), name="share"),
     path("markdown/blockdiag/", BlockDiag.as_view(), name="blockdiag"),
-    path("markdown/asset/", AssetCreateView.as_view(), name="asset-create"),
+    path("markdown/asset/", AssetCreateView.as_view(), name="markdown-asset-upload"),
     path("markdown/asset/<uuid>/", AssetRetrieveView.as_view(), name="asset-retrieve"),
-    path("markdown/templatetag/", TemplateTagView.as_view(), name="mk-templatetag"),
+    path("markdown/templatetag/", TemplateTagView.as_view(), name="markdown-tags"),
     path("", include(router.urls)),
 ]

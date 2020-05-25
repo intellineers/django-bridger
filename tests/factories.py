@@ -24,6 +24,7 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
     percent_field = factory.Faker(
         "pyfloat", left_digits=0, right_digits=4, positive=True,
     )
+    text_field = factory.Faker("paragraph")
     integer_field = factory.Faker("pyint")
     star_rating = factory.Faker("pyint", min_value=1, max_value=5)
     decimal_field = factory.Faker("pydecimal", left_digits=3, right_digits=4)

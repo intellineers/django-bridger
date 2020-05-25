@@ -14,6 +14,8 @@ from markdown_blockdiag.utils import draw_blockdiag, DIAG_MODULES
 from blockdiag.parser import ParseException
 
 from bridger.settings import bridger_settings
+
+from .template import render_template_for_templatetag
 from .models import Asset
 
 
@@ -36,19 +38,12 @@ class TemplateTagView(APIView):
     def post(self, request: Request) -> Response:
         if templatetag := request.data.get("templatetag"):
             try:
-                loaded_template_tags = (
-                    (
-                        f"{{% load {' '.join(bridger_settings.MARKDOWN_TEMPLATE_TAGS)} %}}"
-                    )
-                    if len(bridger_settings.MARKDOWN_TEMPLATE_TAGS) > 0
-                    else ""
+                return Response(
+                    render_template_for_templatetag(templatetag, request=request)
                 )
-                template = Template(loaded_template_tags + templatetag)
-                return Response(template.render(Context({"request": request})))
             except exceptions.TemplateSyntaxError:
                 return Response("malformatted templatetag", status=400)
             except Exception as e:
-                print(e)
                 return Response("not handled exception", status=400)
         return Response("templatetag missing", status=400)
 

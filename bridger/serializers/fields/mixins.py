@@ -17,6 +17,11 @@ class BridgerSerializerFieldMixin:
         super().__init__(*args, **kwargs)
 
     def get_representation(self, request, field_name):
+
+        if meta := getattr(self.parent, "Meta", None):
+            if field_name in getattr(meta, "required_fields", []):
+                self.required = True
+
         representation = {
             "key": field_name,
             "label": getattr(self, "label", None),

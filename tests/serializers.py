@@ -70,6 +70,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "char_field": serializers.decorator(position="left", value="Decorator"),
             "integer_field": serializers.decorator(position="left", value="#"),
         }
+        required_fields = ["choice_field"]
 
         model = ModelTest
         fields = (

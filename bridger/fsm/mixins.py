@@ -140,6 +140,7 @@ class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
             errors = getattr(obj, f"can_{action}")()
 
         if errors is None or len(errors.keys()) == 0:
+            obj.fsm_context = {"current_user": request.user}
             getattr(obj, action)()
             obj.save()
 

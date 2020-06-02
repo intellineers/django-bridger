@@ -27,6 +27,7 @@ DEFAULTS = {
         FSMExtension(),
         BlockdiagExtension(format="svg"),
     ],
+    "ADDITIONAL_DEFAUL_MODELVIEW_ATTRIBUTES": [],
     "FRONTEND_TEMPLATE": "bridger/frontend.html",
     "FRONTEND_CONTEXT": {
         "TITLE": "Workbench",

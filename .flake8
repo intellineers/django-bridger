@@ -1,5 +1,5 @@
 [flake8]
-max-line-length = 99
+max-line-length = 128
 ignore =
     W391 ;blank line at the end of file (black is fine with two lines, flake8 needs exactly 1)
     E501 ;line too long (Black takes care of this and there is no way to multi line disable flake8)

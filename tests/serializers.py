@@ -118,6 +118,7 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
         return obj.char_field.lower()
 
     class Meta:
+        required_fields = ["model_test", "model_tests"]
         model = RelatedModelTest
         fields = (
             "id",

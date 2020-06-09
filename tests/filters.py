@@ -16,16 +16,13 @@ from bridger.filters.defaults import (
 )
 
 from .models import ModelTest, RelatedModelTest
+from bridger.tags.filters import TagFilterMixin
 
 
 class PandasFilterSet(FilterSet):
 
-    integer_annotated_lte = NumberFilter(
-        label="Integer Annotated", field_name="integer_annotated", lookup_expr="lte"
-    )
-    integer_annotated_gte = NumberFilter(
-        label="Integer Annotated", field_name="integer_annotated", lookup_expr="gte"
-    )
+    integer_annotated_lte = NumberFilter(label="Integer Annotated", field_name="integer_annotated", lookup_expr="lte")
+    integer_annotated_gte = NumberFilter(label="Integer Annotated", field_name="integer_annotated", lookup_expr="gte")
 
     class Meta:
         model = ModelTest
@@ -36,19 +33,15 @@ def latest_date_filter(field, request, view):
     return view.get_queryset().earliest("date_field").date_field
 
 
-class ModelTestFilterSet(FilterSet):
+class ModelTestFilterSet(TagFilterMixin, FilterSet):
 
     before_2k = BooleanFilter(label="Before 2k", method="filter_2k")
 
     datetime_field = DateFilter(
-        label="DateTime",
-        lookup_expr="gte",
-        field_name="datetime_field",
-        required=True,
-        default=latest_date_filter,
+        label="DateTime", lookup_expr="gte", field_name="datetime_field", required=True, default=latest_date_filter,
     )
 
-    date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
+    # date_field = DateRangeFilter(label="Date", default=current_quarter_date_interval)
 
     def filter_some_date(self, queryset, name, value):
         return queryset
@@ -71,7 +64,7 @@ class ModelTestFilterSet(FilterSet):
         }
 
 
-class RelatedModelTestFilterSet(FilterSet):
+class RelatedModelTestFilterSet(TagFilterMixin, FilterSet):
     # char_field = CharFilter(lookup_expr="icontains")
 
     class Meta:
@@ -82,22 +75,14 @@ class RelatedModelTestFilterSet(FilterSet):
 
 class CalendarFilter(FilterSet):
 
-    start = DateFilter(
-        label="Date", lookup_expr="gte", field_name="date_field", method="start_filter",
-    )
-    end = DateFilter(
-        label="Date", lookup_expr="lte", field_name="date_field", method="end_filter",
-    )
+    start = DateFilter(label="Date", lookup_expr="gte", field_name="date_field", method="start_filter",)
+    end = DateFilter(label="Date", lookup_expr="lte", field_name="date_field", method="end_filter",)
 
     def start_filter(self, queryset, name, value):
-        return queryset.filter(
-            Q(datetime_field__date__gte=value) & Q(datetime_field1__date__gte=value)
-        )
+        return queryset.filter(Q(datetime_field__date__gte=value) & Q(datetime_field1__date__gte=value))
 
     def end_filter(self, queryset, name, value):
-        return queryset.filter(
-            Q(datetime_field__date__lte=value) & Q(datetime_field1__date__lte=value)
-        )
+        return queryset.filter(Q(datetime_field__date__lte=value) & Q(datetime_field1__date__lte=value))
 
     class Meta:
         model = ModelTest

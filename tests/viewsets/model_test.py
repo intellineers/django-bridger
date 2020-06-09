@@ -31,9 +31,7 @@ class ModelTestModelViewSet(ModelViewSet):
     CREATE_WIDGET_TITLE = "Create"
 
     PREVIEW_TYPE = "instance_display"
-    PREVIEW_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(fields=["image_field", "char_field"]))]
-    )
+    PREVIEW_DISPLAY = dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=["image_field", "char_field"]))])
     PREVIEW_BUTTONS = [
         bt.HyperlinkButton(endpoint="https://www.google.com", label="Open Google"),
         bt.HyperlinkButton(endpoint="https://www.nytimes.com", label="Open NYTimes"),
@@ -44,6 +42,7 @@ class ModelTestModelViewSet(ModelViewSet):
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
+            dp.Field(key="tags", label="Tags"),
             dp.Field(key="char_field", label="Char"),
             dp.Field(key="annotated_char_field", label="A-Char"),
             # dp.Field(key="integer_field", label="Integer"),
@@ -51,10 +50,7 @@ class ModelTestModelViewSet(ModelViewSet):
                 key="float_field",
                 label="Float",
                 formatting_rules=[
-                    dp.FormattingRule(
-                        icon="wb-icon-trash",
-                        condition=dp.Condition(operator=Operator.LESS, value=0),
-                    )
+                    dp.FormattingRule(icon="wb-icon-trash", condition=dp.Condition(operator=Operator.LESS, value=0),)
                 ],
             ),
             dp.Field(key="percent_field", label="Percent"),
@@ -66,10 +62,7 @@ class ModelTestModelViewSet(ModelViewSet):
                 key="boolean_field",
                 label="Boolean",
                 formatting_rules=[
-                    dp.FormattingRule(
-                        style={"color": "red"},
-                        condition=dp.Condition(operator=Operator.EQUAL, value=True),
-                    )
+                    dp.FormattingRule(style={"color": "red"}, condition=dp.Condition(operator=Operator.EQUAL, value=True),)
                 ],
             ),
             dp.Field(key="choice_field", label="Choice"),
@@ -80,21 +73,13 @@ class ModelTestModelViewSet(ModelViewSet):
             dp.Field(key="star_rating", label="Star"),
         ],
         legends=[
-            dp.Legend(
-                items=[dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Good Stuff")]
-            ),
+            dp.Legend(items=[dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Good Stuff")]),
             dp.Legend(
                 key="status_field",
                 items=[
-                    dp.LegendItem(
-                        icon="wb-icon-thumbs-up-full", label="Status1", value="status1"
-                    ),
-                    dp.LegendItem(
-                        icon="wb-icon-thumbs-up-full", label="Status2", value="status2"
-                    ),
-                    dp.LegendItem(
-                        icon="wb-icon-thumbs-up-full", label="Status3", value="status3"
-                    ),
+                    dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Status1", value="status1"),
+                    dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Status2", value="status2"),
+                    dp.LegendItem(icon="wb-icon-thumbs-up-full", label="Status3", value="status3"),
                 ],
             ),
         ],
@@ -102,13 +87,8 @@ class ModelTestModelViewSet(ModelViewSet):
             dp.Formatting(
                 column="integer_field",
                 formatting_rules=[
-                    dp.FormattingRule(
-                        icon="wb-icon-thumbs-up-full", condition=("<", 5000)
-                    ),
-                    dp.FormattingRule(
-                        style={"backgroundColor": "rgb(80,220,100)"},
-                        condition=("<", 5000),
-                    ),
+                    dp.FormattingRule(icon="wb-icon-thumbs-up-full", condition=("<", 5000)),
+                    dp.FormattingRule(style={"backgroundColor": "rgb(80,220,100)"}, condition=("<", 5000),),
                 ],
             ),
         ],
@@ -119,12 +99,8 @@ class ModelTestModelViewSet(ModelViewSet):
             dp.Section(
                 fields=dp.FieldSet(
                     fields=[
-                        dp.FieldSet(
-                            fields=[
-                                "image_field",
-                                ["char_field", ["integer_field", "float_field"]],
-                            ]
-                        ),
+                        dp.FieldSet(fields=["image_field", ["char_field", ["integer_field", "float_field"]],]),
+                        "tags",
                         "text_field",
                         "percent_field",
                         "decimal_field",
@@ -140,9 +116,7 @@ class ModelTestModelViewSet(ModelViewSet):
                     ]
                 )
             ),
-            dp.Section(
-                title="Related Models", section_list=dp.SectionList(key="related_model")
-            ),
+            dp.Section(title="Related Models", section_list=dp.SectionList(key="related_model")),
         ]
     )
 
@@ -154,9 +128,7 @@ class ModelTestModelViewSet(ModelViewSet):
 
     def get_aggregates(self, queryset, **kwargs):
         return {
-            "date_field": {
-                "Latest Date": queryset.aggregate(ld=Max("date_field"))["ld"]
-            },
+            "date_field": {"Latest Date": queryset.aggregate(ld=Max("date_field"))["ld"]},
             "integer_field": {
                 "Σ": queryset.aggregate(s=Sum("integer_field"))["s"],
                 "μ": queryset.aggregate(avg=Avg("integer_field"))["avg"],

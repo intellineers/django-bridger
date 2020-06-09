@@ -4,6 +4,7 @@ from bridger import serializers
 from bridger.serializers import BridgerType, register_resource, register_dynamic_button
 
 from bridger import buttons as bt
+from bridger.tags.serializers import TagSerializerMixin
 
 from .models import ModelTest, RelatedModelTest
 
@@ -37,20 +38,16 @@ class RelatedModelTestRepresentationSerializer(serializers.RepresentationSeriali
         fields = ("id", "char_field", "_detail")
 
 
-class ModelTestSerializer(serializers.ModelSerializer):
+class ModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer):
 
-    _related_models = RelatedModelTestRepresentationSerializer(
-        source="related_models", many=True
-    )
+    _related_models = RelatedModelTestRepresentationSerializer(source="related_models", many=True)
 
     annotated_char_field = serializers.CharField(required=False, read_only=True)
     star_rating = serializers.StarRatingField()
 
     @register_dynamic_button()
     def something(self, instance, request, user):
-        return [
-            bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")
-        ]
+        return [bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash")]
 
     @register_resource()
     def related_models(self, instance, request, user):
@@ -58,11 +55,7 @@ class ModelTestSerializer(serializers.ModelSerializer):
 
     @register_resource()
     def self_endpoint(self, instance, request, user):
-        return {
-            "self_endpoint": reverse(
-                "modeltest-detail", args=[instance.id], request=request
-            )
-        }
+        return {"self_endpoint": reverse("modeltest-detail", args=[instance.id], request=request)}
 
     class Meta:
         percent_fields = ["percent_field"]
@@ -96,6 +89,8 @@ class ModelTestSerializer(serializers.ModelSerializer):
             "star_rating",
             "_additional_resources",
             "_buttons",
+            "tags",
+            "_tags",
         )
 
 
@@ -105,14 +100,14 @@ class CalendarModelTestSerializer(ModelTestSerializer):
         fields = ("id", "char_field", "datetime_field", "datetime_field1")
 
 
-class RelatedModelTestSerializer(serializers.ModelSerializer):
+class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer):
 
     _model_test = ModelTestRepresentationSerializer(source="model_test")
     _model_tests = ModelTestRepresentationSerializer(source="model_tests", many=True)
     some_method_field = serializers.SerializerMethodField()
     text_json = serializers.JSONTextEditorField(required=False)
     text_markdown = serializers.MarkdownTextField(metadata_field="text_json")
-    char_field = serializers.CharField(label="Char", secure=True)
+    # char_field = serializers.CharField(label="Char", secure=True)
 
     def get_some_method_field(self, obj):
         return obj.char_field.lower()
@@ -131,4 +126,6 @@ class RelatedModelTestSerializer(serializers.ModelSerializer):
             "some_method_field",
             "text_json",
             "text_markdown",
+            "tags",
+            "_tags",
         )

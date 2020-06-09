@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 from .notifications.viewsets import NotificationModelViewSet
+from .tags.viewsets import TagRepresentationViewSet
 from .routers import BridgerRouter
 from .views import Config, Profile
 
@@ -22,6 +23,7 @@ router.register(r"frontenduserconfiguration", FrontendUserConfigurationModelView
 router.register(r"notification", NotificationModelViewSet, basename="notification")
 router.register(r"user", UserViewSet, basename="user")
 router.register(r"clubhouse", ClubHouseView, basename="clubhouse")
+router.register(r"tagrepresentation", TagRepresentationViewSet, basename="tagrepresentation")
 
 urlpatterns = [
     path("config/", Config.as_view(), name="config"),

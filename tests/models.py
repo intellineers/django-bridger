@@ -11,20 +11,18 @@ from bridger.buttons import ActionButton
 from bridger.display import FieldSet, InstanceDisplay, Section
 from bridger.enums import RequestType
 from bridger.search import register as search_register
+from bridger.tags import TagModelMixin
 
 
 @search_register(endpoint="modeltest-list")
-class ModelTest(models.Model):
+class ModelTest(TagModelMixin, models.Model):
     @classmethod
     def search_for_term(cls, search_term, request=None):
         return (
             cls.objects.all()
             .annotate(
                 _search=models.functions.Concat(
-                    models.F("char_field"),
-                    models.Value(" "),
-                    models.F("text_field"),
-                    output_field=models.CharField(),
+                    models.F("char_field"), models.Value(" "), models.F("text_field"), output_field=models.CharField(),
                 )
             )
             .annotate(_repr=models.F("char_field"))
@@ -42,9 +40,7 @@ class ModelTest(models.Model):
         label="Move1",
         action_label="Move1",
         description_fields="<p>We will move1 this model.</p>",
-        instance_display=InstanceDisplay(
-            sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
-        ),
+        instance_display=InstanceDisplay(sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]),
         identifiers=["tests:modeltest"],
     )
 
@@ -55,18 +51,12 @@ class ModelTest(models.Model):
         label="Move2",
         action_label="Move2",
         description_fields="<p>We will move2 this model.</p>",
-        instance_display=InstanceDisplay(
-            sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]
-        ),
+        instance_display=InstanceDisplay(sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]),
         identifiers=["tests:modeltest"],
     )
 
     # Text
-    char_field = models.CharField(
-        max_length=255,
-        verbose_name="Char",
-        help_text="This is the help text of a char field.",
-    )
+    char_field = models.CharField(max_length=255, verbose_name="Char", help_text="This is the help text of a char field.",)
     text_field = models.TextField(null=True, blank=True)
 
     # Numbers
@@ -87,36 +77,32 @@ class ModelTest(models.Model):
     star_rating = models.PositiveIntegerField()
 
     # Choice
-    choice_field = models.CharField(
-        max_length=64, choices=(("a", "A"), ("b", "B")), default="a"
-    )
+    choice_field = models.CharField(max_length=64, choices=(("a", "A"), ("b", "B")), default="a")
 
     # Status
-    status_field = FSMField(
-        default=STATUS1, choices=status_choices, verbose_name="Status"
-    )
+    status_field = FSMField(default=STATUS1, choices=status_choices, verbose_name="Status")
 
     # Files
-    image_field = models.ImageField(null=True)
-    file_field = models.FileField(null=True)
+    image_field = models.ImageField(null=True, blank=True)
+    file_field = models.FileField(null=True, blank=True)
 
     history = HistoricalRecords()
 
+    def get_tag_detail_endpoint(self):
+        return reverse("modeltest-detail", args=[self.id])
+
+    def get_tag_representation(self):
+        return self.char_field
+
     @transition(
-        field=status_field,
-        source=[STATUS1],
-        target=STATUS2,
-        custom={"_transition_button": MOVE_BUTTON1},
+        field=status_field, source=[STATUS1], target=STATUS2, custom={"_transition_button": MOVE_BUTTON1},
     )
     def move1(self):
         """Moves the model from Status1 to Status2"""
         pass
 
     @transition(
-        field=status_field,
-        source=[STATUS1, STATUS2],
-        target=STATUS3,
-        custom={"_transition_button": MOVE_BUTTON2},
+        field=status_field, source=[STATUS1, STATUS2], target=STATUS3, custom={"_transition_button": MOVE_BUTTON2},
     )
     def move2(self):
         """Moves the model from Status1 or Status2 to Status3"""
@@ -148,14 +134,10 @@ class ModelTest(models.Model):
 
 
 @search_register(endpoint="relatedmodeltest-list")
-class RelatedModelTest(models.Model):
+class RelatedModelTest(TagModelMixin, models.Model):
     @classmethod
     def search_for_term(cls, request=None):
-        return (
-            cls.objects.all()
-            .annotate(_search=models.F("char_field"))
-            .annotate(_repr=models.F("char_field"))
-        )
+        return cls.objects.all().annotate(_search=models.F("char_field")).annotate(_repr=models.F("char_field"))
 
     text_json = JSONField(default=list, blank=True, null=True)
     text_markdown = models.TextField(default="")
@@ -168,14 +150,17 @@ class RelatedModelTest(models.Model):
         verbose_name="Model Test",
     )
     model_tests = models.ManyToManyField(
-        to="tests.ModelTest",
-        related_name="related_models_m2m",
-        blank=True,
-        verbose_name="Model Tests1",
+        to="tests.ModelTest", related_name="related_models_m2m", blank=True, verbose_name="Model Tests1",
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
     history = HistoricalRecords()
+
+    def get_tag_detail_endpoint(self):
+        return reverse("relatedmodeltest-detail", args=[self.id])
+
+    def get_tag_representation(self):
+        return self.char_field
 
     def __str__(self):
         return self.char_field

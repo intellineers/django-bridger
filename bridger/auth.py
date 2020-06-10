@@ -1,11 +1,16 @@
 from typing import Dict
 
 from datetime import timedelta
+from django.conf import settings
 
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
+from rest_framework import authentication
+from rest_framework_simplejwt.tokens import UntypedToken
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError, AuthenticationFailed
+from jwt import decode as jwt_decode
 
 
 def unauthenticated(request: Request) -> Dict:
@@ -31,3 +36,16 @@ def jwt_auth(request: Request) -> Dict:
             "username_field_label": username_field_label,
         },
     }
+
+
+class JWTCookieAuthentication(authentication.BaseAuthentication):
+    def authenticate(self, request: Request):
+        try:
+            jwt_access_token = request.COOKIES["JWT-access"]
+            UntypedToken(jwt_access_token)
+            decoded_data = jwt_decode(jwt_access_token, settings.SECRET_KEY, algorithms=["HS256"])
+            user = get_user_model().objects.get(id=decoded_data["user_id"])
+            return (user, None)
+        except (InvalidToken, TokenError, KeyError, get_user_model().DoesNotExist):
+            raise AuthenticationFailed("Authentication Failed.")
+            return None

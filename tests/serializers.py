@@ -112,6 +112,10 @@ class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer
     def get_some_method_field(self, obj):
         return obj.char_field.lower()
 
+    @register_resource()
+    def register_authenticated_html_page(self, instance, request, user):
+        return {"html": reverse("relatedmodeltest-authenticated-html", args=[instance.id])}
+
     class Meta:
         required_fields = ["model_test", "model_tests"]
         model = RelatedModelTest
@@ -128,4 +132,5 @@ class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer
             "text_markdown",
             "tags",
             "_tags",
+            "_additional_resources",
         )

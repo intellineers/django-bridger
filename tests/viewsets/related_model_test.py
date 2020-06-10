@@ -8,6 +8,8 @@ from bridger.viewsets import (
     RepresentationModelViewSet,
     ReadOnlyModelViewSet,
 )
+from rest_framework.decorators import action
+
 
 from tests.models import ModelTest, RelatedModelTest
 from tests.serializers import (
@@ -17,6 +19,9 @@ from tests.serializers import (
 )
 
 from bridger.pagination import LimitOffsetPagination
+from django.http import HttpResponse
+from bridger.auth import JWTCookieAuthentication
+from rest_framework.renderers import StaticHTMLRenderer
 
 
 class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
@@ -57,12 +62,12 @@ class RelatedModelTestModelViewSet(ModelViewSet):
                                 sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "custom_field"])),]
                             ),
                             serializer=ActionButtonSerializer,
-                        ),
-                        bt.HyperlinkButton(endpoint="https://www.google.com", icon="wb-icon-trash",),
+                        )
                     ],
                 ),
             ],
-        )
+        ),
+        bt.HyperlinkButton(key="html", icon="wb-icon-trash", label="Authenticated Subpage"),
     ]
 
     filter_fields = {"model_test": ["exact"], "char_field": ["exact"]}
@@ -83,3 +88,13 @@ class RelatedModelTestModelViewSet(ModelViewSet):
                 default_values = ModelTest.objects.all()[:3].values_list("id", flat=True)
                 serializer.fields["model_tests"].child_relation.default = default_values
         return serializer
+
+    @action(
+        detail=True,
+        methods=["GET"],
+        authentication_classes=[JWTCookieAuthentication],
+        permission_classes=[],
+        renderer_classes=[StaticHTMLRenderer],
+    )
+    def authenticated_html(self, request, pk):
+        return HttpResponse(f"<h1>Hello World {request.user}</h1>")

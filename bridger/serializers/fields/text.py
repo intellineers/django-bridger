@@ -34,6 +34,7 @@ class TextField(CharField):
 
 
 class MarkdownTextField(TextField):
+    field_type = BridgerType.MARKDOWNEDITOR.value
     texteditor_content_type = ReturnContentType.MARKDOWN.value
 
     def __init__(self, metadata_field=None, *args, **kwargs):
@@ -41,9 +42,9 @@ class MarkdownTextField(TextField):
         super().__init__(*args, **kwargs)
 
     def get_representation(self, request, field_name):
-        r = super().get_representation(request, field_name)
-        r["image_upload"] = reverse("bridger:markdown-asset-upload", request=request)
-        r["tags"] = reverse("bridger:markdown-tags", request=request)
+        representation = super().get_representation(request, field_name)
+        representation["image_upload"] = reverse("bridger:markdown-asset-upload", request=request)
+        representation["tags"] = reverse("bridger:markdown-tags", request=request)
         if self.metadata_field:
-            r["metadata_field"] = self.metadata_field
-        return r
+            representation["metadata_field"] = self.metadata_field
+        return representation

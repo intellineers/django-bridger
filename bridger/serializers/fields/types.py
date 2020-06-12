@@ -4,6 +4,7 @@ from enum import Enum
 class BridgerType(Enum):
     TEXT = "text"
     TEXTEDITOR = "texteditor"
+    MARKDOWNEDITOR = "markdowneditor"
     NUMBER = "number"
     DATETIME = "datetime"
     DATE = "date"

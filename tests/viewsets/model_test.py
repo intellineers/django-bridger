@@ -1,10 +1,10 @@
 from django.db.models import Avg, F, Max, Sum
-
+from django.utils import timezone
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger.messages import info
 from bridger.enums import Operator, Unit
-from bridger.serializers import ListSerializer
+from bridger.serializers import ListSerializer, DateTimeField
 from bridger.viewsets import ModelViewSet, RepresentationModelViewSet
 
 from tests.filters import ModelTestFilterSet
@@ -137,3 +137,8 @@ class ModelTestModelViewSet(ModelViewSet):
 
     def get_queryset(self):
         return super().get_queryset().annotate(annotated_char_field=F("char_field"))
+
+    def get_serializer_changes(self, serializer):
+        if not isinstance(serializer, ListSerializer) and hasattr(serializer, "fields"):
+            serializer.fields["datetime_field"] = DateTimeField(label="Datetime", default=timezone.now())
+        return serializer

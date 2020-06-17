@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "channels",
     "bridger",
     "tests",
+    "tests2",
     "corsheaders",
     "simple_history",
 ]

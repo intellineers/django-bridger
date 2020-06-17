@@ -1,5 +1,7 @@
 import logging
+from datetime import datetime
 
+from rest_framework.settings import api_settings
 from rest_framework.fields import empty
 
 logger = logging.getLogger(__name__)
@@ -33,12 +35,13 @@ class BridgerSerializerFieldMixin:
         default = getattr(self, "default", None)
 
         if default and default != empty:
+            if isinstance(default, datetime):
+                default = default.strftime(api_settings.DATETIME_FORMAT)
+
             representation["default"] = default() if callable(default) else default
         else:
             try:
-                default = self.parent.Meta.model._meta._forward_fields_map[
-                    field_name
-                ].default
+                default = self.parent.Meta.model._meta._forward_fields_map[field_name].default
                 if isinstance(default, (str, float, int)):
                     representation["default"] = default
             except:  # TODO Add some explicit exception handling

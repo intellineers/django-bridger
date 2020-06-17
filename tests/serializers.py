@@ -134,3 +134,4 @@ class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer
             "_tags",
             "_additional_resources",
         )
+

@@ -5,17 +5,14 @@ from .models import Notification
 
 
 class NotificationModelSerializer(serializers.ModelSerializer):
-
     @serializers.register_dynamic_button()
     def notification_buttons(self, instance, request, user):
         btns = instance.buttons or []
-        if instance.endpoint:
-            btns.append(WidgetButton(
-                endpoint=instance.endpoint,
-                label="Open",
-                title="Open",
-                icon="wb-icon-data"
-            ))
+        if endpoint := instance.endpoint:
+            if "widget_endpoint" in endpoint:
+                endpoint = endpoint.split("widget_endpoint=")[1]
+
+            btns.append(WidgetButton(endpoint=endpoint, label="Open", title="Open", icon="wb-icon-data"))
         return btns
 
     class Meta:

@@ -9,7 +9,7 @@ from rest_framework.reverse import reverse
 
 from bridger import display as dp
 from bridger import serializers
-from bridger.enums import Button, Operator, Unit
+from bridger.enums import Button, Operator, Unit, WBIcon
 from bridger.settings import bridger_settings
 from bridger.viewsets import ViewSet
 
@@ -82,11 +82,11 @@ class ClubHouseView(ViewSet):
                 column="story_type",
                 formatting_rules=[
                     dp.FormattingRule(
-                        icon="wb-icon-bold",
+                        icon=WBIcon.BOLD.value,
                         condition=dp.Condition(operator=Operator.EQUAL, value="bug"),
                     ),
                     dp.FormattingRule(
-                        icon="wb-icon-data",
+                        icon=WBIcon.DATA.value,
                         condition=dp.Condition(
                             operator=Operator.EQUAL, value="feature"
                         ),
@@ -106,8 +106,8 @@ class ClubHouseView(ViewSet):
         legends=[
             dp.Legend(
                 items=[
-                    dp.LegendItem(icon="wb-icon-bold", label="Bug"),
-                    dp.LegendItem(icon="wb-icon-data", label="Feature"),
+                    dp.LegendItem(icon=WBIcon.BOLD.value, label="Bug"),
+                    dp.LegendItem(icon=WBIcon.DATA.value, label="Feature"),
                 ]
             )
         ],

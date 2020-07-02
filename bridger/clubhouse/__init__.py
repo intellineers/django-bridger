@@ -6,6 +6,7 @@ from django.utils.html import strip_tags
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.permissions import AllowAny
 
 from bridger import display as dp
 from bridger import serializers

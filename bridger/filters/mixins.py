@@ -14,7 +14,8 @@ class BridgerFilterMixin:
             "default": {},
         }
 
-        if self.default:
+        # We consider the case where default is a boolean with value False.
+        if not self.default == None:
             if callable(self.default):
                 representation["default"][self.lookup_expr] = self.default(
                     field=self, request=request, view=view

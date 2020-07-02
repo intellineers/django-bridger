@@ -2,11 +2,13 @@ from django.utils import timezone
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import filters
 
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
 from bridger.enums import RequestType, WBIcon
+from bridger.filters import DjangoFilterBackend
 
 from .models import Notification
 from .serializers import NotificationModelSerializer
@@ -21,6 +23,12 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     LIST_BUTTONS = ["refresh"]
     INSTANCE_BUTTONS = ["refresh", "delete"]
     CREATE_BUTTONS = []
+
+    filter_backends = (
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+        filters.SearchFilter,
+    )
 
     def get_custom_buttons(self, request, buttons):
         return [
@@ -90,8 +98,10 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationModelSerializer
 
-    ordering_fields = ("-timestamp_created",)
-
+    ordering_fields = ("timestamp_created",)
+    ordering = ("-timestamp_created",)
+    search_fields = ("title", "message")
+    
     def retrieve(self, request, *args, **kwargs):
         obj = self.get_object()
         if not obj.timestamp_read:

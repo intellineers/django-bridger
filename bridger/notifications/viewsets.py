@@ -90,7 +90,7 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationModelSerializer
 
-    ordering_fields = ("timestamp_created",)
+    ordering_fields = ("-timestamp_created",)
 
     def retrieve(self, request, *args, **kwargs):
         obj = self.get_object()

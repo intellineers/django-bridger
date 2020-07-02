@@ -115,6 +115,9 @@ class ClubHouseView(ViewSet):
 
     serializer_class = ClubhouseSerializer
 
+    # We need to add this otherwise DjangoModelPermissions complains it cannot find a get_queryset method
+    permission_classes = (AllowAny,)
+
     def create(self, request):
         serializer = self.serializer_class(
             data=request.data, context={"request": request}

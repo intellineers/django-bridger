@@ -1,6 +1,6 @@
 from bridger.notifications.models import Notification
 from bridger.buttons import WidgetButton
-
+from bridger.enums import WBIcon
 
 def share_notification(user_id, widget_endpoint, message, user):
     _, endpoint = widget_endpoint.split("?widget_endpoint=")
@@ -9,6 +9,6 @@ def share_notification(user_id, widget_endpoint, message, user):
         title=f"{user.first_name} {user.last_name} shared a widget with you",
         message=message,
         buttons=[
-            dict(WidgetButton(label="Open", icon="wb-icon-data", endpoint=endpoint))
+            dict(WidgetButton(label="Open", icon=WBIcon.DATA.value, endpoint=endpoint))
         ],
     )

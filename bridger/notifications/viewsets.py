@@ -6,7 +6,7 @@ from rest_framework.reverse import reverse
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
-from bridger.enums import RequestType
+from bridger.enums import RequestType, WBIcon
 
 from .models import Notification
 from .serializers import NotificationModelSerializer
@@ -32,7 +32,7 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 ),
                 description_fields="Do you want to mark notifications as read?",
                 label="Mark all as read",
-                icon="wb-icon-eye-open",
+                icon=WBIcon.EYE.value,
                 confirm_config=bt.ButtonConfig(label="Read all"),
                 cancel_config=bt.ButtonConfig(label="Cancel"),
                 identifiers=["relatedmodeltest-list"],
@@ -45,7 +45,7 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
                 ),
                 description_fields="Do you want delete all read notifications?",
                 label="Delete all read notifications",
-                icon="wb-icon-trash",
+                icon=WBIcon.TRASH.value,
                 confirm_config=bt.ButtonConfig(
                     label="Delete all", level=bt.ButtonLevel.WARNING
                 ),
@@ -66,7 +66,7 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
             dp.Formatting(
                 column="timestamp_read",
                 formatting_rules=[
-                    dp.FormattingRule(icon="wb-icon-eye-open", condition=("∃", True)),
+                    dp.FormattingRule(icon=WBIcon.EYE.value, condition=("∃", True)),
                 ],
             ),
         ],
@@ -90,7 +90,7 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationModelSerializer
 
-    ordering_fields = ("timestamp_created",)
+    ordering_fields = ("-timestamp_created",)
 
     def retrieve(self, request, *args, **kwargs):
         obj = self.get_object()

@@ -30,7 +30,11 @@ class PandasFilterSet(FilterSet):
 
 
 def latest_date_filter(field, request, view):
-    return view.get_queryset().earliest("date_field").date_field
+    qs = view.get_queryset()
+    if qs.exists():
+        return  qs.earliest("date_field").date_field
+    return None
+    
 
 
 class ModelTestFilterSet(TagFilterMixin, FilterSet):

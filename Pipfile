@@ -30,9 +30,11 @@ tox = "*"
 mypy = "*"
 django-storages = "*"
 boto3 = "*"
+requests = "*"
 
 [packages]
 django-bridger = {editable = true,path = "."}
+
 
 [requires]
 python_version = "3.8"

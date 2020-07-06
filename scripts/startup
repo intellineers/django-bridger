@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DBNAME=bridger;
+
+echo -e "\e[34m\e[1m- Pull the latest version from origin\e[0m\e[39m";
+git pull;
+
+echo -e "\e[34m\e[1m- Install dependencies\e[0m\e[39m";
+poetry install;
+
+echo -e "\e[34m\e[1m- Starting Docker Containers\e[0m\e[39m";
+docker-compose up -d;
+
+echo -e "\e[34m\e[1m- Set up database (Migrations and Test Data)\e[0m\e[39m";
+if ! docker exec django-bridger_postgres_1 bash -c 'psql -lqt;' | cut -d \| -f 1 | grep -qw bridger; then
+    docker exec django-bridger_postgres_1 psql -c 'create database bridger;'
+    poetry run python manage.py migrate;
+    poetry run python manage.py populate_db
+else
+    poetry run python manage.py migrate;
+fi

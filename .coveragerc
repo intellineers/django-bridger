@@ -1,9 +1,0 @@
-[run]
-omit =
-    tests/*
-    setup.py
-    .tox/*
-    */migrations/*
-    manage.py
-
-    */metadata_validator.py

@@ -1,0 +1,2 @@
+#!/bin/bash
+poetry run celery -A celery_app worker -l info -Ofair --concurrency=1 -E

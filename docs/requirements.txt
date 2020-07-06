@@ -1,5 +1,6 @@
-mkdocs
 markdown
+mkdocs
+mkdocs-material
 markdown-blockdiag
 markdown-include
 pymdown-extensions

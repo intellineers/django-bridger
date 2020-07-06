@@ -46,8 +46,9 @@ tox = "3.16.*"
 
 # Documentation dependencies
 mkdocs = "1.1.*"
-# markdown-include = "*"
-# pymdown-extensions = "*"
+mkdocs-material = "5.4.*"
+markdown-include = "0.5.*"
+pymdown-extensions = "7.1.*"
 
 # Formatting and Linting dependencies
 black = "19.10b0"

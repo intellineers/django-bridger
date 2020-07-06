@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.9.7-alpha.1"
+version = "0.9.7-alpha.2"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -66,10 +66,6 @@ colorlog = "4.1.*"
 dj-database-url = "0.5.*"
 jupyter = "1.0.*"
 
-[build-system]
-requires = ["poetry_core>=1.0.0a5"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.coverage.run]
 omit = [
     "tests/*",
@@ -79,4 +75,7 @@ omit = [
     "manage.py",
 
     "*/metadata_validator.py",
-]
+][build-system]
+requires = ["poetry_core>=1.0.0a5"]
+build-backend = "poetry.core.masonry.api"
+

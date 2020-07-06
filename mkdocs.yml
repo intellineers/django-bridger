@@ -18,6 +18,5 @@ markdown_extensions:
         format: svg
     - markdown_include.include
     - codehilite
-    # - djangodocstrings
 plugins:
     - search

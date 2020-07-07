@@ -6,6 +6,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from bridger.signals.instance_buttons import add_additional_resource
+
 from .mixins import BridgerSerializerFieldMixin
 from .types import BridgerType
 

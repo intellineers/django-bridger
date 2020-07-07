@@ -37,7 +37,7 @@ class CustomInstanceButtonMetadataMixin:
             return uniquify_dict_iterable(button_list, "key")
         else:
             remote_buttons = add_instance_button.send(sender=self.__class__, many=True)
-            
+
             buttons = self.get_custom_list_instance_buttons(
                 request=request, buttons=getattr(self, "CUSTOM_LIST_INSTANCE_BUTTONS", []),
             )

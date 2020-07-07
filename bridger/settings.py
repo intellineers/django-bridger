@@ -28,7 +28,12 @@ DEFAULTS = {
     "FRONTEND_CONTEXT": {
         "TITLE": "Workbench",
         "FONT_URL": "https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,900&display=swap",
-        "CDN_URLS": ["https://cdn.plot.ly/plotly-latest.min.js"],
+        "CDN_URLS": [
+            "https://cdn.plot.ly/plotly-latest.min.js",
+            "https://unpkg.com/react@16/umd/react.production.min.js",
+            "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
+
+        ],
         "FAVICON_URL": None,
         "CSS_URL": None,
         "CONFIG_URL": None,

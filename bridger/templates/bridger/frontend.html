@@ -19,7 +19,7 @@
     <link href="{{BRIDGER_CONTEXT.FONT_URL}}" rel="stylesheet">
     <!-- EXTERNAL CDNS -->
     {% for bridger_cdn_url in BRIDGER_CONTEXT.CDN_URLS %}
-    <script src="{{bridger_cdn_url}}"></script>
+    <script crossorigin src="{{bridger_cdn_url}}"></script>
     {% endfor %}
     <!-- BRIDGER CSS -->
     {% if BRIDGER_CONTEXT.CSS_URL %}

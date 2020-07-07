@@ -32,7 +32,6 @@ DEFAULTS = {
             "https://cdn.plot.ly/plotly-latest.min.js",
             "https://unpkg.com/react@16/umd/react.production.min.js",
             "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
-
         ],
         "FAVICON_URL": None,
         "CSS_URL": None,

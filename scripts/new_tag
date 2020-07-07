@@ -1,4 +1,4 @@
 #!/bin/bash
-TAG="v"$(poetry run python -c "import bridger; print(bridger.__version__)")
+TAG="v"$(poetry run python -c "import toml; print(toml.load("pyproject.toml")["tool"]["poetry"]["version"])")
 git tag -a $TAG
 git push origin $TAG

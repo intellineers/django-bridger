@@ -5,6 +5,7 @@ from inspect import getmembers
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
+from bridger.signals.instance_buttons import add_additional_resource
 from .mixins import BridgerSerializerFieldMixin
 from .types import BridgerType
 
@@ -66,6 +67,12 @@ class AdditionalResourcesField(BridgerSerializerFieldMixin, serializers.ReadOnly
         for _, function in getmembers(self.parent.__class__, _is_additional_resource):
             _d = function(self.parent, instance=value, request=request, user=request.user)
             resources = {**resources, **_d}
+
+        remote_resources = add_additional_resource.send(
+            sender=self.parent.__class__, serializer=self.parent, instance=value, request=request, user=request.user
+        )
+        for _, resource in remote_resources:
+            resources = {**resources, **resource}
 
         return resources
 

@@ -22,17 +22,22 @@ class CustomInstanceButtonMetadataMixin:
 
     def _get_custom_instance_buttons(self, request: Request) -> List:
         if "pk" in self.kwargs:
-            # results = add_instance_button.send(sender=self.__class__)
-            # print(results)
+            remote_buttons = add_instance_button.send(sender=self.__class__, many=False)
+
             buttons = self.get_custom_instance_buttons(request=request, buttons=getattr(self, "CUSTOM_INSTANCE_BUTTONS", []))
             button_list = list()
             for button in buttons:
                 button.request = request
                 button_list.append(dict(button))
+
+            for _, button in remote_buttons:
+                button.request = request
+                button_list.append(dict(button))
+
             return uniquify_dict_iterable(button_list, "key")
         else:
-            # results = add_instance_button.send(sender=self.__class__)
-            # print(results)
+            remote_buttons = add_instance_button.send(sender=self.__class__, many=True)
+            
             buttons = self.get_custom_list_instance_buttons(
                 request=request, buttons=getattr(self, "CUSTOM_LIST_INSTANCE_BUTTONS", []),
             )
@@ -40,4 +45,9 @@ class CustomInstanceButtonMetadataMixin:
             for button in buttons:
                 button.request = request
                 button_list.append(dict(button))
+
+            for _, button in remote_buttons:
+                button.request = request
+                button_list.append(dict(button))
+
             return uniquify_dict_iterable(button_list, "key")

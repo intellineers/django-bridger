@@ -6,6 +6,7 @@ theme:
 nav:
     - Introduction: index.md
     - Getting started: getting_started.md
+    - Concept: concept.md
     - Serializers: serializers.md
     - Viewsets: viewsets.md
     - Filters: filters.md
@@ -15,6 +16,7 @@ nav:
     - Buttons: buttons.md
     - Display: display.md
     - Share: share.md
+    - Signals: signals.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:

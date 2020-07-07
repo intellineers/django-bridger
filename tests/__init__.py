@@ -1,7 +1,6 @@
 from bridger.menus import ItemPermission, Menu, MenuItem, default_registry
 from celery_app import app as celery_app
 
-
 default_registry.alphabetical_sorted = True
 default_registry.register(
     Menu(
@@ -36,4 +35,3 @@ default_registry.register(
         index=2,
     ),
 )
-

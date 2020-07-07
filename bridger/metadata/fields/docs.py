@@ -20,12 +20,7 @@ class DocsMetadataMixin:
 
         if hasattr(self, "basename"):
             if self.basename and pk and hasattr(self, "INSTANCE_DOCS"):
-                return reverse(
-                    viewname=f"{self.basename}-instance-docs",
-                    args=[pk],
-                    request=request,
-                )
+                return reverse(viewname=f"{self.basename}-instance-docs", args=[pk], request=request,)
 
             if self.basename and hasattr(self, "LIST_DOCS"):
                 return reverse(viewname=f"{self.basename}-list-docs", request=request)
-

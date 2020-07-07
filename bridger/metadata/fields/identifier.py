@@ -20,6 +20,4 @@ class IdentifierMetadataMixin:
         )
 
     def _get_identifier(self, request: Request) -> str:
-        return self.get_identifier(
-            request=request, identifier=getattr(self, "IDENTIFIER", None)
-        )
+        return self.get_identifier(request=request, identifier=getattr(self, "IDENTIFIER", None))

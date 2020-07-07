@@ -12,17 +12,11 @@ class InstanceDisplayMetadata(BridgerMetadataMixin):
 
 
 class InstanceDisplayMetadataMixin:
-    def get_instance_display(
-        self, request: Request, display: InstanceDisplay = None
-    ) -> InstanceDisplay:
+    def get_instance_display(self, request: Request, display: InstanceDisplay = None) -> InstanceDisplay:
         return display or []
 
     def _get_instance_display(self, request: Request) -> Dict:
-        return list(
-            self.get_instance_display(
-                request=request, display=getattr(self, "INSTANCE_DISPLAY", None)
-            )
-        )
+        return list(self.get_instance_display(request=request, display=getattr(self, "INSTANCE_DISPLAY", None)))
 
 
 class ListDisplayMetadata(BridgerMetadataMixin):
@@ -31,14 +25,8 @@ class ListDisplayMetadata(BridgerMetadataMixin):
 
 
 class ListDisplayMetadataMixin:
-    def get_list_display(
-        self, request: Request, display: Union[ListDisplay, Calendar] = None
-    ) -> Union[ListDisplay, Calendar]:
+    def get_list_display(self, request: Request, display: Union[ListDisplay, Calendar] = None) -> Union[ListDisplay, Calendar]:
         return display or {}
 
     def _get_list_display(self, request: Request) -> Dict:
-        return dict(
-            self.get_list_display(
-                request=request, display=getattr(self, "LIST_DISPLAY", None)
-            )
-        )
+        return dict(self.get_list_display(request=request, display=getattr(self, "LIST_DISPLAY", None)))

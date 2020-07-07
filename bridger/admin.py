@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-from .models import FrontendUserConfiguration
 from .markdown.admin import AssetModelAdmin
-
+from .models import FrontendUserConfiguration
 from .notifications.admin import NotificationModelAdmin
 from .tags.admin import TagModelAdmin
 

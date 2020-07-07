@@ -1,3 +1,4 @@
+from contextlib import suppress
 from typing import Dict, Iterator, List, Tuple, Union
 
 from django.urls.exceptions import NoReverseMatch
@@ -5,7 +6,6 @@ from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
 from bridger.metadata.mixins import BridgerMetadataMixin
-from contextlib import suppress
 
 Endpoint_T = Union[str, Tuple[str, List, Dict]]
 
@@ -16,9 +16,7 @@ class EndpointMetadata(BridgerMetadataMixin):
 
 
 class EndpointMetadataMixin:
-    def get_generic_endpoint(
-        self, request: Request, endpoint: Endpoint_T = None
-    ) -> Endpoint_T:
+    def get_generic_endpoint(self, request: Request, endpoint: Endpoint_T = None) -> Endpoint_T:
         return endpoint
 
     def get_history_endpoint(self, request, endpoint=None):
@@ -28,9 +26,7 @@ class EndpointMetadataMixin:
             model = type(obj)
             opts = model._meta
 
-            if hasattr(opts, "simple_history_manager_attribute") and hasattr(
-                model, "get_endpoint_basename"
-            ):
+            if hasattr(opts, "simple_history_manager_attribute") and hasattr(model, "get_endpoint_basename"):
                 return (
                     f"{model.get_endpoint_basename()}-history-list",
                     [obj.id],
@@ -43,9 +39,7 @@ class EndpointMetadataMixin:
         field_name = endpoint_type.upper()
         method_name = f"get_{endpoint_type}"
 
-        endpoint = getattr(self, method_name, self.get_generic_endpoint)(
-            request, getattr(self, field_name, None)
-        )
+        endpoint = getattr(self, method_name, self.get_generic_endpoint)(request, getattr(self, field_name, None))
 
         if endpoint is None:
             return endpoint

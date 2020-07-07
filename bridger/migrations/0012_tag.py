@@ -6,20 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bridger', '0011_asset_file_url_name'),
+        ("bridger", "0011_asset_file_url_name"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, unique=True)),
-                ('color', models.CharField(default='#D3D3D3', max_length=7)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID",),),
+                ("title", models.CharField(max_length=255, unique=True)),
+                ("color", models.CharField(default="#D3D3D3", max_length=7)),
             ],
-            options={
-                'verbose_name': 'Tag',
-                'verbose_name_plural': 'Tags',
-            },
+            options={"verbose_name": "Tag", "verbose_name_plural": "Tags",},
         ),
     ]

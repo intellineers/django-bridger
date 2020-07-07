@@ -43,9 +43,7 @@ class TestDateTimeField:
 
     @override_settings(TIME_ZONE="Europe/Berlin")
     def test_to_representation_non_utc(self):
-        localized_dt = pytz.timezone("Europe/Berlin").localize(
-            datetime(2019, 1, 1, 10, 0)
-        )
+        localized_dt = pytz.timezone("Europe/Berlin").localize(datetime(2019, 1, 1, 10, 0))
         assert self.field.to_representation(localized_dt) == "2019-01-01T10:00:00+0100"
 
     @override_settings(TIME_ZONE="UCT", USE_TZ=True)
@@ -75,8 +73,7 @@ class TestDateField:
         assert self.field is not None
 
     @pytest.mark.parametrize(
-        "input, expected",
-        [(date(2019, 1, 1), date(2019, 1, 1)), ("2019-01-01", date(2019, 1, 1))],
+        "input, expected", [(date(2019, 1, 1), date(2019, 1, 1)), ("2019-01-01", date(2019, 1, 1))],
     )
     def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected
@@ -112,12 +109,7 @@ class TestTimeField:
 
     @pytest.mark.parametrize(
         "input, expected",
-        [
-            (time(10, 0), time(10, 0)),
-            ("10:00", time(10, 0)),
-            ("10:00:00", time(10, 0)),
-            ("10:00:00.0000", time(10, 0)),
-        ],
+        [(time(10, 0), time(10, 0)), ("10:00", time(10, 0)), ("10:00:00", time(10, 0)), ("10:00:00.0000", time(10, 0)),],
     )
     def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected

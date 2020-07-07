@@ -6,33 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bridger', '0003_auto_20200218_1329'),
+        ("bridger", "0003_auto_20200218_1329"),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='notification',
-            name='endpoint',
-            field=models.URLField(null=True),
+        migrations.AddField(model_name="notification", name="endpoint", field=models.URLField(null=True),),
+        migrations.AlterField(
+            model_name="notification",
+            name="timestamp_created",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Created"),
         ),
         migrations.AlterField(
-            model_name='notification',
-            name='timestamp_created',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Created'),
+            model_name="notification",
+            name="timestamp_mailed",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Mailed"),
         ),
         migrations.AlterField(
-            model_name='notification',
-            name='timestamp_mailed',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Mailed'),
+            model_name="notification",
+            name="timestamp_read",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Read"),
         ),
         migrations.AlterField(
-            model_name='notification',
-            name='timestamp_read',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Read'),
-        ),
-        migrations.AlterField(
-            model_name='notification',
-            name='timestamp_received',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Received'),
+            model_name="notification",
+            name="timestamp_received",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Received"),
         ),
     ]

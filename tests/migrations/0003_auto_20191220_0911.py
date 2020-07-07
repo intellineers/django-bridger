@@ -11,15 +11,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name="modeltest",
-            name="float_field",
-            field=models.FloatField(default=1),
-            preserve_default=False,
+            model_name="modeltest", name="float_field", field=models.FloatField(default=1), preserve_default=False,
         ),
         migrations.AddField(
-            model_name="modeltest",
-            name="percent_field",
-            field=models.FloatField(default=1),
-            preserve_default=False,
+            model_name="modeltest", name="percent_field", field=models.FloatField(default=1), preserve_default=False,
         ),
     ]

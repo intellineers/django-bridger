@@ -10,9 +10,7 @@ class TestUnit:
         assert unit.unit(value) == f"{float(value)}{unit.value}"
 
     @pytest.mark.parametrize("unit", [Unit.FRACTION, Unit.REM, Unit.PIXEL])
-    @pytest.mark.parametrize(
-        "value, exception", [("a", ValueError), (None, AssertionError)]
-    )
+    @pytest.mark.parametrize("value, exception", [("a", ValueError), (None, AssertionError)])
     def test_unit_fail(self, unit, value, exception):
         with pytest.raises(exception):
             unit.unit(value)
@@ -35,22 +33,9 @@ class TestButton:
             ),
             (
                 "create_buttons",
-                [
-                    Button.SAVE.value,
-                    Button.SAVE_AND_CLOSE.value,
-                    Button.SAVE_AND_NEW.value,
-                    Button.RESET.value,
-                ],
+                [Button.SAVE.value, Button.SAVE_AND_CLOSE.value, Button.SAVE_AND_NEW.value, Button.RESET.value,],
             ),
-            (
-                "custom_buttons",
-                [
-                    Button.DROPDOWN.value,
-                    Button.HYPERLINK.value,
-                    Button.WIDGET.value,
-                    Button.ACTION.value,
-                ],
-            ),
+            ("custom_buttons", [Button.DROPDOWN.value, Button.HYPERLINK.value, Button.WIDGET.value, Button.ACTION.value,],),
         ],
     )
     def test_methods(self, method, buttons):

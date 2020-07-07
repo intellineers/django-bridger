@@ -2,8 +2,8 @@ from datetime import date, datetime
 from enum import Enum, auto
 
 import django_filters
-from django.utils.timezone import localdate
 from django.utils.dateparse import parse_date
+from django.utils.timezone import localdate
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.reverse import reverse
 
@@ -46,9 +46,7 @@ class MultipleChoiceFilter(BridgerFilterMixin, django_filters.MultipleChoiceFilt
         return representation
 
 
-class ModelMultipleChoiceFilter(
-    BridgerFilterMixin, django_filters.ModelMultipleChoiceFilter
-):
+class ModelMultipleChoiceFilter(BridgerFilterMixin, django_filters.ModelMultipleChoiceFilter):
 
     filter_type = "select"
 

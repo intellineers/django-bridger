@@ -14,22 +14,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="RelatedModelTest",
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID",),),
                 ("char_field", models.CharField(max_length=255)),
                 (
                     "model_test",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="related_models",
-                        to="tests.ModelTest",
+                        on_delete=django.db.models.deletion.CASCADE, related_name="related_models", to="tests.ModelTest",
                     ),
                 ),
             ],

@@ -38,7 +38,4 @@ def resolve_markdown(content: str, extensions=None) -> str:
 
 def resolve_content(content: str, extensions=None, **context) -> str:
     """Resolves the content by first resolving the templatetags and then resolving any potential markdown fields"""
-    return resolve_markdown(
-        resolve_templatetags(content, **context), extensions=extensions
-    )
-
+    return resolve_markdown(resolve_templatetags(content, **context), extensions=extensions)

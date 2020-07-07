@@ -1,0 +1,4 @@
+#!/bin/bash
+
+poetry run isort -m 3 -w 128 --tc .
+poetry run black --line-length 128 .

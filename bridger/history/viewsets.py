@@ -1,3 +1,5 @@
+from django.db.models import F, Value
+from django.db.models.functions import Concat
 from django.utils import timezone
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,11 +8,9 @@ from rest_framework.reverse import reverse
 from bridger import buttons as bt
 from bridger import display as dp
 from bridger import viewsets
-from bridger.enums import RequestType
-from django.db.models.functions import Concat
-from django.db.models import F, Value
+from bridger.enums import Button, RequestType
+
 from .serializers import get_historical_serializer
-from bridger.enums import Button
 
 
 def get_historical_viewset(model, historical_model):
@@ -48,14 +48,7 @@ def get_historical_viewset(model, historical_model):
 
         def get_queryset(self):
             qs = super().get_queryset()
-            qs = qs.annotate(
-                user_repr=Concat(
-                    F("history_user__first_name"),
-                    Value(" "),
-                    F("history_user__last_name"),
-                )
-            )
+            qs = qs.annotate(user_repr=Concat(F("history_user__first_name"), Value(" "), F("history_user__last_name"),))
             return qs
 
     return HistoricalModelViewSet
-

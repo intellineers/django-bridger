@@ -21,9 +21,7 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
 
     char_field = factory.Faker("pystr", min_chars=5, max_chars=20)
     float_field = factory.Faker("pyfloat")
-    percent_field = factory.Faker(
-        "pyfloat", left_digits=0, right_digits=4, positive=True,
-    )
+    percent_field = factory.Faker("pyfloat", left_digits=0, right_digits=4, positive=True,)
     text_field = factory.Faker("paragraph")
     integer_field = factory.Faker("pyint")
     star_rating = factory.Faker("pyint", min_value=1, max_value=5)
@@ -34,6 +32,4 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
     time_field = factory.Faker("time_object")
     boolean_field = factory.Faker("pybool")
     choice_field = FuzzyChoice(choices=["a", "b"])
-    related_models = factory.RelatedFactory(
-        "tests.factories.RelatedModelTestFactory", "model_test"
-    )
+    related_models = factory.RelatedFactory("tests.factories.RelatedModelTestFactory", "model_test")

@@ -10,6 +10,4 @@ websocket_urlpatterns = [
     path("ws/notification/", NotificationConsumer),
 ]
 
-application = ProtocolTypeRouter(
-    {"websocket": JWTAuthMiddlewareStack(URLRouter(websocket_urlpatterns))}
-)
+application = ProtocolTypeRouter({"websocket": JWTAuthMiddlewareStack(URLRouter(websocket_urlpatterns))})

@@ -6,13 +6,9 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bridger', '0004_auto_20200327_1152'),
+        ("bridger", "0004_auto_20200327_1152"),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='notification',
-            name='endpoint',
-            field=models.URLField(blank=True, null=True),
-        ),
+        migrations.AlterField(model_name="notification", name="endpoint", field=models.URLField(blank=True, null=True),),
     ]

@@ -1,6 +1,5 @@
 from .fields import (
     AdditionalResourcesField,
-    DynamicButtonField,
     BooleanField,
     BridgerType,
     CharField,
@@ -8,6 +7,7 @@ from .fields import (
     DateField,
     DateTimeField,
     DecimalField,
+    DynamicButtonField,
     FileField,
     FloatField,
     FSMStatusField,
@@ -17,6 +17,7 @@ from .fields import (
     JSONTextEditorField,
     ListField,
     ListSerializer,
+    MarkdownTextField,
     PrimaryKeyCharField,
     PrimaryKeyField,
     PrimaryKeyRelatedField,
@@ -28,14 +29,7 @@ from .fields import (
     StringRelatedField,
     TextField,
     TimeField,
-    register_resource,
     register_dynamic_button,
-    MarkdownTextField,
+    register_resource,
 )
-from .serializers import (
-    Serializer,
-    ModelSerializer,
-    RepresentationSerializer,
-    decorator,
-    percent_decorator,
-)
+from .serializers import ModelSerializer, RepresentationSerializer, Serializer, decorator, percent_decorator

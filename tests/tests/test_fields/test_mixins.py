@@ -30,9 +30,7 @@ class TestListField:
     @pytest.mark.parametrize("required", [True, False])
     @pytest.mark.parametrize("read_only", [False])
     def test_get_representation(self, label, required, read_only):
-        test_sub_class_instance = self.TestSubClass(
-            label=label, required=required, read_only=read_only,
-        )
+        test_sub_class_instance = self.TestSubClass(label=label, required=required, read_only=read_only,)
         assert test_sub_class_instance.get_representation(None, "field_name") == {
             "key": "field_name",
             "label": label,
@@ -47,9 +45,7 @@ class TestListField:
         decorators = {"some_field": [{"position": "right", "value": "%"}]}
         extra = {"some_key": "some_value"}
 
-        test_sub_class_instance = self.TestSubClass(
-            help_text=help_text, decorators=decorators, extra=extra,
-        )
+        test_sub_class_instance = self.TestSubClass(help_text=help_text, decorators=decorators, extra=extra,)
         assert test_sub_class_instance.get_representation(None, "field_name") == {
             "key": "field_name",
             "label": None,

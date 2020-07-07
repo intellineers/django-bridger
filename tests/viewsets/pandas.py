@@ -1,10 +1,9 @@
 from django.db.models import F
 
 from bridger import display as dp
-from bridger.pandas.views import PandasAPIView
 from bridger.pandas import fields as pf
+from bridger.pandas.views import PandasAPIView
 from bridger.serializers import decorator
-
 from tests.filters import PandasFilterSet
 from tests.models import ModelTest
 
@@ -40,9 +39,7 @@ class MyPandasView(PandasAPIView):
                 percent=True,
                 decorators=[decorator(position="left", value="@")],
             ),
-            pf.FloatField(
-                key="integer_annotated", label="Integer Annotated", precision=2,
-            ),
+            pf.FloatField(key="integer_annotated", label="Integer Annotated", precision=2,),
         ]
     )
     queryset = ModelTest.objects.all()
@@ -54,9 +51,4 @@ class MyPandasView(PandasAPIView):
         return qs
 
     def get_aggregates(self, request, df):
-        return {
-            "integer_field": {
-                "Σ": df["integer_field"].sum(),
-                "μ": df["integer_field"].mean(),
-            }
-        }
+        return {"integer_field": {"Σ": df["integer_field"].sum(), "μ": df["integer_field"].mean(),}}

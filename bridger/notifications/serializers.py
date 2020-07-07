@@ -1,6 +1,7 @@
-from bridger.buttons import WidgetButton
 from bridger import serializers
+from bridger.buttons import WidgetButton
 from bridger.enums import WBIcon
+
 from .models import Notification
 
 
@@ -12,7 +13,7 @@ class NotificationModelSerializer(serializers.ModelSerializer):
             if "widget_endpoint" in endpoint:
                 endpoint = endpoint.split("widget_endpoint=")[1]
 
-            btns.append(WidgetButton(endpoint=endpoint, label="Open", title="Open", icon=WBIcon.DATA.value))
+            btns.append(WidgetButton(endpoint=endpoint, label="Open", title="Open", icon=WBIcon.DATA.value,))
         return btns
 
     class Meta:

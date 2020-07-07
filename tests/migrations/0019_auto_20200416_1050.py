@@ -7,18 +7,18 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0018_auto_20200416_1049'),
+        ("tests", "0018_auto_20200416_1049"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='historicalrelatedmodeltest',
-            name='text_json',
+            model_name="historicalrelatedmodeltest",
+            name="text_json",
             field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=list, null=True),
         ),
         migrations.AlterField(
-            model_name='relatedmodeltest',
-            name='text_json',
+            model_name="relatedmodeltest",
+            name="text_json",
             field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=list, null=True),
         ),
     ]

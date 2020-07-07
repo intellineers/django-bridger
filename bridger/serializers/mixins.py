@@ -38,11 +38,7 @@ class RepresentationSerializerMixin:
         representation = {
             "representation_key": field_name,
             "related_key": self.source,
-            "endpoint": {
-                "url": url,
-                "value_key": self.value_key,
-                "label_key": self.label_key,
-            },
+            "endpoint": {"url": url, "value_key": self.value_key, "label_key": self.label_key,},
         }
         if self.help_text:
             representation["help_text"] = self.help_text

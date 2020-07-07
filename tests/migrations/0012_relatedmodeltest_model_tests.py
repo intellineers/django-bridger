@@ -14,10 +14,7 @@ class Migration(migrations.Migration):
             model_name="relatedmodeltest",
             name="model_tests",
             field=models.ManyToManyField(
-                null=True,
-                related_name="related_models_m2m",
-                to="tests.ModelTest",
-                verbose_name="Model Tests",
+                null=True, related_name="related_models_m2m", to="tests.ModelTest", verbose_name="Model Tests",
             ),
         ),
     ]

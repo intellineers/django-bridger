@@ -6,18 +6,10 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0019_auto_20200416_1050'),
+        ("tests", "0019_auto_20200416_1050"),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='historicalrelatedmodeltest',
-            name='text_markdown',
-            field=models.TextField(default=''),
-        ),
-        migrations.AddField(
-            model_name='relatedmodeltest',
-            name='text_markdown',
-            field=models.TextField(default=''),
-        ),
+        migrations.AddField(model_name="historicalrelatedmodeltest", name="text_markdown", field=models.TextField(default=""),),
+        migrations.AddField(model_name="relatedmodeltest", name="text_markdown", field=models.TextField(default=""),),
     ]

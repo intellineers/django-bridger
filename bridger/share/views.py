@@ -14,4 +14,3 @@ class ShareAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         bridger_settings.DEFAULT_SHARE_NOTIFICATION(**request.data, user=request.user)
         return Response({})
-

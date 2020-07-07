@@ -13,25 +13,16 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="relatedmodeltest",
-            options={
-                "verbose_name": "Related Model Test",
-                "verbose_name_plural": "Related Model Tests",
-            },
+            options={"verbose_name": "Related Model Test", "verbose_name_plural": "Related Model Tests",},
         ),
         migrations.AlterField(
-            model_name="modeltest",
-            name="datetime_field",
-            field=models.DateTimeField(verbose_name="DateTime"),
+            model_name="modeltest", name="datetime_field", field=models.DateTimeField(verbose_name="DateTime"),
         ),
         migrations.AlterField(
-            model_name="modeltest",
-            name="datetime_field1",
-            field=models.DateTimeField(verbose_name="DateTime 1"),
+            model_name="modeltest", name="datetime_field1", field=models.DateTimeField(verbose_name="DateTime 1"),
         ),
         migrations.AlterField(
-            model_name="relatedmodeltest",
-            name="char_field",
-            field=models.CharField(max_length=255, verbose_name="Char"),
+            model_name="relatedmodeltest", name="char_field", field=models.CharField(max_length=255, verbose_name="Char"),
         ),
         migrations.AlterField(
             model_name="relatedmodeltest",

@@ -1,27 +1,17 @@
+from django.http import HttpResponse
+from rest_framework.decorators import action
+from rest_framework.renderers import StaticHTMLRenderer
+
 from bridger import buttons as bt
 from bridger import display as dp
+from bridger.auth import JWTCookieAuthentication
 from bridger.enums import Unit
 from bridger.messages import info
-from bridger.serializers import ListSerializer
-from bridger.viewsets import (
-    ModelViewSet,
-    RepresentationModelViewSet,
-    ReadOnlyModelViewSet,
-)
-from rest_framework.decorators import action
-
-
-from tests.models import ModelTest, RelatedModelTest
-from tests.serializers import (
-    ActionButtonSerializer,
-    RelatedModelTestRepresentationSerializer,
-    RelatedModelTestSerializer,
-)
-
 from bridger.pagination import LimitOffsetPagination
-from django.http import HttpResponse
-from bridger.auth import JWTCookieAuthentication
-from rest_framework.renderers import StaticHTMLRenderer
+from bridger.serializers import ListSerializer
+from bridger.viewsets import ModelViewSet, ReadOnlyModelViewSet, RepresentationModelViewSet
+from tests.models import ModelTest, RelatedModelTest
+from tests.serializers import ActionButtonSerializer, RelatedModelTestRepresentationSerializer, RelatedModelTestSerializer
 
 
 class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):

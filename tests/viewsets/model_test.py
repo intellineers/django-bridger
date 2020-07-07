@@ -1,18 +1,15 @@
 from django.db.models import Avg, F, Max, Sum
 from django.utils import timezone
+
 from bridger import buttons as bt
 from bridger import display as dp
-from bridger.messages import info
 from bridger.enums import Operator, Unit
-from bridger.serializers import ListSerializer, DateTimeField
+from bridger.messages import info
+from bridger.serializers import DateTimeField, ListSerializer
 from bridger.viewsets import ModelViewSet, RepresentationModelViewSet
-
 from tests.filters import ModelTestFilterSet
 from tests.models import ModelTest
-from tests.serializers import (
-    ModelTestRepresentationSerializer,
-    ModelTestSerializer,
-)
+from tests.serializers import ModelTestRepresentationSerializer, ModelTestSerializer
 
 
 class ModelTestRepresentationViewSet(RepresentationModelViewSet):

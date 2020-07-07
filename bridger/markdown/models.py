@@ -24,4 +24,3 @@ def generate_content_type(sender, instance, **kwargs):
     if suffix := pathlib.Path(instance.file.name).suffix:
         instance.content_type = suffix[1:]
         instance.file_url_name = f"{instance.id}{suffix}"
-

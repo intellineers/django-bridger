@@ -1,12 +1,12 @@
+from channels.auth import UserLazyObject
+from channels.db import database_sync_to_async
+from channels.middleware import BaseMiddleware
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import close_old_connections
 from jwt import decode as jwt_decode
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import UntypedToken
-from channels.middleware import BaseMiddleware
-from channels.auth import UserLazyObject
-from channels.db import database_sync_to_async
 
 
 @database_sync_to_async
@@ -38,9 +38,7 @@ class JWTAuthMiddleware(BaseMiddleware):
         except (InvalidToken, TokenError, KeyError):
             return self.inner(dict(scope))
         else:
-            decoded_data = jwt_decode(
-                jwt_access_token, settings.SECRET_KEY, algorithms=["HS256"]
-            )
+            decoded_data = jwt_decode(jwt_access_token, settings.SECRET_KEY, algorithms=["HS256"])
             scope["user"]._wrapped = await get_user(user_id=decoded_data["user_id"])
 
         # return self.inner(dict(scope, user=user))

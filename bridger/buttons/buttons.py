@@ -67,9 +67,7 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         ls = ListSerializer
         field_items = self.serializer().fields.items()
 
-        for name, field in filter(
-            lambda f: not isinstance(f[1], (rs, ls)), field_items
-        ):
+        for name, field in filter(lambda f: not isinstance(f[1], (rs, ls)), field_items):
             fields[name] = field.get_representation(request, name)
 
         for name, field in filter(lambda f: isinstance(f[1], (rs, ls)), field_items):

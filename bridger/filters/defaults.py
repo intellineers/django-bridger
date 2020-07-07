@@ -1,8 +1,9 @@
 from calendar import monthrange
 from datetime import date
+
 from django.utils.timezone import localdate
 
-from bridger.utils.date import get_start_date_from_date, get_end_date_from_date
+from bridger.utils.date import get_end_date_from_date, get_start_date_from_date
 
 
 def current_quarter_date_start(field, request, view):

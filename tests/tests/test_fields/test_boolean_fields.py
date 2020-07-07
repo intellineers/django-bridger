@@ -15,15 +15,7 @@ class TestBooleanField:
         assert self.field is not None
 
     @pytest.mark.parametrize(
-        "input, expected",
-        [
-            (True, True),
-            (False, False),
-            (1, True),
-            (0, False),
-            ("1", True),
-            ("0", False),
-        ],
+        "input, expected", [(True, True), (False, False), (1, True), (0, False), ("1", True), ("0", False),],
     )
     def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected

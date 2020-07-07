@@ -21,9 +21,7 @@ class Notification(models.Model):
         A model that represents a notification that is send as a system notification or mail or both
     """
 
-    recipient = models.ForeignKey(
-        to=get_user_model(), related_name="notifications", on_delete=models.CASCADE
-    )
+    recipient = models.ForeignKey(to=get_user_model(), related_name="notifications", on_delete=models.CASCADE)
 
     title = models.CharField(max_length=512)
     message = models.TextField(null=True, blank=True)
@@ -32,13 +30,9 @@ class Notification(models.Model):
     endpoint = models.URLField(null=True, blank=True, max_length=2048)
 
     timestamp_created = models.DateTimeField(auto_now_add=True, verbose_name="Created")
-    timestamp_received = models.DateTimeField(
-        null=True, blank=True, verbose_name="Received"
-    )
+    timestamp_received = models.DateTimeField(null=True, blank=True, verbose_name="Received")
     timestamp_read = models.DateTimeField(null=True, blank=True, verbose_name="Read")
-    timestamp_mailed = models.DateTimeField(
-        null=True, blank=True, verbose_name="Mailed"
-    )
+    timestamp_mailed = models.DateTimeField(null=True, blank=True, verbose_name="Mailed")
 
     send_type_choices = (
         (NotificationSendType.SYSTEM.value, "System"),
@@ -46,11 +40,7 @@ class Notification(models.Model):
         (NotificationSendType.SYSTEM_AND_MAIL.value, "System and Mail"),
     )
 
-    send_type = models.CharField(
-        max_length=32,
-        choices=send_type_choices,
-        default=NotificationSendType.SYSTEM.value,
-    )
+    send_type = models.CharField(max_length=32, choices=send_type_choices, default=NotificationSendType.SYSTEM.value,)
 
     def __str__(self):
         return f"{self.recipient} {self.title}"
@@ -76,6 +66,4 @@ def post_create_notification(sender, instance, created, **kwargs):
             NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
         }
         for action in dispatch[instance.send_type]:
-            transaction.on_commit(
-                lambda: celery.execute.send_task(action, args=[instance.id])
-            )
+            transaction.on_commit(lambda: celery.execute.send_task(action, args=[instance.id]))

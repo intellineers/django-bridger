@@ -6,6 +6,5 @@ from .models import Tag
 class TagFilterMixin(filters.FilterSet):
 
     tags = filters.ModelMultipleChoiceFilter(
-        endpoint="bridger:tagrepresentation-list", value_key="id", label_key="title", queryset=Tag.objects.all()
+        endpoint="bridger:tagrepresentation-list", value_key="id", label_key="title", queryset=Tag.objects.all(),
     )
-

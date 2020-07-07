@@ -2,11 +2,10 @@ import pytest
 from django.test import override_settings
 
 from bridger.menus import default_registry
-from bridger.views import Config, Profile
 from bridger.menus.views import MenuAPIView
+from bridger.views import Config, Profile
 
 from .utils import AuthenticatedTest
-
 
 # # TODO: Make proper Test
 # class TestMenu(AuthenticatedTest):

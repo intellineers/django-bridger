@@ -1,22 +1,16 @@
 from django.db.models import Q
-from bridger.filters import (
-    BooleanFilter,
-    CharFilter,
-    DateFilter,
-    FilterSet,
-    NumberFilter,
-    DateRangeFilter,
-)
+
+from bridger.filters import BooleanFilter, CharFilter, DateFilter, DateRangeFilter, FilterSet, NumberFilter
 from bridger.filters.defaults import (
-    current_quarter_date_start,
-    current_quarter_date_end,
-    current_month_date_start,
     current_month_date_end,
+    current_month_date_start,
+    current_quarter_date_end,
     current_quarter_date_interval,
+    current_quarter_date_start,
 )
+from bridger.tags.filters import TagFilterMixin
 
 from .models import ModelTest, RelatedModelTest
-from bridger.tags.filters import TagFilterMixin
 
 
 class PandasFilterSet(FilterSet):
@@ -32,9 +26,8 @@ class PandasFilterSet(FilterSet):
 def latest_date_filter(field, request, view):
     qs = view.get_queryset()
     if qs.exists():
-        return  qs.earliest("date_field").date_field
+        return qs.earliest("date_field").date_field
     return None
-    
 
 
 class ModelTestFilterSet(TagFilterMixin, FilterSet):

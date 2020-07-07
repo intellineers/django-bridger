@@ -27,7 +27,7 @@ class BridgerManyRelatedField(ManyRelatedField):
             data = []
 
         # If the data is a list and contains the string null, then we need to convert it (FORM DATA)
-        if data == ['null']:
+        if data == ["null"]:
             data = []
 
         # If the data is None and null is an allowed value, data needs to be set to an empty list
@@ -42,9 +42,7 @@ class BridgerManyRelatedField(ManyRelatedField):
         return representation
 
 
-class PrimaryKeyRelatedField(
-    BridgerSerializerFieldMixin, serializers.PrimaryKeyRelatedField
-):
+class PrimaryKeyRelatedField(BridgerSerializerFieldMixin, serializers.PrimaryKeyRelatedField):
 
     MANY_RELATION_KWARGS = (
         "read_only",
@@ -84,9 +82,7 @@ class PrimaryKeyRelatedField(
             data = None
 
         if data is empty:
-            parent_model_id = self.parent.context["view"].kwargs.get(
-                f"{self.field_name}_id"
-            )
+            parent_model_id = self.parent.context["view"].kwargs.get(f"{self.field_name}_id")
             if parent_model_id:
                 data = parent_model_id
 

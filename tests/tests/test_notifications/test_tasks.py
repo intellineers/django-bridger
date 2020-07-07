@@ -3,11 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core import mail
 from django.db.models.signals import post_save
 
-from bridger.notifications.models import (
-    Notification,
-    NotificationSendType,
-    post_create_notification,
-)
+from bridger.notifications.models import Notification, NotificationSendType, post_create_notification
 from bridger.notifications.tasks import send_mail, send_system
 
 
@@ -17,11 +13,7 @@ class TestNotificationTasks:
         post_save.disconnect(receiver=post_create_notification, sender=Notification)
 
         self.user = get_user_model().objects.create(
-            username="test_user",
-            password="ABC",
-            email="test@test.de",
-            is_active=True,
-            is_superuser=True,
+            username="test_user", password="ABC", email="test@test.de", is_active=True, is_superuser=True,
         )
         self.notification = Notification.objects.create(
             recipient=self.user,

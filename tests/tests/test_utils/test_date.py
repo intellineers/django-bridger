@@ -16,11 +16,7 @@ class TestGetDateInterval:
     @pytest.mark.parametrize("end", [date(2010, 1, 1)])
     def test_get_date_interval_from_get(self, start_key, start, end_key, end):
         request = self.request_factory.get(
-            path="",
-            data={
-                start_key: start.strftime("%Y-%m-%d"),
-                end_key: end.strftime("%Y-%m-%d"),
-            },
+            path="", data={start_key: start.strftime("%Y-%m-%d"), end_key: end.strftime("%Y-%m-%d"),},
         )
         _start, _end = get_date_interval_from_get(request)
 

@@ -1,9 +1,8 @@
 from rest_framework.reverse import reverse
 
-from bridger import serializers
-from bridger.serializers import BridgerType, register_resource, register_dynamic_button
-
 from bridger import buttons as bt
+from bridger import serializers
+from bridger.serializers import BridgerType, register_dynamic_button, register_resource
 from bridger.tags.serializers import TagSerializerMixin
 
 from .models import ModelTest, RelatedModelTest
@@ -134,4 +133,3 @@ class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer
             "_tags",
             "_additional_resources",
         )
-

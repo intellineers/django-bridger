@@ -15,9 +15,7 @@ class Migration(migrations.Migration):
             model_name="modeltest",
             name="status_field",
             field=django_fsm.FSMField(
-                choices=[("status1", "Status1"), ("status2", "Status2")],
-                default="status1",
-                max_length=50,
+                choices=[("status1", "Status1"), ("status2", "Status2")], default="status1", max_length=50,
             ),
         ),
     ]

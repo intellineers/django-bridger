@@ -1,7 +1,7 @@
 from datetime import date, time
 
-from django.db import models
 from django.contrib.postgres.fields import JSONField
+from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
 from rest_framework.reverse import reverse

@@ -43,10 +43,7 @@ class MenuItem:
         if self.permission is None or self.permission.has_permission(request=request):
             if self.reverse:
                 endpoint = reverse(
-                    viewname=self.endpoint,
-                    args=self.endpoint_args,
-                    kwargs=self.endpoint_kwargs,
-                    request=request,
+                    viewname=self.endpoint, args=self.endpoint_args, kwargs=self.endpoint_kwargs, request=request,
                 )
             else:
                 endpoint = self.endpoint

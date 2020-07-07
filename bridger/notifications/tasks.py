@@ -16,8 +16,7 @@ def send_system(notification_id):
     notification = Notification.objects.get(id=notification_id)
     channel_layer_name = f"notification-{notification.recipient.id}"
     async_to_sync(get_channel_layer().group_send)(
-        channel_layer_name,
-        {"notification_id": notification.id, "type": "notification.notify"},
+        channel_layer_name, {"notification_id": notification.id, "type": "notification.notify"},
     )
 
 
@@ -25,26 +24,15 @@ def send_system(notification_id):
 def send_mail(notification_id):
     notification = Notification.objects.get(id=notification_id)
     context = {"notification": notification}
-    template = getattr(
-        settings,
-        "BRIDGER_NOTIFICATION_TEMPLATE",
-        "bridger/email_notification_template.html",
-    )
+    template = getattr(settings, "BRIDGER_NOTIFICATION_TEMPLATE", "bridger/email_notification_template.html",)
     email_to = notification.recipient.email
-    email_from = getattr(
-        settings, "BRIDGER_NOTIFICATION_EMAIL_FROM", "system@bridger.com",
-    )
+    email_from = getattr(settings, "BRIDGER_NOTIFICATION_EMAIL_FROM", "system@bridger.com",)
     rendered_template = get_template(template).render(context)
 
     msg = EmailMultiAlternatives(
-        subject=f"Notification {notification.title}",
-        body=strip_tags(rendered_template),
-        from_email=email_from,
-        to=[email_to],
+        subject=f"Notification {notification.title}", body=strip_tags(rendered_template), from_email=email_from, to=[email_to],
     )
     msg.attach_alternative(rendered_template, "text/html")
     msg.send()
 
-    Notification.objects.filter(id=notification.id).update(
-        timestamp_mailed=timezone.now()
-    )
+    Notification.objects.filter(id=notification.id).update(timestamp_mailed=timezone.now())

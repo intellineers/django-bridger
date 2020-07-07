@@ -64,9 +64,7 @@ class AdditionalResourcesField(BridgerSerializerFieldMixin, serializers.ReadOnly
         request = self.parent.context["request"]
         resources = dict()
         for _, function in getmembers(self.parent.__class__, _is_additional_resource):
-            _d = function(
-                self.parent, instance=value, request=request, user=request.user
-            )
+            _d = function(self.parent, instance=value, request=request, user=request.user)
             resources = {**resources, **_d}
 
         return resources
@@ -88,9 +86,7 @@ class ReadOnlyField(BridgerSerializerFieldMixin, serializers.ReadOnlyField):
     field_type = BridgerType.TEXT.value
 
 
-class SerializerMethodField(
-    BridgerSerializerFieldMixin, serializers.SerializerMethodField
-):
+class SerializerMethodField(BridgerSerializerFieldMixin, serializers.SerializerMethodField):
     def __init__(self, method_name=None, field_type=BridgerType.TEXT.value, **kwargs):
         self.field_type = field_type
         super().__init__(method_name, **kwargs)

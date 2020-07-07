@@ -34,12 +34,7 @@ class ViewSet(MetadataMixin, ViewSet):
 
 
 class ReadOnlyModelViewSet(
-    MetadataMixin,
-    ModelMixin,
-    RetrieveModelMixin,
-    ListModelMixin,
-    FilterMixin,
-    GenericViewSet,
+    MetadataMixin, ModelMixin, RetrieveModelMixin, ListModelMixin, FilterMixin, GenericViewSet,
 ):
     pagination_class = CursorPagination
     READ_ONLY = True

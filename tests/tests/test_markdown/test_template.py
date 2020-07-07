@@ -20,19 +20,9 @@ def test_load_registered_templatetags():
 
 @pytest.mark.django_db
 def test_compile_template_for_templatetag(model_test):
-    assert isinstance(
-        template.compile_template_for_templatetag(
-            f"{{% model_test_text {model_test.id} %}}"
-        ),
-        Template,
-    )
+    assert isinstance(template.compile_template_for_templatetag(f"{{% model_test_text {model_test.id} %}}"), Template,)
 
 
 @pytest.mark.django_db
 def test_render_template_for_templatetag(model_test):
-    assert (
-        template.render_template_for_templatetag(
-            f"{{% model_test_text {model_test.id} %}}"
-        )
-        == model_test.text_field
-    )
+    assert template.render_template_for_templatetag(f"{{% model_test_text {model_test.id} %}}") == model_test.text_field

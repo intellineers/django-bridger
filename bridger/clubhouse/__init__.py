@@ -2,18 +2,16 @@ from typing import Dict
 
 import requests
 from django.utils.html import strip_tags
-
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.permissions import AllowAny
 
 from bridger import display as dp
 from bridger import serializers
 from bridger.enums import Button, Operator, Unit, WBIcon
 from bridger.settings import bridger_settings
 from bridger.viewsets import ViewSet
-
 
 story_type_choices = (("bug", "Bug"), ("feature", "Feature"))
 
@@ -46,10 +44,7 @@ class ClubhouseSerializer(serializers.Serializer):
 
         response = requests.post(
             f"https://api.clubhouse.io/api/v3/stories?token={bridger_settings.CLUBHOUSE_API_TOKEN}",
-            json={
-                **validated_data,
-                "project_id": bridger_settings.CLUBHOUSE_PROJECT_ID,
-            },
+            json={**validated_data, "project_id": bridger_settings.CLUBHOUSE_PROJECT_ID,},
             headers={"Content-Type": "application/json"},
         )
 
@@ -68,9 +63,7 @@ class ClubHouseView(ViewSet):
     BUTTONS = [Button.REFRESH.value, Button.NEW.value]
     CREATE_BUTTONS = [Button.SAVE.value]
 
-    INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(["name", "story_type", "description"]))]
-    )
+    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(["name", "story_type", "description"]))])
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[
@@ -82,25 +75,16 @@ class ClubHouseView(ViewSet):
             dp.Formatting(
                 column="story_type",
                 formatting_rules=[
+                    dp.FormattingRule(icon=WBIcon.BOLD.value, condition=dp.Condition(operator=Operator.EQUAL, value="bug"),),
                     dp.FormattingRule(
-                        icon=WBIcon.BOLD.value,
-                        condition=dp.Condition(operator=Operator.EQUAL, value="bug"),
-                    ),
-                    dp.FormattingRule(
-                        icon=WBIcon.DATA.value,
-                        condition=dp.Condition(
-                            operator=Operator.EQUAL, value="feature"
-                        ),
+                        icon=WBIcon.DATA.value, condition=dp.Condition(operator=Operator.EQUAL, value="feature"),
                     ),
                 ],
             ),
             dp.Formatting(
                 column="completed",
                 formatting_rules=[
-                    dp.FormattingRule(
-                        style={"backgroundColor": "#228B22"},
-                        condition=dp.Condition(Operator.EQUAL, value=True),
-                    )
+                    dp.FormattingRule(style={"backgroundColor": "#228B22"}, condition=dp.Condition(Operator.EQUAL, value=True),)
                 ],
             ),
         ],
@@ -120,9 +104,7 @@ class ClubHouseView(ViewSet):
     permission_classes = (AllowAny,)
 
     def create(self, request):
-        serializer = self.serializer_class(
-            data=request.data, context={"request": request}
-        )
+        serializer = self.serializer_class(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         clubhouse_story = serializer.save()
         return Response({"instance": clubhouse_story.data}, status=201)

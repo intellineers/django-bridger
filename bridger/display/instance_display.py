@@ -7,9 +7,7 @@ class FieldSet:
     fields: List
 
     def __post_init__(self):
-        assert isinstance(
-            self.fields[0], (str, FieldSet)
-        ), "fields can only contain strings or more FieldSets."
+        assert isinstance(self.fields[0], (str, FieldSet)), "fields can only contain strings or more FieldSets."
 
     def __iter__(self):
         for field in self.fields:
@@ -35,9 +33,7 @@ class Section:
     collapsed: bool = False
 
     def __post_init__(self):
-        assert bool(self.fields) != bool(
-            self.section_list
-        ), "Either fields have to be provided or section_list, not both."
+        assert bool(self.fields) != bool(self.section_list), "Either fields have to be provided or section_list, not both."
 
     def __iter__(self):
         if self.fields:

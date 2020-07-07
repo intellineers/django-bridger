@@ -19,16 +19,10 @@ logger = logging.getLogger(__name__)
 
 class FrontendUserConfiguration(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        to=get_user_model(), related_name="configurations", on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(to=get_user_model(), related_name="configurations", on_delete=models.CASCADE)
 
     parent_configuration = models.ForeignKey(
-        to="self",
-        related_name="child_configurations",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
+        to="self", related_name="child_configurations", null=True, blank=True, on_delete=models.CASCADE,
     )
     config = JSONField(default=dict, null=True, blank=True)
 
@@ -54,9 +48,7 @@ class FrontendUserConfigurationModelSerializer(ModelSerializer):
 
 class FrontendUserConfigurationFilterSet(django_filters.rest_framework.FilterSet):
     is_root = BooleanFilter(label="Is Root", method="get_is_root")
-    parent_configuration = ModelChoiceFilter(
-        label="Parent Configuration", queryset=FrontendUserConfiguration.objects.all()
-    )
+    parent_configuration = ModelChoiceFilter(label="Parent Configuration", queryset=FrontendUserConfiguration.objects.all())
     config = CharFilter(label="Config", method="filter_config")
 
     def get_is_root(self, queryset, name, value):
@@ -89,4 +81,3 @@ class FrontendUserConfigurationModelViewSet(InfiniteDataModelView):
 
     def get_queryset(self):
         return FrontendUserConfiguration.objects.filter(user=self.request.user)
-

@@ -1,25 +1,21 @@
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from .clubhouse import ClubHouseView
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
+from .markdown.views import AssetCreateView, AssetRetrieveView, BlockDiag, TemplateTagView
+from .menus.views import MenuAPIView
 from .notifications.viewsets import NotificationModelViewSet
-from .tags.viewsets import TagRepresentationViewSet
+from .profile import UserViewSet
 from .routers import BridgerRouter
+from .share.views import ShareAPIView
+from .tags.viewsets import TagRepresentationViewSet
 from .views import Config, Profile
 
-from .share.views import ShareAPIView
-from .menus.views import MenuAPIView
-from .profile import UserViewSet
-from .markdown.views import (
-    BlockDiag,
-    AssetCreateView,
-    AssetRetrieveView,
-    TemplateTagView,
-)
-from .clubhouse import ClubHouseView
-
 router = BridgerRouter()
-router.register(r"frontenduserconfiguration", FrontendUserConfigurationModelViewSet, basename="frontenduserconfiguration")
+router.register(
+    r"frontenduserconfiguration", FrontendUserConfigurationModelViewSet, basename="frontenduserconfiguration",
+)
 router.register(r"notification", NotificationModelViewSet, basename="notification")
 router.register(r"user", UserViewSet, basename="user")
 router.register(r"clubhouse", ClubHouseView, basename="clubhouse")

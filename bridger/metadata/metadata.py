@@ -8,6 +8,7 @@ from .fields import (
     CreateButtonMetadata,
     CustomButtonMetadata,
     CustomInstanceButtonMetadata,
+    DocsMetadata,
     EndpointMetadata,
     FieldsMetadata,
     FilterFieldsMetadata,
@@ -17,11 +18,10 @@ from .fields import (
     OrderingFieldsMetadata,
     PaginationMetadata,
     PKMetadata,
+    PreviewMetadata,
     SearchFieldsMetadata,
     TitleMetadata,
     WidgetTypeMetadata,
-    PreviewMetadata,
-    DocsMetadata,
 )
 
 

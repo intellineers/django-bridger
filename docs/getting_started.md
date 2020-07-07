@@ -108,7 +108,7 @@ Quick access to a psql shell:
 
 #### Misc.
 
-Sort all python imports:
+Apply isort, then black to all files:
 
-    ./scripts/isort
+    ./scripts/format
 

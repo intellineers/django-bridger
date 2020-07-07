@@ -11,9 +11,7 @@ class Condition:
 
     def __post_init__(self):
         if self.operator == Operator.EXISTS:
-            assert isinstance(
-                self.value, bool
-            ), f"{Operator.EXISTS.value} is only compatible with bool"
+            assert isinstance(self.value, bool), f"{Operator.EXISTS.value} is only compatible with bool"
 
 
 @dataclass

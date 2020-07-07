@@ -1,11 +1,11 @@
-from typing import List, Iterable, Dict
+from typing import Dict, Iterable, List
 
 from rest_framework.request import Request
 
 from bridger.buttons.bases import ButtonConfig as Button
 from bridger.metadata.mixins import BridgerMetadataMixin
-from bridger.utils.itertools import uniquify_dict_iterable
 from bridger.signals.instance_buttons import add_instance_button
+from bridger.utils.itertools import uniquify_dict_iterable
 
 
 class CustomInstanceButtonMetadata(BridgerMetadataMixin):

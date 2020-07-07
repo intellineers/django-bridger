@@ -1,2 +1,2 @@
-from .menus import Menu, MenuItem, ItemPermission
+from .menus import ItemPermission, Menu, MenuItem
 from .registry import default_registry

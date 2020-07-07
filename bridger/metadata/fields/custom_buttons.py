@@ -16,9 +16,7 @@ class CustomButtonMetadataMixin:
         return buttons
 
     def _get_custom_buttons(self, request: Request) -> List:
-        buttons = self.get_custom_buttons(
-            request=request, buttons=getattr(self, "CUSTOM_BUTTONS", [])
-        )
+        buttons = self.get_custom_buttons(request=request, buttons=getattr(self, "CUSTOM_BUTTONS", []))
         button_list = list()
         for button in buttons:
             button.request = request

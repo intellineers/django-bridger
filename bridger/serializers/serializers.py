@@ -37,9 +37,7 @@ class Serializer(AdditionalMetadataMixin, serializers.Serializer):
 
 
 class ModelSerializer(
-    AdditionalMetadataMixin,
-    serializers.ModelSerializer,
-    metaclass=FSMSerializerMetaclass,
+    AdditionalMetadataMixin, serializers.ModelSerializer, metaclass=FSMSerializerMetaclass,
 ):
 
     serializer_field_mapping = {
@@ -71,9 +69,7 @@ class ModelSerializer(
     _buttons = fields.DynamicButtonField()
 
     def build_standard_field(self, field_name, model_field):
-        field_class, field_kwargs = super().build_standard_field(
-            field_name, model_field
-        )
+        field_class, field_kwargs = super().build_standard_field(field_name, model_field)
         if isinstance(model_field, FSMField):
             field_class = self.serializer_fsm_field
 
@@ -88,23 +84,12 @@ class ModelSerializer(
 
 class RepresentationSerializer(RepresentationSerializerMixin, ModelSerializer):
     def __init__(self, *args, **kwargs):
-        self.filter_params = kwargs.pop(
-            "filter_params", getattr(self, "filter_params", None)
-        )
+        self.filter_params = kwargs.pop("filter_params", getattr(self, "filter_params", None))
 
-        self.endpoint = kwargs.pop(
-            "endpoint",
-            getattr(self, "endpoint", self.Meta.model.get_representation_endpoint()),
-        )
+        self.endpoint = kwargs.pop("endpoint", getattr(self, "endpoint", self.Meta.model.get_representation_endpoint()),)
 
-        self.value_key = kwargs.pop(
-            "value_key",
-            getattr(self, "value_key", self.Meta.model.get_representation_value_key()),
-        )
+        self.value_key = kwargs.pop("value_key", getattr(self, "value_key", self.Meta.model.get_representation_value_key()),)
 
-        self.label_key = kwargs.pop(
-            "label_key",
-            getattr(self, "label_key", self.Meta.model.get_representation_label_key()),
-        )
+        self.label_key = kwargs.pop("label_key", getattr(self, "label_key", self.Meta.model.get_representation_label_key()),)
 
         super().__init__(*args, **kwargs)

@@ -13,24 +13,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ModelTest",
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID",),),
                 ("char_field", models.CharField(max_length=255)),
                 ("integer_field", models.IntegerField()),
                 ("datetime_field", models.DateTimeField()),
                 ("date_field", models.DateField()),
                 ("time_field", models.TimeField()),
             ],
-            options={
-                "verbose_name": "Test Model",
-                "verbose_name_plural": "Test Models",
-            },
+            options={"verbose_name": "Test Model", "verbose_name_plural": "Test Models",},
         ),
     ]

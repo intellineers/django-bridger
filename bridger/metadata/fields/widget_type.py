@@ -11,13 +11,7 @@ class WidgetTypeMetadata(BridgerMetadataMixin):
 
 class WidgetTypeMetadataMixin:
     def get_widget_type(self, request: Request, widget_type: str = None) -> str:
-        return widget_type or (
-            WidgetType.LIST.value
-            if "pk" not in self.kwargs
-            else WidgetType.INSTANCE.value
-        )
+        return widget_type or (WidgetType.LIST.value if "pk" not in self.kwargs else WidgetType.INSTANCE.value)
 
     def _get_widget_type(self, request: Request) -> str:
-        return self.get_widget_type(
-            request=request, widget_type=getattr(self, "WIDGET_TYPE", None)
-        )
+        return self.get_widget_type(request=request, widget_type=getattr(self, "WIDGET_TYPE", None))

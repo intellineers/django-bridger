@@ -53,9 +53,7 @@ class ButtonUrlMixin:
         if hasattr(super(), "__post_init__"):
             super().__post_init__()
 
-        assert bool(self.key) != bool(
-            self.endpoint
-        ), "Either key or endpoint has to be defined. (Not both)"
+        assert bool(self.key) != bool(self.endpoint), "Either key or endpoint has to be defined. (Not both)"
 
     def __iter__(self):
         if hasattr(super(), "__iter__"):

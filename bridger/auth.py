@@ -1,16 +1,14 @@
+from datetime import timedelta
 from typing import Dict
 
-from datetime import timedelta
 from django.conf import settings
-
 from django.contrib.auth import get_user_model
-from django.conf import settings
+from jwt import decode as jwt_decode
+from rest_framework import authentication
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
-from rest_framework import authentication
+from rest_framework_simplejwt.exceptions import AuthenticationFailed, InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import UntypedToken
-from rest_framework_simplejwt.exceptions import InvalidToken, TokenError, AuthenticationFailed
-from jwt import decode as jwt_decode
 
 
 def unauthenticated(request: Request) -> Dict:

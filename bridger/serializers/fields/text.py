@@ -1,5 +1,5 @@
-from rest_framework.reverse import reverse
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from .mixins import BridgerSerializerFieldMixin
 from .types import BridgerType, ReturnContentType

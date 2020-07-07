@@ -1,8 +1,8 @@
 import logging
 from datetime import datetime
 
-from rest_framework.settings import api_settings
 from rest_framework.fields import empty
+from rest_framework.settings import api_settings
 
 logger = logging.getLogger(__name__)
 

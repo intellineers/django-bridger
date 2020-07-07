@@ -10,7 +10,5 @@ class AsyncAuthenticatedConsumerMixin:
             await self.close()
 
 
-class AsyncAuthenticatedJsonWebsocketConsumer(
-    AsyncAuthenticatedConsumerMixin, AsyncJsonWebsocketConsumer
-):
+class AsyncAuthenticatedJsonWebsocketConsumer(AsyncAuthenticatedConsumerMixin, AsyncJsonWebsocketConsumer):
     pass

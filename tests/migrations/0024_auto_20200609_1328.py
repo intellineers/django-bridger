@@ -6,59 +6,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bridger', '0012_tag'),
-        ('tests', '0023_auto_20200514_1705'),
+        ("bridger", "0012_tag"),
+        ("tests", "0023_auto_20200514_1705"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='historicalmodeltest',
-            name='tag_detail_endpoint',
-            field=models.URLField(blank=True, null=True),
+            model_name="historicalmodeltest", name="tag_detail_endpoint", field=models.URLField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='historicalmodeltest',
-            name='tag_representation',
+            model_name="historicalmodeltest",
+            name="tag_representation",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='historicalrelatedmodeltest',
-            name='tag_detail_endpoint',
-            field=models.URLField(blank=True, null=True),
+            model_name="historicalrelatedmodeltest", name="tag_detail_endpoint", field=models.URLField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='historicalrelatedmodeltest',
-            name='tag_representation',
+            model_name="historicalrelatedmodeltest",
+            name="tag_representation",
+            field=models.CharField(blank=True, max_length=255, null=True),
+        ),
+        migrations.AddField(model_name="modeltest", name="tag_detail_endpoint", field=models.URLField(blank=True, null=True),),
+        migrations.AddField(
+            model_name="modeltest", name="tag_representation", field=models.CharField(blank=True, max_length=255, null=True),
+        ),
+        migrations.AddField(model_name="modeltest", name="tags", field=models.ManyToManyField(blank=True, to="bridger.Tag"),),
+        migrations.AddField(
+            model_name="relatedmodeltest", name="tag_detail_endpoint", field=models.URLField(blank=True, null=True),
+        ),
+        migrations.AddField(
+            model_name="relatedmodeltest",
+            name="tag_representation",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='modeltest',
-            name='tag_detail_endpoint',
-            field=models.URLField(blank=True, null=True),
-        ),
-        migrations.AddField(
-            model_name='modeltest',
-            name='tag_representation',
-            field=models.CharField(blank=True, max_length=255, null=True),
-        ),
-        migrations.AddField(
-            model_name='modeltest',
-            name='tags',
-            field=models.ManyToManyField(blank=True, to='bridger.Tag'),
-        ),
-        migrations.AddField(
-            model_name='relatedmodeltest',
-            name='tag_detail_endpoint',
-            field=models.URLField(blank=True, null=True),
-        ),
-        migrations.AddField(
-            model_name='relatedmodeltest',
-            name='tag_representation',
-            field=models.CharField(blank=True, max_length=255, null=True),
-        ),
-        migrations.AddField(
-            model_name='relatedmodeltest',
-            name='tags',
-            field=models.ManyToManyField(blank=True, to='bridger.Tag'),
+            model_name="relatedmodeltest", name="tags", field=models.ManyToManyField(blank=True, to="bridger.Tag"),
         ),
     ]

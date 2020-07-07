@@ -13,8 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="modeltest",
             name="choice_field",
-            field=models.CharField(
-                choices=[("a", "A"), ("b", "B")], default="a", max_length=64
-            ),
+            field=models.CharField(choices=[("a", "A"), ("b", "B")], default="a", max_length=64),
         ),
     ]

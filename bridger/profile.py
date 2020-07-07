@@ -5,8 +5,8 @@ from rest_framework.request import Request
 from rest_framework.reverse import reverse
 
 from bridger import display as dp
-from bridger.viewsets import ModelViewSet
 from bridger.serializers import ModelSerializer
+from bridger.viewsets import ModelViewSet
 
 
 def default_profile(request: Request) -> Dict:
@@ -14,9 +14,7 @@ def default_profile(request: Request) -> Dict:
 
     return {
         "image": "https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg",
-        "endpoint": reverse(
-            "bridger:user-detail", args=[request.user.id], request=request
-        ),
+        "endpoint": reverse("bridger:user-detail", args=[request.user.id], request=request),
     }
 
 
@@ -28,9 +26,7 @@ class UserSerializer(ModelSerializer):
 
 class UserViewSet(ModelViewSet):
 
-    INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(fields=["username", "email"]))]
-    )
+    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=["username", "email"]))])
 
     serializer_class = UserSerializer
     queryset = get_user_model().objects.all()

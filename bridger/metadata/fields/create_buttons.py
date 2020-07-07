@@ -12,12 +12,8 @@ class CreateButtonMetadata(BridgerMetadataMixin):
 
 
 class CreateButtonMetadataMixin:
-    def get_create_buttons(
-        self, request: Request, buttons: List[str] = None
-    ) -> List[str]:
+    def get_create_buttons(self, request: Request, buttons: List[str] = None) -> List[str]:
         return buttons or Button.create_buttons()
 
     def _get_create_buttons(self, request: Request) -> List[str]:
-        return self.get_create_buttons(
-            request=request, buttons=getattr(self, "CREATE_BUTTONS", None)
-        )
+        return self.get_create_buttons(request=request, buttons=getattr(self, "CREATE_BUTTONS", None))

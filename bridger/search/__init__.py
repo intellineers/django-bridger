@@ -47,9 +47,7 @@ def search(search_term, request=None):
         _qs = (
             values["class"]
             .search_for_term(search_term, request)
-            .annotate(
-                __search=Concat(F("_search"), Value(f" {values['verbose_name']}"))
-            )
+            .annotate(__search=Concat(F("_search"), Value(f" {values['verbose_name']}")))
         )
 
         for term in search_term.split(" "):

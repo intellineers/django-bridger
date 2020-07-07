@@ -44,25 +44,18 @@ class ListModelMixin(OriginalListModelMixin):
             response = self.get_paginated_response(serializer.data)
             with suppress(TypeError, AttributeError):
                 messages = self.get_messages(
-                    request=request,
-                    queryset=queryset,
-                    paginated_queryset=page,
-                    initial=self._paginator.is_initial(),
+                    request=request, queryset=queryset, paginated_queryset=page, initial=self._paginator.is_initial(),
                 )
                 response.data["messages"] = serialize_messages(messages)
 
             with suppress(TypeError, AttributeError):
-                response.data["aggregates"] = self.get_aggregates(
-                    queryset=queryset, paginated_queryset=page
-                )
+                response.data["aggregates"] = self.get_aggregates(queryset=queryset, paginated_queryset=page)
         else:
             serializer = self.get_serializer(queryset, many=True)
             response = Response(serializer.data)
             response.data = {"results": response.data}
             with suppress(TypeError, AttributeError):
-                messages = self.get_messages(
-                    request=request, queryset=queryset, initial=True
-                )
+                messages = self.get_messages(request=request, queryset=queryset, initial=True)
                 response.data["messages"] = serialize_messages(messages)
 
             with suppress(TypeError, AttributeError):
@@ -105,10 +98,7 @@ class DestroyMultipleModelMixin:
         queryset = model.objects.filter(id__in=request.data)
         destroyed = self.perform_destroy_multiple(queryset)
 
-        return Response(
-            {"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)},
-            status=status.HTTP_204_NO_CONTENT,
-        )
+        return Response({"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)}, status=status.HTTP_204_NO_CONTENT,)
 
     def perform_destroy_multiple(self, queryset):
         return queryset.delete()

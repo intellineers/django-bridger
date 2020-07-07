@@ -1,5 +1,5 @@
-from bridger.buttons import WidgetButton
 from bridger import serializers
+from bridger.buttons import WidgetButton
 
 
 def get_historical_serializer(historical_model):

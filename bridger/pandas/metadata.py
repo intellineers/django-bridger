@@ -1,7 +1,6 @@
 from rest_framework.metadata import BaseMetadata
 
 from bridger.enums import WidgetType
-
 from bridger.metadata.fields import (
     ButtonMetadata,
     CreateButtonMetadata,
@@ -21,11 +20,10 @@ from bridger.metadata.fields import (
     WidgetTypeMetadata,
 )
 
-
 # class PandasMetadata(BaseMetadata):
 #     def determine_metadata(self, request, view):
 #         metadata = defaultdict(dict)
-        
+
 #         metadata["identifier"] = "pandas:1234"
 #         metadata["fields"] = view.pandas_fields.to_dict()
 #         metadata["list_display"] = view.get_list_display(request)
@@ -44,6 +42,7 @@ from bridger.metadata.fields import (
 #         # )
 #         # metadata["titles"] = view.get_titles(request=request)
 #         return metadata
+
 
 class PandasMetadata(BaseMetadata):
     def __init__(self, *args, **kwargs):

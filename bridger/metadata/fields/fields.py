@@ -3,11 +3,7 @@ from typing import Dict, Union
 from rest_framework.request import Request
 
 from bridger.metadata.mixins import BridgerMetadataMixin
-from bridger.serializers import (
-    ListSerializer,
-    RepresentationSerializer,
-    percent_decorator,
-)
+from bridger.serializers import ListSerializer, RepresentationSerializer, percent_decorator
 
 
 class FieldsMetadata(BridgerMetadataMixin):
@@ -22,9 +18,7 @@ class FieldsMetadataMixin:
         ls = ListSerializer
         field_items = self.get_serializer().fields.items()
 
-        for name, field in filter(
-            lambda f: not isinstance(f[1], (rs, ls)), field_items
-        ):
+        for name, field in filter(lambda f: not isinstance(f[1], (rs, ls)), field_items):
             fields[name] = field.get_representation(request, name)
 
         for name, field in filter(lambda f: isinstance(f[1], (rs, ls)), field_items):

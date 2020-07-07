@@ -48,8 +48,7 @@ class TestDecimalField:
         assert self.field is not None
 
     @pytest.mark.parametrize(
-        "input, expected",
-        [(1.0, Decimal(1)), ("1.0", Decimal(1)), (-1.0, Decimal(-1)), (0, Decimal(0))],
+        "input, expected", [(1.0, Decimal(1)), ("1.0", Decimal(1)), (-1.0, Decimal(-1)), (0, Decimal(0))],
     )
     def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected
@@ -94,9 +93,7 @@ class TestFloatField:
     def test_not_none(self):
         assert self.field is not None
 
-    @pytest.mark.parametrize(
-        "input, expected", [(1.0, 1.0), ("1.0", 1.0), (-1.0, -1.0), (0, 0)]
-    )
+    @pytest.mark.parametrize("input, expected", [(1.0, 1.0), ("1.0", 1.0), (-1.0, -1.0), (0, 0)])
     def test_to_internal_value(self, input, expected):
         assert self.field.to_internal_value(input) == expected
 

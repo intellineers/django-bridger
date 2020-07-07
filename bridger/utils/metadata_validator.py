@@ -15,37 +15,15 @@ schema = {
         "endpoints": {
             "type": "object",
             "properties": {
-                "list": {
-                    "type": "string",
-                    "format": "uri",
-                    "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",
-                },
-                "instance": {
-                    "type": "string",
-                    "format": "uri",
-                    "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",
-                },
-                "create": {
-                    "type": "string",
-                    "format": "uri",
-                    "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",
-                },
-                "delete": {
-                    "type": "string",
-                    "format": "uri",
-                    "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",
-                },
+                "list": {"type": "string", "format": "uri", "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",},
+                "instance": {"type": "string", "format": "uri", "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",},
+                "create": {"type": "string", "format": "uri", "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",},
+                "delete": {"type": "string", "format": "uri", "pattern": "^((https)?|(http)?|(wss)?|(ws)?|(ftp))://",},
             },
             "anyOf": [{"required": ["list"]}, {"required": ["instance"]}],
         },
-        "buttons": {
-            "type": "array",
-            "items": {"type": "string", "enum": Button.buttons()},
-        },
-        "create_buttons": {
-            "type": "array",
-            "items": {"type": "string", "enum": Button.create_buttons()},
-        },
+        "buttons": {"type": "array", "items": {"type": "string", "enum": Button.buttons()},},
+        "create_buttons": {"type": "array", "items": {"type": "string", "enum": Button.create_buttons()},},
         "custom_instance_buttons": {
             "type": "array",
             "items": {

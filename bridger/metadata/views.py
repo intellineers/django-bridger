@@ -3,6 +3,7 @@ from .fields import (
     CreateButtonMetadataMixin,
     CustomButtonMetadataMixin,
     CustomInstanceButtonMetadataMixin,
+    DocsMetadataMixin,
     EndpointMetadataMixin,
     FieldsMetadataMixin,
     FilterFieldsMetadataMixin,
@@ -12,11 +13,10 @@ from .fields import (
     OrderingFieldsMetadataMixin,
     PaginationMetadataMixin,
     PKMetadataMixin,
+    PreviewMetadataMixin,
     SearchFieldsMetadataMixin,
     TitleMetadataMixin,
     WidgetTypeMetadataMixin,
-    PreviewMetadataMixin,
-    DocsMetadataMixin,
 )
 from .metadata import BridgerMetadata
 

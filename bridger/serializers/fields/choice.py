@@ -9,7 +9,5 @@ class ChoiceField(BridgerSerializerFieldMixin, serializers.ChoiceField):
 
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)
-        representation["choices"] = [
-            {"value": k, "label": v} for k, v in self.choices.items()
-        ]
+        representation["choices"] = [{"value": k, "label": v} for k, v in self.choices.items()]
         return representation

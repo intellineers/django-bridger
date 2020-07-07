@@ -22,11 +22,7 @@ DEFAULTS = {
     "DEFAULT_SHARE_BUTTON": "bridger.share.buttons.share_action_button",
     "DEFAULT_SHARE_NOTIFICATION": "bridger.share.notifications.share_notification",
     "DEFAULT_SHARE_SERIALIZER": "bridger.share.serializers.ShareSerializer",
-    "DEFAULT_MARKDOWN_EXTENSIONS": [
-        TableExtension(),
-        FSMExtension(),
-        BlockdiagExtension(format="svg"),
-    ],
+    "DEFAULT_MARKDOWN_EXTENSIONS": [TableExtension(), FSMExtension(), BlockdiagExtension(format="svg"),],
     "ADDITIONAL_DEFAUL_MODELVIEW_ATTRIBUTES": [],
     "FRONTEND_TEMPLATE": "bridger/frontend.html",
     "FRONTEND_CONTEXT": {
@@ -76,12 +72,7 @@ def import_from_string(val, setting_name):
     try:
         return import_string(val)
     except ImportError as e:
-        msg = "Could not import '%s' for API setting '%s'. %s: %s." % (
-            val,
-            setting_name,
-            e.__class__.__name__,
-            e,
-        )
+        msg = "Could not import '%s' for API setting '%s'. %s: %s." % (val, setting_name, e.__class__.__name__, e,)
         raise ImportError(msg)
 
 

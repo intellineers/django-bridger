@@ -1,8 +1,7 @@
 import pandas as pd
-import plotly.graph_objects as go
+from plotly import graph_objects as go
 
 from bridger.viewsets import ChartViewSet
-
 from tests.models import ModelTest
 
 
@@ -17,9 +16,7 @@ class ModelTestChartViewSet(ChartViewSet):
     LIST_TITLE = "Model Chart"
 
     def get_plotly(self, queryset):
-        df = pd.DataFrame(
-            queryset.order_by("date_field").values("date_field", "integer_field")
-        )
+        df = pd.DataFrame(queryset.order_by("date_field").values("date_field", "integer_field"))
         fig = go.Figure(
             [
                 go.Scatter(

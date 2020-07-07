@@ -6,20 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tests', '0020_auto_20200417_1512'),
+        ("tests", "0020_auto_20200417_1512"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='historicalmodeltest',
-            name='star_rating',
+            model_name="historicalmodeltest",
+            name="star_rating",
             field=models.PositiveIntegerField(default=1),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='modeltest',
-            name='star_rating',
-            field=models.PositiveIntegerField(default=1),
-            preserve_default=False,
+            model_name="modeltest", name="star_rating", field=models.PositiveIntegerField(default=1), preserve_default=False,
         ),
     ]

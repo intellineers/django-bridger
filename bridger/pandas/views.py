@@ -1,11 +1,11 @@
 import pandas as pd
 from django.db.models import QuerySet
-from bridger.filters import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from bridger.filters import DjangoFilterBackend
 from bridger.metadata.views import MetadataMixin
 
 from .metadata import PandasMetadata
@@ -31,9 +31,7 @@ class PandasAPIView(MetadataMixin, APIView):
         return queryset
 
     def get_queryset(self):
-        assert hasattr(
-            self, "queryset"
-        ), "Either specify a queryset or implement the get_queryset method."
+        assert hasattr(self, "queryset"), "Either specify a queryset or implement the get_queryset method."
         return self.queryset
 
     def get_dataframe(self, request):

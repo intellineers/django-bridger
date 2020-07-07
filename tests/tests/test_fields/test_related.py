@@ -51,9 +51,7 @@ class TestPrimaryKeyRelatedField:
         assert isinstance(field, BridgerManyRelatedField)
 
     def test_get_representation(self):
-        assert self.field(queryset=ModelTest.objects.all()).get_representation(
-            None, "field_name"
-        ) == {
+        assert self.field(queryset=ModelTest.objects.all()).get_representation(None, "field_name") == {
             "key": "field_name",
             "label": None,
             "type": BridgerType.SELECT.value,
@@ -63,9 +61,7 @@ class TestPrimaryKeyRelatedField:
         }
 
     def test_get_representation_multiple(self):
-        assert self.field.many_init(
-            queryset=ModelTest.objects.all()
-        ).get_representation(None, "field_name") == {
+        assert self.field.many_init(queryset=ModelTest.objects.all()).get_representation(None, "field_name") == {
             "key": "field_name",
             "label": "",
             "type": BridgerType.SELECT.value,
@@ -77,7 +73,5 @@ class TestPrimaryKeyRelatedField:
 
     @pytest.mark.django_db
     def test_run_validation(self, model_test):
-        validated_data = self.field(
-            required=False, queryset=ModelTest.objects.all()
-        ).run_validation(data=model_test.pk)
+        validated_data = self.field(required=False, queryset=ModelTest.objects.all()).run_validation(data=model_test.pk)
         assert validated_data == model_test

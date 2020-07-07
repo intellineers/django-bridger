@@ -10,14 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="modeltest",
-            name="file_field",
-            field=models.FileField(null=True, upload_to=""),
-        ),
-        migrations.AddField(
-            model_name="modeltest",
-            name="image_field",
-            field=models.ImageField(null=True, upload_to=""),
-        ),
+        migrations.AddField(model_name="modeltest", name="file_field", field=models.FileField(null=True, upload_to=""),),
+        migrations.AddField(model_name="modeltest", name="image_field", field=models.ImageField(null=True, upload_to=""),),
     ]

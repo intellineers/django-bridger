@@ -10,14 +10,6 @@ class PaginationMetadata(BridgerMetadataMixin):
 
 class PaginationMetadataMixin:
     def _get_pagination(self, request: Request):
-        pagination = (
-            self.pagination_class.__name__
-            if hasattr(self, "pagination_class") and self.pagination_class
-            else None
-        )
+        pagination = self.pagination_class.__name__ if hasattr(self, "pagination_class") and self.pagination_class else None
 
-        return {
-            "CursorPagination": "cursor",
-            "LimitOffsetPagination": "limitoffset",
-            None: None,
-        }[pagination]
+        return {"CursorPagination": "cursor", "LimitOffsetPagination": "limitoffset", None: None,}[pagination]

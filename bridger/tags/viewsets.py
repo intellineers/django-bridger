@@ -1,6 +1,7 @@
 from bridger.viewsets import RepresentationModelViewSet
-from .serializers import TagRepresentationSerializer
+
 from .models import Tag
+from .serializers import TagRepresentationSerializer
 
 
 class TagRepresentationViewSet(RepresentationModelViewSet):

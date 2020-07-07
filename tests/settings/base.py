@@ -9,13 +9,12 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
+from datetime import timedelta
 
 import dj_database_url
 from django.contrib.auth import get_user_model
 from rest_framework.reverse import reverse
-from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -203,4 +202,3 @@ SIMPLE_JWT = {
     "AUDIENCE": None,
     "ISSUER": None,
 }
-

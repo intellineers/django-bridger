@@ -112,3 +112,11 @@ Apply isort, then black to all files:
 
     ./scripts/format
 
+### Formatting Rules
+
+The whole codebase has to be formatted with isort and black with the following parameters:
+
+    isort -m 3 -w 128 --tc .
+    black --line-length 128 .
+
+This is automatically done by calling the formatting script (See [Misc.](#misc))

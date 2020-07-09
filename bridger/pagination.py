@@ -7,7 +7,15 @@ from rest_framework.response import Response
 from rest_framework.views import View
 
 
-class CursorPagination(DefaultCursorPagination):
+class EndlessPaginationMixin:
+
+    def paginate_queryset(self, queryset: QuerySet, request: Request, view: View=None):
+        if request.query_params.get("disable_pagination") == "true":
+            return None
+        return super().paginate_queryset(queryset, request, view)
+
+
+class CursorPagination(EndlessPaginationMixin, DefaultCursorPagination):
     """
     A pagination class that mimics the default Django Rest Framework pagination class,
     but adds functionality to also display aggregated values
@@ -24,6 +32,7 @@ class CursorPagination(DefaultCursorPagination):
         return super()._get_position_from_instance(instance, new_ordering)
 
 
-class LimitOffsetPagination(DefaultLimitOffsetPagination):
+
+class LimitOffsetPagination(EndlessPaginationMixin, DefaultLimitOffsetPagination):
 
     default_limit = 25

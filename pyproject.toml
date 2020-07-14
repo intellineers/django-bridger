@@ -30,6 +30,7 @@ django-simple-history = "2.11.*"
 markdown = "3.2.*"
 markdown-blockdiag = "0.7.*"
 toml = "0.10.*"
+python-decouple = "3.3"
 
 [tool.poetry.dev-dependencies]
 # Testing dependencies

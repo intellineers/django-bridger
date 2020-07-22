@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.9.11"
+version = "0.9.12"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -30,6 +30,7 @@ django-simple-history = "2.11.*"
 markdown = "3.2.*"
 markdown-blockdiag = "0.7.*"
 toml = "0.10.*"
+python-decouple = "3.3"
 
 [tool.poetry.dev-dependencies]
 # Testing dependencies
@@ -43,6 +44,7 @@ pytest-asyncio = "0.10.*"
 pytest-flake8 = "1.0.*"
 pytest-isort = "1.0.*"
 tox = "3.16.*"
+devtools = {version="0.5.*", extras=["pygments"]}
 
 # Documentation dependencies
 mkdocs = "1.1.*"

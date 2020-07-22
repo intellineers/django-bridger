@@ -19,11 +19,11 @@ class BridgerManyRelatedField(ManyRelatedField):
     def run_validation(self, data=empty):
 
         # If the data is send through form data, we need to convert the data into a proper list of ids
-        if data not in [None, empty] and len(data) == 1 and "," in data[0]:
+        if data not in [None, empty] and len(data) == 1 and isinstance(data[0], str) and "," in data[0]:
             data = data[0].split(",")
 
         # If the data is a list of an empty string we need to convert it (FORM DATA)
-        if data not in [None, empty] and len(data) == 1 and data[0] == "":
+        if data not in [None, empty] and len(data) == 1 and isinstance(data[0], str) and data[0] == "":
             data = []
 
         # If the data is a list and contains the string null, then we need to convert it (FORM DATA)

@@ -1,5 +1,4 @@
 import pytest
-from .utils import Utils
 from .mixins import TestModelClass, TestSerializerClass, TestrepresentationViewSetClass, TestViewSetClass
 from .utils import get_all_subclasses
 from bridger import serializers

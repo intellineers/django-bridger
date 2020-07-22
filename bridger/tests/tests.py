@@ -1,16 +1,17 @@
 import pytest
 from .utils import Utils
 from .mixins import TestModelClass, TestSerializerClass, TestrepresentationViewSetClass, TestViewSetClass
+from .utils import get_all_subclasses
 from bridger import serializers
 from bridger import viewsets
 from django.db import models
 from django.urls import get_resolver
 get_resolver().url_patterns
 
-models = filter(lambda x: not x.__module__.startswith(('bridger', 'django', 'rest_framework')), Utils.get_all_subclasses(models.Model))
-serializers = filter(lambda x: "bridger" not in x.__module__, Utils.get_all_subclasses(serializers.ModelSerializer))
-representationmodelviewsets = filter(lambda x: "bridger" not in x.__module__, Utils.get_all_subclasses(viewsets.RepresentationModelViewSet))
-modelviewsets = filter(lambda x: "bridger" not in x.__module__, Utils.get_all_subclasses(viewsets.ModelViewSet))
+models = filter(lambda x: not x.__module__.startswith(('bridger', 'django', 'rest_framework')), get_all_subclasses(models.Model))
+serializers = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(serializers.ModelSerializer))
+representationmodelviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.RepresentationModelViewSet))
+modelviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.ModelViewSet))
 
 @pytest.mark.django_db 
 class TestProject:

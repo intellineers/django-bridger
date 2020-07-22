@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from django.contrib.auth import get_user_model
 from rest_framework import status
 
-from .utils import Utils
+from .utils import get_all_subclasses, get_model_factory, format_number
 import json
 from termcolor import colored
 
@@ -11,7 +11,7 @@ from termcolor import colored
 class TestModelClass:
     def __init__(self, model):
         self.model = model
-        self.factory = Utils.get_model_factory(model)
+        self.factory = get_model_factory(model)
 
     def test_representation_endpoint(self):
         assert self.model.get_representation_endpoint()
@@ -68,7 +68,7 @@ class TestModelClass:
 class TestSerializerClass:
     def __init__(self, serializer):
         self.serializer = serializer
-        self.factory = Utils.get_model_factory(serializer.Meta.model)
+        self.factory = get_model_factory(serializer.Meta.model)
     
     def test_serializer(self):
         if self.factory is None:
@@ -95,7 +95,7 @@ class SuperUser:
 class TestrepresentationViewSetClass:
     def __init__(self, rmvs):
         self.rmvs = rmvs
-        self.factory = Utils.get_model_factory(rmvs().serializer_class.Meta.model)
+        self.factory = get_model_factory(rmvs().serializer_class.Meta.model)
 
     # ----- LIST ROUTE TEST ----- #
     #Test representationviewset "get": "list"
@@ -133,7 +133,7 @@ class TestrepresentationViewSetClass:
 class TestViewSetClass:
     def __init__(self, mvs):
         self.mvs = mvs
-        self.factory = Utils.get_model_factory(mvs().serializer_class.Meta.model)
+        self.factory = get_model_factory(mvs().serializer_class.Meta.model)
 
     # ----- LIST ROUTE TEST ----- #
     #Test viewset "get": "list"
@@ -158,7 +158,7 @@ class TestViewSetClass:
         else:
             if namefield:
                 assert response.data.get("aggregates").get(namefield)
-                assert response.data.get("aggregates").get(namefield).get("#") == Utils.format_number(self.mvs().serializer_class.Meta.model.objects.count())
+                assert response.data.get("aggregates").get(namefield).get("#") == format_number(self.mvs().serializer_class.Meta.model.objects.count())
             print("- TestViewSetClass:test_aggregation", colored("PASSED", 'green')) 
 
     #Test viewset "post": "create"

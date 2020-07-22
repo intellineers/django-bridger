@@ -17,8 +17,8 @@ djangorestframework-simplejwt = "4.3.*"
 django-fsm = "2.7.*"
 requests = "2.24.*"
 channels = "2.4.*"
-channels_redis = { version = "3.0.*", extras=["cryptography"] }
-celery = { version = "4.4.*", extras=["redis"] }
+channels_redis = {version = "3.0.*", extras=["cryptography"]}
+celery = {version = "4.4.*", extras=["redis"]}
 django-celery-beat = "2.0.*"
 psycopg2-binary = "2.8.*"
 pillow = "7.2.*"

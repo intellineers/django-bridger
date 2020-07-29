@@ -1,4 +1,4 @@
-from utils.enum import ChoiceEnum
+from bridger.utils.enum import ChoiceEnum
 
 class WBIcon(ChoiceEnum):
     ACTION = "wb-icon-action"

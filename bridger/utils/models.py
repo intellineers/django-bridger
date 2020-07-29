@@ -1,6 +1,6 @@
 from django.db import models
-from utils.colors import WBColor
-from utils.enum import ChoiceEnum
+from bridger.utils.colors import WBColor
+from bridger.utils.enum import ChoiceEnum
 def get_and_update_or_create(model, filter_params, defaults):
     """ get or create with default values applied to existing instances
 

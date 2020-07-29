@@ -1,5 +1,5 @@
 from enum import Enum
-from utils.enum import ChoiceEnum
+from bridger.utils.enum import ChoiceEnum
 
 class WBColor(Enum):
     GREEN_LIGHT = 'rgb(214, 229, 145)'

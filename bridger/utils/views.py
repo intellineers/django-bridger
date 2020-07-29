@@ -6,7 +6,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.pagination import CursorPagination
-from utils.metadata import MetadataMixin, WorkbenchMetaData
 from django_filters.rest_framework import DjangoFilterBackend
 
 def get_full_widget_url(reverse_path):

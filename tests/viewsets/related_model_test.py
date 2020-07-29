@@ -9,12 +9,12 @@ from bridger.enums import Unit
 from bridger.messages import info
 from bridger.pagination import LimitOffsetPagination
 from bridger.serializers import ListSerializer
-from bridger.viewsets import ModelViewSet, ReadOnlyModelViewSet, RepresentationModelViewSet
+from bridger.viewsets import ModelViewSet, ReadOnlyModelViewSet, RepresentationViewSet
 from tests.models import ModelTest, RelatedModelTest
 from tests.serializers import ActionButtonSerializer, RelatedModelTestRepresentationSerializer, RelatedModelTestSerializer
 
 
-class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
+class RelatedModelTestRepresentationViewSet(RepresentationViewSet):
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestRepresentationSerializer
 

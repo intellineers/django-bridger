@@ -9,7 +9,7 @@ get_resolver().url_patterns
 
 models = filter(lambda x: not x.__module__.startswith(('bridger', 'django', 'rest_framework')), get_all_subclasses(models.Model))
 serializers = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(serializers.ModelSerializer))
-representationmodelviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.RepresentationModelViewSet))
+representationviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.RepresentationViewSet))
 modelviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.ModelViewSet))
 
 @pytest.mark.django_db 
@@ -26,9 +26,9 @@ class TestProject:
         my_test = TestSerializerClass(serializer)
         my_test.execute_test()
 
-    @pytest.mark.parametrize("rmvs", representationmodelviewsets)
-    def test_representationmodelviewsets(self, rmvs, admin_client):
-        my_test = TestrepresentationViewSetClass(rmvs)
+    @pytest.mark.parametrize("rvs", representationviewsets)
+    def test_representationviewsets(self, rvs, admin_client):
+        my_test = TestrepresentationViewSetClass(rvs)
         my_test.execute_test(admin_client)
 
     @pytest.mark.parametrize("mvs", modelviewsets)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.9.14"
+version = "0.9.16"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -45,6 +45,7 @@ pytest-flake8 = "1.0.*"
 pytest-isort = "1.0.*"
 tox = "3.16.*"
 devtools = {version="0.5.*", extras=["pygments"]}
+termcolor = "1.1.*"
 
 # Documentation dependencies
 mkdocs = "1.1.*"

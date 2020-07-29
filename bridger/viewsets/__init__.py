@@ -4,6 +4,6 @@ from .viewsets import (
     ModelViewSet,
     ReadOnlyInfiniteModelViewSet,
     ReadOnlyModelViewSet,
-    RepresentationModelViewSet,
+    RepresentationViewSet,
     ViewSet,
 )

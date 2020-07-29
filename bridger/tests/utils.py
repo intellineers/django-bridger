@@ -1,4 +1,3 @@
-from termcolor import colored
 from django.apps import apps
 import importlib 
 import factory

@@ -6,13 +6,13 @@ from bridger import display as dp
 from bridger.enums import Operator, Unit
 from bridger.messages import info
 from bridger.serializers import DateTimeField, ListSerializer
-from bridger.viewsets import ModelViewSet, RepresentationModelViewSet
+from bridger.viewsets import ModelViewSet, RepresentationViewSet
 from tests.filters import ModelTestFilterSet
 from tests.models import ModelTest
 from tests.serializers import ModelTestRepresentationSerializer, ModelTestSerializer
 
 
-class ModelTestRepresentationViewSet(RepresentationModelViewSet):
+class ModelTestRepresentationViewSet(RepresentationViewSet):
     queryset = ModelTest.objects.all()
     serializer_class = ModelTestRepresentationSerializer
 

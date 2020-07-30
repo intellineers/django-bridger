@@ -15,7 +15,7 @@ class TestModelClass:
 
     def test_representation_endpoint(self):
         assert self.model.get_representation_endpoint()
-        assert self.model.get_representation_endpoint() == self.model._meta.app_label+":"+self.model._meta.app_label+"-list"
+        assert self.model.get_representation_endpoint() == self.model._meta.app_label+":"+self.model.__name__.lower()+"representation-list"
         print("- TestModelClass:test_representation_endpoint", colored("PASSED", 'green'))
 
     def test_representation_value_key(self):

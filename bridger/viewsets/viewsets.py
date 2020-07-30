@@ -62,7 +62,7 @@ class ReadOnlyInfiniteModelViewSet(ReadOnlyModelViewSet):
     pagination_class = None
 
 
-RepresentationModelViewSet = ReadOnlyModelViewSet
+RepresentationViewSet = ReadOnlyModelViewSet
 
 
 class InfiniteDataModelView(ModelViewSet):

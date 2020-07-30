@@ -1,10 +1,10 @@
 # Buttons
 
-There are different kind of buttons that can be implemented through the bridger, system buttons and custom buttons.
+There are different kinds of buttons that can be implemented through the bridger, system buttons and custom buttons.
 
 ## System Buttons
 
-System buttons are buttons reoccuring buttons with a default behaviour:
+System buttons are buttons reoccurring buttons with a default behaviour:
 
 * save
     * Saves an instance (`bridger.enums.Button.SAVE`)

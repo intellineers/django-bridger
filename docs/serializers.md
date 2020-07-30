@@ -2,12 +2,12 @@ All the serializers are build on top of Django Rest Framework. Basically there a
 
 # Model Serializer
 
-The base serializer, which is used for a standart django model. If the model has nothing special about it the application of the serializer is the same as the normal Django Rest Framework ModelSerializer:
+The base serializer, which is used for a standard django model. If the model has nothing special about it the application of the serializer is the same as the normal Django Rest Framework ModelSerializer:
 
 ```python
 from bridger.serializers import ModelSerializer
 
-class SomeModelSerializer(ModelSerializer):
+class SomeModelModelSerializer(ModelSerializer):
     class Meta:
         model = SomeModel
         fields = "__all__"
@@ -66,7 +66,7 @@ Example:
 ```python
 from bridger.serializers import ModelSerializer, register_resource
 
-class SomeModelSerializer(ModelSerializer)
+class SomeModelModelSerializer(ModelSerializer)
     @register_resource()
     def some_resource(self, instance, request, user):
         # Do some something (checks, etc.)
@@ -74,3 +74,8 @@ class SomeModelSerializer(ModelSerializer)
             "some-key": reverse("some-url", request=request)
         }
 ```
+
+!!! note "Naming Convention"
+    By convention, all classes that inherit from `ModelSerializer` are named `someModelModelSerializer` and those that inherit from `RepresentationSerializer` are named `someModelRepresentationSerializer`
+
+    e.g. the viewsets of model `User` will be `UserModelViewSet` and `UserRepresentationViewSet`

@@ -17,6 +17,7 @@ nav:
     - Display: display.md
     - Share: share.md
     - Signals: signals.md
+    - Metadata: metadata.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:

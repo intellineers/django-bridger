@@ -1,4 +1,5 @@
 from contextlib import suppress
+from django.contrib.contenttypes.models import ContentType
 
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.mixins import CreateModelMixin as OriginalCreateModelMixin
@@ -32,6 +33,10 @@ class ModelMixin:
                 return None
         except AttributeError:
             return None
+
+    @classmethod
+    def get_content_type(cls):
+        return ContentType.objects.get_for_model(cls.get_model())
 
 
 class ListModelMixin(OriginalListModelMixin):

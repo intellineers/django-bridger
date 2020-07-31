@@ -12,6 +12,8 @@ class ButtonConfig:
 
     level: ButtonLevel = ButtonLevel.DEFAULT
 
+    weight: int = 100
+
     def __post_init__(self):
         if hasattr(super(), "__post_init__"):
             super().__post_init__()

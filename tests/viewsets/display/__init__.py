@@ -1,0 +1,1 @@
+from .related_model_test import RelatedModelTestDisplayConfig

@@ -1,44 +1,9 @@
-from .fields import (
-    ButtonMetadataMixin,
-    CreateButtonMetadataMixin,
-    CustomButtonMetadataMixin,
-    CustomInstanceButtonMetadataMixin,
-    DocsMetadataMixin,
-    EndpointMetadataMixin,
-    FieldsMetadataMixin,
-    FilterFieldsMetadataMixin,
-    IdentifierMetadataMixin,
-    InstanceDisplayMetadataMixin,
-    ListDisplayMetadataMixin,
-    OrderingFieldsMetadataMixin,
-    PaginationMetadataMixin,
-    PKMetadataMixin,
-    PreviewMetadataMixin,
-    SearchFieldsMetadataMixin,
-    TitleMetadataMixin,
-    WidgetTypeMetadataMixin,
-)
+from bridger.buttons.metadata_config import ButtonConfigMixin
+from bridger.display.metadata_config import DisplayConfigMixin
+from bridger.titles.metadata_config import TitleConfigMixin
+
 from .metadata import BridgerMetadata
 
 
-class MetadataMixin(
-    InstanceDisplayMetadataMixin,
-    ListDisplayMetadataMixin,
-    IdentifierMetadataMixin,
-    WidgetTypeMetadataMixin,
-    EndpointMetadataMixin,
-    ButtonMetadataMixin,
-    CreateButtonMetadataMixin,
-    CustomButtonMetadataMixin,
-    CustomInstanceButtonMetadataMixin,
-    PaginationMetadataMixin,
-    TitleMetadataMixin,
-    SearchFieldsMetadataMixin,
-    OrderingFieldsMetadataMixin,
-    FilterFieldsMetadataMixin,
-    FieldsMetadataMixin,
-    PKMetadataMixin,
-    PreviewMetadataMixin,
-    DocsMetadataMixin,
-):
+class MetadataMixin(DisplayConfigMixin, TitleConfigMixin, ButtonConfigMixin):
     metadata_class = BridgerMetadata

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Set, Optional
 
 from rest_framework.request import Request
 
@@ -14,7 +14,7 @@ from .enums import ButtonType, HyperlinkTarget
 @dataclass
 class DropDownButton(ButtonTypeMixin, ButtonConfig):
     button_type = ButtonType.DROPDOWN
-    buttons: List = field(default_factory=list)
+    buttons: Set = field(default_factory=set)
 
     def get_buttons(self):
         for button in self.buttons:

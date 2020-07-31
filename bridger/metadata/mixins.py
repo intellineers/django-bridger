@@ -1,8 +1,31 @@
-class BridgerMetadataMixin:
-    def __init__(self, view, request, *args, **kwargs):
+from typing import Tuple
+
+from rest_framework.request import Request
+from rest_framework.views import View
+
+class BridgerViewSetConfig:
+
+    def __init__(self, view: View, request: Request, instance: bool):
         self.view = view
         self.request = request
-        super().__init__(*args, **kwargs)
+        self.instance = instance
 
-    def __iter__(self):
-        yield self.key, getattr(self.view, self.method_name)(self.request)
+    @classmethod
+    def get_metadata_parameters(cls) -> Tuple[str, str]:
+        """ Returns the parameters needed to get the metadata from a config
+
+        Parameters: Fieldname, Methodname
+        """
+        raise NotImplementedError("This needs to be implemented.")
+
+    @classmethod
+    def get_metadata_key(cls):
+        raise NotImplementedError()
+
+    @classmethod
+    def get_metadata_fieldname(cls):
+        raise NotImplementedError()
+
+    @classmethod
+    def get_metadata_method(cls):
+        return "get_metadata"

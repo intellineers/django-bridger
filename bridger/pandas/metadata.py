@@ -1,24 +1,24 @@
 from rest_framework.metadata import BaseMetadata
 
 from bridger.enums import WidgetType
-from bridger.metadata.fields import (
-    ButtonMetadata,
-    CreateButtonMetadata,
-    CustomButtonMetadata,
-    CustomInstanceButtonMetadata,
-    EndpointMetadata,
-    FieldsMetadata,
-    FilterFieldsMetadata,
-    IdentifierMetadata,
-    InstanceDisplayMetadata,
-    ListDisplayMetadata,
-    OrderingFieldsMetadata,
-    PaginationMetadata,
-    PKMetadata,
-    SearchFieldsMetadata,
-    TitleMetadata,
-    WidgetTypeMetadata,
-)
+# from bridger.metadata.fields import (
+#     ButtonMetadata,
+#     CreateButtonMetadata,
+#     CustomButtonMetadata,
+#     CustomInstanceButtonMetadata,
+#     EndpointMetadata,
+#     FieldsMetadata,
+#     FilterFieldsMetadata,
+#     IdentifierMetadata,
+#     InstanceDisplayMetadata,
+#     ListDisplayMetadata,
+#     OrderingFieldsMetadata,
+#     PaginationMetadata,
+#     PKMetadata,
+#     SearchFieldsMetadata,
+#     TitleMetadata,
+#     WidgetTypeMetadata,
+# )
 
 # class PandasMetadata(BaseMetadata):
 #     def determine_metadata(self, request, view):
@@ -49,16 +49,16 @@ class PandasMetadata(BaseMetadata):
         self.modules = [
             # IdentifierMetadata,
             # WidgetTypeMetadata,
-            TitleMetadata,
-            EndpointMetadata,
-            ButtonMetadata,
-            # CreateButtonMetadata,
-            CustomButtonMetadata,
-            CustomInstanceButtonMetadata,
-            SearchFieldsMetadata,
-            OrderingFieldsMetadata,
-            FilterFieldsMetadata,
-            ListDisplayMetadata,
+            # TitleMetadata,
+            # EndpointMetadata,
+            # ButtonMetadata,
+            # # CreateButtonMetadata,
+            # CustomButtonMetadata,
+            # CustomInstanceButtonMetadata,
+            # SearchFieldsMetadata,
+            # OrderingFieldsMetadata,
+            # FilterFieldsMetadata,
+            # ListDisplayMetadata,
         ]
         super().__init__(*args, **kwargs)
 

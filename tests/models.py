@@ -40,8 +40,10 @@ class ModelTest(TagModelMixin, models.Model):
         label="Move1",
         action_label="Move1",
         description_fields="<p>We will move1 this model.</p>",
-        instance_display=InstanceDisplay(sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]),
-        identifiers=["tests:modeltest"],
+        instance_display=InstanceDisplay(sections=(
+            Section(fields=FieldSet(fields=("char_field", "integer_field"))),)
+        ),
+        identifiers=("tests:modeltest",),
     )
 
     MOVE_BUTTON2 = ActionButton(
@@ -51,8 +53,10 @@ class ModelTest(TagModelMixin, models.Model):
         label="Move2",
         action_label="Move2",
         description_fields="<p>We will move2 this model.</p>",
-        instance_display=InstanceDisplay(sections=[Section(fields=FieldSet(fields=["char_field", "integer_field"]))]),
-        identifiers=["tests:modeltest"],
+        instance_display=InstanceDisplay(sections=(
+            Section(fields=FieldSet(fields=("char_field", "integer_field"))),)
+        ),
+        identifiers=("tests:modeltest",),
     )
 
     # Text

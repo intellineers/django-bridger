@@ -8,9 +8,9 @@ class RelatedModelTestDisplayConfig(DisplayConfig):
    
     def get_instance_display(self) -> Optional[dp.InstanceDisplay]:
         return dp.InstanceDisplay(
-            sections=[
-                dp.Section(fields=dp.FieldSet(fields=["char_field", "tags", "model_test", "model_tests", "text_markdown"]))
-            ]
+            sections=(
+                dp.Section(fields=dp.FieldSet(fields=["char_field", "tags", "model_test", "model_tests", "text_markdown"])),
+            )
         )
 
     def get_list_display(self) -> Optional[dp.ListDisplay]:

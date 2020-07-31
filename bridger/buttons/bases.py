@@ -4,7 +4,7 @@ from typing import Optional
 from .enums import ButtonLevel, ButtonType
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class ButtonConfig:
     label: Optional[str] = None
     icon: Optional[str] = None
@@ -31,7 +31,7 @@ class ButtonConfig:
         yield "level", self.level.value
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class ButtonTypeMixin:
     def __post_init__(self):
         if hasattr(super(), "__post_init__"):
@@ -46,7 +46,7 @@ class ButtonTypeMixin:
         yield "type", self.button_type.value
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class ButtonUrlMixin:
     key: Optional[str] = None
     endpoint: Optional[str] = None

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Set, Optional
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 from rest_framework.request import Request
 
@@ -11,23 +11,28 @@ from .bases import ButtonConfig, ButtonTypeMixin, ButtonUrlMixin
 from .enums import ButtonType, HyperlinkTarget
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class DropDownButton(ButtonTypeMixin, ButtonConfig):
     button_type = ButtonType.DROPDOWN
-    buttons: Set = field(default_factory=set)
+    buttons: Tuple = field(default_factory=tuple)
 
     def get_buttons(self):
         for button in self.buttons:
-            if hasattr(self, "request"):
-                button.request = self.request
+            # print(button)
+            # if isinstance(button, DropDownButton):
+            # button.request = self.request
             yield dict(button)
+            # if hasattr(self, "request"):
+            #     print(type(button), self.request)
+            #     button.request = self.request
+            # yield dict(button)
 
     def __iter__(self):
         yield from super().__iter__()
         yield "buttons", self.get_buttons()
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class WidgetButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     button_type = ButtonType.WIDGET
     new_mode: bool = False
@@ -37,7 +42,7 @@ class WidgetButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         yield "new_mode", self.new_mode
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class HyperlinkButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     button_type = ButtonType.HYPERLINK
     target: HyperlinkTarget = HyperlinkTarget.BLANK
@@ -47,7 +52,7 @@ class HyperlinkButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         yield "target", self.target.value
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     button_type = ButtonType.ACTION
     method: RequestType = RequestType.POST
@@ -59,7 +64,7 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     confirm_config: ButtonConfig = ButtonConfig(label="Confirm", title="Confirm")
     cancel_config: ButtonConfig = ButtonConfig(label="Cancel", title="Cancel")
 
-    identifiers: List[str] = field(default_factory=list)
+    identifiers: Tuple[str] = field(default_factory=tuple)
 
     def get_fields(self, request: Request) -> Dict:
         fields = dict()
@@ -97,6 +102,7 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
             yield "instance_display", list(self.instance_display)
 
         if self.serializer:
+            print(self.__dict__)
             assert (
                 hasattr(self, "request") and self.request is not None
             ), "Action Buttons who define a custom serializer, needs to have access to the request"

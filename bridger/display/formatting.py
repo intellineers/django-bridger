@@ -4,7 +4,7 @@ from typing import Dict, List, Union
 from bridger.enums import Operator
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Condition:
     operator: Operator
     value: Union[str, float, int, bool]
@@ -14,7 +14,7 @@ class Condition:
             assert isinstance(self.value, bool), f"{Operator.EXISTS.value} is only compatible with bool"
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class FormattingRule:
     icon: str = None
     style: Dict = None
@@ -33,7 +33,7 @@ class FormattingRule:
                 yield "condition", (self.condition.operator.value, self.condition.value)
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Formatting:
     formatting_rules: List[FormattingRule]
     column: str = None

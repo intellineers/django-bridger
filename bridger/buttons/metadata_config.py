@@ -6,6 +6,7 @@ from rest_framework.request import Request
 from bridger.enums import Button
 from bridger.metadata.mixins import BridgerViewSetConfig
 from bridger.signals.instance_buttons import add_instance_button
+from bridger.buttons.buttons import DropDownButton
 
 class ButtonConfig(BridgerViewSetConfig):
 
@@ -17,8 +18,22 @@ class ButtonConfig(BridgerViewSetConfig):
     FSM_LIST = True
     FSM_INSTANCE = True
     FSM_DROPDOWN = False
+    FSM_DROPDOWN_ICON = "wb-icon-plus"
+    FSM_DROPDOWN_LABEL = "Transitions"
     FSM_WEIGHT = 100
     FSM_BUTTONS = set()
+
+    def get_fsm_buttons(self) -> Set:
+        if self.FSM_DROPDOWN:
+            return {DropDownButton(
+                label=self.FSM_DROPDOWN_LABEL,
+                icon=self.FSM_DROPDOWN_ICON,
+                title=self.FSM_DROPDOWN_LABEL,
+                weight=self.FSM_WEIGHT,
+                buttons=tuple(self.FSM_BUTTONS),
+            )}
+        return self.FSM_BUTTONS
+
 
     # List Button Configuration
     LIST_BUTTONS = {Button.NEW.value, Button.REFRESH.value}
@@ -70,25 +85,33 @@ class ButtonConfig(BridgerViewSetConfig):
     def get_custom_list_instance_buttons(self) -> Set:
         return self.CUSTOM_LIST_INSTANCE_BUTTONS
 
+    def apply_request(self, buttons):
+        for button in buttons:
+            button.request = self.request
+            if hasattr(button, "buttons"):
+                self.apply_request(button.buttons)
+
     def _get_custom_instance_buttons(self):
         custom_instance_buttons = set()
         if self.instance:
             custom_instance_buttons |= self.get_custom_instance_buttons()
             if self.FSM_INSTANCE:
-                custom_instance_buttons |= self.FSM_BUTTONS
+                custom_instance_buttons |= self.get_fsm_buttons()
 
         else:
             custom_instance_buttons |= self.get_custom_list_instance_buttons()
             if self.FSM_LIST:
-                custom_instance_buttons |= self.FSM_BUTTONS
+                custom_instance_buttons |= self.get_fsm_buttons()
 
-        # custom_instance_buttons |= add_instance_button.send(self.__class__, many=not self.instance)
+        # TODO: This does not work anymore? Why is this the case?
+        custom_instance_buttons |= set(add_instance_button.send(self.__class__, many=not self.instance))
 
-        return sorted(
-            custom_instance_buttons,
-            key=lambda element: element.weight
-        )
+        self.apply_request(custom_instance_buttons)
 
+        iter_key_weight = lambda e: e.weight
+        for element in sorted(custom_instance_buttons, key=iter_key_weight):
+            # element.request = self.request
+            yield dict(element)
 
     # Custom Button Configuration
     CUSTOM_BUTTONS = set()

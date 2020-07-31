@@ -36,6 +36,8 @@ class FSMViewSetMixinMetaclass(type):
         # The class needs the field FSM_MODELFIELDS to know which transitions it needs to add
         if hasattr(_class, "get_model"):
             model = _class.get_model()
+            config_class = _class.button_config_class
+
             if model:
                 # The model potentially has multiple FSMFields, which needs to be iterated over
                 for field in filter(lambda f: isinstance(f, FSMField), model._meta.fields):
@@ -53,20 +55,7 @@ class FSMViewSetMixinMetaclass(type):
 
                         # Get the Transition Button and add it to the front of the instance buttons
                         button = transition.custom.get("_transition_button")
-
-                        instance_btns = [button] + list(
-                            filter(lambda x: button.key != x.key, getattr(_class, "CUSTOM_INSTANCE_BUTTONS", []),)
-                        )
-                        list_btns = [button] + list(
-                            filter(lambda x: button.key != x.key, getattr(_class, "CUSTOM_LIST_INSTANCE_BUTTONS", []),)
-                        )
-
-                        setattr(
-                            _class, "CUSTOM_INSTANCE_BUTTONS", instance_btns,
-                        )
-                        setattr(
-                            _class, "CUSTOM_LIST_INSTANCE_BUTTONS", list_btns,
-                        )
+                        config_class.FSM_BUTTONS.add(button)
 
                         # Create a method that calls fsm_route with the request and the action name
                         method = get_method(transition)

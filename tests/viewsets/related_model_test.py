@@ -31,8 +31,6 @@ class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
 class RelatedModelTestModelViewSet(ReadOnlyModelViewSet):
     pagination_class = LimitOffsetPagination
 
-    ENDPOINT = "relatedmodeltest-list"
-
     display_config_class = RelatedModelTestDisplayConfig
     button_config_class = RelatedModelTestButtonConfig
 

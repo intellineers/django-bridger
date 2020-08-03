@@ -1,4 +1,4 @@
-site_name: Bridger
+site_name: Bridger1
 
 theme:
     name: material
@@ -26,3 +26,4 @@ markdown_extensions:
     - codehilite
 plugins:
     - search
+

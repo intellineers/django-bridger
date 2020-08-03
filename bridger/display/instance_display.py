@@ -52,14 +52,6 @@ class InstanceDisplay:
     sections: Tuple[Section]
 
     def __iter__(self):
-        # print(self.sections)
-        # for section in self.sections:
-            
-        # yield from [{section[0]: section[1]} for section in self.sections]
+        # All sections need to be iterated over and be converted into a dict
         for section in self.sections:
-            print(section)
             yield dict(section)
-        #     print(section)
-        #     yield {section[0]: section[1]}
-
-        # yield from [dict(section) for section in self.sections]

@@ -11,13 +11,13 @@ from bridger.pagination import CursorPagination
 from .generics import GenericAPIView
 from .mixins import (
     CreateModelMixin,
-    DestroyModelMixin,
     DestroyMultipleModelMixin,
     FilterMixin,
     ListModelMixin,
     ModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
+    DestroyModelMixin,
 )
 
 
@@ -38,8 +38,6 @@ class ReadOnlyModelViewSet(
 ):
     pagination_class = CursorPagination
     READ_ONLY = True
-    CREATE_BUTTONS = []
-    BUTTONS = [Button.REFRESH.value]
 
 
 class ModelViewSet(

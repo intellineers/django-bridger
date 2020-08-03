@@ -17,15 +17,9 @@ class DropDownButton(ButtonTypeMixin, ButtonConfig):
     buttons: Tuple = field(default_factory=tuple)
 
     def get_buttons(self):
+        # All buttons nested inside this dropdown button need to be handled by converting it to a dictionairy
         for button in self.buttons:
-            # print(button)
-            # if isinstance(button, DropDownButton):
-            # button.request = self.request
             yield dict(button)
-            # if hasattr(self, "request"):
-            #     print(type(button), self.request)
-            #     button.request = self.request
-            # yield dict(button)
 
     def __iter__(self):
         yield from super().__iter__()
@@ -102,7 +96,6 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
             yield "instance_display", list(self.instance_display)
 
         if self.serializer:
-            print(self.__dict__)
             assert (
                 hasattr(self, "request") and self.request is not None
             ), "Action Buttons who define a custom serializer, needs to have access to the request"

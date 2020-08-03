@@ -44,5 +44,6 @@ The defaulf properties are as following:
 | key      | yes if endpoint is None | A string that matches against an url     |
 | endpoint | yes if key is None      | A url                                    |
 
+## Remote Buttons
 
-
+<Placeholder>

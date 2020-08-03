@@ -3,12 +3,13 @@ from django.contrib.contenttypes.models import ContentType
 
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.mixins import CreateModelMixin as OriginalCreateModelMixin
-from rest_framework.mixins import DestroyModelMixin
+from rest_framework.mixins import DestroyModelMixin as OriginalDestroyModelMixin
 from rest_framework.mixins import ListModelMixin as OriginalListModelMixin
 from rest_framework.mixins import RetrieveModelMixin as OriginalRetrieveModelMixin
 from rest_framework.mixins import UpdateModelMixin as OriginalUpdateModelMixin
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
 
 from bridger.filters import DjangoFilterBackend
 from bridger.messages import serialize_messages
@@ -83,6 +84,10 @@ class RetrieveModelMixin(OriginalRetrieveModelMixin):
 
 class CreateModelMixin(OriginalCreateModelMixin):
     def create(self, request, *args, **kwargs):
+        # If not create endpoint is defined then raise 405
+        if self.endpoint_config_class(view=self, request=self.request, instance=False)._get_create_endpoint() is None:
+            return Response(status=HTTP_405_METHOD_NOT_ALLOWED)
+
         response = super().create(request, *args, **kwargs)
         response.data = {"instance": response.data}
         return response
@@ -90,13 +95,31 @@ class CreateModelMixin(OriginalCreateModelMixin):
 
 class UpdateModelMixin(OriginalUpdateModelMixin):
     def update(self, request, *args, **kwargs):
+        # If no instance endpoint is defined, then raise 405
+        if self.endpoint_config_class(view=self, request=self.request, instance=True)._get_instance_endpoint() is None:
+            return Response(status=HTTP_405_METHOD_NOT_ALLOWED)
+
         response = super().update(request, *args, **kwargs)
         response.data = {"instance": response.data}
         return response
 
 
+class DestroyModelMixin(OriginalDestroyModelMixin):
+    
+    def destroy(self, request, *args, **kwargs):
+        # If no delete endpoint is defined, then raise 405
+        if self.endpoint_config_class(view=self, request=self.request, instance=True)._get_delete_endpoint() is None:
+            return Response(status=HTTP_405_METHOD_NOT_ALLOWED)
+
+        return super().destroy(request, *args, **kwargs)
+
+
 class DestroyMultipleModelMixin:
     def destroy_multiple(self, request, *args, **kwargs):
+        # If no delete endpoint is defined, then raise 405
+        if self.endpoint_config_class(view=self, request=self.request, instance=False)._get_delete_endpoint() is None:
+            return Response(status=HTTP_405_METHOD_NOT_ALLOWED)
+
         model = self.get_serializer_class().Meta.model
         app_label = model._meta.app_label
 

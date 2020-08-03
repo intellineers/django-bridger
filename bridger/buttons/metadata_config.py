@@ -103,27 +103,32 @@ class ButtonConfig(BridgerViewSetConfig):
             if self.FSM_LIST:
                 custom_instance_buttons |= self.get_fsm_buttons()
 
-        # TODO: This does not work anymore? Why is this the case?
-        custom_instance_buttons |= set(add_instance_button.send(self.__class__, many=not self.instance))
+        remote_buttons = add_instance_button.send(self.view.__class__, many=True)
+        custom_instance_buttons |= set([button for _, button in remote_buttons])
 
         self.apply_request(custom_instance_buttons)
 
         iter_key_weight = lambda e: e.weight
         for element in sorted(custom_instance_buttons, key=iter_key_weight):
-            # element.request = self.request
             yield dict(element)
 
     # Custom Button Configuration
     CUSTOM_BUTTONS = set()
 
-    def get_metadata(self) -> Dict:
-        if self.instance:
-            yield "instance", self.get_instance_buttons()
-        else:
-            yield "list", self.get_list_buttons()
-            yield "create", self.get_create_buttons()
+    def get_custom_buttons(self) -> Set:
+        return self.CUSTOM_BUTTONS
 
+    def _get_custom_buttons(self):
+        custom_buttons = self.get_custom_buttons()
+        self.apply_request(custom_buttons)
+
+        iter_key_weight = lambda e: e.weight
+        for element in sorted(custom_buttons, key=iter_key_weight):
+            yield dict(element)
+
+    def get_metadata(self) -> Dict:
         yield "custom_instance", self._get_custom_instance_buttons()
+        yield "custom", self._get_custom_buttons()
 
     @classmethod
     def get_metadata_key(cls):

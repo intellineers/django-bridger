@@ -48,6 +48,7 @@ pytest-flake8 = "1.0.*"
 pytest-isort = "1.0.*"
 tox = "3.16.*"
 devtools = {version="0.5.*", extras=["pygments"]}
+pynvim = "0.4.*"
 
 # Documentation dependencies
 mkdocs = "1.1.*"

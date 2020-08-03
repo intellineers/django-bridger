@@ -28,7 +28,7 @@ class RelatedModelTestRepresentationViewSet(RepresentationModelViewSet):
     serializer_class = RelatedModelTestRepresentationSerializer
 
 
-class RelatedModelTestModelViewSet(ModelViewSet):
+class RelatedModelTestModelViewSet(ReadOnlyModelViewSet):
     pagination_class = LimitOffsetPagination
 
     ENDPOINT = "relatedmodeltest-list"

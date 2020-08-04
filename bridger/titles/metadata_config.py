@@ -12,6 +12,13 @@ class TitleConfig(BridgerViewSetConfig):
             return f"{name}: {str(self.view.get_object())}"
         return name
 
+    def get_delete_title(self) -> str:
+        name = self.view.get_model()._meta.verbose_name
+
+        if self.instance:
+            return f"Delete {name}: {str(self.view.get_object())}"
+        return f"Delete {name}"
+
     def get_list_title(self) -> str:
         return self.view.get_model()._meta.verbose_name_plural
 
@@ -22,6 +29,7 @@ class TitleConfig(BridgerViewSetConfig):
         yield "instance", self.get_instance_title()
         yield "list", self.get_list_title()
         yield "create", self.get_create_title()
+        yield "delete", self.get_delete_title()
 
     @classmethod
     def get_metadata_key(cls):

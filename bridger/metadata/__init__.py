@@ -4,5 +4,8 @@ from .configs import (
     PaginationBridgerViewSetConfig,
     PKBridgerViewSetConfig,
     TypeBridgerViewSetConfig,
+    FilterFieldsBridgerViewSetConfig,
+    SearchFieldsBridgerViewSetConfig,
+    OrderingFieldsBridgerViewSetConfig,
 )
 from .metadata import BridgerMetadata

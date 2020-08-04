@@ -26,6 +26,10 @@ class FrontendUserConfiguration(models.Model):
     )
     config = JSONField(default=dict, null=True, blank=True)
 
+    @classmethod
+    def get_endpoint_basename(cls):
+        return "bridger:frontenduserconfiguration"
+
     def __str__(self):
         return f"{self.user} {self.id}"
 
@@ -69,7 +73,6 @@ class FrontendUserConfigurationFilterSet(django_filters.rest_framework.FilterSet
 
 
 class FrontendUserConfigurationModelViewSet(InfiniteDataModelView):
-    INSTANCE_BUTTONS = LIST_BUTTONS = []
     serializer_class = FrontendUserConfigurationModelSerializer
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     filter_class = FrontendUserConfigurationFilterSet
@@ -78,6 +81,8 @@ class FrontendUserConfigurationModelViewSet(InfiniteDataModelView):
         "id",
         *bridger_settings.DEFAULT_FRONTEND_USER_CONFIGURATION_ORDER,
     ]
+
+    queryset = FrontendUserConfiguration.objects.none()
 
     def get_queryset(self):
         return FrontendUserConfiguration.objects.filter(user=self.request.user)

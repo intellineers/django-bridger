@@ -31,6 +31,7 @@ markdown = "3.2.*"
 markdown-blockdiag = "0.7.*"
 toml = "0.10.*"
 python-decouple = "3.3"
+python-slugify = "*"
 
 selenium = "3.141.*"
 pytest-selenium = "1.17.*"

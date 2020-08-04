@@ -1,3 +1,4 @@
+from .documentation import DocumentationBridgerViewSetConfig
 from .fields import FieldsBridgerViewSetConfig
 from .identifier import IdentifierBridgerViewSetConfig
 from .pagination import PaginationBridgerViewSetConfig

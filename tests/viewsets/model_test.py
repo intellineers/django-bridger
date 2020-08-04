@@ -26,6 +26,8 @@ class ModelTestModelViewSet(ModelViewSet):
     # LIST_DOCS = "tests/endpoint_documentation/model_test.md"
     # INSTANCE_DOCS = "# Instance Doc\n"
 
+    LIST_DOCUMENTATION = "tests/viewsets/documentation/model_test.md"
+
     display_config_class = ModelTestDisplayConfig
     title_config_class = ModelTestTitleConfig
     preview_config_class = ModelTestPreviewConfig

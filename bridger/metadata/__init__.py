@@ -1,4 +1,5 @@
 from .configs import (
+    DocumentationBridgerViewSetConfig,
     FieldsBridgerViewSetConfig,
     IdentifierBridgerViewSetConfig,
     PaginationBridgerViewSetConfig,

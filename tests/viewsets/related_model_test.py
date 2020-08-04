@@ -30,10 +30,11 @@ class RelatedModelTestModelViewSet(ModelViewSet):
             dp.Field(key="model_tests", label="Model(M2M)"),
             dp.Field(key="text_markdown", label="Markdown"),
             dp.Field(key="tags", label="Tags"),
+            dp.Field(key="list_field", label="List"),
         ]
     )
     INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "tags", "model_test", "model_tests", "text_markdown",]))]
+        sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "list_field", "tags", "model_test", "model_tests", "text_markdown",]))]
     )
     CUSTOM_INSTANCE_BUTTONS = CUSTOM_LIST_INSTANCE_BUTTONS = [
         bt.DropDownButton(

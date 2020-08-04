@@ -1,6 +1,6 @@
 from datetime import date, time
 
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField, ArrayField
 from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
@@ -153,6 +153,8 @@ class RelatedModelTest(TagModelMixin, models.Model):
         to="tests.ModelTest", related_name="related_models_m2m", blank=True, verbose_name="Model Tests1",
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
+
+    list_field = ArrayField(base_field=models.CharField(max_length=255), null=True, blank=True)
 
     history = HistoricalRecords()
 

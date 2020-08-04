@@ -131,5 +131,6 @@ class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer
             "text_markdown",
             "tags",
             "_tags",
+            "list_field",
             "_additional_resources",
         )

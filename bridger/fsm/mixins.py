@@ -36,13 +36,14 @@ class FSMViewSetMixinMetaclass(type):
         # The class needs the field FSM_MODELFIELDS to know which transitions it needs to add
         if hasattr(_class, "get_model"):
             model = _class.get_model()
-            config_class = _class.button_config_class
 
             if model:
+                setattr(_class, "FSM_BUTTONS", getattr(_class, "FSM_BUTTONS", set()))
                 # The model potentially has multiple FSMFields, which needs to be iterated over
                 for field in filter(lambda f: isinstance(f, FSMField), model._meta.fields):
                     # Get all transitions, by calling the partialmethod defined by django-fsm
                     transitions = getattr(model, f"get_all_{field.name}_transitions")(model())
+
                     # Since the method above can potentially return a transition multiple times
                     # i.e. when a transitions has multiple sources, we need to filter out those transitions
                     _discovered_transitions = list()
@@ -55,7 +56,7 @@ class FSMViewSetMixinMetaclass(type):
 
                         # Get the Transition Button and add it to the front of the instance buttons
                         button = transition.custom.get("_transition_button")
-                        config_class.FSM_BUTTONS.add(button)
+                        _class.FSM_BUTTONS.add(button)
 
                         # Create a method that calls fsm_route with the request and the action name
                         method = get_method(transition)

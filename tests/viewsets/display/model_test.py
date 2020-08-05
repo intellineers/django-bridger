@@ -5,6 +5,15 @@ from bridger.display.metadata_config import DisplayConfig
 from rest_framework.request import Request
 from bridger.enums import Operator, Unit
 
+
+class ModelTestCalendarDisplayConfig(DisplayConfig):
+
+    def get_list_display(self) -> Optional[dp.ListDisplay]:
+        return dp.Calendar(
+            title="char_field", start="datetime_field", end="datetime_field1", filter_date_gte="start", filter_date_lte="end",
+        )
+
+
 class ModelTestDisplayConfig(DisplayConfig):
    
     def get_instance_display(self) -> Optional[dp.InstanceDisplay]:

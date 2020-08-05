@@ -34,22 +34,7 @@ class FilterMixin:
     ordering_fields = ordering = ("id",)
 
 
-class ModelMixin:
-    @classmethod
-    def get_model(cls):
-        try:
-            if hasattr(cls, "queryset"):
-                return cls.queryset.model
-            elif hasattr(cls, "serializer_class"):
-                return cls.serializer_class.Meta.model
-            else:
-                return None
-        except AttributeError:
-            return None
-
-    @classmethod
-    def get_content_type(cls):
-        return ContentType.objects.get_for_model(cls.get_model())
+class DocumentationMixin:
 
     def _get_documentation_path(self, detail):
         default_path = Path(inspect.getfile(self.__class__)).parent / "documentation" / f"{slugify(self.__class__.__name__)}.md"
@@ -91,6 +76,24 @@ class ModelMixin:
         if path := self._get_documentation_path(False):
             return HttpResponse(self._render_documentation(path, False))
         return HttpResponse(status=HTTP_404_NOT_FOUND)
+
+
+class ModelMixin:
+    @classmethod
+    def get_model(cls):
+        try:
+            if hasattr(cls, "queryset"):
+                return cls.queryset.model
+            elif hasattr(cls, "serializer_class"):
+                return cls.serializer_class.Meta.model
+            else:
+                return None
+        except AttributeError:
+            return None
+
+    @classmethod
+    def get_content_type(cls):
+        return ContentType.objects.get_for_model(cls.get_model())
 
 
 class ListModelMixin(OriginalListModelMixin):

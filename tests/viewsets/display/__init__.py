@@ -1,2 +1,2 @@
 from .related_model_test import RelatedModelTestDisplayConfig
-from .model_test import ModelTestDisplayConfig
+from .model_test import ModelTestDisplayConfig, ModelTestCalendarDisplayConfig

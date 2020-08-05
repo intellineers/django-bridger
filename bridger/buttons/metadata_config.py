@@ -21,18 +21,17 @@ class ButtonConfig(BridgerViewSetConfig):
     FSM_DROPDOWN_ICON = "wb-icon-plus"
     FSM_DROPDOWN_LABEL = "Transitions"
     FSM_WEIGHT = 100
-    FSM_BUTTONS = set()
 
     def get_fsm_buttons(self) -> Set:
-        if self.FSM_DROPDOWN:
+        if self.FSM_DROPDOWN and len(self.view.FSM_BUTTONS) > 0:
             return {DropDownButton(
                 label=self.FSM_DROPDOWN_LABEL,
                 icon=self.FSM_DROPDOWN_ICON,
                 title=self.FSM_DROPDOWN_LABEL,
                 weight=self.FSM_WEIGHT,
-                buttons=tuple(self.FSM_BUTTONS),
+                buttons=tuple(self.view.FSM_BUTTONS),
             )}
-        return self.FSM_BUTTONS
+        return self.view.FSM_BUTTONS
 
 
     # List Button Configuration

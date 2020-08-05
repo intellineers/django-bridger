@@ -18,6 +18,7 @@ from .mixins import (
     RetrieveModelMixin,
     UpdateModelMixin,
     DestroyModelMixin,
+    DocumentationMixin,
 )
 
 
@@ -25,22 +26,25 @@ class GenericViewSet(ViewSetMixin, GenericAPIView):
     pass
 
 
-class ViewSet(MetadataMixin, ViewSet):
+class ViewSet(MetadataMixin, ModelMixin, DocumentationMixin, ViewSet):
     def get_serializer(self):
-        return self.serializer_class()
+        if hasattr(self, "serializer_class"):
+            return self.serializer_class()
+        return None
 
     def get_serializer_class(self):
         return getattr(self, "serializer_class", None)
 
 
 class ReadOnlyModelViewSet(
-    MetadataMixin, ModelMixin, RetrieveModelMixin, ListModelMixin, FilterMixin, GenericViewSet,
+    DocumentationMixin, MetadataMixin, ModelMixin, RetrieveModelMixin, ListModelMixin, FilterMixin, GenericViewSet,
 ):
     pagination_class = CursorPagination
     READ_ONLY = True
 
 
 class ModelViewSet(
+    DocumentationMixin,
     FSMViewSetMixin,
     MetadataMixin,
     ModelMixin,

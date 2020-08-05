@@ -22,6 +22,9 @@ class FilterMixin:
     ordering_fields = ordering = ("id",)
 
 
+class DocumentationMixin:
+
+
 class ModelMixin:
     @classmethod
     def get_model(cls):

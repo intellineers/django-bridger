@@ -31,7 +31,7 @@ class ButtonConfig(BridgerViewSetConfig):
                 weight=self.FSM_WEIGHT,
                 buttons=tuple(self.view.FSM_BUTTONS),
             )}
-        return self.view.FSM_BUTTONS
+        return getattr(self.view, "FSM_BUTTONS", set())
 
 
     # List Button Configuration

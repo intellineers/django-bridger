@@ -1,14 +1,15 @@
 import plotly.graph_objects as go
+import plotly.graph_objects as go
 import pandas as pd
 
-def get_hovertemplate_timeserie(is_pourcent=False, currency="$"):
-    if is_pourcent:
+def get_hovertemplate_timeserie(is_percent=False, currency="$"):
+    if is_percent:
         return f"""
         <b>%{{y:.2f}}%</b>
         """
     else:
         return f"""
-        <b>{currency}%{{y:.2f}}{"%" if is_pourcent else ""}</b>
+        <b>{currency}%{{y:.2f}}{"%" if is_percent else ""}</b>
         """
 
 

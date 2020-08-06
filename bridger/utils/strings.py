@@ -7,9 +7,9 @@ def enumerated_string_join(l):
         return ' and '.join([', '.join(l[:-1]), l[-1]]) if len(l) > 1 else l[0]
     return ''
 
-def format_number(number, is_pourcent=False, decimal=2):
+def format_number(number, is_percent=False, decimal=2):
     number = number if number else 0
-    return f'{number:,.{decimal}{"%" if is_pourcent else "f"}}'
+    return f'{number:,.{decimal}{"%" if is_percent else "f"}}'
     
 class ReferenceIDMixin:
     @property

@@ -47,7 +47,7 @@ version = "1.4.4"
 [[package]]
 category = "dev"
 description = "Disable App Nap on OS X 10.9"
-marker = "python_version >= \"3.3\" and sys_platform == \"darwin\" or platform_system == \"Darwin\""
+marker = "sys_platform == \"darwin\" or platform_system == \"Darwin\" or python_version >= \"3.3\" and sys_platform == \"darwin\""
 name = "appnope"
 optional = false
 python-versions = "*"
@@ -153,7 +153,6 @@ visualize = ["graphviz (>0.5.1)", "Twisted (>=16.1.1)"]
 [[package]]
 category = "dev"
 description = "Specifications for callback functions passed in to an API"
-marker = "python_version >= \"3.3\""
 name = "backcall"
 optional = false
 python-versions = "*"
@@ -225,24 +224,10 @@ description = "The AWS SDK for Python"
 name = "boto3"
 optional = false
 python-versions = "*"
-<<<<<<< HEAD
-<<<<<<< HEAD
-version = "1.14.36"
+version = "1.14.37"
 
 [package.dependencies]
-botocore = ">=1.17.36,<1.18.0"
-=======
-version = "1.14.25"
-
-[package.dependencies]
-botocore = ">=1.17.25,<1.18.0"
->>>>>>> temporary
-=======
-version = "1.14.33"
-
-[package.dependencies]
-botocore = ">=1.17.33,<1.18.0"
->>>>>>> endpoint revision
+botocore = ">=1.17.37,<1.18.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.3.0,<0.4.0"
 
@@ -252,15 +237,7 @@ description = "Low-level, data-driven core of boto 3."
 name = "botocore"
 optional = false
 python-versions = "*"
-<<<<<<< HEAD
-<<<<<<< HEAD
-version = "1.17.36"
-=======
-version = "1.17.25"
->>>>>>> temporary
-=======
-version = "1.17.33"
->>>>>>> endpoint revision
+version = "1.17.37"
 
 [package.dependencies]
 docutils = ">=0.10,<0.16"
@@ -674,6 +651,22 @@ version = "0.15.2"
 
 [[package]]
 category = "dev"
+description = "A parser for Python dependency files"
+name = "dparse"
+optional = false
+python-versions = ">=3.5"
+version = "0.5.1"
+
+[package.dependencies]
+packaging = "*"
+pyyaml = "*"
+toml = "*"
+
+[package.extras]
+pipenv = ["pipenv"]
+
+[[package]]
+category = "dev"
 description = "Discover and load entry points from installed packages."
 name = "entrypoints"
 optional = false
@@ -888,7 +881,6 @@ requirements_deprecated_finder = ["pipreqs", "pip-api"]
 [[package]]
 category = "dev"
 description = "An autocompletion tool for Python that can be used for text editors."
-marker = "python_version >= \"3.3\""
 name = "jedi"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
@@ -1273,11 +1265,7 @@ description = "A web-based notebook environment for interactive computing"
 name = "notebook"
 optional = false
 python-versions = ">=3.5"
-<<<<<<< HEAD
 version = "6.1.1"
-=======
-version = "6.1.0"
->>>>>>> endpoint revision
 
 [package.dependencies]
 Send2Trash = "*"
@@ -1297,11 +1285,7 @@ traitlets = ">=4.2.1"
 
 [package.extras]
 docs = ["sphinx", "nbsphinx", "sphinxcontrib-github-alt"]
-<<<<<<< HEAD
 test = ["nose", "coverage", "requests", "nose-warnings-filters", "nbval", "nose-exclude", "selenium", "pytest", "pytest-cov", "requests-unixsocket"]
-=======
-test = ["nose", "coverage", "requests", "nose-warnings-filters", "nbval", "nose-exclude", "selenium", "pytest", "pytest-cov", "requests-unixsocket", "nose-exclude"]
->>>>>>> endpoint revision
 
 [[package]]
 category = "main"
@@ -1386,7 +1370,7 @@ version = "0.8.0"
 [[package]]
 category = "dev"
 description = "Pexpect allows easy control of interactive console applications."
-marker = "python_version >= \"3.3\" and sys_platform != \"win32\""
+marker = "python_version >= \"3.3\" and sys_platform != \"win32\" or sys_platform != \"win32\""
 name = "pexpect"
 optional = false
 python-versions = "*"
@@ -1398,7 +1382,6 @@ ptyprocess = ">=0.5"
 [[package]]
 category = "dev"
 description = "Tiny 'shelve'-like database with concurrency support"
-marker = "python_version >= \"3.3\""
 name = "pickleshare"
 optional = false
 python-versions = "*"
@@ -1841,6 +1824,20 @@ version = "3.3"
 
 [[package]]
 category = "main"
+description = "A Python Slugify application that handles Unicode"
+name = "python-slugify"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "4.0.1"
+
+[package.dependencies]
+text-unidecode = ">=1.3"
+
+[package.extras]
+unidecode = ["Unidecode (>=1.1.1)"]
+
+[[package]]
+category = "main"
 description = "World timezone definitions, modern and historical"
 name = "pytz"
 optional = false
@@ -1972,8 +1969,6 @@ botocore = ">=1.12.36,<2.0a.0"
 
 [[package]]
 category = "dev"
-<<<<<<< HEAD
-=======
 description = "Checks installed dependencies for known vulnerabilities."
 name = "safety"
 optional = false
@@ -2000,7 +1995,6 @@ urllib3 = "*"
 
 [[package]]
 category = "dev"
->>>>>>> temporary
 description = "Send file to trash natively under Mac OS X, Windows and Linux."
 name = "send2trash"
 optional = false
@@ -2058,7 +2052,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "0.3.1"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "ANSII Color formatting for output in terminal."
 name = "termcolor"
 optional = false
@@ -2090,7 +2084,7 @@ version = "0.4.4"
 test = ["pathlib2"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "The most basic Text::Unidecode port"
 name = "text-unidecode"
 optional = false
@@ -2252,11 +2246,7 @@ description = "Virtual Python Environment builder"
 name = "virtualenv"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
-<<<<<<< HEAD
 version = "20.0.30"
-=======
-version = "20.0.29"
->>>>>>> endpoint revision
 
 [package.dependencies]
 appdirs = ">=1.4.3,<2"
@@ -2320,16 +2310,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-<<<<<<< HEAD
-<<<<<<< HEAD
-content-hash = "642b6dcf32e84a3c1d3a8fca2664e637026b4dcf1a2225bc327f4ec11dc7fb68"
-lock-version = "1.0"
-=======
-content-hash = "ca1ec00ec8261bc5dc9d697b4260f0340ab128a5f8c2e827ecfc3151154c9d9b"
->>>>>>> temporary
-=======
-content-hash = "cb991543d7cba2673a414fe91ebbb7c66375ac1d8033d69db54fbefa08843b43"
->>>>>>> endpoint revision
+content-hash = "1dd958a26c4c917b1eaaef63d32dd2b65aa1b4b899c19212ceb0731dc9d3125c"
 python-versions = "3.8.*"
 
 [metadata.files]
@@ -2416,30 +2397,12 @@ blockdiag = [
     {file = "blockdiag-2.0.1.tar.gz", hash = "sha256:16a69dd9f3b44c9e0869999ce82aa968586698febc86ece9ca0c902dba772397"},
 ]
 boto3 = [
-<<<<<<< HEAD
-<<<<<<< HEAD
-    {file = "boto3-1.14.36-py2.py3-none-any.whl", hash = "sha256:84fec841e07c854177ed264283cf52e3e4ac06c37d4e2b371369a93881f869b7"},
-    {file = "boto3-1.14.36.tar.gz", hash = "sha256:ad9156f1c76ece440a4fc60116b13bd627aa8ae5ed7b7d0b0380e3021bf54bda"},
+    {file = "boto3-1.14.37-py2.py3-none-any.whl", hash = "sha256:84cd19e531de06577cf8d2cb863fa2e226d0b25ffaa37867e8e3d43256e0ba18"},
+    {file = "boto3-1.14.37.tar.gz", hash = "sha256:aaa1bced4a0fb52368e8035b0a25a553773c80b905d8c404f1b37086d7497b5b"},
 ]
 botocore = [
-    {file = "botocore-1.17.36-py2.py3-none-any.whl", hash = "sha256:7740b12a9a32e78ee32c31dd6882e70c7469259cddf7b2c1f41eabf7eacece6b"},
-    {file = "botocore-1.17.36.tar.gz", hash = "sha256:1132a09abb84018081e9ad74bf7aba3cc8f776c576db7ec52bf72dee40a7a962"},
-=======
-    {file = "boto3-1.14.25-py2.py3-none-any.whl", hash = "sha256:45331be8740a8f5ee873a487a7f91d93d9c360bb1408fc887f3a2f5c37377d87"},
-    {file = "boto3-1.14.25.tar.gz", hash = "sha256:69038d4a42056ec67060020a64001ac09a6ef668aca81c45af1cbbdb7b56a4f6"},
-]
-botocore = [
-    {file = "botocore-1.17.25-py2.py3-none-any.whl", hash = "sha256:98dc8b99e47d2d0bc14c017c957b4fb23172d2fc7db5e8529576308a6898f0fc"},
-    {file = "botocore-1.17.25.tar.gz", hash = "sha256:918c5ccde335545a2c2eb426bc47520a960d11e3e3ab72aa43b73f1d692f07e1"},
->>>>>>> temporary
-=======
-    {file = "boto3-1.14.33-py2.py3-none-any.whl", hash = "sha256:e47537d530d523855e52367c2ff278c732651934cd6b33daf9487649dab8e674"},
-    {file = "boto3-1.14.33.tar.gz", hash = "sha256:35553b05b47fb6b3494bc447428342ca840348ede485e586d002399a32cae0a3"},
-]
-botocore = [
-    {file = "botocore-1.17.33-py2.py3-none-any.whl", hash = "sha256:c12a0dc7021fca9d11c2bdbafdc44372e38180b56a1fab97c27b152f79455cd1"},
-    {file = "botocore-1.17.33.tar.gz", hash = "sha256:273dbd8e26d4faa568e4cd4ca3180890b59ff0e3e8df7fb352796796c6808527"},
->>>>>>> endpoint revision
+    {file = "botocore-1.17.37-py2.py3-none-any.whl", hash = "sha256:7c5c05ce8d785d442c93ee06694d03a9f6c34dca09bf48e6c13f6177261a6d36"},
+    {file = "botocore-1.17.37.tar.gz", hash = "sha256:82ef4a26cbc5a6197af43286b1895d220a8864c98c44f4c2e2f2e9bedecbce89"},
 ]
 celery = [
     {file = "celery-4.4.7-py2.py3-none-any.whl", hash = "sha256:a92e1d56e650781fb747032a3997d16236d037c8199eacd5217d1a72893bca45"},
@@ -2636,6 +2599,10 @@ docutils = [
     {file = "docutils-0.15.2-py2-none-any.whl", hash = "sha256:9e4d7ecfc600058e07ba661411a2b7de2fd0fafa17d1a7f7361cd47b1175c827"},
     {file = "docutils-0.15.2-py3-none-any.whl", hash = "sha256:6c4f696463b79f1fb8ba0c594b63840ebd41f059e92b31957c46b74a4599b6d0"},
     {file = "docutils-0.15.2.tar.gz", hash = "sha256:a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"},
+]
+dparse = [
+    {file = "dparse-0.5.1-py3-none-any.whl", hash = "sha256:e953a25e44ebb60a5c6efc2add4420c177f1d8404509da88da9729202f306994"},
+    {file = "dparse-0.5.1.tar.gz", hash = "sha256:a1b5f169102e1c894f9a7d5ccf6f9402a836a5d24be80a986c7ce9eaed78f367"},
 ]
 entrypoints = [
     {file = "entrypoints-0.3-py2.py3-none-any.whl", hash = "sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19"},
@@ -2915,13 +2882,8 @@ nltk = [
     {file = "nltk-3.5.zip", hash = "sha256:845365449cd8c5f9731f7cb9f8bd6fd0767553b9d53af9eb1b3abf7700936b35"},
 ]
 notebook = [
-<<<<<<< HEAD
     {file = "notebook-6.1.1-py3-none-any.whl", hash = "sha256:4cc4e44a43a83a7c2f5e85bfdbbfe1c68bed91b857741df9e593d213a6fc2d27"},
     {file = "notebook-6.1.1.tar.gz", hash = "sha256:42391d8f3b88676e774316527599e49c11f3a7e51c41035e9e44c1b58e1398d5"},
-=======
-    {file = "notebook-6.1.0-py3-none-any.whl", hash = "sha256:d3b58a0106abbb7287fe680654665d29020a8203cb167c27ac0c37e940442836"},
-    {file = "notebook-6.1.0.tar.gz", hash = "sha256:0f44d22092896f68f7589bfdbfc912885993ddb1fd7d5779ddbbf0d8c6b73eef"},
->>>>>>> endpoint revision
 ]
 numpy = [
     {file = "numpy-1.19.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:b1cca51512299841bf69add3b75361779962f9cee7d9ee3bb446d5982e925b69"},
@@ -3213,6 +3175,9 @@ python-dateutil = [
 python-decouple = [
     {file = "python-decouple-3.3.tar.gz", hash = "sha256:55c546b85b0c47a15a47a4312d451a437f7344a9be3e001660bccd93b637de95"},
 ]
+python-slugify = [
+    {file = "python-slugify-4.0.1.tar.gz", hash = "sha256:69a517766e00c1268e5bbfc0d010a0a8508de0b18d30ad5a1ff357f8ae724270"},
+]
 pytz = [
     {file = "pytz-2020.1-py2.py3-none-any.whl", hash = "sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed"},
     {file = "pytz-2020.1.tar.gz", hash = "sha256:c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048"},
@@ -3332,8 +3297,6 @@ s3transfer = [
     {file = "s3transfer-0.3.3-py2.py3-none-any.whl", hash = "sha256:2482b4259524933a022d59da830f51bd746db62f047d6eb213f2f8855dcb8a13"},
     {file = "s3transfer-0.3.3.tar.gz", hash = "sha256:921a37e2aefc64145e7b73d50c71bb4f26f46e4c9f414dc648c6245ff92cf7db"},
 ]
-<<<<<<< HEAD
-=======
 safety = [
     {file = "safety-1.9.0-py2.py3-none-any.whl", hash = "sha256:86c1c4a031fe35bd624fce143fbe642a0234d29f7cbf7a9aa269f244a955b087"},
     {file = "safety-1.9.0.tar.gz", hash = "sha256:23bf20690d4400edc795836b0c983c2b4cbbb922233108ff925b7dd7750f00c9"},
@@ -3342,7 +3305,6 @@ selenium = [
     {file = "selenium-3.141.0-py2.py3-none-any.whl", hash = "sha256:2d7131d7bc5a5b99a2d9b04aaf2612c411b03b8ca1b1ee8d3de5845a9be2cb3c"},
     {file = "selenium-3.141.0.tar.gz", hash = "sha256:deaf32b60ad91a4611b98d8002757f29e6f2c2d5fcaf202e1c9ad06d6772300d"},
 ]
->>>>>>> temporary
 send2trash = [
     {file = "Send2Trash-1.5.0-py3-none-any.whl", hash = "sha256:f1691922577b6fa12821234aeb57599d887c4900b9ca537948d2dac34aea888b"},
     {file = "Send2Trash-1.5.0.tar.gz", hash = "sha256:60001cc07d707fe247c94f74ca6ac0d3255aabcb930529690897ca2a39db28b2"},
@@ -3466,13 +3428,8 @@ vine = [
     {file = "vine-1.3.0.tar.gz", hash = "sha256:133ee6d7a9016f177ddeaf191c1f58421a1dcc6ee9a42c58b34bed40e1d2cd87"},
 ]
 virtualenv = [
-<<<<<<< HEAD
     {file = "virtualenv-20.0.30-py2.py3-none-any.whl", hash = "sha256:8cd7b2a4850b003a11be2fc213e206419efab41115cc14bca20e69654f2ac08e"},
     {file = "virtualenv-20.0.30.tar.gz", hash = "sha256:7b54fd606a1b85f83de49ad8d80dbec08e983a2d2f96685045b262ebc7481ee5"},
-=======
-    {file = "virtualenv-20.0.29-py2.py3-none-any.whl", hash = "sha256:8aa9c37b082664dbce2236fa420759c02d64109d8e6013593ad13914718a30fd"},
-    {file = "virtualenv-20.0.29.tar.gz", hash = "sha256:f14a0a98ea4397f0d926cff950361766b6a73cd5975ae7eb259d12919f819a25"},
->>>>>>> endpoint revision
 ]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},

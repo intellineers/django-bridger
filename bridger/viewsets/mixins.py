@@ -1,17 +1,29 @@
+import inspect
 from contextlib import suppress
-from django.contrib.contenttypes.models import ContentType
+from pathlib import Path
 
+from django.contrib.contenttypes.models import ContentType
+from django.http import HttpResponse
+from markdown import markdown
+from markdown.extensions.tables import TableExtension
+from markdown_blockdiag import BlockdiagExtension
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.mixins import CreateModelMixin as OriginalCreateModelMixin
 from rest_framework.mixins import DestroyModelMixin as OriginalDestroyModelMixin
 from rest_framework.mixins import ListModelMixin as OriginalListModelMixin
 from rest_framework.mixins import RetrieveModelMixin as OriginalRetrieveModelMixin
 from rest_framework.mixins import UpdateModelMixin as OriginalUpdateModelMixin
+from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
+from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_405_METHOD_NOT_ALLOWED
+from slugify import slugify
 
+from bridger.auth import JWTCookieAuthentication
 from bridger.filters import DjangoFilterBackend
+from bridger.fsm.markdown_extensions import FSMExtension
 from bridger.messages import serialize_messages
 
 
@@ -24,6 +36,46 @@ class FilterMixin:
 
 class DocumentationMixin:
 
+    def _get_documentation_path(self, detail):
+        default_path = Path(inspect.getfile(self.__class__)).parent / "documentation" / f"{slugify(self.__class__.__name__)}.md"
+        custom_path = getattr(self, "INSTANCE_DOCUMENTATION", None) if detail else getattr(self, "LIST_DOCUMENTATION", None)
+
+        if custom_path and Path(custom_path).exists():
+            return Path(custom_path)
+
+        if default_path.exists():
+            return default_path
+
+        return None
+
+    def _render_documentation(self, path, detail):
+        with open(path, "r") as f:
+            content = markdown(f.read(), extensions=[TableExtension(), FSMExtension(), BlockdiagExtension(format="svg")])
+            return content
+
+    @action(
+        methods=["get"],
+        detail=True,
+        authentication_classes=[SessionAuthentication, JWTCookieAuthentication],
+        permission_classes=[],
+        renderer_classes=[StaticHTMLRenderer],
+    )
+    def instance_documentation(self, *args, **kwargs):
+        if path := self._get_documentation_path(True):
+            return HttpResponse(self._render_documentation(path, True))
+        return HttpResponse(status=HTTP_404_NOT_FOUND)
+
+    @action(
+        methods=["get"],
+        detail=False,
+        authentication_classes=[SessionAuthentication, JWTCookieAuthentication],
+        permission_classes=[],
+        renderer_classes=[StaticHTMLRenderer],
+    )
+    def list_documentation(self, *args, **kwargs):
+        if path := self._get_documentation_path(False):
+            return HttpResponse(self._render_documentation(path, False))
+        return HttpResponse(status=HTTP_404_NOT_FOUND)
 
 class ModelMixin:
     @classmethod

@@ -180,7 +180,6 @@ class DestroyMultipleModelMixin:
 
         queryset = model.objects.filter(id__in=request.data)
         destroyed = self.perform_destroy_multiple(queryset)
-
         return Response({"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)}, status=HTTP_204_NO_CONTENT)
 
     def perform_destroy_multiple(self, queryset):

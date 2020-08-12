@@ -18,7 +18,7 @@ from rest_framework.mixins import UpdateModelMixin as OriginalUpdateModelMixin
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_405_METHOD_NOT_ALLOWED
+from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_405_METHOD_NOT_ALLOWED, HTTP_204_NO_CONTENT
 from slugify import slugify
 
 from bridger.auth import JWTCookieAuthentication
@@ -76,7 +76,6 @@ class DocumentationMixin:
         if path := self._get_documentation_path(False):
             return HttpResponse(self._render_documentation(path, False))
         return HttpResponse(status=HTTP_404_NOT_FOUND)
-
 
 class ModelMixin:
     @classmethod
@@ -161,6 +160,7 @@ class UpdateModelMixin(OriginalUpdateModelMixin):
 
 
 class DestroyModelMixin(OriginalDestroyModelMixin):
+    
     def destroy(self, request, *args, **kwargs):
         # If no delete endpoint is defined, then raise 405
         if self.endpoint_config_class(view=self, request=self.request, instance=True)._get_delete_endpoint() is None:
@@ -180,8 +180,7 @@ class DestroyMultipleModelMixin:
 
         queryset = model.objects.filter(id__in=request.data)
         destroyed = self.perform_destroy_multiple(queryset)
-
-        return Response({"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)}, status=status.HTTP_204_NO_CONTENT,)
+        return Response({"count": destroyed[1].get(f"{app_label}.{model.__name__}", 0)}, status=HTTP_204_NO_CONTENT)
 
     def perform_destroy_multiple(self, queryset):
         return queryset.delete()

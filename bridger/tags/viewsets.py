@@ -1,10 +1,10 @@
-from bridger.viewsets import RepresentationModelViewSet
+from bridger.viewsets import RepresentationViewSet
 
 from .models import Tag
 from .serializers import TagRepresentationSerializer
 
 
-class TagRepresentationViewSet(RepresentationModelViewSet):
+class TagRepresentationViewSet(RepresentationViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagRepresentationSerializer
 

@@ -9,8 +9,6 @@ from rest_framework.reverse import reverse
 
 from bridger.filters.mixins import BridgerFilterMixin
 
-# from wbutils.dates import get_end_date_from_date, get_start_and_from_date
-
 
 class ChoiceFilter(BridgerFilterMixin, django_filters.ChoiceFilter):
 

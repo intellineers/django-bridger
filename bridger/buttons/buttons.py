@@ -16,6 +16,11 @@ class DropDownButton(ButtonTypeMixin, ButtonConfig):
     button_type = ButtonType.DROPDOWN
     buttons: Tuple = field(default_factory=tuple)
 
+    def __post_init__(self):
+        if hasattr(super(), "__post_init__"):
+            super().__post_init__()
+        assert isinstance(self.buttons, tuple)
+
     def get_buttons(self):
         # All buttons nested inside this dropdown button need to be handled by converting it to a dictionairy
         for button in self.buttons:
@@ -59,6 +64,11 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     cancel_config: ButtonConfig = ButtonConfig(label="Cancel", title="Cancel")
 
     identifiers: Tuple[str] = field(default_factory=tuple)
+
+    def __post_init__(self):
+        if hasattr(super(), "__post_init__"):
+            super().__post_init__()
+        assert isinstance(self.identifiers, tuple)
 
     def get_fields(self, request: Request) -> Dict:
         fields = dict()

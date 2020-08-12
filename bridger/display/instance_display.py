@@ -8,6 +8,7 @@ class FieldSet:
 
     def __post_init__(self):
         assert isinstance(self.fields[0], (str, FieldSet)), "fields can only contain strings or more FieldSets."
+        assert isinstance(self.fields, tuple), f"fields have to be a tuple, not {type(self.fields)}"
 
     def __iter__(self):
         for field in self.fields:
@@ -50,6 +51,9 @@ class Section:
 @dataclass(unsafe_hash=True)
 class InstanceDisplay:
     sections: Tuple[Section]
+
+    def __post_init__(self):
+        assert isinstance(self.sections, tuple), f"sections have to be a tuple, not {type(self.sections)}"
 
     def __iter__(self):
         # All sections need to be iterated over and be converted into a dict

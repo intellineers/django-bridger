@@ -40,8 +40,12 @@ class ModelTest(TagModelMixin, models.Model):
         label="Move1",
         action_label="Move1",
         description_fields="<p>We will move1 this model.</p>",
-        instance_display=InstanceDisplay(sections=(
-            Section(fields=FieldSet(fields=("char_field", "integer_field"))),)
+        instance_display=InstanceDisplay(
+            sections=(
+                Section(
+                    fields=FieldSet(fields=("char_field", "integer_field"))
+                ),
+            )
         ),
         identifiers=("tests:modeltest",),
     )

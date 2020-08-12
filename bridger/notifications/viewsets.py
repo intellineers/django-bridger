@@ -70,18 +70,18 @@ class NotificationModelViewSet(viewsets.ModelViewSet):
     )
 
     INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[
+        sections=(
             dp.Section(
                 fields=dp.FieldSet(
-                    fields=[
-                        dp.FieldSet(fields=["timestamp_created", "timestamp_received"]),
-                        dp.FieldSet(fields=["timestamp_received", "timestamp_mailed"]),
+                    fields=(
+                        dp.FieldSet(fields=("timestamp_created", "timestamp_received")),
+                        dp.FieldSet(fields=("timestamp_received", "timestamp_mailed")),
                         "title",
                         "message",
-                    ]
+                    )
                 )
-            )
-        ]
+            ),
+        )
     )
 
     queryset = Notification.objects.all()

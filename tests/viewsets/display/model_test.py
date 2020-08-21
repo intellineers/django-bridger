@@ -18,11 +18,11 @@ class ModelTestDisplayConfig(DisplayConfig):
    
     def get_instance_display(self) -> Optional[dp.InstanceDisplay]:
         return dp.InstanceDisplay(
-        sections=[
+        sections=tuple([
             dp.Section(
                 fields=dp.FieldSet(
-                    fields=[
-                        dp.FieldSet(fields=["image_field", ["char_field", ["integer_field", "float_field"]],]),
+                    fields=tuple([
+                        dp.FieldSet(fields=tuple(["image_field", tuple(["char_field", tuple(["integer_field", "float_field"])]),])),
                         "tags",
                         "text_field",
                         "percent_field",
@@ -36,11 +36,11 @@ class ModelTestDisplayConfig(DisplayConfig):
                         "status_field",
                         "file_field",
                         "star_rating",
-                    ]
+                    ])
                 )
             ),
             dp.Section(title="Related Models", section_list=dp.SectionList(key="related_model")),
-        ]
+        ])
     )
 
     def get_list_display(self) -> Optional[dp.ListDisplay]:

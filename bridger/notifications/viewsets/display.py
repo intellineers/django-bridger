@@ -2,6 +2,7 @@ from typing import Optional
 
 from bridger import display as dp
 from bridger.display.metadata_config import DisplayConfig
+from bridger.utils.icons import WBIcon
 
 class NotificationDisplayConfig(DisplayConfig):
 

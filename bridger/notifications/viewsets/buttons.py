@@ -18,7 +18,7 @@ class NotificationButtonConfig(ButtonConfig):
                 icon=WBIcon.EYE.value,
                 confirm_config=bt.ButtonConfig(label="Read all"),
                 cancel_config=bt.ButtonConfig(label="Cancel"),
-                identifiers=["relatedmodeltest-list"],
+                identifiers=("relatedmodeltest-list",),
             ),
             bt.ActionButton(
                 method=RequestType.POST,
@@ -29,7 +29,7 @@ class NotificationButtonConfig(ButtonConfig):
                 icon=WBIcon.TRASH.value,
                 confirm_config=bt.ButtonConfig(label="Delete all", level=bt.ButtonLevel.WARNING),
                 cancel_config=bt.ButtonConfig(label="Cancel", level=bt.ButtonLevel.ERROR),
-                identifiers=[reverse("bridger:notification-list", request=self.request)],
+                identifiers=(reverse("bridger:notification-list", request=self.request),),
             ),
         }
     def get_custom_list_instance_buttons(self):

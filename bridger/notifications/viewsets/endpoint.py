@@ -5,6 +5,9 @@ class NotificationEndpointConfig(EndpointConfig):
     def get_endpoint(self):
         return None
 
+    def get_create_endpoint(self):
+        return None
+        
     def get_list_endpoint(self):
         return reverse("bridger:notification-list", request=self.request)
 

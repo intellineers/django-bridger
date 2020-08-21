@@ -5,7 +5,7 @@ from .clubhouse import ClubHouseView
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 from .markdown.views import AssetCreateView, AssetRetrieveView, BlockDiag, TemplateTagView
 from .menus.views import MenuAPIView
-from .notifications.viewsets import NotificationModelViewSet
+from .notifications.viewsets.viewsets import NotificationModelViewSet
 from .profile import UserViewSet
 from .routers import BridgerRouter
 from .share.views import ShareAPIView

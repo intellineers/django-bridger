@@ -6,8 +6,11 @@ from bridger.serializers import ListSerializer, RepresentationSerializer, percen
 class FieldsBridgerViewSetConfig(BridgerViewSetConfig):
 
     def get_metadata(self) -> str:
-        fields = dict()
+        if not hasattr(self.view, "get_serializer"):
+            return None
+            
         if serializer := self.view.get_serializer():
+            fields = dict()
             rs = RepresentationSerializer
             ls = ListSerializer
             field_items = serializer.fields.items()

@@ -107,8 +107,8 @@ class ButtonConfig(BridgerViewSetConfig):
 
         self.apply_request(custom_instance_buttons)
 
-        iter_key_weight = lambda e: e.weight
-        for element in sorted(custom_instance_buttons, key=iter_key_weight):
+        iter_key = lambda e: (e.weight, e.label, e.title)
+        for element in sorted(custom_instance_buttons, key=iter_key):
             yield dict(element)
 
     # Custom Button Configuration
@@ -121,8 +121,8 @@ class ButtonConfig(BridgerViewSetConfig):
         custom_buttons = self.get_custom_buttons()
         self.apply_request(custom_buttons)
 
-        iter_key_weight = lambda e: e.weight
-        for element in sorted(custom_buttons, key=iter_key_weight):
+        iter_key = lambda e: (e.weight, e.label, e.title)
+        for element in sorted(custom_buttons, key=iter_key):
             yield dict(element)
 
     def get_metadata(self) -> Dict:

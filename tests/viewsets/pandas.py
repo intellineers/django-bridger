@@ -6,24 +6,19 @@ from bridger.pandas.views import PandasAPIView
 from bridger.serializers import decorator
 from tests.filters import PandasFilterSet
 from tests.models import ModelTest
-
+from .display import PandasDisplayConfig
 
 class MyPandasView(PandasAPIView):
 
     search_fields = ["char_field"]
     filterset_class = PandasFilterSet
 
-    INSTANCE_ENDPOINT = "modeltest-list"
-    LIST_ENDPOINT = "pandas_view"
-    LIST_TITLE = "Pandas List"
+    # INSTANCE_ENDPOINT = "modeltest-list"
+    # LIST_ENDPOINT = "pandas_view"
+    # LIST_TITLE = "Pandas List"
 
-    LIST_DISPLAY = dp.ListDisplay(
-        fields=[
-            dp.Field(key="char_field", label="Char"),
-            dp.Field(key="integer_field", label="Integer"),
-            dp.Field(key="integer_annotated", label="Integer Anno"),
-        ],
-    )
+    display_config_class = PandasDisplayConfig
+
 
     def get_filterset_class(self, request):
         return PandasFilterSet

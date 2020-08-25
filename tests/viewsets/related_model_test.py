@@ -1,6 +1,9 @@
+from typing import Optional
+
 from django.http import HttpResponse
 from rest_framework.decorators import action
 from rest_framework.renderers import StaticHTMLRenderer
+from rest_framework.request import Request
 
 from bridger import buttons as bt
 from bridger import display as dp
@@ -13,6 +16,12 @@ from bridger.viewsets import ModelViewSet, ReadOnlyModelViewSet, RepresentationV
 from tests.models import ModelTest, RelatedModelTest
 from tests.serializers import ActionButtonSerializer, RelatedModelTestRepresentationSerializer, RelatedModelTestSerializer
 
+from .buttons import RelatedModelTestButtonConfig
+from .display import RelatedModelTestDisplayConfig
+
+
+
+
 
 class RelatedModelTestRepresentationViewSet(RepresentationViewSet):
     queryset = RelatedModelTest.objects.all()
@@ -22,44 +31,8 @@ class RelatedModelTestRepresentationViewSet(RepresentationViewSet):
 class RelatedModelTestModelViewSet(ModelViewSet):
     pagination_class = LimitOffsetPagination
 
-    ENDPOINT = "relatedmodeltest-list"
-    LIST_DISPLAY = dp.ListDisplay(
-        fields=[
-            dp.Field(key="char_field", label="Char"),
-            dp.Field(key="model_test", label="Model"),
-            dp.Field(key="model_tests", label="Model(M2M)"),
-            dp.Field(key="text_markdown", label="Markdown"),
-            dp.Field(key="tags", label="Tags"),
-            dp.Field(key="list_field", label="List"),
-        ]
-    )
-    INSTANCE_DISPLAY = dp.InstanceDisplay(
-        sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "list_field", "tags", "model_test", "model_tests", "text_markdown",]))]
-    )
-    CUSTOM_INSTANCE_BUTTONS = CUSTOM_LIST_INSTANCE_BUTTONS = [
-        bt.DropDownButton(
-            label="Dropdown",
-            icon="wb-icon-triangle-down",
-            buttons=[
-                bt.DropDownButton(
-                    label="Dropdown",
-                    icon="wb-icon-triangle-down",
-                    buttons=[
-                        bt.ActionButton(
-                            label="TestButton",
-                            icon="wb-icon-trash",
-                            endpoint="http://localhost:5000/relatedmodeltest/",
-                            instance_display=dp.InstanceDisplay(
-                                sections=[dp.Section(fields=dp.FieldSet(fields=["char_field", "custom_field"])),]
-                            ),
-                            serializer=ActionButtonSerializer,
-                        )
-                    ],
-                ),
-            ],
-        ),
-        bt.HyperlinkButton(key="html", icon="wb-icon-trash", label="Authenticated Subpage"),
-    ]
+    display_config_class = RelatedModelTestDisplayConfig
+    button_config_class = RelatedModelTestButtonConfig
 
     filter_fields = {"model_test": ["exact"], "char_field": ["exact"]}
     search_fields = ["char_field"]

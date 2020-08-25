@@ -63,7 +63,7 @@ class ClubHouseView(ViewSet):
     BUTTONS = [Button.REFRESH.value, Button.NEW.value]
     CREATE_BUTTONS = [Button.SAVE.value]
 
-    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(["name", "story_type", "description"]))])
+    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=(dp.Section(fields=dp.FieldSet(("name", "story_type", "description"))),))
 
     LIST_DISPLAY = dp.ListDisplay(
         fields=[

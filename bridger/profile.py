@@ -26,7 +26,7 @@ class UserSerializer(ModelSerializer):
 
 class UserViewSet(ModelViewSet):
 
-    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=[dp.Section(fields=dp.FieldSet(fields=["username", "email"]))])
+    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=(dp.Section(fields=dp.FieldSet(fields=("username", "email"))),))
 
     serializer_class = UserSerializer
     queryset = get_user_model().objects.all()

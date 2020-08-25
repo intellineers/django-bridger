@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 from rest_framework.request import Request
 
@@ -11,15 +11,19 @@ from .bases import ButtonConfig, ButtonTypeMixin, ButtonUrlMixin
 from .enums import ButtonType, HyperlinkTarget
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class DropDownButton(ButtonTypeMixin, ButtonConfig):
     button_type = ButtonType.DROPDOWN
-    buttons: List = field(default_factory=list)
+    buttons: Tuple = field(default_factory=tuple)
+
+    def __post_init__(self):
+        if hasattr(super(), "__post_init__"):
+            super().__post_init__()
+        assert isinstance(self.buttons, tuple)
 
     def get_buttons(self):
+        # All buttons nested inside this dropdown button need to be handled by converting it to a dictionairy
         for button in self.buttons:
-            if hasattr(self, "request"):
-                button.request = self.request
             yield dict(button)
 
     def __iter__(self):
@@ -27,7 +31,7 @@ class DropDownButton(ButtonTypeMixin, ButtonConfig):
         yield "buttons", self.get_buttons()
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class WidgetButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     button_type = ButtonType.WIDGET
     new_mode: bool = False
@@ -37,7 +41,7 @@ class WidgetButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         yield "new_mode", self.new_mode
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class HyperlinkButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     button_type = ButtonType.HYPERLINK
     target: HyperlinkTarget = HyperlinkTarget.BLANK
@@ -47,7 +51,7 @@ class HyperlinkButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
         yield "target", self.target.value
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     button_type = ButtonType.ACTION
     method: RequestType = RequestType.POST
@@ -59,7 +63,12 @@ class ActionButton(ButtonTypeMixin, ButtonUrlMixin, ButtonConfig):
     confirm_config: ButtonConfig = ButtonConfig(label="Confirm", title="Confirm")
     cancel_config: ButtonConfig = ButtonConfig(label="Cancel", title="Cancel")
 
-    identifiers: List[str] = field(default_factory=list)
+    identifiers: Tuple[str] = field(default_factory=tuple)
+
+    def __post_init__(self):
+        if hasattr(super(), "__post_init__"):
+            super().__post_init__()
+        assert isinstance(self.identifiers, tuple)
 
     def get_fields(self, request: Request) -> Dict:
         fields = dict()

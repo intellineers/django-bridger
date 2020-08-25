@@ -8,12 +8,11 @@ from tests.viewsets import RelatedModelTestModelViewSet
 
 @receiver(add_instance_button, sender=RelatedModelTestModelViewSet)
 def test_adding_instance_buttons_ep(sender, many, *args, **kwargs):
-    return bt.HyperlinkButton(icon="wb-icon-trash", label="Far away button (EP)", endpoint="https://www.google.com")
-
+    return bt.HyperlinkButton(icon="wb-icon-trash", label="Far away button (EP)", endpoint="https://www.google.com", weight=1)
 
 @receiver(add_instance_button, sender=RelatedModelTestModelViewSet)
 def test_adding_instance_buttons_key(sender, many, *args, **kwargs):
-    return bt.HyperlinkButton(icon="wb-icon-trash", label="Far away button (KEY)", key="some-key")
+    return bt.HyperlinkButton(icon="wb-icon-trash", label="Far away button (KEY)", key="some-key", weight=100000)
 
 
 @receiver(add_additional_resource, sender=RelatedModelTestSerializer)

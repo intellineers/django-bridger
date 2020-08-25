@@ -53,7 +53,8 @@ class Notification(models.Model):
             "buttons": self.buttons,
             "endpoint": self.endpoint,
         }
-
+    def get_endpoint_basename(cls):
+        return "bridger:notification"
 
 @receiver(post_save, sender=Notification)
 def post_create_notification(sender, instance, created, **kwargs):

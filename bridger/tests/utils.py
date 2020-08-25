@@ -46,37 +46,6 @@ def get_kwargs(obj, mvs, request):
             kwargs[field.name+"_id"] = serializer.data[field.name]
     return kwargs
 
-def get_client_endpoint(vs, admin_client, request, kwargs):
-    if hasattr(vs, "get_endpoint"):
-        response = admin_client.get(vs._get_endpoint(request))
-    elif hasattr(vs, "get_list_endpoint"):
-        response = admin_client.get(vs._get_list_endpoint(request))
-    elif hasattr(vs, "ENDPOINT"):
-        response = admin_client.get(reverse(vs.ENDPOINT, args=[value for _, value in kwargs.items()]) )
-    elif hasattr(vs, "LIST_ENDPOINT"):
-        response = admin_client.get(reverse(vs.LIST_ENDPOINT, args=[value for _, value in kwargs.items()]) )
-    else:
-        response = None
-    return response
-
-def post_client_endpoint(vs, admin_client, request, kwargs, data):
-    if hasattr(vs, "get_endpoint"):
-        response = admin_client.post(vs._get_endpoint(request),
-                                json.dumps(data),
-                                content_type='application/json')
-    elif hasattr(vs, "get_list_endpoint"):
-        response = admin_client.post(vs._get_list_endpoint(request),
-                                json.dumps(data),
-                                content_type='application/json')
-    elif hasattr(vs, "ENDPOINT"):
-        response = admin_client.post(reverse(vs.ENDPOINT, args=[value for _, value in kwargs.items()]), json.dumps(data),
-                                content_type='application/json' )
-    elif hasattr(vs, "LIST_ENDPOINT"):
-        response = admin_client.post(reverse(vs.LIST_ENDPOINT, args=[value for _, value in kwargs.items()]), json.dumps(data),
-                                content_type='application/json' )
-    else:
-        response = None
-    return response
 
 def generate_dict_factory(factory: Factory):
     def convert_dict_from_stub(stub: StubObject) -> Dict[str, Any]:

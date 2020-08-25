@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple, Union
 from bridger.display.formatting import Formatting, FormattingRule
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Field:
     key: str
     label: str
@@ -20,7 +20,7 @@ class Field:
             yield "width", self.width
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class LegendItem:
     icon: str
     label: str
@@ -34,7 +34,7 @@ class LegendItem:
             yield "value", self.value
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Legend:
     items: List[LegendItem]
     label: str = None
@@ -55,7 +55,7 @@ class Legend:
         yield "items", [dict(item) for item in self.items]
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class ListDisplay:
     fields: List[Field]
     legends: List[Legend] = field(default_factory=list)
@@ -67,7 +67,7 @@ class ListDisplay:
         yield "formatting", [dict(formatting) for formatting in self.formatting]
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Calendar:
     title: str
     start: str

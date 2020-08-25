@@ -1,4 +1,4 @@
-site_name: Bridger
+site_name: Bridger1
 
 theme:
     name: material
@@ -17,6 +17,7 @@ nav:
     - Display: display.md
     - Share: share.md
     - Signals: signals.md
+    - Metadata: metadata.md
 markdown_extensions:
     - admonition
     - markdown_blockdiag:
@@ -25,3 +26,4 @@ markdown_extensions:
     - codehilite
 plugins:
     - search
+

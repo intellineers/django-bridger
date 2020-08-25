@@ -13,7 +13,6 @@ class ModelTestChartViewSet(ChartViewSet):
     filter_fields = {"date_field": ["lte", "gte"]}
     ordering_fields = ("date_field",)
 
-    LIST_TITLE = "Model Chart"
 
     def get_plotly(self, queryset):
         df = pd.DataFrame(queryset.order_by("date_field").values("date_field", "integer_field"))

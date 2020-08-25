@@ -7,11 +7,11 @@ from rest_framework.views import APIView
 
 from bridger.filters import DjangoFilterBackend
 from bridger.metadata.views import MetadataMixin
-
+from bridger.viewsets.mixins import DocumentationMixin, ModelMixin
 from .metadata import PandasMetadata
 
 
-class PandasAPIView(MetadataMixin, APIView):
+class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
 
     filter_backends = [
         filters.OrderingFilter,

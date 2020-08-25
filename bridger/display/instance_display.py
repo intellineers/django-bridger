@@ -2,22 +2,23 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class FieldSet:
-    fields: List
+    fields: Tuple
 
     def __post_init__(self):
         assert isinstance(self.fields[0], (str, FieldSet)), "fields can only contain strings or more FieldSets."
+        assert isinstance(self.fields, tuple), f"fields have to be a tuple, not {type(self.fields)}"
 
     def __iter__(self):
         for field in self.fields:
             if isinstance(field, str):
                 yield field
             else:
-                yield list(field)
+                yield tuple(field)
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class SectionList:
     key: str
 
@@ -25,7 +26,7 @@ class SectionList:
         yield "key", self.key
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Section:
     fields: FieldSet = None
     section_list: SectionList = None
@@ -37,7 +38,7 @@ class Section:
 
     def __iter__(self):
         if self.fields:
-            yield "fields", [field for field in self.fields]
+            yield "fields", tuple(field for field in self.fields)
         elif self.section_list:
             yield "list", dict(self.section_list)
 
@@ -47,9 +48,14 @@ class Section:
             yield "title", self.title
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class InstanceDisplay:
-    sections: List[Section]
+    sections: Tuple[Section]
+
+    def __post_init__(self):
+        assert isinstance(self.sections, tuple), f"sections have to be a tuple, not {type(self.sections)}"
 
     def __iter__(self):
-        yield from [dict(section) for section in self.sections]
+        # All sections need to be iterated over and be converted into a dict
+        for section in self.sections:
+            yield dict(section)

@@ -38,6 +38,7 @@ DEFAULTS = {
         "CONFIG_URL": None,
         "JS_URL": None,
     },
+    "FRONTEND_MENU_CALENDAR": None,
     "MARKDOWN_TEMPLATE_TAGS": [],
     "CLUBHOUSE_CONFIG": "bridger.clubhouse.config",
     "CLUBHOUSE_API_TOKEN": os.environ.get("CLUBHOUSE_API_TOKEN", ""),

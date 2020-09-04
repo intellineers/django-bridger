@@ -36,6 +36,9 @@ class Config(APIView):
     permission_classes = []
 
     def get(self, request: Request) -> Response:
+        menu_calendar = None
+        if bridger_settings.FRONTEND_MENU_CALENDAR:
+            menu_calendar = bridger_settings.FRONTEND_MENU_CALENDAR(request=request)
 
         return Response(
             {
@@ -46,5 +49,6 @@ class Config(APIView):
                 "share": dict(bridger_settings.DEFAULT_SHARE_BUTTON(request=request)),
                 "markdown": {"blockdiag": reverse("bridger:blockdiag", request=request)},
                 "clubhouse": bridger_settings.CLUBHOUSE_CONFIG(request),
+                "menu_calendar": menu_calendar,
             }
         )

@@ -173,12 +173,17 @@ LOGGING = {
     "loggers": {"": {"level": "INFO", "handlers": ["console"]}},
 }
 
+def frontend_menu_calendar(request):
+    from rest_framework.reverse import reverse
+    return reverse("calendar-list", request=request)
+
 BRIDGER_SETTINGS = {
     "FRONTEND_CONTEXT": {
         "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/css/main-1-2-36-beta-2.css",
         "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-2-36-beta-2.js",
     },
     "MARKDOWN_TEMPLATE_TAGS": ["test_tags"],
+    "FRONTEND_MENU_CALENDAR": frontend_menu_calendar,
 }
 
 SIMPLE_JWT = {

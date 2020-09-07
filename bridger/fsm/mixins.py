@@ -140,7 +140,13 @@ class FSMSerializerMetaclass(SerializerMetaclass):
                             # NOTE: What happens if the reverse parameter is not called pk?
                             # NOTE: Is that even possible?
 
-                            kwargs = self.context["view"].kwargs
+                            # If the view is not in the context, we just create an empty keyword dict.
+                            # FIXME: This should actually never happen
+                            try:
+                                kwargs = self.context["view"].kwargs
+                            except KeyError:
+                                kwargs = {}
+                            
                             kwargs.update({"pk": instance.id})
 
                             endpoint = reverse(

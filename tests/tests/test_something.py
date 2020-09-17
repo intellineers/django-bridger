@@ -1,0 +1,1 @@
+from bridger.tests.tests import TestProject

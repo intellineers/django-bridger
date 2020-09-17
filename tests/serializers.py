@@ -96,7 +96,8 @@ class ModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer):
 class CalendarModelTestSerializer(ModelTestSerializer):
     class Meta:
         model = ModelTest
-        fields = ("id", "char_field", "datetime_field", "datetime_field1")
+        fields = ("id", "char_field", "float_field", "integer_field","decimal_field", "percent_field", "datetime_field", "datetime_field1", "date_field", "time_field",
+            "boolean_field", "choice_field", "star_rating",)
 
 
 class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer):

@@ -81,7 +81,7 @@ class ModelMixin:
     @classmethod
     def get_model(cls):
         try:
-            if hasattr(cls, "queryset"):
+            if hasattr(cls, "queryset") and cls.queryset is not None:
                 return cls.queryset.model
             elif hasattr(cls, "serializer_class"):
                 return cls.serializer_class.Meta.model

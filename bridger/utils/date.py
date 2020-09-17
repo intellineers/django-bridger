@@ -17,7 +17,6 @@ def get_date_interval_from_get(request):
     -------
     Return a tuple in the form of (start_date, end_date). If either the start date or the end date is not present in the request None is returned in the tuple
     """
-    print(request)
     start_identifier = getattr(settings, "BRIDGER_START_IDENTIFIERS", ["start", "start_date", "from", "date_gte"],)
     end_identifier = getattr(settings, "BRIDGER_END_IDENTIFIERS", ["end", "end_date", "to", "date_lte"])
     date_format = getattr(settings, "BRIDGER_DATE_FORMAT", "%Y-%m-%d")

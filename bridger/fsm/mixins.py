@@ -11,7 +11,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
+from rest_framework.reverse import reverse, NoReverseMatch
 from rest_framework.serializers import SerializerMetaclass
 
 from bridger.serializers import FSMStatusField, register_resource
@@ -148,10 +148,13 @@ class FSMSerializerMetaclass(SerializerMetaclass):
                                 kwargs = {}
                             
                             kwargs.update({"pk": instance.id})
+                            try:
+                                endpoint = reverse(
+                                    f"{namespace}{'-'.join(base_url_name)}-{transition.name}", kwargs=kwargs, request=request,
+                                )
+                            except NoReverseMatch:
+                                return {}
 
-                            endpoint = reverse(
-                                f"{namespace}{'-'.join(base_url_name)}-{transition.name}", kwargs=kwargs, request=request,
-                            )
                             return {transition.name: endpoint}
                         return {}
 

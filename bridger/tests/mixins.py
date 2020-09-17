@@ -29,9 +29,11 @@ class TestModelClass:
         else:
             assert self.model.get_representation_endpoint()
             if self.model.__name__ in ["BridgerPermission", "BridgerGroup"]:
-                assert self.model.get_representation_endpoint() == self.model._meta.app_label+":grouprepresentation-list"
+                assert self.model.get_representation_endpoint() == self.model._meta.app_label+":grouprepresentation-list" or \
+                self.model.get_representation_endpoint() == "grouprepresentation-list" 
             else:
-                assert self.model.get_representation_endpoint() == self.model._meta.app_label+":"+self.model.__name__.lower()+"representation-list"
+                assert self.model.get_representation_endpoint() == self.model._meta.app_label+":"+self.model.__name__.lower()+"representation-list" or \
+                self.model.get_representation_endpoint() == self.model.__name__.lower()+"representation-list"
             print("- TestModelClass:test_representation_endpoint", colored("PASSED", 'green'))
 
     def test_representation_value_key(self):
@@ -213,7 +215,7 @@ class TestViewSetClass:
             assert response.status_code == status.HTTP_200_OK
             assert response.data.get("fields")
             assert response.data.get("identifier")
-            assert response.data.get("pagination")
+            # assert response.data.get("pagination")
             # assert response.data.get("pk")
              # assert response.data.get("type")
             # assert response.data.get("filter_fields")
@@ -295,7 +297,7 @@ class TestViewSetClass:
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request, data=data)
             vs = self.mvs.as_view({"post": "create"})
-            response = vs(request, **kwargs)
+            response = vs(request, **kwargs)     
             if self.create_permission_allowed:
                 assert response.status_code == status.HTTP_201_CREATED
                 assert response.data.get('instance')

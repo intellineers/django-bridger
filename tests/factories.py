@@ -13,7 +13,7 @@ class RelatedModelTestFactory(factory.django.DjangoModelFactory):
 
     char_field = factory.Faker("pystr", min_chars=5, max_chars=20)
     model_test = factory.SubFactory("tests.factories.ModelTestFactory")
-
+    text_markdown = factory.Faker("pystr", min_chars=5, max_chars=20)
 
 class ModelTestFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -32,4 +32,4 @@ class ModelTestFactory(factory.django.DjangoModelFactory):
     time_field = factory.Faker("time_object")
     boolean_field = factory.Faker("pybool")
     choice_field = FuzzyChoice(choices=["a", "b"])
-    related_models = factory.RelatedFactory("tests.factories.RelatedModelTestFactory", "model_test")
+    # related_models = factory.RelatedFactory("tests.factories.RelatedModelTestFactory", "model_test")

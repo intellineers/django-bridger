@@ -47,7 +47,7 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
         if key in fields_models and key != "frontend_settings":
             if key == "auth_token":
                 data[key] = Token.objects.create(user=obj)
-            elif key == "signature" or key == "profile_image":
+            elif key == "signature" or key == "profile_image" or key == "image_field" or key == "file_field":
                 # data[key] = open(value.replace("http://testserver/",""), 'rb')
                 pass
             else:

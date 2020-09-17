@@ -1,0 +1,17 @@
+[report]
+exclude_lines = 
+    def api_endpoints_root
+    print()
+    if hasattr
+    raise Exception
+    raise Http404
+    except:
+    def profile_check
+    
+
+[run]
+omit = */migrations/*
+    manage.py
+    bridger/tests/*
+    */apps.py
+    */admin.py

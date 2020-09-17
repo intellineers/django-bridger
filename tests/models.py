@@ -158,7 +158,7 @@ class RelatedModelTest(TagModelMixin, models.Model):
     )
     char_field = models.CharField(max_length=255, verbose_name="Char")
 
-    list_field = ArrayField(base_field=models.CharField(max_length=255), null=True, blank=True)
+    list_field = ArrayField(base_field=models.CharField(max_length=255), null=True, blank=True, default=list)
 
     history = HistoricalRecords()
 

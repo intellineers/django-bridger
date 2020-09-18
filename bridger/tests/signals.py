@@ -7,3 +7,5 @@ delete_permission_allowed = Signal()
 update_permission_allowed = Signal()
 retrieve_permission_allowed = Signal()
 get_retrieve_id_obj = Signal()
+
+get_specfics_module = Signal()

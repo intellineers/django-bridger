@@ -203,16 +203,22 @@ class TestViewSetClass:
             self.retrieve_permission_allowed = True
             
     # test viewset Option request
-    def test_option_request(self):
+    def test_option_request(self, instance=False):
         if self.factory is None:
             print("\n- TestViewSetClass:test_option_request", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
-        else:
+        else:     
             request = APIRequestFactory().options("")
-            request.user = SuperUser.get_user()      
-            kwargs = get_kwargs(self.factory(), self.mvs, request)
+            request.user = SuperUser.get_user()  
+            obj = self.factory()    
+            kwargs = get_kwargs(obj, self.mvs, request)
+            if instance:
+                kwargs["pk"] = obj.pk
             vs = self.mvs.as_view({"options": "options"})
             response = vs(request, **kwargs)
             assert response.status_code == status.HTTP_200_OK
+            if "buttons" in response.data.keys():
+                if "custom_instance" in response.data.get("buttons").keys():
+                    assert list(response.data["buttons"]["custom_instance"])
             assert response.data.get("fields")
             assert response.data.get("identifier")
             # assert response.data.get("pagination")
@@ -523,6 +529,7 @@ class TestViewSetClass:
 
     def execute_test(self, admin_client, aggregates=None):
         self.test_option_request()
+        self.test_option_request(instance=True)
         # ----- LIST ROUTE TEST ----- #
         self.test_viewset()
         self.test_aggregation(aggregates)
@@ -531,9 +538,9 @@ class TestViewSetClass:
         self.test_post_client_endpointviewset(admin_client)
         self.test_destroy_multipleviewset()
         self.test_destroy_multiple_client_endpointviewset(admin_client)
-        self.test_get_list_title()
-        self.test_get_instance_title()
-        self.test_get_create_title()
+        # self.test_get_list_title()
+        # self.test_get_instance_title()
+        # self.test_get_create_title()
         # ----- DETAIL ROUTE TEST ----- #
         self.test_instanceviewset()
         self.test_deleteviewset()

@@ -91,7 +91,7 @@ def get_kwargs(obj, mvs, request, data=None):
     remote_kwargs = add_kwargs.send(mvs, **kwargs)
     if remote_kwargs:
         _, r_kwarg = remote_kwargs[0]
-        kwargs.update(r_kwarg)
+        kwargs.update(r_kwarg)        
     return kwargs
 
 

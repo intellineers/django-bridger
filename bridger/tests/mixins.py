@@ -203,22 +203,32 @@ class TestViewSetClass:
             self.retrieve_permission_allowed = True
             
     # test viewset Option request
-    def test_option_request(self, instance=False):
+    def test_option_request(self, is_instance=False):
         if self.factory is None:
             print("\n- TestViewSetClass:test_option_request", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
         else:     
             request = APIRequestFactory().options("")
             request.user = SuperUser.get_user()  
-            obj = self.factory()    
+
+            if self.factory._meta.model.__name__ == "User":
+                obj = request.user
+            else:
+                obj = self.factory()
             kwargs = get_kwargs(obj, self.mvs, request)
-            if instance:
-                kwargs["pk"] = obj.pk
+            remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)
+            if remote_retrieve_id_obj:
+                _, obj_pk = remote_retrieve_id_obj[0]
+            else:
+                obj_pk = obj.pk
+
+            if is_instance and self.retrieve_permission_allowed:
+                kwargs["pk"] = obj_pk
+
             vs = self.mvs.as_view({"options": "options"})
             response = vs(request, **kwargs)
             assert response.status_code == status.HTTP_200_OK
             if "buttons" in response.data.keys():
                 if "custom_instance" in response.data.get("buttons").keys():
-                    print (list(response.data["buttons"]["custom_instance"]))
                     assert list(response.data["buttons"]["custom_instance"]) or len(list(response.data["buttons"]["custom_instance"])) == 0
             assert response.data.get("fields")
             assert response.data.get("identifier")
@@ -530,7 +540,7 @@ class TestViewSetClass:
 
     def execute_test(self, admin_client, aggregates=None):
         self.test_option_request()
-        self.test_option_request(instance=True)
+        self.test_option_request(is_instance=True)
         # ----- LIST ROUTE TEST ----- #
         self.test_viewset()
         self.test_aggregation(aggregates)

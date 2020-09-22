@@ -218,7 +218,8 @@ class TestViewSetClass:
             assert response.status_code == status.HTTP_200_OK
             if "buttons" in response.data.keys():
                 if "custom_instance" in response.data.get("buttons").keys():
-                    assert list(response.data["buttons"]["custom_instance"])
+                    print (list(response.data["buttons"]["custom_instance"]))
+                    assert list(response.data["buttons"]["custom_instance"]) or len(list(response.data["buttons"]["custom_instance"])) == 0
             assert response.data.get("fields")
             assert response.data.get("identifier")
             # assert response.data.get("pagination")

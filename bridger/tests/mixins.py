@@ -223,7 +223,6 @@ class TestViewSetClass:
 
             if is_instance and self.retrieve_permission_allowed:
                 kwargs["pk"] = obj_pk
-
             vs = self.mvs.as_view({"options": "options"})
             response = vs(request, **kwargs)
             assert response.status_code == status.HTTP_200_OK

@@ -41,13 +41,17 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
     request = APIRequestFactory().get("")
     serializer = mvs().serializer_class(obj, context= {'request': Request(request)})
 
-    fields_models = [m.name for m in mvs().serializer_class.Meta.model._meta.get_fields()]
+    # fields_models = [m.name for m in mvs().serializer_class.Meta.model._meta.get_fields()]
+    dict_fields_models = {}
+    for m in mvs().serializer_class.Meta.model._meta.get_fields():
+        dict_fields_models[m.name] = m
+
     data = {}
     for key, value in serializer.data.items():
-        if key in fields_models and key != "frontend_settings":
+        if key in dict_fields_models.keys() and key != "frontend_settings":
             if key == "auth_token":
                 data[key] = Token.objects.create(user=obj)
-            elif key == "signature" or key == "profile_image" or key == "image_field" or key == "file_field":
+            elif dict_fields_models[key].get_internal_type() == "FileField" or dict_fields_models[key].get_internal_type() == "ImageField" or key == "content_type" :
                 # data[key] = open(value.replace("http://testserver/",""), 'rb')
                 pass
             else:

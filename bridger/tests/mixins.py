@@ -57,6 +57,8 @@ class TestModelClass:
         else:
             if self.model.__name__ == "Activity" and "preceded_by" in self.model.__dict__:
                 models = self.model.objects.filter(~Q(preceded_by=None))
+            elif self.model.__name__ == "BookingEntry" and "main_booking_entry" in self.model.__dict__:
+                models = self.model.objects.filter(~Q(main_booking_entry=None))
             else:
                 models = self.model.objects.all()
             assert models.count() == 0

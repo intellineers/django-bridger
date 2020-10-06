@@ -39,7 +39,11 @@ def get_model_factory(model):
 
 def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
     request = APIRequestFactory().get("")
-    serializer = mvs().serializer_class(obj, context= {'request': Request(request)})
+    if superuser:
+        request.user = superuser
+        serializer = mvs().serializer_class(obj, context= {'request': request})
+    else:
+        serializer = mvs().serializer_class(obj, context= {'request': Request(request)})
 
     # fields_models = [m.name for m in mvs().serializer_class.Meta.model._meta.get_fields()]
     dict_fields_models = {}
@@ -60,30 +64,28 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
     if delete:
         mvs().serializer_class.Meta.model.objects.filter(pk = obj.pk).delete()
 
-    if delete and superuser :
-        kwargs = {"superuser": superuser}
+    if (delete and superuser) or (update and superuser):
+        kwargs = {"superuser": superuser, "obj": obj}
         remote_data_factory = add_data_factory.send(mvs, **kwargs)
         if remote_data_factory :
             _, r_datakwarg = remote_data_factory[0]
             data.update(r_datakwarg)
-    if update:
-        kwargs = {"obj": obj}
-        remote_data_factory = add_data_factory.send(mvs, **kwargs)
-        if remote_data_factory :
-            _, r_datakwarg = remote_data_factory[0]
-            data.update(r_datakwarg)
+            superuser = r_datakwarg["superuser"]
 
-    return data
+    return data, superuser
 
 def get_kwargs(obj, mvs, request, data=None):
     fields_models = [m for m in mvs().serializer_class.Meta.model._meta.get_fields()] 
     mvs.kwargs = {}
     request.parser_context = {"view": mvs}
+    
     serializer = mvs().serializer_class(obj, context= {'request': request, "view": mvs})
+    
     # serializer = mvs().get_serializer(obj)
     kwargs = {}
     for field in fields_models:
         if field.is_relation and field.name in serializer.data.keys():
+            
             if is_empty(serializer.data[field.name]) and data:          
                 kwargs[field.name+"_id"] = data[field.name]
             else:
@@ -92,10 +94,11 @@ def get_kwargs(obj, mvs, request, data=None):
     if hasattr(request.user, 'profile'):
         kwargs["profile"] = request.user.profile
         kwargs["user"] = request.user
+    kwargs["obj_factory"] = obj
     remote_kwargs = add_kwargs.send(mvs, **kwargs)
     if remote_kwargs:
         _, r_kwarg = remote_kwargs[0]
-        kwargs.update(r_kwarg)        
+        kwargs.update(r_kwarg)  
     return kwargs
 
 

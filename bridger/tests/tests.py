@@ -14,6 +14,7 @@ models = filter(lambda x: not x.__module__.startswith(('bridger', 'django', 'res
 serializers = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(serializers.ModelSerializer))
 representationviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.RepresentationViewSet))
 modelviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.ModelViewSet))
+inf_modelviewsets = filter(lambda x: "bridger" not in x.__module__, get_all_subclasses(viewsets.InfiniteDataModelView))
 
 remote_models = get_specfics_module.send(sender = models)
 if remote_models:
@@ -27,6 +28,12 @@ if remote_representationviewsets:
 remote_modelviewsets = get_specfics_module.send(sender = modelviewsets)
 if remote_modelviewsets:
     _, modelviewsets = remote_modelviewsets[0]
+remote_inf_modelviewsets = get_specfics_module.send(sender = inf_modelviewsets)
+if remote_inf_modelviewsets:
+    _, inf_modelviewsets = remote_inf_modelviewsets[0]
+
+if len([imvs for imvs in inf_modelviewsets]) == 0:
+    inf_modelviewsets = [None]
 
 @pytest.mark.django_db 
 class TestProject:
@@ -52,3 +59,9 @@ class TestProject:
     def test_modelviewsets(self, mvs, admin_client):
         my_test = TestViewSetClass(mvs)
         my_test.execute_test(admin_client)
+
+    @pytest.mark.parametrize("imvs", inf_modelviewsets)
+    def test_inf_modelviewsets(self, imvs, admin_client):
+        if imvs:
+            my_test = TestViewSetClass(imvs)
+            my_test.execute_test(admin_client)

@@ -234,7 +234,6 @@ class TestViewSetClass:
                 kwargs["pk"] = obj_pk
             vs = self.mvs.as_view({"options": "options"})
             response = vs(request, **kwargs)
-            from wbhuman_resources.models import AbsenceRequestDays
             assert response.status_code == status.HTTP_200_OK
             if "buttons" in response.data.keys():
                 if "custom_instance" in response.data.get("buttons").keys():

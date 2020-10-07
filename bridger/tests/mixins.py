@@ -543,7 +543,7 @@ class TestViewSetClass:
                 assert response.data.get('instance')
             else:
                 assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
-            print("- TestViewSetClass:test_patchviewset", colored("PASSED", 'green')) 
+            print("- TestViewSetClass:test_patchviewset", colored("PASSED", 'green'))  
 
     # TODO Test "get": "history_list" ??
     # TODO Test "get": "history_retrieve" ??

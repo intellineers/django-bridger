@@ -122,6 +122,7 @@ class TestSerializerClass:
         else:
             request = APIRequestFactory().get("")
             request.user = SuperUser.get_user()
+            request.parser_context = {}
             # serializer = self.serializer(self.factory(), context= {'request': Request(request)})
             serializer = self.serializer(self.factory(), context= {'request': request})
             assert serializer.data
@@ -352,7 +353,7 @@ class TestViewSetClass:
                 assert response.data.get('instance')
             print("- TestViewSetClass:test_post_client_endpointviewset", colored("PASSED", 'green'))  
 
-    # TODO Test viewset "delete": "destroy_multiple"
+    # Test viewset "delete": "destroy_multiple"
     def test_destroy_multipleviewset(self):
         if self.factory is None:
             print("- TestViewSetClass:test_destroy_multipleviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
@@ -373,7 +374,7 @@ class TestViewSetClass:
             print("- TestViewSetClass:test_destroy_multipleviewset", colored("PASSED", 'green'))  
         
             
-    # TODO Test viewset "delete": "destroy_multiple" with client and endpoint
+    # Test viewset "delete": "destroy_multiple" with client and endpoint
     def test_destroy_multiple_client_endpointviewset(self, admin_client):
         if self.factory is None:
             print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
@@ -542,7 +543,7 @@ class TestViewSetClass:
                 assert response.data.get('instance')
             else:
                 assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
-            print("- TestViewSetClass:test_patchviewset", colored("PASSED", 'green'))  
+            print("- TestViewSetClass:test_patchviewset", colored("PASSED", 'green')) 
 
     # TODO Test "get": "history_list" ??
     # TODO Test "get": "history_retrieve" ??
@@ -569,3 +570,10 @@ class TestViewSetClass:
         self.test_patchviewset()
         # Test "get": "history_list"
         # Test "get": "history_retrieve"
+
+
+class TestInfViewSetClass(TestViewSetClass):
+
+    def execute_test(self, admin_client, aggregates=None):
+        self.test_option_request()
+        self.test_viewset()

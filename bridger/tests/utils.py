@@ -41,6 +41,7 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
     request = APIRequestFactory().get("")
     if superuser:
         request.user = superuser
+        request.parser_context = {"view": mvs}
         serializer = mvs().serializer_class(obj, context= {'request': request})
     else:
         serializer = mvs().serializer_class(obj, context= {'request': Request(request)})

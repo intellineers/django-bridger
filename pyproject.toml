@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.10.12"
+version = "0.10.13"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -23,7 +23,7 @@ django-celery-beat = "2.0.*"
 psycopg2-binary = "2.8.*"
 pillow = "7.2.*"
 numpy = "1.19.*"
-pandas = "1.0.*"
+pandas = "*"
 jsonschema = "3.2.*"
 plotly = "4.8.*"
 django-simple-history = "2.11.*"

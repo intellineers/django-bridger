@@ -59,12 +59,11 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
             elif dict_fields_models[key].get_internal_type() == "FileField" or dict_fields_models[key].get_internal_type() == "ImageField" or key == "content_type" :
                 # data[key] = open(value.replace("http://testserver/",""), 'rb')
                 pass
+            elif dict_fields_models[key].get_internal_type() == "JSONField":
+                pass
             else:
                 data[key] = value
-    # delete object for create with post method
-    if delete:
-        mvs().serializer_class.Meta.model.objects.filter(pk = obj.pk).delete()
-
+        
     if (delete and superuser) or (update and superuser):
         kwargs = {"superuser": superuser, "obj": obj}
         remote_data_factory = add_data_factory.send(mvs, **kwargs)
@@ -72,6 +71,10 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
             _, r_datakwarg = remote_data_factory[0]
             data.update(r_datakwarg)
             superuser = r_datakwarg["superuser"]
+
+    # delete object for create with post method
+    if delete:
+        mvs().serializer_class.Meta.model.objects.filter(pk = obj.pk).delete()
 
     return data, superuser
 
@@ -95,6 +98,8 @@ def get_kwargs(obj, mvs, request, data=None):
     if hasattr(request.user, 'profile'):
         kwargs["profile"] = request.user.profile
         kwargs["user"] = request.user
+    if data:
+        kwargs["data"] = data
     kwargs["obj_factory"] = obj
     remote_kwargs = add_kwargs.send(mvs, **kwargs)
     if remote_kwargs:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.10.4"
+version = "0.10.15"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -23,7 +23,7 @@ django-celery-beat = "2.0.*"
 psycopg2-binary = "2.8.*"
 pillow = "7.2.*"
 numpy = "1.19.*"
-pandas = "1.0.*"
+pandas = "*"
 jsonschema = "3.2.*"
 plotly = "4.8.*"
 django-simple-history = "2.11.*"
@@ -36,6 +36,7 @@ python-slugify = "*"
 selenium = "3.141.*"
 pytest-selenium = "1.17.*"
 termcolor = "^1.1.0"
+inscriptis = "^1.1"
 
 [tool.poetry.dev-dependencies]
 # Testing dependencies

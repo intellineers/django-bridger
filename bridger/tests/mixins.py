@@ -57,6 +57,10 @@ class TestModelClass:
         else:
             if self.model.__name__ == "Activity" and "preceded_by" in self.model.__dict__:
                 models = self.model.objects.filter(~Q(preceded_by=None))
+            elif self.model.__name__ == "ActivityOccurrence" and "event" in self.model.__dict__:
+                models = self.model.objects.filter(Q(event__preceded_by=None))
+            elif self.model.__name__ == "BookingEntry" and "main_booking_entry" in self.model.__dict__:
+                models = self.model.objects.filter(~Q(main_booking_entry=None))
             else:
                 models = self.model.objects.all()
             assert models.count() == 0
@@ -93,24 +97,6 @@ class TestModelClass:
         self.test_field()
 
 
-class TestSerializerClass:
-    def __init__(self, serializer):
-        self.serializer = serializer
-        self.factory = get_model_factory(serializer.Meta.model)
-    
-    def test_serializer(self):
-        if self.factory is None:
-            print("\n- TestSerializerClass:test_serializer:"+self.serializer.__name__, colored("WARNING - factory not found for "+self.serializer.Meta.model.__name__, 'yellow'))
-        else:
-            request = APIRequestFactory().get("")
-            serializer = self.serializer(self.factory(), context= {'request': Request(request)})
-            assert serializer.data
-            print("\n- TestSerializerClass:test_serializer:"+self.serializer.__name__, colored("PASSED", 'green'))
-
-    def execute_test(self):
-        self.test_serializer()
-
-
 class SuperUser:
     @classmethod
     def get_user(cls):
@@ -123,6 +109,29 @@ class SuperUser:
             except (get_user_model().DoesNotExist, get_user_model().MultipleObjectsReturned):
                 superuser = get_user_model().objects.create(username="test_user", password="ABC", is_active=True, is_superuser=True)
         return superuser
+
+
+class TestSerializerClass:
+    def __init__(self, serializer):
+        self.serializer = serializer
+        self.factory = get_model_factory(serializer.Meta.model)
+    
+    def test_serializer(self):
+        if self.factory is None:
+            print("\n- TestSerializerClass:test_serializer:"+self.serializer.__name__, colored("WARNING - factory not found for "+self.serializer.Meta.model.__name__, 'yellow'))
+        else:
+            request = APIRequestFactory().get("")
+            request.user = SuperUser.get_user()
+            request.parser_context = {}
+            # serializer = self.serializer(self.factory(), context= {'request': Request(request)})
+            serializer = self.serializer(self.factory(), context= {'request': request})
+            assert serializer.data
+            print("\n- TestSerializerClass:test_serializer:"+self.serializer.__name__, colored("PASSED", 'green'))
+
+    def execute_test(self):
+        self.test_serializer()
+
+
 
 class TestrepresentationViewSetClass:
     def __init__(self, rmvs):
@@ -203,16 +212,33 @@ class TestViewSetClass:
             self.retrieve_permission_allowed = True
             
     # test viewset Option request
-    def test_option_request(self):
+    def test_option_request(self, is_instance=False):
         if self.factory is None:
             print("\n- TestViewSetClass:test_option_request", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
-        else:
+        else:     
             request = APIRequestFactory().options("")
             request.user = SuperUser.get_user()      
-            kwargs = get_kwargs(self.factory(), self.mvs, request)
+
+            if self.factory._meta.model.__name__ == "User":
+                obj = request.user
+            else:
+                obj = self.factory()
+            kwargs = get_kwargs(obj, self.mvs, request)
+     
+            remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)
+            if remote_retrieve_id_obj:
+                _, obj_pk = remote_retrieve_id_obj[0]
+            else:
+                obj_pk = obj.pk
+
+            if is_instance and self.retrieve_permission_allowed:
+                kwargs["pk"] = obj_pk
             vs = self.mvs.as_view({"options": "options"})
             response = vs(request, **kwargs)
             assert response.status_code == status.HTTP_200_OK
+            if "buttons" in response.data.keys():
+                if "custom_instance" in response.data.get("buttons").keys():
+                    assert list(response.data["buttons"]["custom_instance"]) or len(list(response.data["buttons"]["custom_instance"])) == 0
             assert response.data.get("fields")
             assert response.data.get("identifier")
             # assert response.data.get("pagination")
@@ -292,10 +318,10 @@ class TestViewSetClass:
         else:
             obj = self.factory()
             superuser = SuperUser.get_user()
-            data = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
+            data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
             request = APIRequestFactory().post("", data)
             request.user = superuser
-            kwargs = get_kwargs(obj, self.mvs, request, data=data)
+            kwargs = get_kwargs(obj, self.mvs, request=request, data=data)
             vs = self.mvs.as_view({"post": "create"})
             response = vs(request, **kwargs)     
             if self.create_permission_allowed:
@@ -312,11 +338,11 @@ class TestViewSetClass:
         else:
             obj = self.factory()
             superuser = SuperUser.get_user()
-            data = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
+            data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
             request = APIRequestFactory().post("", data)
             request.user = superuser
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request, data=data)
-            ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
+            ep = self.mvs.endpoint_config_class(self.mvs, request=request, instance=False)
             if not self.create_permission_allowed:
                 assert ep._get_create_endpoint() == None
             else:
@@ -327,7 +353,7 @@ class TestViewSetClass:
                 assert response.data.get('instance')
             print("- TestViewSetClass:test_post_client_endpointviewset", colored("PASSED", 'green'))  
 
-    # TODO Test viewset "delete": "destroy_multiple"
+    # Test viewset "delete": "destroy_multiple"
     def test_destroy_multipleviewset(self):
         if self.factory is None:
             print("- TestViewSetClass:test_destroy_multipleviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
@@ -348,7 +374,7 @@ class TestViewSetClass:
             print("- TestViewSetClass:test_destroy_multipleviewset", colored("PASSED", 'green'))  
         
             
-    # TODO Test viewset "delete": "destroy_multiple" with client and endpoint
+    # Test viewset "delete": "destroy_multiple" with client and endpoint
     def test_destroy_multiple_client_endpointviewset(self, admin_client):
         if self.factory is None:
             print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
@@ -474,9 +500,10 @@ class TestViewSetClass:
             print("- TestViewSetClass:test_uptdateviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
         else:
             obj = self.factory()
-            data = get_data_factory_mvs(obj, self.mvs, update=True) 
+            superuser = SuperUser.get_user()
+            data, superuser = get_data_factory_mvs(obj, self.mvs, update=True, superuser=superuser) 
             request = APIRequestFactory().put("", data)
-            request.user = SuperUser.get_user()
+            request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request)   
             remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)
             if remote_retrieve_id_obj:
@@ -499,9 +526,10 @@ class TestViewSetClass:
             print("- TestViewSetClass:test_patchviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
         else:
             obj = self.factory()
-            data = get_data_factory_mvs(obj, self.mvs, update=True) 
+            superuser = SuperUser.get_user()
+            data, superuser = get_data_factory_mvs(obj, self.mvs, update=True, superuser=superuser)
             request = APIRequestFactory().patch("", data)
-            request.user = SuperUser.get_user()
+            request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request)
             remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)
             if remote_retrieve_id_obj:
@@ -522,6 +550,7 @@ class TestViewSetClass:
     # TODO 'get': 'highlight' ??
 
     def execute_test(self, admin_client, aggregates=None):
+        self.test_option_request(is_instance=True)
         self.test_option_request()
         # ----- LIST ROUTE TEST ----- #
         self.test_viewset()
@@ -531,9 +560,9 @@ class TestViewSetClass:
         self.test_post_client_endpointviewset(admin_client)
         self.test_destroy_multipleviewset()
         self.test_destroy_multiple_client_endpointviewset(admin_client)
-        self.test_get_list_title()
-        self.test_get_instance_title()
-        self.test_get_create_title()
+        # self.test_get_list_title()
+        # self.test_get_instance_title()
+        # self.test_get_create_title()
         # ----- DETAIL ROUTE TEST ----- #
         self.test_instanceviewset()
         self.test_deleteviewset()
@@ -541,3 +570,10 @@ class TestViewSetClass:
         self.test_patchviewset()
         # Test "get": "history_list"
         # Test "get": "history_retrieve"
+
+
+class TestInfViewSetClass(TestViewSetClass):
+
+    def execute_test(self, admin_client, aggregates=None):
+        self.test_option_request()
+        self.test_viewset()

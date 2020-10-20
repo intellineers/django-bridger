@@ -39,47 +39,57 @@ def get_model_factory(model):
 
 def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
     request = APIRequestFactory().get("")
-    serializer = mvs().serializer_class(obj, context= {'request': Request(request)})
+    if superuser:
+        request.user = superuser
+        request.parser_context = {"view": mvs}
+        serializer = mvs().serializer_class(obj, context= {'request': request})
+    else:
+        serializer = mvs().serializer_class(obj, context= {'request': Request(request)})
 
-    fields_models = [m.name for m in mvs().serializer_class.Meta.model._meta.get_fields()]
+    # fields_models = [m.name for m in mvs().serializer_class.Meta.model._meta.get_fields()]
+    dict_fields_models = {}
+    for m in mvs().serializer_class.Meta.model._meta.get_fields():
+        dict_fields_models[m.name] = m
+
     data = {}
     for key, value in serializer.data.items():
-        if key in fields_models and key != "frontend_settings":
+        if key in dict_fields_models.keys() and key != "frontend_settings":
             if key == "auth_token":
-                data[key] = Token.objects.create(user=obj)
-            elif key == "signature" or key == "profile_image" or key == "image_field" or key == "file_field":
+                data[key], created = Token.objects.get_or_create(user=obj)
+            elif dict_fields_models[key].get_internal_type() == "FileField" or dict_fields_models[key].get_internal_type() == "ImageField" or key == "content_type" :
                 # data[key] = open(value.replace("http://testserver/",""), 'rb')
+                pass
+            elif dict_fields_models[key].get_internal_type() == "JSONField":
                 pass
             else:
                 data[key] = value
+        
+    if (delete and superuser) or (update and superuser):
+        kwargs = {"superuser": superuser, "obj": obj}
+        remote_data_factory = add_data_factory.send(mvs, **kwargs)
+        if remote_data_factory :
+            _, r_datakwarg = remote_data_factory[0]
+            data.update(r_datakwarg)
+            superuser = r_datakwarg["superuser"]
+
     # delete object for create with post method
     if delete:
         mvs().serializer_class.Meta.model.objects.filter(pk = obj.pk).delete()
 
-    if delete and superuser :
-        kwargs = {"superuser": superuser}
-        remote_data_factory = add_data_factory.send(mvs, **kwargs)
-        if remote_data_factory :
-            _, r_datakwarg = remote_data_factory[0]
-            data.update(r_datakwarg)
-    if update:
-        kwargs = {"obj": obj}
-        remote_data_factory = add_data_factory.send(mvs, **kwargs)
-        if remote_data_factory :
-            _, r_datakwarg = remote_data_factory[0]
-            data.update(r_datakwarg)
-
-    return data
+    return data, superuser
 
 def get_kwargs(obj, mvs, request, data=None):
     fields_models = [m for m in mvs().serializer_class.Meta.model._meta.get_fields()] 
     mvs.kwargs = {}
     request.parser_context = {"view": mvs}
+    
     serializer = mvs().serializer_class(obj, context= {'request': request, "view": mvs})
+    
     # serializer = mvs().get_serializer(obj)
     kwargs = {}
     for field in fields_models:
         if field.is_relation and field.name in serializer.data.keys():
+            
             if is_empty(serializer.data[field.name]) and data:          
                 kwargs[field.name+"_id"] = data[field.name]
             else:
@@ -88,10 +98,13 @@ def get_kwargs(obj, mvs, request, data=None):
     if hasattr(request.user, 'profile'):
         kwargs["profile"] = request.user.profile
         kwargs["user"] = request.user
+    if data:
+        kwargs["data"] = data
+    kwargs["obj_factory"] = obj
     remote_kwargs = add_kwargs.send(mvs, **kwargs)
     if remote_kwargs:
         _, r_kwarg = remote_kwargs[0]
-        kwargs.update(r_kwarg)
+        kwargs.update(r_kwarg)  
     return kwargs
 
 

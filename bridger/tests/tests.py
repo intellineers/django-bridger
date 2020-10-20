@@ -34,21 +34,6 @@ if remote_inf_modelviewsets:
 if len([imvs for imvs in inf_modelviewsets]) == 0:
     inf_modelviewsets = [None]
 
-
-remote_models = get_specfics_module.send(sender = models)
-if remote_models:
-    _, models = remote_models[0]
-remote_serializers = get_specfics_module.send(sender = serializers)
-if remote_serializers:
-    _, serializers = remote_serializers[0]
-remote_representationviewsets = get_specfics_module.send(sender = representationviewsets)
-if remote_representationviewsets:
-    _, representationviewsets = remote_representationviewsets[0]
-remote_modelviewsets = get_specfics_module.send(sender = modelviewsets)
-if remote_modelviewsets:
-    _, modelviewsets = remote_modelviewsets[0]
-
-
 @pytest.mark.django_db 
 class TestProject:
     @pytest.mark.parametrize("model", models)

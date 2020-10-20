@@ -55,7 +55,7 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
     for key, value in serializer.data.items():
         if key in dict_fields_models.keys() and key != "frontend_settings":
             if key == "auth_token":
-                data[key] = Token.objects.create(user=obj)
+                data[key], created = Token.objects.get_or_create(user=obj)
             elif dict_fields_models[key].get_internal_type() == "FileField" or dict_fields_models[key].get_internal_type() == "ImageField" or key == "content_type" :
                 # data[key] = open(value.replace("http://testserver/",""), 'rb')
                 pass

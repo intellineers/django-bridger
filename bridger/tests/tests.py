@@ -1,3 +1,4 @@
+
 import pytest
 from bridger.tests.mixins import TestModelClass, TestSerializerClass, TestrepresentationViewSetClass, TestViewSetClass, TestInfViewSetClass
 from bridger.tests.utils import get_all_subclasses, is_intermediate_table_m2m, all_subclasses

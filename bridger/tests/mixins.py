@@ -145,15 +145,18 @@ class TestrepresentationViewSetClass:
     # ----- LIST ROUTE TEST ----- #
     #Test representationviewset "get": "list"
     def test_representationviewset(self):
-        request = APIRequestFactory().get("")
-        request.user = SuperUser.get_user()
-        obj = self.factory()
-        kwargs = get_kwargs(obj, self.rmvs, request)
-        vs = self.rmvs.as_view({"get": "list"})
-        response = vs(request, **kwargs)
-        assert response.status_code == status.HTTP_200_OK
-        assert response.data
-        print("\n- TestViewSetClass:test_representationviewset", colored("PASSED", 'green'))  
+        if self.factory is None:
+            print("- TestViewSetClass:test_representationviewset", colored("WARNING - factory not found for "+self.rmvs().get_serializer_class().Meta.model.__name__, 'yellow'))
+        else:
+            request = APIRequestFactory().get("")
+            request.user = SuperUser.get_user()
+            obj = self.factory()
+            kwargs = get_kwargs(obj, self.rmvs, request)
+            vs = self.rmvs.as_view({"get": "list"})
+            response = vs(request, **kwargs)
+            assert response.status_code == status.HTTP_200_OK
+            assert response.data
+            print("\n- TestViewSetClass:test_representationviewset", colored("PASSED", 'green'))  
 
     
     # ----- DETAIL ROUTE TEST ----- #

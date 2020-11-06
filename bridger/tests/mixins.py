@@ -147,8 +147,10 @@ class TestrepresentationViewSetClass:
     def test_representationviewset(self):
         request = APIRequestFactory().get("")
         request.user = SuperUser.get_user()
+        obj = self.factory()
+        kwargs = get_kwargs(obj, self.rmvs, request)
         vs = self.rmvs.as_view({"get": "list"})
-        response = vs(request)
+        response = vs(request, **kwargs)
         assert response.status_code == status.HTTP_200_OK
         assert response.data
         print("\n- TestViewSetClass:test_representationviewset", colored("PASSED", 'green'))  
@@ -162,9 +164,10 @@ class TestrepresentationViewSetClass:
         else:
             request = APIRequestFactory().get("")
             request.user = SuperUser.get_user()
-            vs = self.rmvs.as_view({"get": "retrieve"})
             obj = self.factory()
-            response = vs(request, pk=obj.pk)
+            kwargs = get_kwargs(obj, self.rmvs, request)
+            vs = self.rmvs.as_view({"get": "retrieve"})
+            response = vs(request, **kwargs, pk=obj.pk)
             assert response.status_code == status.HTTP_200_OK
             assert response.data.get('instance')
             print("- TestViewSetClass:test_instancerepresentationviewset", colored("PASSED", 'green')) 

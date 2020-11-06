@@ -170,7 +170,12 @@ class TestrepresentationViewSetClass:
             obj = self.factory()
             kwargs = get_kwargs(obj, self.rmvs, request)
             vs = self.rmvs.as_view({"get": "retrieve"})
-            response = vs(request, **kwargs, pk=obj.pk)
+            remote_retrieve_id_obj = get_retrieve_id_obj.send(self.rmvs, **kwargs)
+            if remote_retrieve_id_obj:
+                _, obj_pk = remote_retrieve_id_obj[0]
+            else:
+                obj_pk = obj.pk
+            response = vs(request, **kwargs, pk=obj_pk)
             assert response.status_code == status.HTTP_200_OK
             assert response.data.get('instance')
             print("- TestViewSetClass:test_instancerepresentationviewset", colored("PASSED", 'green')) 

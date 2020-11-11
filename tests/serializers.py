@@ -28,6 +28,10 @@ class ModelTestRepresentationSerializer(serializers.RepresentationSerializer):
         fields = ("id", "char_field", "_detail", "_detail_preview")
 
 
+class ModelTestRepresentationSerializerFilterSelect(ModelTestRepresentationSerializer):
+    endpoint = "modeltest-list"
+
+
 class RelatedModelTestRepresentationSerializer(serializers.RepresentationSerializer):
 
     _detail = serializers.HyperlinkField(reverse_name="relatedmodeltest-detail")
@@ -103,7 +107,10 @@ class CalendarModelTestSerializer(ModelTestSerializer):
 class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer):
 
     _model_test = ModelTestRepresentationSerializer(source="model_test")
-    _model_tests = ModelTestRepresentationSerializer(source="model_tests", many=True)
+
+    model_tests = serializers.PrimaryKeyRelatedField(field_type="filterselect", queryset=ModelTest.objects.all(), many=True)
+    _model_tests = ModelTestRepresentationSerializerFilterSelect(source="model_tests", many=True)
+
     some_method_field = serializers.SerializerMethodField()
     text_json = serializers.JSONTextEditorField(required=False)
     text_markdown = serializers.MarkdownTextField(metadata_field="text_json")

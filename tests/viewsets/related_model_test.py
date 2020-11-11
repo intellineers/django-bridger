@@ -20,9 +20,6 @@ from .buttons import RelatedModelTestButtonConfig
 from .display import RelatedModelTestDisplayConfig
 
 
-
-
-
 class RelatedModelTestRepresentationViewSet(RepresentationViewSet):
     queryset = RelatedModelTest.objects.all()
     serializer_class = RelatedModelTestRepresentationSerializer

@@ -17,6 +17,8 @@ from .share import ShareSerializer
 
 logger = logging.getLogger(__name__)
 
+def get_user_name(request):
+    return f"{request.user.first_name} {request.user.last_name}",
 
 class Profile(APIView):
     permission_classes = [IsAuthenticated]
@@ -25,7 +27,7 @@ class Profile(APIView):
         return Response(
             {
                 "config": reverse("bridger:frontenduserconfiguration-list", request=request),
-                "name": f"{request.user.first_name} {request.user.last_name}",
+                "name": bridger_settings.DEFAULT_USER_NAME(request), 
                 "email": request.user.email,
                 "profile": bridger_settings.PROFILE(request),
             }

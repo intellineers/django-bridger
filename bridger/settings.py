@@ -22,6 +22,7 @@ DEFAULTS = {
     "DEFAULT_SHARE_BUTTON": "bridger.share.buttons.share_action_button",
     "DEFAULT_SHARE_NOTIFICATION": "bridger.share.notifications.share_notification",
     "DEFAULT_SHARE_SERIALIZER": "bridger.share.serializers.ShareSerializer",
+    "DEFAULT_USER_NAME": "bridger.views.get_user_name",
     "DEFAULT_MARKDOWN_EXTENSIONS": [TableExtension(), FSMExtension(), BlockdiagExtension(format="svg"),],
     "ADDITIONAL_DEFAUL_MODELVIEW_ATTRIBUTES": [],
     "FRONTEND_TEMPLATE": "bridger/frontend.html",
@@ -52,6 +53,7 @@ IMPORT_STRINGS = [
     "DEFAULT_SHARE_BUTTON",
     "DEFAULT_SHARE_NOTIFICATION",
     "DEFAULT_SHARE_SERIALIZER",
+    "DEFAULT_USER_NAME",
     "CLUBHOUSE_CONFIG",
 ]
 

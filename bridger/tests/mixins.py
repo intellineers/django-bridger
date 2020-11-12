@@ -181,7 +181,7 @@ class TestrepresentationViewSetClass:
             print("- TestViewSetClass:test_instancerepresentationviewset", colored("PASSED", 'green')) 
 
     
-    def execute_test(self, admin_client):
+    def execute_test(self):
         # ----- LIST ROUTE TEST ----- #
         self.test_representationviewset()
         self.test_instancerepresentationviewset()
@@ -305,7 +305,7 @@ class TestViewSetClass:
                 print("- TestViewSetClass:test_aggregation", colored("PASSED", 'green')) 
 
     # Test viewset "get": "list" with client and endpoint
-    def test_get_client_endpointviewset(self, admin_client):
+    def test_get_client_endpointviewset(self, client):
         if self.factory is None:
             print("- TestViewSetClass:test_get_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
         else:
@@ -314,10 +314,11 @@ class TestViewSetClass:
             obj = self.factory()
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request)
             ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
+            client.force_login(request.user)
             if ep.get_endpoint():
-                response = admin_client.get(ep.get_endpoint())
+                response = client.get(ep.get_endpoint())
             else:
-                response = admin_client.get(ep.get_list_endpoint())
+                response = client.get(ep.get_list_endpoint())
             assert response.status_code == status.HTTP_200_OK
             assert response.data
             print("- TestViewSetClass:test_get_client_endpointviewset", colored("PASSED", 'green'))  
@@ -343,7 +344,7 @@ class TestViewSetClass:
             print("- TestViewSetClass:test_postviewset", colored("PASSED", 'green')) 
 
     # Test viewset "post": "create" with client and endpoint
-    def test_post_client_endpointviewset(self, admin_client):
+    def test_post_client_endpointviewset(self, client):
         if self.factory is None:
             print("- TestViewSetClass:test_post_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
         else:
@@ -353,12 +354,13 @@ class TestViewSetClass:
             request = APIRequestFactory().post("", data)
             request.user = superuser
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request, data=data)
-            ep = self.mvs.endpoint_config_class(self.mvs, request=request, instance=False)
+            ep = self.mvs.endpoint_config_class(self.mvs, request=request, instance=False)    
             if not self.create_permission_allowed:
                 assert ep._get_create_endpoint() == None
             else:
                 assert ep._get_create_endpoint()
-                response = admin_client.post(ep._get_create_endpoint(),
+                client.force_login(request.user)
+                response = client.post(ep._get_create_endpoint(),
                                 data)
                 assert response.status_code == status.HTTP_201_CREATED
                 assert response.data.get('instance')
@@ -376,7 +378,12 @@ class TestViewSetClass:
             kwargs = get_kwargs(obj, self.mvs, request)
             vs = self.mvs.as_view({"delete": "destroy_multiple"})
             response = vs(request, **kwargs)
-            if self.delete_permission_allowed:
+
+            self.mvs.kwargs = kwargs
+            ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
+            ep_delete = ep._get_delete_endpoint()
+            if ep_delete and ep_delete != None:
+                # if self.delete_permission_allowed:
                 assert response.status_code == status.HTTP_204_NO_CONTENT
                 # assert not self.mvs().get_serializer_class().Meta.model.objects.filter(id=obj.id).exists()
             else:
@@ -386,7 +393,7 @@ class TestViewSetClass:
         
             
     # Test viewset "delete": "destroy_multiple" with client and endpoint
-    def test_destroy_multiple_client_endpointviewset(self, admin_client):
+    def test_destroy_multiple_client_endpointviewset(self, client):
         if self.factory is None:
             print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
         else:
@@ -399,15 +406,17 @@ class TestViewSetClass:
             request.data = list_id
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request)
             ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
-            if not self.delete_permission_allowed:
-                assert ep._get_delete_endpoint() == None
-            else:
-                assert ep._get_delete_endpoint()
-                response = admin_client.delete(ep._get_delete_endpoint())
+            # if not self.delete_permission_allowed:
+            ep_delete = ep._get_delete_endpoint()
+            if ep_delete and ep_delete != None:
+                client.force_login(request.user)
+                response = client.delete(ep_delete)
                 # queryset = self.mvs().get_serializer_class().Meta.model.objects.filter(id__in=data)
                 # destroyed = queryset.delete()
                 # print(destroyed)
                 assert response.status_code == status.HTTP_204_NO_CONTENT
+            else:
+                assert ep_delete == None
             print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("PASSED", 'green'))
 
 
@@ -498,9 +507,14 @@ class TestViewSetClass:
                 obj_pk = obj.pk
             vs = self.mvs.as_view({"delete": "destroy"})
             response = vs(request, **kwargs, pk=obj_pk)
+
+            self.mvs.kwargs = kwargs
+            # ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
+            # ep_delete = ep._get_delete_endpoint()
+            # if ep_delete and ep_delete != None:
             if self.delete_permission_allowed:
                 assert response.status_code == status.HTTP_204_NO_CONTENT
-                assert not self.mvs().get_serializer_class().Meta.model.objects.filter(id=obj_pk).exists()
+                # assert not self.mvs().get_serializer_class().Meta.model.objects.filter(id=obj_pk).exists()
             else:
                 assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
             print("- TestViewSetClass:test_deleteviewset", colored("PASSED", 'green'))  
@@ -560,17 +574,17 @@ class TestViewSetClass:
     # TODO Test "get": "history_retrieve" ??
     # TODO 'get': 'highlight' ??
 
-    def execute_test(self, admin_client, aggregates=None):
+    def execute_test(self, client, aggregates=None):
         self.test_option_request(is_instance=True)
         self.test_option_request()
         # ----- LIST ROUTE TEST ----- #
         self.test_viewset()
         self.test_aggregation(aggregates)
-        self.test_get_client_endpointviewset(admin_client)
+        self.test_get_client_endpointviewset(client)
         self.test_postviewset()
-        self.test_post_client_endpointviewset(admin_client)
+        self.test_post_client_endpointviewset(client)
         self.test_destroy_multipleviewset()
-        self.test_destroy_multiple_client_endpointviewset(admin_client)
+        self.test_destroy_multiple_client_endpointviewset(client)
         # self.test_get_list_title()
         # self.test_get_instance_title()
         # self.test_get_create_title()
@@ -585,6 +599,6 @@ class TestViewSetClass:
 
 class TestInfViewSetClass(TestViewSetClass):
 
-    def execute_test(self, admin_client, aggregates=None):
+    def execute_test(self, client, aggregates=None):
         self.test_option_request()
         self.test_viewset()

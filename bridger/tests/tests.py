@@ -51,14 +51,14 @@ class TestProject:
         my_test.execute_test()
 
     @pytest.mark.parametrize("rvs", representationviewsets)
-    def test_representationviewsets(self, rvs, admin_client):
+    def test_representationviewsets(self, rvs):
         my_test = TestrepresentationViewSetClass(rvs)
-        my_test.execute_test(admin_client)
+        my_test.execute_test()
 
     @pytest.mark.parametrize("mvs", modelviewsets)
-    def test_modelviewsets(self, mvs, admin_client):
+    def test_modelviewsets(self, mvs, client):
         my_test = TestViewSetClass(mvs)
-        my_test.execute_test(admin_client)
+        my_test.execute_test(client)
 
     # @pytest.mark.parametrize("imvs", inf_modelviewsets)
     # def test_inf_modelviewsets(self, imvs, admin_client):

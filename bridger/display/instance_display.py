@@ -21,9 +21,10 @@ class FieldSet:
 @dataclass(unsafe_hash=True)
 class SectionList:
     key: str
-
+    editable: str = False
     def __iter__(self):
         yield "key", self.key
+        yield "editable", self.editable
 
 
 @dataclass(unsafe_hash=True)

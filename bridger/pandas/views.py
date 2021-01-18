@@ -37,8 +37,11 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     def get_dataframe(self, request):
         assert hasattr(self, "pandas_fields"), "No pandas_fields specified"
         queryset = self.filter_queryset(self.get_queryset())
+        order_by = queryset.query.order_by
+        queryset.query.order_by = None
         if queryset.exists():
-            return pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
+            df = pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
+            return self.sort_df(df, list(order_by))
         return pd.DataFrame()
 
     def manipulate_dataframe(self, df):
@@ -53,3 +56,16 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
         df.where(pd.notnull(df), None)
         aggregates = self.get_aggregates(request, df) if not df.empty else {}
         return Response({"results": df.T.to_dict().values(), "aggregates": aggregates})
+
+    @classmethod
+    def sort_df(cls, df, ordering: list):
+        #receive a list of django ordering 
+        ascending = True
+        parsed_ordering = []
+        if ordering:
+            for o in ordering:
+                parsed_ordering.append(o.replace('-', ''))
+                if o[0] == '-':
+                    ascending = False
+            return df.sort_values(by=parsed_ordering, ascending=ascending)
+        return df

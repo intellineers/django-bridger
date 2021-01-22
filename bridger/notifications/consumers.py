@@ -2,7 +2,7 @@ from channels.db import database_sync_to_async
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from channels.generic.websocket import AsyncJsonWebsocketConsumer, JsonWebsocketConsumer
+from bridger.websockets.consumers import AsyncAuthenticatedJsonWebsocketConsumer
 
 from .models import Notification
 
@@ -17,7 +17,7 @@ def update_notification(notification_id):
     Notification.objects.filter(id=notification_id).update(timestamp_received=timezone.now())
 
 
-class NotificationConsumer(AsyncJsonWebsocketConsumer):
+class NotificationConsumer(AsyncAuthenticatedJsonWebsocketConsumer):
     async def connect(self):
         try:
             if not self.scope.get('user', None):

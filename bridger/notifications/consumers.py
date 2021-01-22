@@ -2,7 +2,7 @@ from channels.db import database_sync_to_async
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from bridger.websockets.consumers import AsyncAuthenticatedJsonWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer, JsonWebsocketConsumer
 
 from .models import Notification
 
@@ -17,12 +17,16 @@ def update_notification(notification_id):
     Notification.objects.filter(id=notification_id).update(timestamp_received=timezone.now())
 
 
-class NotificationConsumer(AsyncAuthenticatedJsonWebsocketConsumer):
+class NotificationConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
-        await super().connect()
-        if "user" in self.scope:
+        try:
+            if not self.scope.get('user', None):
+                raise ValueError("Scope does not have user attribute")
+            await self.accept()
             channel_layer_name = f"notification-{self.scope['user'].id}"
             await self.channel_layer.group_add(channel_layer_name, self.channel_name)
+        except ValueError as e:
+            await self.close(code=403)
 
     async def get_notification_message(self, user):
         num_unreceived, num_unread = await database_sync_to_async(self.get_notification_information)(user)

@@ -55,7 +55,7 @@ class ImportCsvMixin:
 
     def get_urls(self):
         urls = super().get_urls()
-        my_urls = [path("import-csv/", self.import_csv)]
+        my_urls = [path("import-csv/", self._import_csv)]
         return my_urls + urls
 
     def manipulate_df(self, df):
@@ -64,7 +64,10 @@ class ImportCsvMixin:
     def process_model(self, model):
         self.model.create(**model)
     
-    def import_csv(self, request):
+    def get_fields(self):
+        return [f.name for f in self.model._meta.get_fields()]
+
+    def _import_csv(self, request):
         if request.method == "POST":
             csv_file = request.FILES["csv_file"]
 
@@ -75,7 +78,7 @@ class ImportCsvMixin:
             df = pd.read_csv(StringIO(str_text))
             # Sanitize dataframe
             df = df.where(pd.notnull(df), None)
-            df = df.drop(df.columns.difference([f.name for f in self.model._meta.get_fields()]), axis=1)
+            df = df.drop(df.columns.difference(self.get_fields()), axis=1)
 
             # Overide this function if there is foreign key ids in the dataframe
             df = self.manipulate_df(df)

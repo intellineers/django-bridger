@@ -64,7 +64,7 @@ class ImportCsvMixin:
     def process_model(self, model):
         self.model.create(**model)
     
-    def get_fields(self):
+    def get_import_fields(self):
         return [f.name for f in self.model._meta.get_fields()]
 
     def _import_csv(self, request):
@@ -78,7 +78,7 @@ class ImportCsvMixin:
             df = pd.read_csv(StringIO(str_text))
             # Sanitize dataframe
             df = df.where(pd.notnull(df), None)
-            df = df.drop(df.columns.difference(self.get_fields()), axis=1)
+            df = df.drop(df.columns.difference(self.get_import_fields()), axis=1)
 
             # Overide this function if there is foreign key ids in the dataframe
             df = self.manipulate_df(df)

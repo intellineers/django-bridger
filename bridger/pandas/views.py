@@ -34,7 +34,7 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
         assert hasattr(self, "queryset"), "Either specify a queryset or implement the get_queryset method."
         return self.queryset
 
-    def get_dataframe(self, request):
+    def get_dataframe(self, request, **kwargs):
         assert hasattr(self, "pandas_fields"), "No pandas_fields specified"
         queryset = self.filter_queryset(self.get_queryset())
         order_by = queryset.query.order_by
@@ -50,9 +50,9 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     def get_aggregates(self, request, df):
         return {}
 
-    def get(self, request):
+    def get(self, request, **kwargs):
         self.request = request
-        df = self.manipulate_dataframe(self.get_dataframe(request))
+        df = self.manipulate_dataframe(self.get_dataframe(request, **kwargs))
         df.where(pd.notnull(df), None)
         aggregates = self.get_aggregates(request, df) if not df.empty else {}
         return Response({"results": df.T.to_dict().values(), "aggregates": aggregates})

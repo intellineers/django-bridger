@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from django.contrib.auth import get_user_model
 from rest_framework import status
 
-from .utils import get_model_factory, format_number, get_data_factory_mvs, get_kwargs, generate_dict_factory, get_factory_custom_user
+from .utils import get_model_factory, format_number, get_data_factory_mvs, get_kwargs, generate_dict_factory, get_factory_custom_user, datetime_converter
 from termcolor import colored
 import json
 import factory
@@ -331,7 +331,7 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
-            request = APIRequestFactory().post("", data)
+            request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request=request, data=data)
             vs = self.mvs.as_view({"post": "create"})
@@ -351,7 +351,8 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
-            request = APIRequestFactory().post("", data)
+            # request = APIRequestFactory().post("", data)
+            request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
             request.user = superuser
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request, data=data)
             ep = self.mvs.endpoint_config_class(self.mvs, request=request, instance=False)    
@@ -360,8 +361,9 @@ class TestViewSetClass:
             else:
                 assert ep._get_create_endpoint()
                 client.force_login(request.user)
+                # response = client.post(ep._get_create_endpoint(), data)
                 response = client.post(ep._get_create_endpoint(),
-                                data)
+                                json.dumps(data, default = datetime_converter), content_type='application/json')
                 assert response.status_code == status.HTTP_201_CREATED
                 assert response.data.get('instance')
             print("- TestViewSetClass:test_post_client_endpointviewset", colored("PASSED", 'green'))  
@@ -527,7 +529,9 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, update=True, superuser=superuser) 
-            request = APIRequestFactory().put("", data)
+            #request = APIRequestFactory().put("", data)
+            request = APIRequestFactory().put("", json.dumps(data, default = datetime_converter), content_type='application/json')
+
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request)   
             remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)
@@ -553,7 +557,8 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, update=True, superuser=superuser)
-            request = APIRequestFactory().patch("", data)
+            #request = APIRequestFactory().patch("", data)
+            request = APIRequestFactory().patch("", json.dumps(data, default = datetime_converter), content_type='application/json')
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request)
             remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)
@@ -563,6 +568,7 @@ class TestViewSetClass:
                 obj_pk = obj.pk
             vs = self.mvs.as_view({"patch": "partial_update"})
             response = vs(request, **kwargs, pk=obj_pk, data=data)
+            # response = vs(request, **kwargs, pk=obj_pk, json.dumps(data, default = datetime_converter), content_type='application/json')
             if self.update_permission_allowed:
                 assert response.status_code == status.HTTP_200_OK
                 assert response.data.get('instance')

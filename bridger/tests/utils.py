@@ -16,6 +16,8 @@ from factory.base import StubObject
 from django.db import models
 from bridger.tests.signals import add_kwargs, add_data_factory
 
+import datetime
+
 def get_all_subclasses(klass):
     for subclass in klass.__subclasses__():
         yield subclass
@@ -56,10 +58,8 @@ def get_data_factory_mvs(obj, mvs, delete=False, update=False, superuser=None):
         if key in dict_fields_models.keys() and key != "frontend_settings":
             if key == "auth_token":
                 data[key], created = Token.objects.get_or_create(user=obj)
-            elif dict_fields_models[key].get_internal_type() == "FileField" or dict_fields_models[key].get_internal_type() == "ImageField" or key == "content_type" :
+            elif dict_fields_models[key].get_internal_type() in ["FileField", "ImageField", "JSONField"] or key == "content_type" :
                 # data[key] = open(value.replace("http://testserver/",""), 'rb')
-                pass
-            elif dict_fields_models[key].get_internal_type() == "JSONField":
                 pass
             else:
                 data[key] = value
@@ -160,3 +160,8 @@ def get_factory_custom_user():
 def format_number(number, is_pourcent=False, decimal=2):
     number = number if number else 0
     return f'{number:,.{decimal}{"%" if is_pourcent else "f"}}'
+
+# https://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable?page=1&tab=votes#tab-top
+def datetime_converter(o):
+    if isinstance(o, (datetime.date, datetime.datetime, datetime.time)):
+        return o.isoformat()

@@ -529,8 +529,10 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, update=True, superuser=superuser) 
-            #request = APIRequestFactory().put("", data)
-            request = APIRequestFactory().put("", json.dumps(data, default = datetime_converter), content_type='application/json')
+            # Filter out keys with `None` values
+            data = {k: v for k, v in data.items() if v is not None}
+            request = APIRequestFactory().put("", data)
+            #request = APIRequestFactory().put("", json.dumps(data, default = datetime_converter), content_type='application/json')
 
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request)   
@@ -557,8 +559,10 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, update=True, superuser=superuser)
-            #request = APIRequestFactory().patch("", data)
-            request = APIRequestFactory().patch("", json.dumps(data, default = datetime_converter), content_type='application/json')
+            # Filter out keys with `None` values
+            data = {k: v for k, v in data.items() if v is not None}
+            request = APIRequestFactory().patch("", data)
+            #request = APIRequestFactory().patch("", json.dumps(data, default = datetime_converter), content_type='application/json')
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request)
             remote_retrieve_id_obj = get_retrieve_id_obj.send(self.mvs, **kwargs)

@@ -7,13 +7,13 @@ from .utils import get_model_factory, format_number, get_data_factory_mvs, get_k
 from termcolor import colored
 import json
 import factory
-from django.db.models import Q
-from bridger.tests.signals import add_factory, create_permission_allowed, delete_permission_allowed, update_permission_allowed, retrieve_permission_allowed, get_retrieve_id_obj
+from bridger.tests.signals import add_factory, create_permission_allowed, delete_permission_allowed, update_permission_allowed, retrieve_permission_allowed, get_retrieve_id_obj, get_parent_obj
 
 class TestModelClass:
     def __init__(self, model):
         self.model = model
         self.factory = get_model_factory(model)
+        self.remote_parent_obj = get_parent_obj.send(self.model)
 
     def test_get_endpoint_basename(self):
         if not hasattr(self.model, "get_endpoint_basename"):
@@ -51,16 +51,20 @@ class TestModelClass:
             assert self.model.get_representation_label_key()
             print("- TestModelClass:test_representation_label_key", colored("PASSED", 'green'))
 
-    def test_count_model(self):
+    def test_count_model(self, parent_obj=None):
         if self.factory is None:
             print("- TestModelClass:test_count_model", colored("WARNING - factory not found for "+self.model.__name__, 'yellow'))
-        else:
-            if self.model.__name__ == "Activity" and "preceded_by" in self.model.__dict__:
-                models = self.model.objects.filter(~Q(preceded_by=None))
-            elif self.model.__name__ == "ActivityOccurrence" and "event" in self.model.__dict__:
-                models = self.model.objects.filter(Q(event__preceded_by=None))
-            elif self.model.__name__ == "BookingEntry" and "main_booking_entry" in self.model.__dict__:
-                models = self.model.objects.filter(~Q(main_booking_entry=None))
+        else:           
+            if self.remote_parent_obj:
+                _, models  = self.remote_parent_obj[0]
+            # if self.model.__name__ == "Activity" and "preceded_by" in self.model.__dict__:
+            #     models = self.model.objects.filter(~Q(preceded_by=None))
+            # elif self.model.__name__ == "ActivityOccurrence" and "event" in self.model.__dict__:
+            #     models = self.model.objects.filter(Q(event__preceded_by=None))
+            # elif self.model.__name__ == "BookingEntry" and "main_booking_entry" in self.model.__dict__:
+            #     models = self.model.objects.filter(~Q(main_booking_entry=None))
+            # elif self.model.__name__ == "Position" and "parent_position" in self.model.__dict__:
+            #     models = self.model.objects.filter(~Q(parent_position=None))
             else:
                 models = self.model.objects.all()
             assert models.count() == 0
@@ -331,7 +335,8 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
-            request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
+            #request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
+            request = APIRequestFactory().post("", data)
             request.user = superuser
             kwargs = get_kwargs(obj, self.mvs, request=request, data=data)
             vs = self.mvs.as_view({"post": "create"})
@@ -351,8 +356,12 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
-            # request = APIRequestFactory().post("", data)
+            
             request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
+        
+            ## request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
+            #request = APIRequestFactory().post("", data)
+
             request.user = superuser
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request, data=data)
             ep = self.mvs.endpoint_config_class(self.mvs, request=request, instance=False)    

@@ -96,7 +96,7 @@ class TestModelClass:
         self.test_representation_endpoint()
         self.test_representation_value_key()
         self.test_representation_label_key()
-        self.test_count_model()
+        # self.test_count_model()
         self.test_str()
         self.test_field()
 
@@ -356,11 +356,9 @@ class TestViewSetClass:
             obj = self.factory()
             superuser = SuperUser.get_user()
             data, superuser = get_data_factory_mvs(obj, self.mvs, delete=True, superuser=superuser)
-            
-            request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
-        
-            ## request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
-            #request = APIRequestFactory().post("", data)
+                    
+            # request = APIRequestFactory().post("", json.dumps(data, default = datetime_converter), content_type='application/json')
+            request = APIRequestFactory().post("", data)
 
             request.user = superuser
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request, data=data)
@@ -370,9 +368,9 @@ class TestViewSetClass:
             else:
                 assert ep._get_create_endpoint()
                 client.force_login(request.user)
-                # response = client.post(ep._get_create_endpoint(), data)
-                response = client.post(ep._get_create_endpoint(),
-                                json.dumps(data, default = datetime_converter), content_type='application/json')
+                response = client.post(ep._get_create_endpoint(), data)
+                # response = client.post(ep._get_create_endpoint(),
+                #                 json.dumps(data, default = datetime_converter), content_type='application/json')
                 assert response.status_code == status.HTTP_201_CREATED
                 assert response.data.get('instance')
             print("- TestViewSetClass:test_post_client_endpointviewset", colored("PASSED", 'green'))  

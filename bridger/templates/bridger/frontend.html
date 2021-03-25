@@ -36,7 +36,8 @@
     <div id="root"></div>
     <script>
         window.onUsersnapCXLoad = function(api) {
-            api.init();
+            api.init({button: {isHidden: true}});
+            api.showButton();
             window.usersnapAPI = api;
         }
         var script = document.createElement('script');

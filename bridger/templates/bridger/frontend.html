@@ -34,6 +34,19 @@
 
 <body><noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+        window.onUsersnapCXLoad = function(api) {
+            api.init({button: {isHidden: true}})
+                .then(() => {
+                    api.showButton();
+                });
+            window.usersnapAPI = api;
+        }
+        var script = document.createElement('script');
+        script.async = 1;
+        script.src = 'https://widget.usersnap.com/load/{{BRIDGER_CONTEXT.USERSNAP_API}}?onload=onUsersnapCXLoad';
+        document.getElementsByTagName('head')[0].appendChild(script);
+    </script>
     <!-- BRIDGER JS -->
     {% if BRIDGER_CONTEXT.JS_URL %}
     <script type="application/javascript" src="{{BRIDGER_CONTEXT.JS_URL}}"></script>

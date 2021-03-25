@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.10.35"
+version = "0.10.4"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -14,6 +14,7 @@ django = "3.0.*"
 django-filter = "2.2.*"
 djangorestframework = "3.11.*"
 djangorestframework-simplejwt = "4.3.*"
+pyjwt = "1.7.*"
 django-fsm = "2.7.*"
 requests = "2.24.*"
 channels = "2.4.*"

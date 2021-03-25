@@ -15,3 +15,5 @@ omit = */migrations/*
     bridger/tests/*
     */apps.py
     */admin.py
+    .venv/*
+    .env/*

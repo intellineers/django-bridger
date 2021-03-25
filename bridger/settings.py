@@ -38,6 +38,7 @@ DEFAULTS = {
         "CSS_URL": None,
         "CONFIG_URL": None,
         "JS_URL": None,
+        "USERSNAP_API": None,
     },
     "FRONTEND_MENU_CALENDAR": None,
     "MARKDOWN_TEMPLATE_TAGS": [],

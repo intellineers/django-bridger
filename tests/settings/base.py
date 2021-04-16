@@ -196,3 +196,5 @@ SIMPLE_JWT = {
     "AUDIENCE": None,
     "ISSUER": None,
 }
+
+DEV_USER = config("DEV_USER", default=None)

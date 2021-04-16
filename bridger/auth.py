@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Dict
+from typing import Dict, List
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -15,6 +15,17 @@ def unauthenticated(request: Request) -> Dict:
     return {"type": None}
 
 
+def get_dev_user_from_settings(username_field_key: str) -> List[Dict[str, str]]:
+    if dev_user := settings.DEV_USER:
+        users = list()
+        for user in dev_user.split(","):
+            username, password = user.split(":")
+            users.append({username_field_key: username, "password": password})
+
+        return users
+    return []
+
+
 def jwt_auth(request: Request) -> Dict:
     user_model = get_user_model()
     username_field_key = user_model.USERNAME_FIELD
@@ -23,7 +34,7 @@ def jwt_auth(request: Request) -> Dict:
     access = settings.SIMPLE_JWT.get("ACCESS_TOKEN_LIFETIME", timedelta(minutes=5))
     refresh = settings.SIMPLE_JWT.get("REFRESH_TOKEN_LIFETIME", timedelta(days=1))
 
-    return {
+    config = {
         "type": "JWT",
         "config": {
             "token": reverse("token_obtain_pair", request=request),
@@ -34,6 +45,10 @@ def jwt_auth(request: Request) -> Dict:
             "username_field_label": username_field_label,
         },
     }
+
+    if users := get_dev_user_from_settings(username_field_key):
+        config["dev_users"] = users
+    return config
 
 
 class JWTCookieAuthentication(authentication.BaseAuthentication):

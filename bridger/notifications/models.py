@@ -6,9 +6,7 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from bridger.buttons import WidgetButton
-
 
 class NotificationSendType(Enum):
     SYSTEM = "system"
@@ -58,8 +56,7 @@ class Notification(models.Model):
 
 @receiver(post_save, sender=Notification)
 def post_create_notification(sender, instance, created, **kwargs):
-    send_mail = "bridger.notifications.send_mail"
-    send_system = "bridger.notifications.send_system"
+    from .tasks import send_mail, send_system
     if created:
         dispatch = {
             NotificationSendType.MAIL.value: [send_mail],
@@ -67,4 +64,5 @@ def post_create_notification(sender, instance, created, **kwargs):
             NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
         }
         for action in dispatch[instance.send_type]:
-            transaction.on_commit(lambda: celery.execute.send_task(action, args=[instance.id]))
+            action.delay(instance.id)
+            # transaction.on_commit(lambda: celery.execute.send_task(action, args=[instance.id]))

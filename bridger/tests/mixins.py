@@ -416,8 +416,8 @@ class TestViewSetClass:
             self.mvs.kwargs = get_kwargs(obj, self.mvs, request)
             ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
             # if not self.delete_permission_allowed:
-            ep_delete = ep._get_delete_endpoint(_list=True)
-            print(ep_delete)
+            ep.is_list = True
+            ep_delete = ep._get_delete_endpoint()
             if ep_delete and ep_delete != None:
                 client.force_login(request.user)
                 response = client.delete(ep_delete)

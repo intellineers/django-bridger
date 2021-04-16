@@ -23,11 +23,12 @@ class EndpointConfig(BridgerViewSetConfig):
 
     PK_FIELD = "id"
 
-    def get_endpoint(self, _list=False):
+    def get_endpoint(self):
         model = self.view.get_model()
         if basename_method := getattr(model, "get_endpoint_basename", None):
             basename = basename_method()
-            if self.instance and not _list:
+            is_list = getattr(self, "is_list", False)
+            if self.instance and not is_list:
                 return reverse(f"{basename}-detail", args=[self.view.kwargs.get("pk")], request=self.request)
             else:
                 return reverse(f"{basename}-list", request=self.request)
@@ -51,7 +52,8 @@ class EndpointConfig(BridgerViewSetConfig):
         return None
 
     def get_list_endpoint(self):
-        return self.get_endpoint(_list=True)
+        self.is_list = True
+        return self.get_endpoint()
 
     def _get_list_endpoint(self):
         return self.get_list_endpoint()
@@ -59,7 +61,8 @@ class EndpointConfig(BridgerViewSetConfig):
     def get_delete_endpoint(self):
         return self.get_endpoint()
 
-    def _get_delete_endpoint(self, _list=False):
+    def _get_delete_endpoint(self):
+        is_list = getattr(self, "is_list", False)
         read_only = getattr(self.view, "READ_ONLY", False)
         if read_only:
             return None
@@ -70,7 +73,7 @@ class EndpointConfig(BridgerViewSetConfig):
 
             if self.instance and self.request.user.has_perm(delete_permission) and not read_only:
                 return endpoint 
-            elif not self.instance and not _list:
+            elif not self.instance and not is_list:
                 pk_identifier = "{{"+ self.PK_FIELD +"}}/"
                 return endpoint + pk_identifier
             else:
@@ -78,7 +81,8 @@ class EndpointConfig(BridgerViewSetConfig):
         return None
 
     def get_create_endpoint(self):
-        return self.get_endpoint(_list=True)
+        self.is_list = True
+        return self.get_endpoint()
 
     def _get_create_endpoint(self):
         read_only = getattr(self.view, "READ_ONLY", False)

@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, reverse_lazy, path, re_path
 from django.views.generic import TemplateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-
+from django.views.generic import RedirectView
 from bridger.frontend import FrontendView
 from bridger.routers import BridgerRouter
 
@@ -30,7 +30,6 @@ router.register(r"modelchart", ModelTestChartViewSet, basename="modelchart")
 
 urlpatterns = [
     path("", include(router.urls)),
-    FrontendView.bundled_view("frontend/"),
     # path("bundle/", TemplateView.as_view(template_name="bundled_index.html")),
     path("admin/", admin.site.urls),
     path("bridger/", include(("bridger.urls", "bridger"), namespace="bridger")),
@@ -38,6 +37,8 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("pandas/", MyPandasView.as_view(), name="pandas_view"),
+    FrontendView.bundled_view(""),
+    path('', RedirectView.as_view(url=reverse_lazy('frontend')))
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

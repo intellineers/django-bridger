@@ -39,6 +39,12 @@ pytest-selenium = "1.17.*"
 termcolor = "^1.1.0"
 inscriptis = "^1.1"
 
+# For some reason channels does not declare asigref and daphne as
+# Dependencies in the newest release of channels. Therefore we add
+# them here manually. Remove if this is fixed
+asgiref = "3.2.*"
+daphne = "2.3.*"
+
 django-rest-fuzzysearch = "^0.5.1"
 django-extensions = "3.0.*"
 django-cors-headers = "3.4.*"

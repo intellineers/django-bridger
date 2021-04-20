@@ -195,7 +195,7 @@ BRIDGER_SETTINGS = {
         "JS_URL": f'{CDN_BASE_ENDPOINT_URL}/js/main-{FRONTEND_VERSION.replace(".", "-")}.js',
         "FAVICON_URL": f'{CDN_BASE_ENDPOINT_URL}/favicon.ico'
     },
-    "MARKDOWN_TEMPLATE_TAGS": ["writer"],
+    "MARKDOWN_TEMPLATE_TAGS": ["test_tags"],
     "FRONTEND_MENU_CALENDAR": frontend_menu_calendar,
 }
 

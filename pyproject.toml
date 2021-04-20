@@ -9,7 +9,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "3.8.2"
+python = "3.8.*"
 django = "3.0.*"
 django-filter = "2.2.*"
 djangorestframework = "3.11.*"
@@ -102,4 +102,3 @@ omit = [
 [build-system]
 requires = ["poetry_core>=1.0.0a5"]
 build-backend = "poetry.core.masonry.api"
-

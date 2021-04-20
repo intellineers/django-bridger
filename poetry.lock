@@ -2312,8 +2312,8 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "3.8.*"
-content-hash = "7d7573699ec4af91ac82fe81489892280c0c319030c0c1a2c5eb9d34e4582d32"
+python-versions = "3.8.2"
+content-hash = "37500032c2cb16a9599a8870c6d93db358c79fea02fda9faa9b14c6ed3477b9f"
 
 [metadata.files]
 actdiag = [

@@ -1,0 +1,36 @@
+name: Continious Delivery Master
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+      - name: Config Git
+        run: |
+          git config --global user.email "admin@intellineers.com"
+          git config --global user.name "Intellineers"
+      - name: Push to Dev
+        run: |
+          git push origin master:development
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+      - name: Deploy production
+        uses: idoberko2/dokku-deploy-github-action@v1
+        with:
+            ssh-private-key: ${{ secrets.SSH_DOKKU_PRIVATE_KEY }}
+            dokku-host: 'bridger.stainly.com'
+            app-name: 'bridger'
+            git-push-flags: '--force'
+    # - name: Test with pytest
+    #   run: |
+    #     pip install pytest
+    #     pytest

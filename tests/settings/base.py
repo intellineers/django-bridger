@@ -177,13 +177,20 @@ def frontend_menu_calendar(request):
     from rest_framework.reverse import reverse
     return reverse("calendar-list", request=request)
 
+CDN_BASE_ENDPOINT_URL = config("CDN_BASE_ENDPOINT_URL", default='')
+FRONTEND_VERSION = config("FRONTEND_VERSION", "0.3.0")
 BRIDGER_SETTINGS = {
     "FRONTEND_CONTEXT": {
-        "CSS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/css/main-1-5-14-rc-11.css",
-        "JS_URL": "https://atonra-stainly-cdn.fra1.cdn.digitaloceanspaces.com/static/js/main-1-5-14-rc-11.js",
-        "USERSNAP_API": config("USERSNAP_API", None),
+        "CDN_URLS": [
+            "https://cdn.plot.ly/plotly-latest.min.js",
+            "https://cdn.tiny.cloud/1/735nruhl1ud549mz9imjqabxpknlo6d9n308ev0iqs05gk03/tinymce/5/tinymce.min.js",
+            "https://prowriting.azureedge.net/beyondgrammar-tinymce/1.0.57/dist/beyond-grammar-plugin.js"
+        ],
+        "CSS_URL": f'{CDN_BASE_ENDPOINT_URL}/css/main-{FRONTEND_VERSION.replace(".", "-")}.css',
+        "JS_URL": f'{CDN_BASE_ENDPOINT_URL}/js/main-{FRONTEND_VERSION.replace(".", "-")}.js',
+        "FAVICON_URL": f'{CDN_BASE_ENDPOINT_URL}/favicon.ico'
     },
-    "MARKDOWN_TEMPLATE_TAGS": ["test_tags"],
+    "MARKDOWN_TEMPLATE_TAGS": ["writer"],
     "FRONTEND_MENU_CALENDAR": frontend_menu_calendar,
 }
 

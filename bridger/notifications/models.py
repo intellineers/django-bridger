@@ -7,6 +7,7 @@ from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from bridger.buttons import WidgetButton
+from django.conf import settings
 
 class NotificationSendType(Enum):
     SYSTEM = "system"
@@ -64,5 +65,5 @@ def post_create_notification(sender, instance, created, **kwargs):
             NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
         }
         for action in dispatch[instance.send_type]:
-            action.delay(instance.id)
+            action.apply_async((instance.id,), countdown=getattr(settings, "BRIDGER_NOTIFICATION_DELAY_SECONDS", 10))
             # transaction.on_commit(lambda: celery.execute.send_task(action, args=[instance.id]))

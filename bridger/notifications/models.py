@@ -65,5 +65,8 @@ def post_create_notification(sender, instance, created, **kwargs):
             NotificationSendType.SYSTEM_AND_MAIL.value: [send_system, send_mail],
         }
         for action in dispatch[instance.send_type]:
-            action.apply_async((instance.id,), countdown=getattr(settings, "BRIDGER_NOTIFICATION_DELAY_SECONDS", 10))
+            try:
+                action.apply_async((instance.id,), countdown=getattr(settings, "BRIDGER_NOTIFICATION_DELAY_SECONDS", 10))
+            except Exception as e:
+                pass
             # transaction.on_commit(lambda: celery.execute.send_task(action, args=[instance.id]))

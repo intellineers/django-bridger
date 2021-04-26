@@ -23,18 +23,18 @@ class EndpointConfig(BridgerViewSetConfig):
 
     PK_FIELD = "id"
 
-    def get_endpoint(self):
+    def get_endpoint(self, **kwargs):
         model = self.view.get_model()
         if basename_method := getattr(model, "get_endpoint_basename", None):
             basename = basename_method()
-            is_list = getattr(self, "is_list", False)
+            is_list = kwargs.get("is_list", False)
             if self.instance and not is_list:
                 return reverse(f"{basename}-detail", args=[self.view.kwargs.get("pk")], request=self.request)
             else:
                 return reverse(f"{basename}-list", request=self.request)
         return None
 
-    def get_instance_endpoint(self):
+    def get_instance_endpoint(self, **kwargs):
         return self.get_endpoint()
 
     def _get_instance_endpoint(self):
@@ -51,18 +51,16 @@ class EndpointConfig(BridgerViewSetConfig):
 
         return None
 
-    def get_list_endpoint(self):
-        self.is_list = True
-        return self.get_endpoint()
+    def get_list_endpoint(self, **kwargs):
+        return self.get_endpoint(is_list=True)
 
     def _get_list_endpoint(self):
         return self.get_list_endpoint()
 
-    def get_delete_endpoint(self):
+    def get_delete_endpoint(self, **kwargs):
         return self.get_endpoint()
 
     def _get_delete_endpoint(self):
-        is_list = getattr(self, "is_list", False)
         read_only = getattr(self.view, "READ_ONLY", False)
         if read_only:
             return None
@@ -70,19 +68,17 @@ class EndpointConfig(BridgerViewSetConfig):
         if endpoint := self.get_delete_endpoint():
             content_type = self.view.get_content_type()
             delete_permission = f"{content_type.app_label}.delete_{content_type.model}"
-
-            if self.instance and self.request.user.has_perm(delete_permission) and not read_only:
+            if self.instance and self.request.user.has_perm(delete_permission):
                 return endpoint 
-            elif not self.instance and not is_list:
+            elif not self.instance:
                 pk_identifier = "{{"+ self.PK_FIELD +"}}/"
                 return endpoint + pk_identifier
             else:
                 return endpoint
         return None
 
-    def get_create_endpoint(self):
-        self.is_list = True
-        return self.get_endpoint()
+    def get_create_endpoint(self, **kwargs):
+        return self.get_endpoint(is_list=True)
 
     def _get_create_endpoint(self):
         read_only = getattr(self.view, "READ_ONLY", False)

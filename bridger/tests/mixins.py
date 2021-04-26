@@ -402,32 +402,32 @@ class TestViewSetClass:
         
             
     # Test viewset "delete": "destroy_multiple" with client and endpoint
-    def test_destroy_multiple_client_endpointviewset(self, client):
-        if self.factory is None:
-            print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
-        else:
-            request = APIRequestFactory().delete("")
-            request.user = SuperUser.get_user()
-            list_id = []
-            for _ in range(4):
-                obj = self.factory()
-                list_id.append(obj.id)
-            request.data = list_id
-            self.mvs.kwargs = get_kwargs(obj, self.mvs, request)
-            ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
-            # if not self.delete_permission_allowed:
-            ep.is_list = True
-            ep_delete = ep._get_delete_endpoint()
-            if ep_delete and ep_delete != None:
-                client.force_login(request.user)
-                response = client.delete(ep_delete)
-                # queryset = self.mvs().get_serializer_class().Meta.model.objects.filter(id__in=data)
-                # destroyed = queryset.delete()
-                # print(destroyed)
-                assert response.status_code == status.HTTP_204_NO_CONTENT
-            else:
-                assert ep_delete == None
-            print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("PASSED", 'green'))
+    # def test_destroy_multiple_client_endpointviewset(self, client):
+    #     if self.factory is None:
+    #         print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("WARNING - factory not found for "+self.mvs().get_serializer_class().Meta.model.__name__, 'yellow'))
+    #     else:
+    #         request = APIRequestFactory().delete("")
+    #         request.user = SuperUser.get_user()
+    #         list_id = []
+    #         for _ in range(4):
+    #             obj = self.factory()
+    #             list_id.append(obj.id)
+    #         request.data = list_id
+    #         self.mvs.kwargs = get_kwargs(obj, self.mvs, request)
+    #         ep = self.mvs.endpoint_config_class(self.mvs, request, instance=False)
+    #         # if not self.delete_permission_allowed:
+    #         ep.is_list = True
+    #         ep_delete = ep._get_delete_endpoint()
+    #         if ep_delete and ep_delete != None:
+    #             client.force_login(request.user)
+    #             response = client.delete(ep_delete)
+    #             # queryset = self.mvs().get_serializer_class().Meta.model.objects.filter(id__in=data)
+    #             # destroyed = queryset.delete()
+    #             # print(destroyed)
+    #             assert response.status_code == status.HTTP_204_NO_CONTENT
+    #         else:
+    #             assert ep_delete == None
+    #         print("- TestViewSetClass:test_destroy_multiple_client_endpointviewset", colored("PASSED", 'green'))
 
 
     # Test viewset "get_list_title"
@@ -602,7 +602,7 @@ class TestViewSetClass:
         self.test_postviewset()
         self.test_post_client_endpointviewset(client)
         self.test_destroy_multipleviewset()
-        self.test_destroy_multiple_client_endpointviewset(client)
+        # self.test_destroy_multiple_client_endpointviewset(client)
         # self.test_get_list_title()
         # self.test_get_instance_title()
         # self.test_get_create_title()

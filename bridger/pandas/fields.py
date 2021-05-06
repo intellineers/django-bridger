@@ -30,6 +30,10 @@ class DateField(BaseField):
     type = "date"
 
 
+class BooleanField(BaseField):
+    type = "boolean"
+
+
 class FloatField(NamedTuple):
     key: str
     label: str

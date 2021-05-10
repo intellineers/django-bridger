@@ -1,3 +1,5 @@
+from slugify import slugify
+
 from django.db import models
 from django.db.models.fields.reverse_related import ManyToManyRel
 from django.db.models.query import QuerySet
@@ -5,6 +7,7 @@ from django.db.models.query import QuerySet
 
 class Tag(models.Model):
     title = models.CharField(max_length=255, unique=True)
+    slug = models.CharField(max_length=255, null=True, blank=True)
     color = models.CharField(max_length=7, default="#D3D3D3")
 
     @classmethod
@@ -20,7 +23,7 @@ class Tag(models.Model):
         return "{{title}}"
 
     def save(self, *args, **kwargs):
-        self.title = self.title.lower()
+        self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):

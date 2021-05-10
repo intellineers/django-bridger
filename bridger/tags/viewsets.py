@@ -8,4 +8,4 @@ class TagRepresentationViewSet(RepresentationViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagRepresentationSerializer
 
-    search_fields = ["title"]
+    search_fields = ["title", "slug"]

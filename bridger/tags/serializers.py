@@ -6,7 +6,8 @@ from .models import Tag
 class TagRepresentationSerializer(serializers.RepresentationSerializer):
     class Meta:
         model = Tag
-        fields = ("id", "title", "color")
+        read_only_fields = ("slug",)
+        fields = ("id", "title", "color", "slug")
 
 
 class TagSerializerMixin(serializers.ModelSerializer):

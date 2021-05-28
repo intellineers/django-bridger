@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.11.1"
+version = "0.11.2"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -10,7 +10,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "3.9.5"
-django = "3.*"
+django = "3.2.*"
 django-filter = "2.*"
 djangorestframework = "3.*"
 djangorestframework-simplejwt = "4.*"
@@ -27,7 +27,7 @@ numpy = "1.*"
 pandas = "*"
 jsonschema = "3.*"
 plotly = "4.*"
-django-simple-history = "2.*"
+django-simple-history = "3.*"
 markdown = "3.*"
 markdown-blockdiag = "0.*"
 toml = "0.*"
@@ -42,8 +42,8 @@ inscriptis = "^1.1"
 # For some reason channels does not declare asigref and daphne as
 # Dependencies in the newest release of channels. Therefore we add
 # them here manually. Remove if this is fixed
-asgiref = "3.2.*"
-daphne = "2.3.*"
+asgiref = "3.3.*"
+daphne = "2.*"
 
 django-rest-fuzzysearch = "0.*"
 django-extensions = "3.*"

@@ -56,7 +56,7 @@ class ModelTestFilterSet(TagFilterMixin, FilterSet):
             # "datetime_field": ["lte", "gte"],
             "status_field": ["exact"],
             "decimal_field": ["lte", "gte", "lt", "gt", "exact"],
-            "before_2k": ["exact", "icontains"],
+            # "before_2k": ["exact", "icontains"],
             "related_models": ["exact"],
         }
 

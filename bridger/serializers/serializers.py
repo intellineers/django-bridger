@@ -1,6 +1,6 @@
 from typing import Dict
 
-from django.contrib.postgres.fields import ArrayField, JSONField
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django_fsm import FSMField
 from rest_framework import serializers
@@ -58,7 +58,7 @@ class ModelSerializer(
         models.TextField: fields.TextField,
         models.UUIDField: fields.CharField,
         ArrayField: fields.ListField,
-        JSONField: fields.JSONField,
+        models.JSONField: fields.JSONField,
         fields.StarRatingField: fields.StarRatingField,
     }
     serializer_related_field = fields.PrimaryKeyRelatedField

@@ -2,7 +2,7 @@ from enum import Enum
 
 import celery
 from django.contrib.auth import get_user_model
-from django.contrib.postgres.fields import JSONField
+
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -24,7 +24,7 @@ class Notification(models.Model):
 
     title = models.CharField(max_length=512)
     message = models.TextField(null=True, blank=True)
-    buttons = JSONField(default=list, null=True, blank=True)
+    buttons = models.JSONField(default=list, null=True, blank=True)
 
     endpoint = models.URLField(null=True, blank=True, max_length=2048)
 

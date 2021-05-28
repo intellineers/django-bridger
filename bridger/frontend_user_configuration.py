@@ -4,7 +4,7 @@ import uuid
 import django_filters
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.postgres.fields import JSONField
+
 from django.db import models
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
@@ -24,7 +24,7 @@ class FrontendUserConfiguration(models.Model):
     parent_configuration = models.ForeignKey(
         to="self", related_name="child_configurations", null=True, blank=True, on_delete=models.CASCADE,
     )
-    config = JSONField(default=dict, null=True, blank=True)
+    config = models.JSONField(default=dict, null=True, blank=True)
 
     @classmethod
     def get_endpoint_basename(cls):

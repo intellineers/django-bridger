@@ -23,7 +23,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8.2
+          python-version: 3.9.5
       - name: Redis Server in GitHub Actions
         uses: supercharge/redis-github-action@1.1.0
         with:

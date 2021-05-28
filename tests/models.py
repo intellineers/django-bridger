@@ -1,6 +1,6 @@
 from datetime import date, time
 
-from django.contrib.postgres.fields import JSONField, ArrayField
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils import timezone
 from django_fsm import FSMField, transition
@@ -143,7 +143,7 @@ class RelatedModelTest(TagModelMixin, models.Model):
     def search_for_term(cls, request=None):
         return cls.objects.all().annotate(_search=models.F("char_field")).annotate(_repr=models.F("char_field"))
 
-    text_json = JSONField(default=list, blank=True, null=True)
+    text_json = models.JSONField(default=list, blank=True, null=True)
     text_markdown = models.TextField(default="")
     model_test = models.ForeignKey(
         to="tests.ModelTest",

@@ -2,7 +2,6 @@
 
 import uuid
 
-import django.contrib.postgres.fields.jsonb
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
@@ -21,7 +20,7 @@ class Migration(migrations.Migration):
             name="FrontendUserConfiguration",
             fields=[
                 ("id", models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False,),),
-                ("config", django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, null=True),),
+                ("config",models.JSONField(blank=True, default=dict, null=True),),
                 (
                     "parent_configuration",
                     models.ForeignKey(

@@ -27,8 +27,10 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
 
     def filter_queryset(self, queryset: QuerySet) -> QuerySet:
         for backend in list(self.filter_backends):
-            queryset = backend().filter_queryset(self.request, queryset, self)
+            if backend in [DjangoFilterBackend, filters.SearchFilter]:
+                queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
+
 
     def get_queryset(self):
         assert hasattr(self, "queryset"), "Either specify a queryset or implement the get_queryset method."
@@ -37,11 +39,8 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     def get_dataframe(self, request, **kwargs):
         assert hasattr(self, "pandas_fields"), "No pandas_fields specified"
         queryset = self.filter_queryset(self.get_queryset())
-        order_by = queryset.query.order_by
-        queryset.query.order_by = None
         if queryset.exists():
-            df = pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
-            return self.sort_df(df, list(order_by))
+            return pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
         return pd.DataFrame()
 
     def manipulate_dataframe(self, df):
@@ -53,7 +52,10 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     def get(self, request, **kwargs):
         self.request = request
         df = self.manipulate_dataframe(self.get_dataframe(request, **kwargs))
-        df.where(pd.notnull(df), None)
+        df = df.where(pd.notnull(df), None)
+        if filters.OrderingFilter in list(self.filter_backends):
+            orderings = filters.OrderingFilter().get_ordering(request, self.get_queryset(), self)
+            df = self.sort_df(df, orderings)
         aggregates = self.get_aggregates(request, df) if not df.empty else {}
         return Response({"results": df.T.to_dict().values(), "aggregates": aggregates})
 

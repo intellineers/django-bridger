@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.11.3"
+version = "0.11.4"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 

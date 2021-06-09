@@ -39,11 +39,15 @@ class EndpointConfig(BridgerViewSetConfig):
 
     def _get_instance_endpoint(self):
         if endpoint := self.get_instance_endpoint():
+            from bridger.viewsets import ViewSet
             content_type = self.view.get_content_type()
-            change_permission = f"{content_type.app_label}.change_{content_type.model}"
-
+            if content_type:
+                change_permission = f"{content_type.app_label}.change_{content_type.model}"
+                permission = self.request.user.has_perm(change_permission)
+            elif isinstance(self.view, ViewSet):
+                permission = True
             read_only = getattr(self.view, "READ_ONLY", False)
-            if self.instance and self.request.user.has_perm(change_permission) and not read_only:
+            if self.instance and permission and not read_only:
                 return endpoint 
             elif not self.instance:
                 pk_identifier = "{{"+ self.PK_FIELD +"}}/"
@@ -81,16 +85,21 @@ class EndpointConfig(BridgerViewSetConfig):
         return self.get_endpoint(is_list=True)
 
     def _get_create_endpoint(self):
+        from bridger.viewsets import ViewSet
         read_only = getattr(self.view, "READ_ONLY", False)
         if read_only:
             return None
 
         if endpoint := self.get_create_endpoint():
             content_type = self.view.get_content_type()
-            create_permission = f"{content_type.app_label}.add_{content_type.model}"
-
-            if self.request.user.has_perm(create_permission):
+            if content_type:
+                create_permission = f"{content_type.app_label}.add_{content_type.model}"
+                permission = self.request.user.has_perm(create_permission)
+            elif isinstance(self.view, ViewSet):
+                permission = True
+            if permission:
                 return endpoint
+            
         return None
   
     def get_metadata(self) -> Dict:

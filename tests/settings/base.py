@@ -210,3 +210,5 @@ SIMPLE_JWT = {
 }
 
 DEV_USER = config("DEV_USER", default=None)
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

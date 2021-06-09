@@ -7,11 +7,15 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from bridger import display as dp
+from bridger.enums import Button
+from typing import Optional
 from bridger import serializers
-from bridger.enums import Button, Operator, Unit, WBIcon
 from bridger.settings import bridger_settings
-from bridger.viewsets import ViewSet
+from bridger.viewsets import ViewSet, ModelViewSet
+
+from .display import ClubHouseDisplayConfig
+from .endpoints import ClubHouseEndpointConfig
+from .title import ClubHouseTitleConfig
 
 story_type_choices = (("bug", "Bug"), ("feature", "Feature"))
 
@@ -27,7 +31,7 @@ class ClubhouseSerializer(serializers.Serializer):
     id = serializers.PrimaryKeyField()
     name = serializers.CharField(label="Name")
     story_type = serializers.ChoiceField(label="Type", choices=story_type_choices)
-    description = serializers.MarkdownTextField(required=False)
+    description = serializers.TextField(required=False)
     created_at = serializers.DateTimeField(read_only=True)
     completed = serializers.BooleanField(read_only=True)
 
@@ -50,54 +54,16 @@ class ClubhouseSerializer(serializers.Serializer):
 
         return self.__class__(response.json())
 
-
+   
 class ClubHouseView(ViewSet):
     IDENTIFIER = "clubhouse"
-    LIST_ENDPOINT = "bridger:clubhouse-list"
-    INSTANCE_ENDPOINT = "bridger:clubhouse-list"
-    CREATE_ENDPOINT = "bridger:clubhouse-list"
-
-    LIST_TITLE = "Bug Reports"
-    INSTANCE_TITLE = "Bug Report"
+    title_config_class = ClubHouseTitleConfig
+    endpoint_config_class = ClubHouseEndpointConfig
+    display_config_class = ClubHouseDisplayConfig
 
     BUTTONS = [Button.REFRESH.value, Button.NEW.value]
     CREATE_BUTTONS = [Button.SAVE.value]
-
-    INSTANCE_DISPLAY = dp.InstanceDisplay(sections=(dp.Section(fields=dp.FieldSet(("name", "story_type", "description"))),))
-
-    LIST_DISPLAY = dp.ListDisplay(
-        fields=[
-            dp.Field(key="id", label="Identifier", width=Unit.FRACTION(1)),
-            dp.Field(key="created_at", label="Created", width=Unit.FRACTION(1)),
-            dp.Field(key="name", label="Name", width=Unit.FRACTION(8)),
-        ],
-        formatting=[
-            dp.Formatting(
-                column="story_type",
-                formatting_rules=[
-                    dp.FormattingRule(icon=WBIcon.BOLD.value, condition=dp.Condition(operator=Operator.EQUAL, value="bug"),),
-                    dp.FormattingRule(
-                        icon=WBIcon.DATA.value, condition=dp.Condition(operator=Operator.EQUAL, value="feature"),
-                    ),
-                ],
-            ),
-            dp.Formatting(
-                column="completed",
-                formatting_rules=[
-                    dp.FormattingRule(style={"backgroundColor": "#228B22"}, condition=dp.Condition(Operator.EQUAL, value=True),)
-                ],
-            ),
-        ],
-        legends=[
-            dp.Legend(
-                items=[
-                    dp.LegendItem(icon=WBIcon.BOLD.value, label="Bug"),
-                    dp.LegendItem(icon=WBIcon.DATA.value, label="Feature"),
-                ]
-            )
-        ],
-    )
-
+    
     serializer_class = ClubhouseSerializer
 
     # We need to add this otherwise DjangoModelPermissions complains it cannot find a get_queryset method

@@ -92,7 +92,9 @@ class ModelMixin:
 
     @classmethod
     def get_content_type(cls):
-        return ContentType.objects.get_for_model(cls.get_model())
+        if cls.get_model():
+            return ContentType.objects.get_for_model(cls.get_model())
+        return None
 
 
 class ListModelMixin(OriginalListModelMixin):

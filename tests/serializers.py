@@ -106,7 +106,7 @@ class RelatedModelTestSerializer(TagSerializerMixin, serializers.ModelSerializer
     _model_tests = ModelTestRepresentationSerializer(source="model_tests", many=True)
     some_method_field = serializers.SerializerMethodField()
     text_json = serializers.JSONTextEditorField(required=False)
-    text_markdown = serializers.MarkdownTextField(metadata_field="text_json")
+    text_markdown = serializers.TextField(label="text_json")
     # char_field = serializers.CharField(label="Char", secure=True)
 
     def get_some_method_field(self, obj):

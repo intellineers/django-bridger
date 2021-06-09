@@ -9,6 +9,7 @@ from markdown.extensions.tables import TableExtension
 from markdown_blockdiag import BlockdiagExtension
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
+from decouple import config
 
 from bridger.fsm.markdown_extensions import FSMExtension
 
@@ -43,8 +44,9 @@ DEFAULTS = {
     "FRONTEND_MENU_CALENDAR": None,
     "MARKDOWN_TEMPLATE_TAGS": [],
     "CLUBHOUSE_CONFIG": "bridger.clubhouse.config",
-    "CLUBHOUSE_API_TOKEN": os.environ.get("CLUBHOUSE_API_TOKEN", ""),
-    "CLUBHOUSE_PROJECT_ID": os.environ.get("CLUBHOUSE_PROJECT_ID", ""),
+    "CLUBHOUSE_API_TOKEN": config('CLUBHOUSE_API_TOKEN', default=''),
+    'CLUBHOUSE_PROJECT_ID': config('CLUBHOUSE_PROJECT_ID', default=''),
+
 }
 
 IMPORT_STRINGS = [

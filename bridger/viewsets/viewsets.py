@@ -79,7 +79,7 @@ class ChartViewSet(FilterMixin, ViewSet):
         queryset = self.get_queryset()
         if queryset.exists():
             queryset = self.filter_queryset(queryset)
-        figure = self.get_plotly()
+        figure = self.get_plotly(queryset)
         figure_dict = figure.to_plotly_json()
         figure_dict["config"] = {"responsive": True, "displaylogo": False}
         figure_dict["useResizeHandler"] = True

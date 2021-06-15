@@ -76,7 +76,10 @@ class ChartViewSet(FilterMixin, ViewSet):
     WIDGET_TYPE = WidgetType.CHART.value
 
     def list(self, request: Request, *args, **kwargs):
-        figure = self.get_plotly(self.filter_queryset(self.get_queryset()))
+        queryset = self.get_queryset()
+        if queryset.exists():
+            queryset = self.filter_queryset(queryset)
+        figure = self.get_plotly()
         figure_dict = figure.to_plotly_json()
         figure_dict["config"] = {"responsive": True, "displaylogo": False}
         figure_dict["useResizeHandler"] = True

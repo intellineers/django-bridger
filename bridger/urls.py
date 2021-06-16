@@ -1,7 +1,6 @@
 from django.urls import include, path
 from django.views.generic import TemplateView
 
-from .clubhouse import ClubHouseView
 from .frontend_user_configuration import FrontendUserConfigurationModelViewSet
 from .markdown.views import AssetCreateView, AssetRetrieveView, BlockDiag, TemplateTagView
 from .menus.views import MenuAPIView
@@ -18,7 +17,6 @@ router.register(
 )
 router.register(r"notification", NotificationModelViewSet, basename="notification")
 router.register(r"user", UserViewSet, basename="user")
-router.register(r"clubhouse", ClubHouseView, basename="clubhouse")
 router.register(r"tagrepresentation", TagRepresentationViewSet, basename="tagrepresentation")
 
 urlpatterns = [

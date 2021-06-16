@@ -50,7 +50,6 @@ class Config(APIView):
                 "notification": bridger_settings.DEFAULT_NOTIFICATION_CONFIG(request=request),
                 "share": dict(bridger_settings.DEFAULT_SHARE_BUTTON(request=request)),
                 "markdown": {"blockdiag": reverse("bridger:blockdiag", request=request)},
-                "clubhouse": bridger_settings.CLUBHOUSE_CONFIG(request),
                 "menu_calendar": menu_calendar,
             }
         )

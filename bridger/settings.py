@@ -43,10 +43,6 @@ DEFAULTS = {
     },
     "FRONTEND_MENU_CALENDAR": None,
     "MARKDOWN_TEMPLATE_TAGS": [],
-    "CLUBHOUSE_CONFIG": "bridger.clubhouse.config",
-    "CLUBHOUSE_API_TOKEN": config('CLUBHOUSE_API_TOKEN', default=''),
-    'CLUBHOUSE_PROJECT_ID': config('CLUBHOUSE_PROJECT_ID', default=''),
-
 }
 
 IMPORT_STRINGS = [
@@ -57,7 +53,6 @@ IMPORT_STRINGS = [
     "DEFAULT_SHARE_NOTIFICATION",
     "DEFAULT_SHARE_SERIALIZER",
     "DEFAULT_USER_NAME",
-    "CLUBHOUSE_CONFIG",
 ]
 
 

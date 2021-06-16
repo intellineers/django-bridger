@@ -9,7 +9,7 @@ from bridger.filters import DjangoFilterBackend
 from bridger.metadata.views import MetadataMixin
 from bridger.viewsets.mixins import DocumentationMixin, ModelMixin
 from .metadata import PandasMetadata
-
+import numpy as np
 
 class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
 
@@ -28,7 +28,8 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     def filter_queryset(self, queryset: QuerySet) -> QuerySet:
         for backend in list(self.filter_backends):
             if backend in [DjangoFilterBackend, filters.SearchFilter]:
-                queryset = backend().filter_queryset(self.request, queryset, self)
+                if queryset.exists():
+                    queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
 
 
@@ -38,8 +39,9 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
 
     def get_dataframe(self, request, **kwargs):
         assert hasattr(self, "pandas_fields"), "No pandas_fields specified"
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.get_queryset()
         if queryset.exists():
+            queryset = self.filter_queryset(queryset)
             return pd.DataFrame(queryset.values(*self.pandas_fields.to_dict().keys()))
         return pd.DataFrame()
 
@@ -52,6 +54,7 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     def get(self, request, **kwargs):
         self.request = request
         df = self.manipulate_dataframe(self.get_dataframe(request, **kwargs))
+        df = df.replace([np.inf, -np.inf], np.nan)
         df = df.where(pd.notnull(df), None)
         if filters.OrderingFilter in list(self.filter_backends):
             orderings = filters.OrderingFilter().get_ordering(request, self.get_queryset(), self)

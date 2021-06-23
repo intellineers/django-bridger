@@ -19,6 +19,7 @@ class DecimalField(BridgerSerializerFieldMixin, serializers.DecimalField):
     def __init__(self, *args, **kwargs):
         self.percent = kwargs.pop("percent", False)
         super().__init__(*args, **kwargs)
+        self.precision = kwargs.pop("precision", self.decimal_places)
 
     # TODO: If this is used, then the validation for max_digits and decimal_fields is not done
     # def validate_precision(self, value):
@@ -26,11 +27,11 @@ class DecimalField(BridgerSerializerFieldMixin, serializers.DecimalField):
 
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)
-        representation["precision"] = self.decimal_places
+        representation["precision"] = self.precision
 
         if self.percent:  # TODO: Discuss with Christoph if this is necessary like this
             representation["type"] = BridgerType.PERCENT.value
-            representation["precision"] = self.decimal_places - 2
+            representation["precision"] = self.precision - 2
 
         return representation
 
@@ -40,9 +41,10 @@ class FloatField(BridgerSerializerFieldMixin, serializers.FloatField):
 
     def __init__(self, *args, **kwargs):
         self.decimal_places = kwargs.pop("decimal_places", 2)
+        self.precision = kwargs.pop("precision", self.decimal_places)
         super().__init__(*args, **kwargs)
 
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)
-        representation["precision"] = self.decimal_places
+        representation["precision"] = self.precision
         return representation

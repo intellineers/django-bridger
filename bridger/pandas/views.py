@@ -56,7 +56,7 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
         df = self.manipulate_dataframe(self.get_dataframe(request, **kwargs))
         df = df.replace([np.inf, -np.inf], np.nan)
         df = df.where(pd.notnull(df), None)
-        if filters.OrderingFilter in list(self.filter_backends) and self.get_queryset().exists():
+        if filters.OrderingFilter in list(self.filter_backends) and self.get_queryset().exists() and not df.empty:
             orderings = filters.OrderingFilter().get_ordering(request, self.get_queryset(), self)
             df = self.sort_df(df, orderings)
         aggregates = self.get_aggregates(request, df) if not df.empty else {}

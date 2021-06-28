@@ -27,9 +27,25 @@ class TextField(CharField):
     field_type = BridgerType.TEXTEDITOR.value
     texteditor_content_type = ReturnContentType.HTML.value
 
+    def __init__(self, *args, **kwargs):
+        """The constructor method.
+        This pops the 'plugin_configs' dict from the kwargs and calls the
+        parents init method.
+
+        Parameters
+        ----------
+        plugin_configs : dict, optional
+            A dictionary that contains a dictionary for each plugin of the
+            texteditor. The configuration for each plugin must be available
+            under a unique key.
+        """
+        self.plugin_configs = kwargs.pop('plugin_configs', dict())
+        super().__init__(*args, **kwargs)
+
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)
         representation["content_type"] = self.texteditor_content_type
+        representation["plugin_configs"] = self.plugin_configs
         return representation
 
 

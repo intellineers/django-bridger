@@ -84,6 +84,7 @@ class TestTextField:
             "label": None,
             "type": self.field.field_type,
             "required": True,
+            "plugin_configs": {},
             "read_only": False,
             "decorators": [],
         }

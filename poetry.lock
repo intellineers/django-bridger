@@ -571,6 +571,26 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "django-js-asset"
+version = "1.2.2"
+description = "script tag with additional attributes for django.forms.Media"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "django-mptt"
+version = "0.12.0"
+description = "Utilities for implementing Modified Preorder Tree Traversal with your Django Models and working with trees of Model instances."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+Django = ">=1.11"
+django-js-asset = "*"
+
+[[package]]
 name = "django-rest-fuzzysearch"
 version = "0.5.1"
 description = "Fuzzy Search for Django REST Framework"
@@ -2328,7 +2348,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.9.5"
-content-hash = "f10c9b8bdd3c1b759829bb0dbce18b35c8477c25cc3111f03e66a6534573014b"
+content-hash = "ffe60c9bc95733393c193efca5c13167381e231f54a5850152766dbc0b9567c5"
 
 [metadata.files]
 actdiag = [
@@ -2611,6 +2631,14 @@ django-filter = [
 django-fsm = [
     {file = "django-fsm-2.7.1.tar.gz", hash = "sha256:219b204777a932720d8583cb1f34713bd08b4713e1beb39ab2e674810e21d5e9"},
     {file = "django_fsm-2.7.1-py2.py3-none-any.whl", hash = "sha256:c96a844853de0f5dc67791b64beb367b5d56f992dff7c00f9b88c483e09f15ec"},
+]
+django-js-asset = [
+    {file = "django-js-asset-1.2.2.tar.gz", hash = "sha256:c163ae80d2e0b22d8fb598047cd0dcef31f81830e127cfecae278ad574167260"},
+    {file = "django_js_asset-1.2.2-py2.py3-none-any.whl", hash = "sha256:8ec12017f26eec524cab436c64ae73033368a372970af4cf42d9354fcb166bdd"},
+]
+django-mptt = [
+    {file = "django-mptt-0.12.0.tar.gz", hash = "sha256:8ae6c3821127b529bb2f938de27bf0771b1bcbe9dbccdfba33986af78611f13a"},
+    {file = "django_mptt-0.12.0-py2.py3-none-any.whl", hash = "sha256:63b421a054bceb7406582e2be876a80b3848a5106765baea1003696348ffd628"},
 ]
 django-rest-fuzzysearch = [
     {file = "django_rest_fuzzysearch-0.5.1-py3-none-any.whl", hash = "sha256:613986636f32ac0de1a720b70b1462b1d7f187175b235fc474bd7713fac3dbc1"},

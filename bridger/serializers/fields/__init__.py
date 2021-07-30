@@ -12,7 +12,7 @@ from .fields import (
 )
 from .file import FileField, ImageField
 from .fsm import FSMStatusField
-from .json import JSONField, JSONTextEditorField
+from .json import JSONField, JSONTableField, JSONTextEditorField
 from .list import ListField
 from .number import DecimalField, FloatField, IntegerField
 from .other import RangeSelectField, StarRatingField

@@ -39,13 +39,16 @@ class TextField(CharField):
             texteditor. The configuration for each plugin must be available
             under a unique key.
         """
-        self.plugin_configs = kwargs.pop('plugin_configs', dict())
+        self.plugin_configs = kwargs.pop('plugin_configs', None)
         super().__init__(*args, **kwargs)
 
     def get_representation(self, request, field_name):
         representation = super().get_representation(request, field_name)
         representation["content_type"] = self.texteditor_content_type
-        representation["plugin_configs"] = self.plugin_configs
+        if not self.plugin_configs:
+            representation["plugin_configs"] = {}
+        else:
+            representation["plugin_configs"] = self.plugin_configs(request)
         return representation
 
 

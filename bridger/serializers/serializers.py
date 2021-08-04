@@ -42,6 +42,7 @@ class ModelSerializer(
 
     serializer_field_mapping = {
         models.AutoField: fields.PrimaryKeyField,
+        models.BigAutoField: fields.PrimaryKeyField,
         models.BooleanField: fields.BooleanField,
         models.CharField: fields.CharField,
         models.DateField: fields.DateField,

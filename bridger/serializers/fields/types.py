@@ -17,6 +17,7 @@ class BridgerType(Enum):
     LIST = "list"
     PERCENT = "percent"
     JSON = "json"
+    JSONTABLE="table"
 
 
 class ReturnContentType(Enum):

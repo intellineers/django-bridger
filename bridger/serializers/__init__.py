@@ -15,6 +15,8 @@ from .fields import (
     ImageField,
     IntegerField,
     JSONTextEditorField,
+    JSONTableField,
+    JSONField,
     ListField,
     ListSerializer,
     MarkdownTextField,

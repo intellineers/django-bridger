@@ -7,6 +7,8 @@ from .types import BridgerType, ReturnContentType
 class JSONField(BridgerSerializerFieldMixin, serializers.JSONField):
     field_type = BridgerType.JSON.value
 
+class JSONTableField(BridgerSerializerFieldMixin, serializers.JSONField):
+    field_type = BridgerType.JSONTABLE.value
 
 class JSONTextEditorField(BridgerSerializerFieldMixin, serializers.JSONField):
     field_type = BridgerType.TEXTEDITOR.value

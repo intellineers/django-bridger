@@ -107,7 +107,7 @@ class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
 
         if errors is None or len(errors.keys()) == 0:
             obj.fsm_context = {"current_user": request.user}
-            getattr(obj, action)()
+            getattr(obj, action)(by=request.user)
             obj.save()
 
             serializer = serializer_class(instance=obj, context=serializer_context)

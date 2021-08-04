@@ -60,7 +60,7 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
             orderings = filters.OrderingFilter().get_ordering(request, self.get_queryset(), self)
             df = self.sort_df(df, orderings)
         aggregates = self.get_aggregates(request, df) if not df.empty else {}
-        return Response({"results": df.T.to_dict().values(), "aggregates": aggregates})
+        return Response({"results": df.to_dict("records"), "aggregates": aggregates})
 
     @classmethod
     def sort_df(cls, df, ordering: list):

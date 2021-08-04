@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.11.10"
+version = "0.11.16"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -57,6 +57,7 @@ jupyter = "1.*"
 
 # Security Vulnerabilities
 safety = "1.*"
+django-mptt = "^0.12.0"
 
 [tool.poetry.dev-dependencies]
 # Testing dependencies

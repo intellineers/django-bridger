@@ -28,7 +28,6 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
 
     def filter_queryset(self, queryset: QuerySet) -> QuerySet:
         for backend in list(self.filter_backends):
-            print(backend)
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
 

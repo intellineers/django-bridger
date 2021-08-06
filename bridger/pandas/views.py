@@ -17,7 +17,7 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
     filter_backends = [
         PandasOrderingFilter,
         PandasSearchFilter,
-        DjangoFilterBackend,
+        PandasDjangoFilterBackend,
     ]
 
     metadata_class = PandasMetadata

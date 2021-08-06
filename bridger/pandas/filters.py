@@ -33,11 +33,9 @@ class PandasDjangoFilterBackend(DjangoFilterBackend):
         conditions = []
         for filter_term, value in filter_terms.items():
             if _filter := getattr(filterset_class.Meta, "df_fields", {}).get(filter_term, None):
-                print(_filter)
                 # We support only number for now
                 lookup_expr = getattr(_filter, "lookup_expr", 'exact')
                 if isinstance(_filter, wb_filters.NumberFilter):
-                    print("sadsa")
                     conditions.append(self.lookups_operator[lookup_expr](df[_filter.field_name], float(value)))
         if conditions:
             df = df[reduce(operator.and_, conditions)]

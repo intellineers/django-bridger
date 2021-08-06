@@ -3,7 +3,7 @@ Provide Filters for Pandas based views
 """
 import operator
 from functools import reduce
-
+from bridger import filters as wb_filters
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.db.models.constants import LOOKUP_SEP
@@ -32,12 +32,13 @@ class PandasDjangoFilterBackend(DjangoFilterBackend):
         pandas_view_fields = view.pandas_fields.to_dict()
         conditions = []
         for filter_term, value in filter_terms.items():
-            filter_name, *lookups = filter_term.split("__")
-            if filter_name in filterset_class.Meta.df_fields.keys():
+            if _filter := getattr(filterset_class.Meta, "df_fields", {}).get(filter_term, None):
+                print(_filter)
                 # We support only number for now
-                if pandas_view_fields[filter_name]['type'] == 'number':
-                    lookup = lookups[0] if len(lookups) > 0 else 'exact'
-                    conditions.append(self.lookups_operator[lookup](df[filter_name], float(value)))
+                lookup_expr = getattr(_filter, "lookup_expr", 'exact')
+                if isinstance(_filter, wb_filters.NumberFilter):
+                    print("sadsa")
+                    conditions.append(self.lookups_operator[lookup_expr](df[_filter.field_name], float(value)))
         if conditions:
             df = df[reduce(operator.and_, conditions)]
         return df
@@ -50,15 +51,15 @@ class PandasSearchFilter(SearchFilter):
     def filter_dataframe(self, request, df, view):
         search_fields = self.get_search_fields(view, request)
         search_terms = self.get_search_terms(request)
-
         if not search_fields or not search_terms or df.empty:
             return df
 
         search_fields = [field for field in search_fields if field in df.columns]
         conditions = []
+
         for search_term in search_terms:
             queries = [
-                df[field].str.contains(search_term)
+                df[field].str.contains(search_term, na=False, case=False)
                 for field in search_fields
             ]
             conditions.append(reduce(operator.or_, queries))

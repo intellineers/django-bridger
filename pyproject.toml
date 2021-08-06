@@ -22,7 +22,7 @@ channels_redis = {version = "3.0.*", extras=["cryptography"]}
 celery = {version = "4.4.*", extras=["redis"]}
 django-celery-beat = "2.0.*"
 psycopg2-binary = "2.*"
-pillow = "7.*"
+pillow = ">=7,<9"
 numpy = "1.*"
 pandas = "*"
 jsonschema = "3.*"

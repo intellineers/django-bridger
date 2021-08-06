@@ -12,12 +12,12 @@ class FilterFieldsBridgerViewSetConfig(BridgerViewSetConfig):
                 filterset_class = backend().get_filterset_class(self.view, self.view.queryset)
                 if filterset_class:
                     base_filters = getattr(filterset_class, "base_filters", {})
-                    df_filters = getattr(filterset_class.Meta, "df_fields", {})
-                    _filters = df_filters | base_filters
-                    if _filters:
-                        field_names = [v.field_name for k, v in _filters.items()]
+                    if filterset_class_meta := getattr(filterset_class, "Meta", None):
+                        base_filters.update(getattr(filterset_class_meta, "df_fields", {}))
+                    if base_filters:
+                        field_names = [v.field_name for k, v in base_filters.items()]
                         stored_fields = dict()
-                        for index, (name, field) in enumerate(_filters.items()):
+                        for index, (name, field) in enumerate(base_filters.items()):
 
                             upcomming_fields = ilen(filter(lambda f: f == field.field_name, field_names[index + 1 :]))
                             representation = field.get_representation(self.request, name, self.view)

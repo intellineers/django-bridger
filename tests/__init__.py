@@ -17,7 +17,7 @@ default_registry.register(
             MenuItem(
                 label="RM1",
                 endpoint="relatedmodeltest-list",
-                add=MenuItem(label="Add Something", endpoint="relatedmodeltest-list"),
+                add=MenuItem(label="Add Something", endpoint="relatedmodeltest-list",  permission=ItemPermission(permissions=["tests.add_relatedmodeltest"])),
             ),
         ],
         index=1,

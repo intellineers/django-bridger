@@ -259,7 +259,7 @@ class TestViewSetClass:
             # assert response.data.get("pagination")
             # assert response.data.get("pk")
              # assert response.data.get("type")
-            # assert response.data.get("filter_fields")
+            # assert response.data.get("filterset_fields")
             # assert response.data.get("search_fields")
             # assert response.data.get("ordering_fields")
             assert response.data.get("buttons")

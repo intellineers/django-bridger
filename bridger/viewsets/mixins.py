@@ -29,7 +29,7 @@ from bridger.messages import serialize_messages
 
 class FilterMixin:
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
-    filter_fields = {}
+    filterset_fields = {}
     search_fields = []
     ordering_fields = ordering = ("id",)
 

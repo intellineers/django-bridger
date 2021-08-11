@@ -370,7 +370,7 @@
         "float_field",
         "decimal_field"
     ],
-    "filter_fields": {
+    "filterset_fields": {
         "char_field": {
             "label": "Char",
             "type": "text",

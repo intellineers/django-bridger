@@ -22,7 +22,7 @@ class PandasAPIView(MetadataMixin, DocumentationMixin, ModelMixin, APIView):
 
     metadata_class = PandasMetadata
 
-    filter_fields = {}
+    filterset_fields = {}
     search_fields = []
     ordering_fields = []
 

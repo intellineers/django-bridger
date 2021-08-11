@@ -10,7 +10,7 @@ from bridger.viewsets import ModelViewSet
 
 class XYZModelViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
-    filter_fields = {
+    filterset_fields = {
         "first_field": ["exact", "icontains"]
     }
 ```

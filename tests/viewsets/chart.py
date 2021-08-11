@@ -10,7 +10,7 @@ class ModelTestChartViewSet(ChartViewSet):
     IDENTIFIER = "tests:chart"
     queryset = ModelTest.objects.all()
 
-    filter_fields = {"date_field": ["lte", "gte"]}
+    filterset_fields = {"date_field": ["lte", "gte"]}
     ordering_fields = ("date_field",)
 
 

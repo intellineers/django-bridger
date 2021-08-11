@@ -24,7 +24,6 @@ class ItemPermission:
 
         return True
 
-
 @dataclass
 class MenuItem:
     label: str
@@ -55,7 +54,8 @@ class MenuItem:
             yield "endpoint", endpoint
             if self.add:
                 self.add.request = request
-                yield "add", dict(self.add)
+                if dict(self.add):
+                    yield "add", dict(self.add)
 
 
 @dataclass

@@ -19,7 +19,6 @@ class DisplayConfig(BridgerViewSetConfig):
 
     def get_metadata(self):
         yield "instance", list(self.get_instance_display() or [])
-        yield "preview", list(self.get_preview_display() or [])
         if not self.instance:
             yield "list", dict(self.get_list_display() or {})
 

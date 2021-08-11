@@ -33,4 +33,4 @@ class FilterFieldsBridgerViewSetConfig(BridgerViewSetConfig):
 
     @classmethod
     def get_metadata_key(cls):
-        return "filterset_fields"
+        return "filter_fields"

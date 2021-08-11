@@ -111,7 +111,7 @@ class FSMViewSetMixin(metaclass=FSMViewSetMixinMetaclass):
             obj.save()
 
             serializer = serializer_class(instance=obj, context=serializer_context)
-            return Response(serializer.data)
+            return Response({'instance': serializer.data})
 
         return Response(errors, status=status.HTTP_412_PRECONDITION_FAILED)
 

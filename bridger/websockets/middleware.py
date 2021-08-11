@@ -23,15 +23,10 @@ class JWTAuthMiddleware(BaseMiddleware):
     # def __init__(self, inner):
     #     self.inner = inner
 
-    def populate_scope(self, scope):
-        if "user" not in scope:
-            scope["user"] = UserLazyObject()
-
-    async def resolve_scope(self, scope):
-
-        # We should close all old connections here, somehow this bites itself with pytest
-        # close_old_connections()
-
+    async def __call__(self, scope, receive, send):
+        # Look up user from query string (you should also do things like
+        # checking if it is a valid user ID, or if scope["user"] is already
+        # populated).
         try:
             jwt_access_token = scope["cookies"]["JWT-access"]
             UntypedToken(jwt_access_token)
@@ -39,6 +34,7 @@ class JWTAuthMiddleware(BaseMiddleware):
             return self.inner(dict(scope))
         else:
             decoded_data = jwt_decode(jwt_access_token, settings.SECRET_KEY, algorithms=["HS256"])
-            scope["user"]._wrapped = await get_user(user_id=decoded_data["user_id"])
-
-        # return self.inner(dict(scope, user=user))
+            scope["user"] = await get_user(user_id=decoded_data["user_id"])
+            if "user" not in scope:
+                scope["user"] = UserLazyObject()
+        return await self.inner(scope, receive, send)

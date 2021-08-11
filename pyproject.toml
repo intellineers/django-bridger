@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bridger"
-version = "0.11.25"
+version = "0.11.25rc1"
 description = "The bridge between a Django Backend and a Javascript based Frontend"
 authors = ["Christopher Wittlinger <c.wittlinger@intellineers.com>"]
 
@@ -10,23 +10,23 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "3.9.5"
-django = "3.2.*"
+django = "3.*"
 django-filter = "2.*"
 djangorestframework = "3.*"
 djangorestframework-simplejwt = "4.*"
 pyjwt = "1.7.1"
 django-fsm = "2.*"
 requests = "2.*"
-channels = "2.*"
-channels_redis = {version = "3.0.*", extras=["cryptography"]}
-celery = {version = "4.4.*", extras=["redis"]}
+channels = "3.*"
+channels_redis = {version = "3.*", extras=["cryptography"]}
+celery = {version = "5.*", extras=["redis"]}
 django-celery-beat = "2.0.*"
 psycopg2-binary = "2.*"
-pillow = "7.*"
+pillow = "*"
 numpy = "1.*"
 pandas = "*"
 jsonschema = "3.*"
-plotly = "4.*"
+plotly = "5.*"
 django-simple-history = "3.*"
 markdown = "3.*"
 markdown-blockdiag = "0.*"
@@ -42,8 +42,8 @@ inscriptis = "^1.1"
 # For some reason channels does not declare asigref and daphne as
 # Dependencies in the newest release of channels. Therefore we add
 # them here manually. Remove if this is fixed
-asgiref = "3.3.*"
-daphne = "2.*"
+asgiref = "3.*"
+daphne = "3.*"
 
 django-rest-fuzzysearch = "0.*"
 django-extensions = "3.*"
@@ -57,7 +57,7 @@ jupyter = "1.*"
 
 # Security Vulnerabilities
 safety = "1.*"
-django-mptt = "^0.12.0"
+django-mptt = "0.*"
 
 [tool.poetry.dev-dependencies]
 # Testing dependencies

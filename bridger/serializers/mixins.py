@@ -12,6 +12,8 @@ class RepresentationSerializerMixin:
     @classmethod
     def many_init(cls, *args, **kwargs):
         kwargs["child"] = cls()
+        if 'filter_params' in kwargs:
+            del kwargs['filter_params']
         return ListSerializer(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):

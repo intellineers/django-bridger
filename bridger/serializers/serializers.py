@@ -5,7 +5,7 @@ from django.db import models
 from django_fsm import FSMField
 from rest_framework import serializers
 from rest_framework.request import Request
-
+from django.utils.text import capfirst
 from bridger.fsm.mixins import FSMSerializerMetaclass
 from bridger.serializers import fields
 
@@ -73,7 +73,15 @@ class ModelSerializer(
         field_class, field_kwargs = super().build_standard_field(field_name, model_field)
         if isinstance(model_field, FSMField):
             field_class = self.serializer_fsm_field
+        if model_field and not field_kwargs.get("label", None) and model_field.verbose_name:
+            field_kwargs['label'] = capfirst(model_field.verbose_name)
+        return field_class, field_kwargs
 
+    def build_relational_field(self, field_name, relation_info):
+        field_class, field_kwargs = super().build_relational_field(field_name, relation_info)
+        model_field, related_model, to_many, to_field, has_through_model, reverse = relation_info
+        if model_field and not field_kwargs.get("label", None) and model_field.verbose_name:
+            field_kwargs['label'] = capfirst(model_field.verbose_name)
         return field_class, field_kwargs
 
     def build_property_field(self, field_name, model_class):

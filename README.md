@@ -1,3 +1,5 @@
+# THIS REPOSITORY IS STALE - USE THE NEW ONE
+
 ![CI](https://github.com/intellineers/django-bridger/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/intellineers/django-bridger/branch/master/graph/badge.svg)](https://codecov.io/gh/intellineers/django-bridger)
 [![Documentation Status](https://readthedocs.org/projects/django-bridger/badge/?version=latest)](https://django-bridger.readthedocs.io/en/latest/?badge=latest)

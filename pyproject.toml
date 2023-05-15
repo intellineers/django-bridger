@@ -78,7 +78,7 @@ pynvim = "0.*"
 mkdocs = "1.*"
 mkdocs-material = "5.*"
 markdown-include = "0.*"
-pymdown-extensions = "7.*"
+pymdown-extensions = "10.*"
 
 # Formatting and Linting dependencies
 black = "19.10b0"
